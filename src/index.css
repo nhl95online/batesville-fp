@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-sans bg-slate-950 text-slate-100;
+  }
+
+  h1, h2, h3, h4, .font-serif {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+}
+
+/* Print Optimization for Price Cards */
+@media print {
+  body {
+    background: transparent !important;
+    color: black !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide app navigation and control panels during printing */
+  .no-print, nav, aside, header, .print-hidden {
+    display: none !important;
+  }
+
+  .print-area {
+    margin: 0 !important;
+    padding: 0 !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: none !important;
+  }
+
+  /* Force exact dimensions when printing specific card types */
+  .printing-6x6 {
+    width: 6in !important;
+    height: 6in !important;
+    max-width: 6in !important;
+    max-height: 6in !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  .printing-2x12 {
+    width: 12in !important;
+    height: 2in !important;
+    max-width: 12in !important;
+    max-height: 2in !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  .printing-8x11 {
+    width: 8.5in !important;
+    height: 11in !important;
+    max-width: 8.5in !important;
+    max-height: 11in !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  .printing-11x17 {
+    width: 11in !important;
+    height: 17in !important;
+    max-width: 11in !important;
+    max-height: 17in !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.6);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(217, 119, 6, 0.3);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(217, 119, 6, 0.6);
+}
