@@ -158,19 +158,32 @@ export const DailySalesUploadModal: React.FC<DailySalesUploadModalProps> = ({
     setErrorMessage(null);
 
     try {
-      const saleRecords = convertParsedRowsToSaleRecords(editableRows);
-      
-      // 1. Save to local Dexie IndexedDB and refresh in-memory cache
-      await addBulkSales(saleRecords);
+      let saleRecords = convertParsedRowsToSaleRecords(editableRows);
+      let supabaseErrorMsg: string | null = null;
 
-      // 2. If Supabase is connected, attempt sync to remote sales table
+      // 1. Check current max sale_id in Supabase and assign continuous IDs
       try {
         const client = getSupabaseClient();
+        const { data: maxRow } = await client
+          .from('sales')
+          .select('sale_id')
+          .order('sale_id', { ascending: false })
+          .limit(1);
+
+        const currentMaxId = (maxRow && maxRow[0] && typeof maxRow[0].sale_id === 'number')
+          ? maxRow[0].sale_id
+          : 51358;
+
+        saleRecords = saleRecords.map((s, idx) => ({
+          ...s,
+          saleId: currentMaxId + idx + 1
+        }));
+
         const remotePayload = saleRecords.map(s => ({
           sale_id: s.saleId,
           year: s.year,
           month: s.month,
-          day: s.day,
+          day: String(s.day),
           program: s.program,
           account_name: s.accountName,
           'account_#': s.accountNumber,
@@ -181,20 +194,36 @@ export const DailySalesUploadModal: React.FC<DailySalesUploadModalProps> = ({
           cost: s.cost
         }));
 
-        await client.from('sales').insert(remotePayload);
-      } catch (remoteErr) {
+        const { error: insertError } = await client.from('sales').insert(remotePayload);
+        if (insertError) {
+          console.error('Supabase sales insert error:', insertError);
+          if (insertError.code === '42501') {
+            supabaseErrorMsg = 'Supabase rejected the insert: Row-Level Security (RLS) is active on the "sales" table. Please run the SQL command below in your Supabase SQL Editor to allow inserts.';
+          } else {
+            supabaseErrorMsg = `Supabase error (${insertError.code}): ${insertError.message}`;
+          }
+        }
+      } catch (remoteErr: any) {
         console.warn('Remote Supabase sales insert warning (saved locally):', remoteErr);
+        supabaseErrorMsg = remoteErr.message || 'Could not connect to Supabase';
       }
 
-      setSuccessMessage(`Successfully added ${saleRecords.length} sales records to the Sales table!`);
+      // 2. Save to local Dexie IndexedDB and refresh in-memory cache
+      await addBulkSales(saleRecords);
+
       if (onSalesAdded) {
         onSalesAdded(saleRecords.length);
       }
 
-      // Close modal after brief confirmation
-      setTimeout(() => {
-        onClose();
-      }, 1200);
+      if (supabaseErrorMsg) {
+        setErrorMessage(supabaseErrorMsg);
+        setSuccessMessage(`Saved ${saleRecords.length} records locally in your browser. (Supabase cloud sync paused: see instructions above).`);
+      } else {
+        setSuccessMessage(`Successfully added ${saleRecords.length} sales records to both Supabase cloud and local database!`);
+        setTimeout(() => {
+          onClose();
+        }, 1500);
+      }
     } catch (err: any) {
       console.error('Error saving sales:', err);
       setErrorMessage(err.message || 'Failed to save sales records.');
@@ -269,9 +298,28 @@ export const DailySalesUploadModal: React.FC<DailySalesUploadModalProps> = ({
           
           {/* Messages */}
           {errorMessage && (
-            <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-3.5 flex items-start space-x-3 text-red-300 text-xs">
-              <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5 text-red-400" />
-              <div className="flex-1">{errorMessage}</div>
+            <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 space-y-3 text-red-300 text-xs">
+              <div className="flex items-start space-x-3">
+                <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5 text-red-400" />
+                <div className="flex-1 font-medium">{errorMessage}</div>
+              </div>
+              {errorMessage.includes('Row-Level Security') && (
+                <div className="bg-slate-950/80 border border-red-500/20 rounded-lg p-3 space-y-2 text-[11px] text-slate-300">
+                  <p className="font-semibold text-amber-300">
+                    Run this SQL in your Supabase SQL Editor to allow public inserts & enable auto-incrementing sale_id:
+                  </p>
+                  <pre className="bg-slate-900 border border-slate-800 rounded p-2 text-emerald-300 font-mono text-[10px] overflow-x-auto select-all">
+{`-- 1. Allow inserts from web application
+ALTER TABLE sales ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Allow public insert on sales" ON sales FOR INSERT TO anon, authenticated WITH CHECK (true);
+
+-- 2. Optional: Ensure sale_id auto-increments automatically in Supabase
+CREATE SEQUENCE IF NOT EXISTS sales_sale_id_seq;
+SELECT setval('sales_sale_id_seq', (SELECT COALESCE(MAX(sale_id), 0) + 1 FROM sales));
+ALTER TABLE sales ALTER COLUMN sale_id SET DEFAULT nextval('sales_sale_id_seq');`}
+                  </pre>
+                </div>
+              )}
             </div>
           )}
 
