@@ -186,3 +186,28 @@ export interface CasketImageItem {
   uploadedAt: string;
   sizeBytes?: number;
 }
+
+export type RoomShape = 'oval' | 'square' | 'rectangle' | 'l-shaped';
+export type RoomCapacity = 'small' | 'medium' | 'large';
+
+export interface FloorSlot {
+  id: string;
+  slotNumber: number;
+  label: string;
+  type: 'casket' | 'urn';
+  productId?: string;
+  productCode?: string;
+  productName?: string;
+  category?: string;
+  wholesalePrice?: number;
+  imageUrl?: string;
+}
+
+export interface CustomerFloorPlan {
+  customerId: string;
+  customerName: string;
+  roomShape: RoomShape;
+  roomCapacity: RoomCapacity;
+  slots: FloorSlot[];
+  updatedAt: string;
+}

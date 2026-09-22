@@ -178,18 +178,57 @@ export function matchLogoFileToCustomers(fileName: string, customers: Customer[]
   return [];
 }
 
+/**
+ * Checks whether a product or item is an urn, keepsake, or cremation memorial
+ */
+export function isUrnProduct(product?: { category?: string; name?: string; description?: string } | null): boolean {
+  if (!product) return false;
+  const cat = (product.category || '').toLowerCase();
+  const name = (product.name || '').toLowerCase();
+  const desc = (product.description || '').toLowerCase();
+  return (
+    cat.includes('urn') ||
+    cat.includes('keepsake') ||
+    (cat.includes('cremation') && (cat.includes('full size') || name.includes('urn') || desc.includes('urn'))) ||
+    name.includes('urn') ||
+    name.includes('keepsake') ||
+    desc.includes('urn') ||
+    desc.includes('keepsake')
+  );
+}
+
 // Helper: parse raw product description into material, interior, and clean name
-function parseBatesvilleDescription(desc: string) {
-  if (!desc) return { name: 'Casket', material: 'Steel', interior: 'Crepe', finish: 'Standard Finish' };
+function parseBatesvilleDescription(desc: string, category?: string) {
+  if (!desc) return { name: 'Casket', material: 'Steel', interior: 'Crepe', finish: 'Standard Finish', isUrn: false };
+
+  const fullName = desc.trim();
+  const isUrn = isUrnProduct({ category, name: fullName, description: fullName });
+  const lower = fullName.toLowerCase();
+
+  if (isUrn) {
+    let material = 'Cast Metal & Fine Hardwood';
+    if (lower.includes('bronze')) material = 'Cast Bronze / Cold Cast';
+    else if (lower.includes('pewter')) material = 'Hand-Crafted Pewter';
+    else if (lower.includes('brass')) material = 'Solid Spun Brass';
+    else if (lower.includes('marble')) material = 'Cultured Marble';
+    else if (lower.includes('wood') || lower.includes('cherry') || lower.includes('oak') || lower.includes('pecan')) material = 'Fine Solid Hardwood';
+    else if (lower.includes('sheet bronze')) material = 'Sheet Bronze';
+
+    return {
+      name: fullName,
+      material,
+      interior: '', // Urns do not have fabric interiors
+      finish: 'Hand-Polished Satin Urn Finish',
+      isUrn: true
+    };
+  }
 
   let parts = desc.split(',').map(s => s.trim());
-  let mainTitle = parts[0] || desc;
   let interior = parts[1] || 'Crepe Interior';
   let finish = 'Factory Finish';
   let material = 'High-Grade Steel / Timber';
 
   // Determine material from description
-  const lower = desc.toLowerCase();
   if (lower.includes('pecan')) { material = 'Solid Northern Pecan'; finish = 'Warm Pecan Stain'; }
   else if (lower.includes('maple')) { material = 'Solid Select Maple'; finish = 'Polished Maple Finish'; }
   else if (lower.includes('cherry')) { material = 'Solid Appalachian Cherry'; finish = 'High-Lustre Georgetown Finish'; }
@@ -197,13 +236,9 @@ function parseBatesvilleDescription(desc: string) {
   else if (lower.includes('bronze')) { material = 'Solid 48 oz. Bronze'; finish = 'High-Lustre Polished Bronze'; }
   else if (lower.includes('steel') || lower.includes('18g') || lower.includes('20g')) { material = '18 Gauge Protective Steel'; finish = 'Brushed Metallic with Protective Seal'; }
   else if (lower.includes('cloth')) { material = 'Cloth Covered Fiberboard'; finish = 'Textured Cloth Weave'; }
-  else if (lower.includes('urn')) { material = 'Cast Metal & Fine Hardwood'; finish = 'Hand-Engraved Satin Urn'; }
   else if (lower.includes('mdf') || lower.includes('pine')) { material = 'Pine & Composite Cremation'; finish = 'Natural Pine Grain'; }
 
-  // Use full description as the authentic name so product details and model prefixes are never stripped
-  const fullName = desc.trim();
-
-  return { name: fullName, material, interior, finish };
+  return { name: fullName, material, interior, finish, isUrn: false };
 }
 
 // Fallback high quality imagery for product categories if no custom photo uploaded yet
@@ -315,23 +350,29 @@ export async function syncFromSupabase(): Promise<{
             price: Number(s.cost) || base.wholesalePrice,
           });
         } else {
-          const parsed = parseBatesvilleDescription(s.description);
+          const parsed = parseBatesvilleDescription(s.description, s.category);
           const cost = Number(s.cost) || 1200;
+          const isUrn = parsed.isUrn || isUrnProduct({ category: s.category, name: parsed.name, description: s.description });
           productMap.set(compositeKey, {
             id: `prod-${prodCode}-${yr}`,
             code: prodCode,
             name: parsed.name,
             description: s.description || parsed.name,
-            category: s.category || 'Caskets & Containers - Metal',
+            category: s.category || (isUrn ? 'Cremation Options - Full Size Urns' : 'Caskets & Containers - Metal'),
             material: parsed.material,
             catalogYear: yr,
             year: yr,
             interior: parsed.interior,
             exteriorFinish: parsed.finish,
             finish: parsed.finish,
-            top: 'Casket Cap (Half Couch)',
-            dimensions: '83.5" L x 28.5" W x 23.0" H',
-            features: [
+            top: isUrn ? undefined : 'Casket Cap (Half Couch)',
+            dimensions: isUrn ? '8.5" W x 8.5" D x 10.5" H' : '83.5" L x 28.5" W x 23.0" H',
+            capacity: isUrn ? 200 : undefined,
+            features: isUrn ? [
+              'Living Memorial® Tree Planting Program',
+              'Artisan hand-finished keepsake urn',
+              'Secure threaded lid closure'
+            ] : [
               'Living Memorial® Tree Planting Program',
               'Factory hand-finished exterior',
               'Quality Batesville precision craft'
@@ -431,8 +472,8 @@ export async function syncFromSupabase(): Promise<{
       const calMonth = CAL_MONTH_NUM[mStr] || 1;
       const fiscalMonth = FISCAL_MONTH_NUM[mStr] || 1;
       const day = s.day || 1;
-      const qty = Number(s.qty) || 1;
-      const cost = Number(s.cost) || 0;
+      const qty = (s.qty !== undefined && s.qty !== null && !isNaN(Number(s.qty))) ? Number(s.qty) : 1;
+      const cost = Number(s.cost) || 0; // "Invoice $$" in Supabase is the actual extended transaction dollar amount
 
       // Batesville Fiscal Year calculation: Oct 1st to Sep 30th
       let actualCalYear = 2017;
@@ -443,6 +484,7 @@ export async function syncFromSupabase(): Promise<{
       }
 
       const saleDate = `${actualCalYear}-${String(calMonth).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+      const acctNumberStr = (s['account_#'] !== undefined && s['account_#'] !== null) ? String(s['account_#']) : undefined;
 
       return {
         id: `sale-${s.sales_id || s.sale_id || idx}`,
@@ -452,17 +494,17 @@ export async function syncFromSupabase(): Promise<{
         day: s.day,
         program: s.program || 'N/A',
         accountName: s.account_name || 'N/A',
-        accountNumber: s['account_#'],
+        accountNumber: acctNumberStr || s['account_#'],
         productCode: String(s.product_code || ''),
         category: s.category || 'N/A',
         description: s.description || 'N/A',
         quantity: qty,
         cost,
-        customerId: `cust-${s['account_#'] || s.account_name}`,
+        customerId: `cust-${acctNumberStr || s['account_#'] || s.account_name}`,
         productId: `prod-${s.product_code}-${yr}`,
         orderNumber: `ORD-${yr}-${s.sale_id || idx}`,
-        unitPrice: cost,
-        totalAmount: cost * qty,
+        unitPrice: qty > 0 ? Number((cost / qty).toFixed(2)) : cost,
+        totalAmount: cost,
         saleDate,
         fiscalMonth,
         calMonth,

@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Product, ProductCategory } from '../../types';
 import { ProductDetailModal } from './ProductDetailModal';
-import { Search, Tag, Eye, Layers, Image as ImageIcon, Calendar } from 'lucide-react';
+import { ProductLithoModal } from './ProductLithoModal';
+import { isUrnProduct } from '../../services/supabase';
+import { Search, Tag, Eye, Layers, Image as ImageIcon, Calendar, Printer } from 'lucide-react';
 
 interface ProductCatalogProps {
   products: Product[];
@@ -17,6 +19,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [activeModalProduct, setActiveModalProduct] = useState<Product | null>(null);
+  const [activeLithoProduct, setActiveLithoProduct] = useState<Product | null>(null);
 
   // Distinct categories & sorted years (most recent first)
   const categories = ['all', ...Array.from(new Set(products.map(p => p.category)))];
@@ -176,16 +179,31 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                   {product.exteriorFinish}
                 </p>
 
-                <div className="mt-3 space-y-1 text-xs text-slate-600">
-                  <div className="flex justify-between">
-                    <span className="text-slate-500">Material:</span>
-                    <span className="text-slate-800 font-medium truncate max-w-[170px]">{product.material}</span>
+                {isUrnProduct(product) ? (
+                  <div className="mt-3 space-y-1 text-xs text-slate-600">
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">Material:</span>
+                      <span className="text-slate-800 font-medium truncate max-w-[170px]">{product.material}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">Capacity:</span>
+                      <span className="text-amber-800 font-medium font-mono truncate max-w-[170px]">
+                        {product.capacity ? `${product.capacity} cu. in.` : '200 cu. in. (Adult)'}
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-slate-500">Interior:</span>
-                    <span className="text-slate-800 font-medium truncate max-w-[170px]">{product.interior}</span>
+                ) : (
+                  <div className="mt-3 space-y-1 text-xs text-slate-600">
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">Material:</span>
+                      <span className="text-slate-800 font-medium truncate max-w-[170px]">{product.material}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">Interior:</span>
+                      <span className="text-slate-800 font-medium truncate max-w-[170px]">{product.interior || 'Rosetan Crepe'}</span>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
 
               {/* Pricing & Actions */}
@@ -199,21 +217,32 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-2 pt-1">
+                <div className="grid grid-cols-3 gap-1.5 pt-1">
                   <button
                     onClick={() => setActiveModalProduct(product)}
-                    className="flex items-center justify-center space-x-1.5 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 text-xs font-semibold py-2 px-2.5 rounded-xl transition-colors cursor-pointer shadow-sm"
+                    className="flex items-center justify-center space-x-1 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 text-[11px] font-semibold py-2 px-1 rounded-xl transition-colors cursor-pointer shadow-sm"
+                    title="View Specs & Historical Sales"
                   >
                     <Eye className="w-3.5 h-3.5" />
-                    <span>Specs & YoY</span>
+                    <span>Specs</span>
+                  </button>
+
+                  <button
+                    onClick={() => setActiveLithoProduct(product)}
+                    className="flex items-center justify-center space-x-1 bg-slate-900 hover:bg-slate-800 text-white text-[11px] font-semibold py-2 px-1 rounded-xl transition-colors cursor-pointer shadow-sm"
+                    title="Print 8.5x11 Showcase Litho Cut Sheet"
+                  >
+                    <Printer className="w-3.5 h-3.5 text-amber-400" />
+                    <span>Litho</span>
                   </button>
 
                   <button
                     onClick={() => onSelectProductForCard(product.id)}
-                    className="flex items-center justify-center space-x-1.5 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 text-xs font-semibold py-2 px-2.5 rounded-xl transition-all cursor-pointer shadow-sm"
+                    className="flex items-center justify-center space-x-1 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 text-[11px] font-semibold py-2 px-1 rounded-xl transition-all cursor-pointer shadow-sm"
+                    title="Generate Showroom Price Card"
                   >
                     <Tag className="w-3.5 h-3.5 text-amber-600" />
-                    <span>Price Card</span>
+                    <span>Card</span>
                   </button>
                 </div>
               </div>
@@ -229,6 +258,16 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
           product={activeModalProduct}
           onClose={() => setActiveModalProduct(null)}
           onCreatePriceCard={(id) => onSelectProductForCard(id)}
+          onOpenLitho={(p) => setActiveLithoProduct(p)}
+        />
+      )}
+
+      {/* Product Litho / Cut Sheet Showcase Modal */}
+      {activeLithoProduct && (
+        <ProductLithoModal
+          product={activeLithoProduct}
+          isOpen={Boolean(activeLithoProduct)}
+          onClose={() => setActiveLithoProduct(null)}
         />
       )}
     </div>

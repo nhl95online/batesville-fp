@@ -19,11 +19,13 @@ import {
 interface CustomerListProps {
   customers: Customer[];
   onSelectCustomerForCard: (customerId: string) => void;
+  onOpenFloorPlan?: (customerId: string) => void;
 }
 
 export const CustomerList: React.FC<CustomerListProps> = ({
   customers,
   onSelectCustomerForCard,
+  onOpenFloorPlan,
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedProgram, setSelectedProgram] = useState<string>('all');
@@ -57,6 +59,7 @@ export const CustomerList: React.FC<CustomerListProps> = ({
         customer={activeCustomer}
         onBack={() => setActiveCustomer(null)}
         onGeneratePriceCard={(id) => onSelectCustomerForCard(id)}
+        onOpenFloorPlan={onOpenFloorPlan}
       />
     );
   }
@@ -261,14 +264,26 @@ export const CustomerList: React.FC<CustomerListProps> = ({
 
                     {/* Actions */}
                     <td className="py-3 px-3.5 text-right font-sans" onClick={(e) => e.stopPropagation()}>
-                      <button
-                        onClick={() => onSelectCustomerForCard(c.id)}
-                        className="inline-flex items-center space-x-1 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 px-2.5 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer shadow-sm"
-                        title="Create Showroom Price Card for this Customer"
-                      >
-                        <Tag className="w-3 h-3 text-amber-600" />
-                        <span>Price Card</span>
-                      </button>
+                      <div className="flex items-center justify-end space-x-1.5">
+                        {onOpenFloorPlan && (
+                          <button
+                            onClick={() => onOpenFloorPlan(c.id)}
+                            className="inline-flex items-center space-x-1 bg-slate-900 hover:bg-slate-800 text-white px-2.5 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer shadow-sm"
+                            title="Interactive Showroom Floor Plan"
+                          >
+                            <LayoutGrid className="w-3 h-3 text-amber-400" />
+                            <span>Floor Plan</span>
+                          </button>
+                        )}
+                        <button
+                          onClick={() => onSelectCustomerForCard(c.id)}
+                          className="inline-flex items-center space-x-1 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 px-2.5 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer shadow-sm"
+                          title="Create Showroom Price Card for this Customer"
+                        >
+                          <Tag className="w-3 h-3 text-amber-600" />
+                          <span>Price Card</span>
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -330,21 +345,32 @@ export const CustomerList: React.FC<CustomerListProps> = ({
               </div>
 
               {/* Actions */}
-              <div className="pt-2 border-t border-slate-100 grid grid-cols-2 gap-2">
+              <div className="pt-2 border-t border-slate-100 grid grid-cols-3 gap-1.5">
                 <button
                   onClick={() => setActiveCustomer(customer)}
-                  className="flex items-center justify-center space-x-1.5 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 text-xs font-semibold py-2 px-3 rounded-xl transition-colors cursor-pointer shadow-sm"
+                  className="flex items-center justify-center space-x-1 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 text-[11px] font-semibold py-2 px-1 rounded-xl transition-colors cursor-pointer shadow-sm"
                 >
-                  <span>View Details</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  <span>Details</span>
+                  <ArrowRight className="w-3 h-3" />
                 </button>
+
+                {onOpenFloorPlan && (
+                  <button
+                    onClick={() => onOpenFloorPlan(customer.id)}
+                    className="flex items-center justify-center space-x-1 bg-slate-900 hover:bg-slate-800 text-white text-[11px] font-semibold py-2 px-1 rounded-xl transition-all cursor-pointer shadow-sm"
+                    title="Interactive Showroom Floor Plan"
+                  >
+                    <LayoutGrid className="w-3 h-3 text-amber-400" />
+                    <span>Floor Plan</span>
+                  </button>
+                )}
 
                 <button
                   onClick={() => onSelectCustomerForCard(customer.id)}
-                  className="flex items-center justify-center space-x-1.5 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 text-xs font-semibold py-2 px-3 rounded-xl transition-all cursor-pointer shadow-sm"
+                  className="flex items-center justify-center space-x-1 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 text-[11px] font-semibold py-2 px-1 rounded-xl transition-all cursor-pointer shadow-sm"
                 >
-                  <Tag className="w-3.5 h-3.5 text-amber-600" />
-                  <span>Price Card</span>
+                  <Tag className="w-3 h-3 text-amber-600" />
+                  <span>Card</span>
                 </button>
               </div>
 

@@ -140,7 +140,7 @@ export const DailySalesUploadModal: React.FC<DailySalesUploadModalProps> = ({
       if (r.id === id) {
         const updated = { ...r, [field]: value };
         if (field === 'quantity' || field === 'cost') {
-          updated.totalAmount = (Number(updated.quantity) || 1) * (Number(updated.cost) || 0);
+          updated.totalAmount = Number(updated.cost) || 0;
         }
         return updated;
       }
@@ -232,8 +232,8 @@ export const DailySalesUploadModal: React.FC<DailySalesUploadModalProps> = ({
     }
   };
 
-  const totalCalculatedRevenue = editableRows.reduce((sum, r) => sum + r.totalAmount, 0);
-  const totalCalculatedUnits = editableRows.reduce((sum, r) => sum + Number(r.quantity || 1), 0);
+  const totalCalculatedRevenue = editableRows.reduce((sum, r) => sum + (Number(r.cost) || Number(r.totalAmount) || 0), 0);
+  const totalCalculatedUnits = editableRows.reduce((sum, r) => sum + Number(r.quantity || 0), 0);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fadeIn">
@@ -332,22 +332,23 @@ ALTER TABLE sales ALTER COLUMN sales_id SET DEFAULT nextval('sales_sales_id_seq'
 
           {/* Upload Dropzone (Tab 1) */}
           {activeTab === 'pdf' && !parseResult && (
-            <div
+            <label
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}
-              onClick={() => fileInputRef.current?.click()}
-              className={`border-2 border-dashed rounded-2xl p-10 flex flex-col items-center justify-center text-center cursor-pointer transition-all ${
+              htmlFor="mobile-pdf-upload"
+              className={`relative border-2 border-dashed rounded-2xl p-8 sm:p-10 flex flex-col items-center justify-center text-center cursor-pointer transition-all ${
                 isDragging
                   ? 'border-amber-500 bg-amber-50 scale-[0.99]'
                   : 'border-slate-300 bg-slate-50 hover:bg-slate-100 hover:border-slate-400'
               }`}
             >
               <input
+                id="mobile-pdf-upload"
                 ref={fileInputRef}
                 type="file"
-                accept=".pdf,application/pdf"
-                className="hidden"
+                accept="application/pdf,application/x-pdf,.pdf"
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20"
                 onChange={handleFileChange}
               />
               
@@ -360,18 +361,17 @@ ALTER TABLE sales ALTER COLUMN sales_id SET DEFAULT nextval('sales_sales_id_seq'
               </div>
 
               <h3 className="text-base font-bold text-slate-900 mb-1 font-serif">
-                {isLoading ? 'Extracting & Parsing Daily Sales PDF...' : 'Drop your Daily Sales PDF here'}
+                {isLoading ? 'Extracting & Parsing Daily Sales PDF...' : 'Drop or Tap to Upload Daily Sales PDF'}
               </h3>
               <p className="text-xs text-slate-600 max-w-md leading-relaxed">
                 Supports Batesville <strong>Daily Billing Reports</strong>: automatically parses Item Number, Description, Qty, and Invoice $$, resolves Account # from Customer Ship-to Name, matches official customer names, and excludes grey subtotal rows.
               </p>
-              <button
-                type="button"
-                className="mt-4 px-4 py-2 rounded-xl bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold border border-slate-300 shadow-sm cursor-pointer"
-              >
-                Browse Files
-              </button>
-            </div>
+              
+              <div className="mt-4 inline-flex items-center space-x-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold text-xs shadow-md shadow-amber-500/20 pointer-events-none">
+                <UploadCloud className="w-4 h-4" />
+                <span>📱 Tap to Choose PDF from Phone or Files</span>
+              </div>
+            </label>
           )}
 
           {/* Paste Text (Tab 2) */}
@@ -405,7 +405,7 @@ ALTER TABLE sales ALTER COLUMN sales_id SET DEFAULT nextval('sales_sales_id_seq'
             <div className="space-y-4">
               
               {/* Summary Cards */}
-              <div className="grid grid-cols-4 gap-3 text-xs">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
                 <div className="bg-slate-50 border border-slate-200 p-3 rounded-xl shadow-sm">
                   <span className="text-slate-500 block mb-0.5">Parsed Transactions</span>
                   <span className="text-base font-bold text-slate-900 font-mono">{editableRows.length}</span>

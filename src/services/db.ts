@@ -114,11 +114,11 @@ export async function getSalesYoYMetrics(
   const currentYearSales = querySales.filter(s => String(s.year) === String(currentYear));
   const prevYearSales = querySales.filter(s => String(s.year) === String(previousYear));
 
-  const currentRevenue = currentYearSales.reduce((acc, s) => acc + s.totalAmount, 0);
-  const previousRevenue = prevYearSales.reduce((acc, s) => acc + s.totalAmount, 0);
+  const currentRevenue = currentYearSales.reduce((acc, s) => acc + (Number(s.cost) || Number(s.totalAmount) || 0), 0);
+  const previousRevenue = prevYearSales.reduce((acc, s) => acc + (Number(s.cost) || Number(s.totalAmount) || 0), 0);
 
-  const currentUnits = currentYearSales.reduce((acc, s) => acc + s.quantity, 0);
-  const previousUnits = prevYearSales.reduce((acc, s) => acc + s.quantity, 0);
+  const currentUnits = currentYearSales.reduce((acc, s) => acc + (Number(s.quantity) || 0), 0);
+  const previousUnits = prevYearSales.reduce((acc, s) => acc + (Number(s.quantity) || 0), 0);
 
   const revenueGrowthPercent = previousRevenue > 0
     ? ((currentRevenue - previousRevenue) / previousRevenue) * 100
@@ -153,11 +153,11 @@ export async function getSalesYoYMetrics(
     const curMonthSales = currentYearSales.filter(isMatchingMonth);
     const prevMonthSales = prevYearSales.filter(isMatchingMonth);
 
-    const curRev = curMonthSales.reduce((acc, s) => acc + s.totalAmount, 0);
-    const prevRev = prevMonthSales.reduce((acc, s) => acc + s.totalAmount, 0);
+    const curRev = curMonthSales.reduce((acc, s) => acc + (Number(s.cost) || Number(s.totalAmount) || 0), 0);
+    const prevRev = prevMonthSales.reduce((acc, s) => acc + (Number(s.cost) || Number(s.totalAmount) || 0), 0);
 
-    const curUnits = curMonthSales.reduce((acc, s) => acc + s.quantity, 0);
-    const prevUnits = prevMonthSales.reduce((acc, s) => acc + s.quantity, 0);
+    const curUnits = curMonthSales.reduce((acc, s) => acc + (Number(s.quantity) || 0), 0);
+    const prevUnits = prevMonthSales.reduce((acc, s) => acc + (Number(s.quantity) || 0), 0);
 
     const growth = prevRev > 0 ? ((curRev - prevRev) / prevRev) * 100 : 0;
 
@@ -193,13 +193,13 @@ export async function getProductPerformanceByYears(productIdOrCode: string) {
 
   const distinctYears = [...new Set(sales.map(s => String(s.year)))].sort();
   if (distinctYears.length === 0) {
-    return [2024, 2025, 2026].map(y => ({ year: y, revenue: 0, units: 0, ordersCount: 0 }));
+    return ['2023-24', '2024-25', '2025-26'].map(y => ({ year: y, revenue: 0, units: 0, ordersCount: 0 }));
   }
 
   return distinctYears.map(year => {
     const yearSales = sales.filter(s => String(s.year) === year);
-    const revenue = yearSales.reduce((acc, s) => acc + s.totalAmount, 0);
-    const units = yearSales.reduce((acc, s) => acc + s.quantity, 0);
+    const revenue = yearSales.reduce((acc, s) => acc + (Number(s.cost) || Number(s.totalAmount) || 0), 0);
+    const units = yearSales.reduce((acc, s) => acc + (Number(s.quantity) || 0), 0);
     return {
       year,
       revenue,
@@ -210,21 +210,34 @@ export async function getProductPerformanceByYears(productIdOrCode: string) {
 }
 
 // Customer Analytics: Multi-Year Purchasing Breakdown
-export async function getCustomerMetrics(customerIdOrCode: string) {
+export async function getCustomerMetrics(customerOrId: string | Customer) {
+  const targetAcct = typeof customerOrId === 'object'
+    ? String(customerOrId.accountNumber || customerOrId.code || '')
+    : String(customerOrId || '');
+  const targetName = typeof customerOrId === 'object' ? (customerOrId.name || '').toLowerCase() : '';
+  const targetId = typeof customerOrId === 'object' ? customerOrId.id : customerOrId;
+
   const sales = await db.sales
-    .filter(s => s.customerId === customerIdOrCode || s.accountNumber === customerIdOrCode)
+    .filter(s => {
+      const sAcct = String(s.accountNumber || '');
+      if (targetAcct && (sAcct === targetAcct || s.customerId === `cust-${targetAcct}`)) return true;
+      if (targetId && (s.customerId === targetId || sAcct === targetId)) return true;
+      if (targetName && s.accountName && s.accountName.toLowerCase() === targetName) return true;
+      return false;
+    })
     .toArray();
-  const totalRevenue = sales.reduce((acc, s) => acc + s.totalAmount, 0);
-  const totalUnits = sales.reduce((acc, s) => acc + s.quantity, 0);
+
+  const totalRevenue = sales.reduce((acc, s) => acc + (Number(s.cost) || Number(s.totalAmount) || 0), 0);
+  const totalUnits = sales.reduce((acc, s) => acc + (Number(s.quantity) || 0), 0);
   
   const distinctYears = [...new Set(sales.map(s => String(s.year)))].sort();
-  const years = distinctYears.length > 0 ? distinctYears : ['2024', '2025', '2026'];
+  const years = distinctYears.length > 0 ? distinctYears : ['2023-24', '2024-25', '2025-26'];
   const yearlyBreakdown = years.map(yr => {
     const yrSales = sales.filter(s => String(s.year) === yr);
     return {
       year: yr,
-      revenue: yrSales.reduce((a, s) => a + s.totalAmount, 0),
-      units: yrSales.reduce((a, s) => a + s.quantity, 0)
+      revenue: yrSales.reduce((a, s) => a + (Number(s.cost) || Number(s.totalAmount) || 0), 0),
+      units: yrSales.reduce((a, s) => a + (Number(s.quantity) || 0), 0)
     };
   });
 

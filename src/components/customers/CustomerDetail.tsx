@@ -14,19 +14,22 @@ import {
   Percent,
   Check,
   X,
-  FileText 
+  FileText,
+  LayoutGrid
 } from 'lucide-react';
 
 interface CustomerDetailProps {
   customer: Customer;
   onBack: () => void;
   onGeneratePriceCard: (customerId: string) => void;
+  onOpenFloorPlan?: (customerId: string) => void;
 }
 
 export const CustomerDetail: React.FC<CustomerDetailProps> = ({
   customer,
   onBack,
   onGeneratePriceCard,
+  onOpenFloorPlan,
 }) => {
   const [metrics, setMetrics] = useState<{
     totalRevenue: number;
@@ -39,29 +42,26 @@ export const CustomerDetail: React.FC<CustomerDetailProps> = ({
 
   useEffect(() => {
     async function loadData() {
-      const m = await getCustomerMetrics(customer.id);
+      const m = await getCustomerMetrics(customer);
       setMetrics(m);
 
+      const custAcct = String(customer.accountNumber || customer.code || '');
       const orders = await db.sales
-        .where('customerId')
-        .equals(customer.id)
+        .filter(s => {
+          const sAcct = String(s.accountNumber || '');
+          if (custAcct && (sAcct === custAcct || s.customerId === `cust-${custAcct}`)) return true;
+          if (s.customerId === customer.id || sAcct === customer.id) return true;
+          if (s.accountName && customer.name && s.accountName.toLowerCase() === customer.name.toLowerCase()) return true;
+          return false;
+        })
         .reverse()
-        .limit(10)
+        .limit(20)
         .toArray();
       
-      if (orders.length === 0 && customer.accountNumber) {
-        const altOrders = await db.sales
-          .filter(s => s.accountNumber === String(customer.accountNumber) || s.accountName === customer.name)
-          .reverse()
-          .limit(10)
-          .toArray();
-        setRecentOrders(altOrders);
-      } else {
-        setRecentOrders(orders);
-      }
+      setRecentOrders(orders);
     }
     loadData();
-  }, [customer.id, customer.accountNumber, customer.name]);
+  }, [customer]);
 
   return (
     <div className="space-y-6 animate-fadeIn">
@@ -89,13 +89,25 @@ export const CustomerDetail: React.FC<CustomerDetailProps> = ({
           </div>
         </div>
 
-        <button
-          onClick={() => onGeneratePriceCard(customer.id)}
-          className="flex items-center space-x-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold px-4 py-2.5 rounded-xl transition-all shadow-md shadow-amber-500/20 cursor-pointer text-xs sm:text-sm"
-        >
-          <Tag className="w-4 h-4" />
-          <span>Create Showroom Price Cards</span>
-        </button>
+        <div className="flex flex-wrap items-center gap-2">
+          {onOpenFloorPlan && (
+            <button
+              onClick={() => onOpenFloorPlan(customer.id)}
+              className="flex items-center space-x-2 bg-slate-900 hover:bg-slate-800 text-white font-bold px-4 py-2.5 rounded-xl transition-all shadow-md cursor-pointer text-xs sm:text-sm"
+            >
+              <LayoutGrid className="w-4 h-4 text-amber-400" />
+              <span>Interactive Floor Plan</span>
+            </button>
+          )}
+
+          <button
+            onClick={() => onGeneratePriceCard(customer.id)}
+            className="flex items-center space-x-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold px-4 py-2.5 rounded-xl transition-all shadow-md shadow-amber-500/20 cursor-pointer text-xs sm:text-sm"
+          >
+            <Tag className="w-4 h-4" />
+            <span>Create Showroom Price Cards</span>
+          </button>
+        </div>
       </div>
 
       {/* Grid of Details: Supabase Headers & Metrics */}

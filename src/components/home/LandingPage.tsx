@@ -16,14 +16,15 @@ import {
   CheckCircle2,
   Clock,
   Printer,
-  FileSpreadsheet
+  FileSpreadsheet,
+  LayoutGrid
 } from 'lucide-react';
 
 interface LandingPageProps {
   customers: Customer[];
   products: Product[];
   salesCount: number;
-  onNavigate: (tab: 'home' | 'catalogs' | 'cards' | 'sales' | 'customers' | 'products') => void;
+  onNavigate: (tab: 'home' | 'catalogs' | 'cards' | 'sales' | 'customers' | 'products' | 'floorplans') => void;
   onOpenSalesUpload: () => void;
   onOpenImageManager: () => void;
 }
@@ -53,8 +54,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           setLatestYear(recent);
 
           const recentSales = sales.filter(s => String(s.year) === recent);
-          const rev = recentSales.reduce((acc, s) => acc + (Number(s.totalAmount) || Number(s.cost) || 0), 0);
-          const units = recentSales.reduce((acc, s) => acc + (Number(s.quantity) || 1), 0);
+          const rev = recentSales.reduce((acc, s) => acc + (Number(s.cost) || Number(s.totalAmount) || 0), 0);
+          const units = recentSales.reduce((acc, s) => acc + (Number(s.quantity) || 0), 0);
           setLatestYearRevenue(rev);
           setLatestYearUnits(units);
         }
@@ -370,6 +371,39 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-amber-700">
               <span>Open Image Studio</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </div>
+
+          {/* Module 7: Interactive Showroom Floor Plans */}
+          <div 
+            onClick={() => onNavigate('floorplans')}
+            className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:shadow-md hover:border-amber-500 transition-all cursor-pointer group flex flex-col justify-between md:col-span-2 lg:col-span-3"
+          >
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="flex items-start space-x-4">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 text-slate-950 flex items-center justify-center shrink-0 shadow-md shadow-amber-500/20">
+                  <LayoutGrid className="w-6 h-6" />
+                </div>
+                <div>
+                  <div className="flex items-center space-x-2">
+                    <h3 className="font-serif text-lg font-bold text-slate-900 group-hover:text-amber-700 transition-colors">
+                      Interactive Showroom Floor Plans & Merchandising Engine
+                    </h3>
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800">
+                      NEW
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-600 leading-relaxed mt-1">
+                    Design custom selection rooms in <strong>Oval / Rotunda</strong>, <strong>Square</strong>, <strong>Rectangle Gallery</strong>, and <strong>L-Shaped</strong> layouts. Live integration with sales records highlights <strong>Top Sellers</strong> vs <strong>Stagnant (0 Sales)</strong> models with intelligent merchandising swap recommendations.
+                  </p>
+                </div>
+              </div>
+              <div className="shrink-0">
+                <span className="inline-flex items-center space-x-1.5 px-4 py-2 rounded-xl bg-slate-900 text-white text-xs font-bold shadow-sm group-hover:bg-amber-600 transition-colors">
+                  <span>Open Floor Plans</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </span>
+              </div>
             </div>
           </div>
 

@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { Product } from '../../types';
 import { getProductPerformanceByYears } from '../../services/db';
-import { X, Check, ShieldCheck, Tag, TrendingUp, Calendar, Ruler, Award, DollarSign } from 'lucide-react';
+import { isUrnProduct } from '../../services/supabase';
+import { X, Check, ShieldCheck, Tag, TrendingUp, Calendar, Ruler, Award, DollarSign, Printer } from 'lucide-react';
 
 interface ProductDetailModalProps {
   product: Product;
   onClose: () => void;
   onCreatePriceCard: (productId: string) => void;
+  onOpenLitho?: (product: Product) => void;
 }
 
 export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   product,
   onClose,
   onCreatePriceCard,
+  onOpenLitho,
 }) => {
   const [history, setHistory] = useState<{ year: string | number; revenue: number; units: number; ordersCount: number }[]>([]);
   const [activeImage, setActiveImage] = useState<string>(product.imageUrl);
@@ -26,6 +29,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   }, [product.id, product.code]);
 
   const allImages = [product.imageUrl, ...(product.additionalImages || [])];
+  const isUrn = isUrnProduct(product);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm overflow-y-auto animate-fadeIn">
@@ -135,17 +139,33 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 </div>
               </div>
 
-              {/* Action Button: Jump directly into Price Card Generator */}
-              <button
-                onClick={() => {
-                  onCreatePriceCard(product.id);
-                  onClose();
-                }}
-                className="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold py-3 px-4 rounded-xl shadow-md shadow-amber-500/20 transition-all cursor-pointer text-xs sm:text-sm"
-              >
-                <Tag className="w-4 h-4" />
-                <span>Create Price Card for This Product</span>
-              </button>
+              {/* Action Buttons: Litho Tearsheet + Price Card Generator */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                {onOpenLitho && (
+                  <button
+                    onClick={() => {
+                      onOpenLitho(product);
+                    }}
+                    className="flex items-center justify-center space-x-2 bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 px-4 rounded-xl shadow-sm transition-all cursor-pointer text-xs sm:text-sm"
+                  >
+                    <Printer className="w-4 h-4 text-amber-400" />
+                    <span>Print Litho Cut Sheet</span>
+                  </button>
+                )}
+
+                <button
+                  onClick={() => {
+                    onCreatePriceCard(product.id);
+                    onClose();
+                  }}
+                  className={`flex items-center justify-center space-x-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold py-3 px-4 rounded-xl shadow-md shadow-amber-500/20 transition-all cursor-pointer text-xs sm:text-sm ${
+                    !onOpenLitho ? 'w-full sm:col-span-2' : ''
+                  }`}
+                >
+                  <Tag className="w-4 h-4" />
+                  <span>Create Price Card</span>
+                </button>
+              </div>
             </div>
           </div>
 
@@ -155,7 +175,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
             <div className="space-y-3">
               <h3 className="text-xs uppercase font-bold tracking-wider text-slate-700 flex items-center gap-1.5">
                 <Ruler className="w-4 h-4 text-amber-600" />
-                Casket Dimensions & Technical Specifications
+                {isUrn ? 'Urn Dimensions & Technical Specifications' : 'Casket Dimensions & Technical Specifications'}
               </h3>
               <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 text-xs space-y-2.5">
                 <div className="flex justify-between">
@@ -170,33 +190,58 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   <span className="text-slate-500">Exterior Finish:</span>
                   <span className="text-slate-800">{product.finish || product.exteriorFinish}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-500">Interior Fabric & Style:</span>
-                  <span className="text-slate-900 font-semibold">{product.interior}</span>
-                </div>
-                {product.top && (
-                  <div className="flex justify-between">
-                    <span className="text-slate-500">Cap / Top Style:</span>
-                    <span className="text-slate-800">{product.top}</span>
-                  </div>
+
+                {!isUrn && (
+                  <>
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">Interior Fabric & Style:</span>
+                      <span className="text-slate-900 font-semibold">{product.interior || 'Rosetan Crepe'}</span>
+                    </div>
+                    {product.top && (
+                      <div className="flex justify-between">
+                        <span className="text-slate-500">Cap / Top Style:</span>
+                        <span className="text-slate-800">{product.top}</span>
+                      </div>
+                    )}
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">Exterior Dimensions:</span>
+                      <span className="text-slate-800 font-mono">
+                        {product.extLength && product.extWidth
+                          ? `${product.extLength}" L × ${product.extWidth}" W × ${product.extHeight || 23.0}" H`
+                          : (product.dimensions || '83.5" L × 28.5" W × 23.0" H')}
+                      </span>
+                    </div>
+                    {product.intWidth && (
+                      <div className="flex justify-between">
+                        <span className="text-slate-500">Interior Width:</span>
+                        <span className="text-slate-900 font-mono font-bold text-amber-700">{product.intWidth}" Interior</span>
+                      </div>
+                    )}
+                  </>
                 )}
-                <div className="flex justify-between">
-                  <span className="text-slate-500">Exterior Dimensions:</span>
-                  <span className="text-slate-800 font-mono">
-                    {product.extLength && product.extWidth
-                      ? `${product.extLength}" L × ${product.extWidth}" W × ${product.extHeight || 23.0}" H`
-                      : product.dimensions}
-                  </span>
-                </div>
-                {product.intWidth && (
-                  <div className="flex justify-between">
-                    <span className="text-slate-500">Interior Width:</span>
-                    <span className="text-slate-900 font-mono font-bold text-amber-700">{product.intWidth}" Interior</span>
-                  </div>
+
+                {isUrn && (
+                  <>
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">Cubic Capacity / Volume:</span>
+                      <span className="font-mono text-amber-700 font-bold">
+                        {product.capacity ? `${product.capacity} cu. in.` : '200 cu. in. (Standard Adult)'}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">Urn Dimensions:</span>
+                      <span className="text-slate-800 font-mono">{product.dimensions || '8.5" W × 8.5" D × 10.5" H'}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">Closure Type:</span>
+                      <span className="text-slate-800 font-medium">Precision Threaded Secure Lid / Base</span>
+                    </div>
+                  </>
                 )}
-                {(product.capacity || product.weightLbs) && (
+
+                {!isUrn && (product.capacity || product.weightLbs) && (
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Capacity / Weight:</span>
+                    <span className="text-slate-500">Estimated Weight:</span>
                     <span className="text-slate-800 font-mono">{product.capacity || product.weightLbs} lbs</span>
                   </div>
                 )}

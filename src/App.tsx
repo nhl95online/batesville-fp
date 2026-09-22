@@ -10,11 +10,12 @@ import { ProductCatalog } from './components/products/ProductCatalog';
 import { CatalogYearManager } from './components/catalogs/CatalogYearManager';
 import { CasketImageManagerModal } from './components/catalogs/CasketImageManagerModal';
 import { DailySalesUploadModal } from './components/sales/DailySalesUploadModal';
+import { ShowroomFloorPlan } from './components/floorplan/ShowroomFloorPlan';
 import { syncFromSupabase } from './services/supabase';
-import { Home, Tag, BarChart3, Building2, Layers, Calendar, Image as ImageIcon, Loader2 } from 'lucide-react';
+import { Home, Tag, BarChart3, Building2, Layers, Calendar, Image as ImageIcon, Loader2, LayoutGrid } from 'lucide-react';
 
 export function App() {
-  const [activeTab, setActiveTab] = useState<'home' | 'cards' | 'sales' | 'customers' | 'products' | 'catalogs'>('home');
+  const [activeTab, setActiveTab] = useState<'home' | 'cards' | 'sales' | 'customers' | 'products' | 'catalogs' | 'floorplans'>('home');
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [counts, setCounts] = useState<{ customers: number; products: number; sales: number }>({
@@ -25,9 +26,10 @@ export function App() {
   const [loading, setLoading] = useState(true);
   const [isAutoSyncing, setIsAutoSyncing] = useState(false);
 
-  // Pre-selected IDs when transitioning from Customers or Products into PriceCardStudio
+  // Pre-selected IDs when transitioning into PriceCardStudio or ShowroomFloorPlan
   const [targetCustomerId, setTargetCustomerId] = useState<string | undefined>(undefined);
   const [targetProductId, setTargetProductId] = useState<string | undefined>(undefined);
+  const [targetFloorPlanCustomerId, setTargetFloorPlanCustomerId] = useState<string | undefined>(undefined);
 
   // Modals
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
@@ -112,6 +114,11 @@ export function App() {
   const handleSelectCustomerForCard = (customerId: string) => {
     setTargetCustomerId(customerId);
     setActiveTab('cards');
+  };
+
+  const handleOpenFloorPlan = (customerId: string) => {
+    setTargetFloorPlanCustomerId(customerId);
+    setActiveTab('floorplans');
   };
 
   if (loading) {
@@ -212,6 +219,18 @@ export function App() {
               <Layers className="w-4 h-4" />
               <span>All Products ({counts.products})</span>
             </button>
+
+            <button
+              onClick={() => setActiveTab('floorplans')}
+              className={`flex items-center space-x-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all cursor-pointer ${
+                activeTab === 'floorplans'
+                  ? 'bg-amber-600 text-white shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+              }`}
+            >
+              <LayoutGrid className="w-4 h-4" />
+              <span>Showroom Floor Plans</span>
+            </button>
           </div>
 
           {/* Quick Action: Casket Images Studio */}
@@ -270,6 +289,7 @@ export function App() {
           <CustomerList
             customers={customers}
             onSelectCustomerForCard={handleSelectCustomerForCard}
+            onOpenFloorPlan={handleOpenFloorPlan}
           />
         )}
 
@@ -278,6 +298,19 @@ export function App() {
             products={products}
             onSelectProductForCard={handleSelectProductForCard}
             onOpenImageManager={() => setIsImageModalOpen(true)}
+          />
+        )}
+
+        {activeTab === 'floorplans' && (
+          <ShowroomFloorPlan
+            customers={customers}
+            products={products}
+            initialCustomerId={targetFloorPlanCustomerId}
+            onOpenPriceCard={(cId, pId) => {
+              setTargetCustomerId(cId);
+              setTargetProductId(pId);
+              setActiveTab('cards');
+            }}
           />
         )}
       </main>
