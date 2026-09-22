@@ -4,7 +4,8 @@
 
 @layer base {
   body {
-    @apply font-sans bg-slate-950 text-slate-100;
+    @apply font-sans text-slate-200 antialiased;
+    background-color: #121820;
   }
 
   h1, h2, h3, h4, .font-serif {

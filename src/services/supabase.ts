@@ -1,5 +1,5 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { db } from './db';
+import { db, invalidateSalesCache } from './db';
 import { Customer, Product, SaleRecord, SupabaseConfig, CasketImageItem } from '../types';
 import { BATESVILLE_CASKET_CATALOG } from './batesvilleCatalogData';
 
@@ -528,6 +528,9 @@ export async function syncFromSupabase(): Promise<{
       await db.products.bulkAdd(mappedProducts);
       await db.sales.bulkAdd(mappedSales);
     });
+
+    // Invalidate sales memory cache to ensure fresh remote data is accessed
+    invalidateSalesCache();
 
     // Check if any existing local images can be matched to newly synced products
     const localImages = await db.images.toArray();

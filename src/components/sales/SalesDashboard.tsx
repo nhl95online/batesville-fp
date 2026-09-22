@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Customer, Product, SalesYoYMetrics, SaleRecord } from '../../types';
-import { getSalesYoYMetrics, db } from '../../services/db';
+import { getSalesYoYMetrics, getCachedSales } from '../../services/db';
+import { DailySalesUploadModal } from './DailySalesUploadModal';
 import { 
   TrendingUp, 
   TrendingDown, 
@@ -13,7 +14,8 @@ import {
   Table as TableIcon,
   Search,
   CheckCircle2,
-  Clock
+  Clock,
+  UploadCloud
 } from 'lucide-react';
 import {
   ResponsiveContainer,
@@ -41,6 +43,7 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({ customers, produ
   const [loading, setLoading] = useState<boolean>(true);
   const [chartView, setChartView] = useState<'revenue' | 'units'>('revenue');
   const [activeTab, setActiveTab] = useState<'analytics' | 'table'>('analytics');
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState<boolean>(false);
 
   // Sales Records for the Table view
   const [rawSales, setRawSales] = useState<SaleRecord[]>([]);
@@ -79,47 +82,17 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({ customers, produ
     });
   }, [rawSales, selectedCustomerId, selectedCustomer]);
 
-  // Dynamically filter products to ONLY those associated with the selected customer
+  // Dynamically filter products to ONLY those associated with the selected customer (O(1) Set Lookup)
   const associatedProducts = useMemo(() => {
-    if (selectedCustomerId === 'all') {
-      const salesCodes = new Set(rawSales.map(s => String(s.productCode)));
-      const matched = products.filter(p => salesCodes.has(String(p.code)));
-
-      rawSales.forEach(s => {
-        const codeStr = String(s.productCode);
-        if (codeStr && !matched.some(p => String(p.code) === codeStr)) {
-          matched.push({
-            id: `prod-${s.productCode}`,
-            code: codeStr,
-            name: s.description || `Model ${s.productCode}`,
-            description: s.description,
-            category: s.category || 'Burial Solutions',
-            material: 'Casket',
-            interior: 'Standard',
-            wholesalePrice: Number(s.cost) || 0,
-            price: Number(s.cost) || 0,
-            catalogYear: s.year,
-            year: s.year,
-            exteriorFinish: 'Standard Finish',
-            features: [],
-            imageUrl: '',
-            isActive: true,
-            createdAt: '',
-            updatedAt: ''
-          });
-        }
-      });
-
-      return matched.sort((a, b) => a.code.localeCompare(b.code, undefined, { numeric: true }));
-    }
-
-    // Specific customer selected: ONLY products purchased by this customer!
-    const customerCodes = new Set(customerSales.map(s => String(s.productCode)));
+    const targetSales = selectedCustomerId === 'all' ? rawSales : customerSales;
+    const customerCodes = new Set(targetSales.map(s => String(s.productCode)));
     const matched = products.filter(p => customerCodes.has(String(p.code)));
+    const matchedCodes = new Set(matched.map(p => String(p.code)));
 
-    customerSales.forEach(s => {
+    for (const s of targetSales) {
       const codeStr = String(s.productCode);
-      if (codeStr && !matched.some(p => String(p.code) === codeStr)) {
+      if (codeStr && !matchedCodes.has(codeStr)) {
+        matchedCodes.add(codeStr);
         matched.push({
           id: `prod-${s.productCode}`,
           code: codeStr,
@@ -140,7 +113,7 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({ customers, produ
           updatedAt: ''
         });
       }
-    });
+    }
 
     return matched.sort((a, b) => a.code.localeCompare(b.code, undefined, { numeric: true }));
   }, [customerSales, selectedCustomerId, products, rawSales]);
@@ -155,21 +128,33 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({ customers, produ
     }
   }, [associatedProducts, selectedProductId]);
 
-  // Load available years & raw sales
-  useEffect(() => {
-    async function loadInitial() {
-      const sales: SaleRecord[] = await db.sales.toArray();
-      setRawSales(sales);
-      const distinct: string[] = Array.from(new Set(sales.map(s => String(s.year)))).sort();
-      if (distinct.length > 0) {
-        setAvailableYears(distinct);
-        const latest = distinct[distinct.length - 1];
-        const prev = distinct.length > 1 ? distinct[distinct.length - 2] : distinct[0];
-        setCurrentYear(latest);
-        setPreviousYear(prev);
-      }
+  // Load available years & raw sales from high-speed in-memory cache
+  const loadInitial = async () => {
+    const sales = await getCachedSales();
+    setRawSales(sales);
+    const distinct: string[] = Array.from(new Set(sales.map(s => String(s.year)))).sort();
+    if (distinct.length > 0) {
+      setAvailableYears(distinct);
+      const latest = distinct[distinct.length - 1];
+      const prev = distinct.length > 1 ? distinct[distinct.length - 2] : distinct[0];
+      setCurrentYear(latest);
+      setPreviousYear(prev);
     }
+  };
+
+  useEffect(() => {
     loadInitial();
+  }, []);
+
+  // Reactive listener: when daily sales PDF is uploaded, refresh immediately
+  useEffect(() => {
+    const handleSalesUpdated = () => {
+      loadInitial();
+    };
+    window.addEventListener('batesville_sales_updated', handleSalesUpdated);
+    return () => {
+      window.removeEventListener('batesville_sales_updated', handleSalesUpdated);
+    };
   }, []);
 
   useEffect(() => {
@@ -283,6 +268,15 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({ customers, produ
               <span>Sales Table ({rawSales.length})</span>
             </button>
           </div>
+
+          {/* Upload Daily Sales PDF Button */}
+          <button
+            onClick={() => setIsUploadModalOpen(true)}
+            className="flex items-center space-x-1.5 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-slate-950 font-bold px-3.5 py-2 rounded-xl text-xs shadow-md shadow-emerald-500/20 transition-all cursor-pointer"
+          >
+            <UploadCloud className="w-3.5 h-3.5" />
+            <span>Upload Daily Sales (PDF)</span>
+          </button>
 
           {/* Export CSV Button */}
           <button
@@ -669,6 +663,19 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({ customers, produ
             </div>
           )}
         </div>
+      )}
+
+      {/* Daily Sales PDF Upload Modal */}
+      {isUploadModalOpen && (
+        <DailySalesUploadModal
+          isOpen={isUploadModalOpen}
+          onClose={() => setIsUploadModalOpen(false)}
+          customers={customers}
+          products={products}
+          onSalesAdded={() => {
+            loadInitial();
+          }}
+        />
       )}
     </div>
   );

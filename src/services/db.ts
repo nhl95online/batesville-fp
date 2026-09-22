@@ -39,14 +39,59 @@ export async function initializeDatabase(): Promise<void> {
   }
 }
 
-// Analytics: Calculate Year-over-Year (YoY) Sales Metrics
+// In-Memory Sales Cache for Sub-millisecond Loading & Queries
+let cachedSalesList: SaleRecord[] | null = null;
+let cachedSalesPromise: Promise<SaleRecord[]> | null = null;
+
+export function invalidateSalesCache(): void {
+  cachedSalesList = null;
+  cachedSalesPromise = null;
+}
+
+export async function getCachedSales(forceRefresh = false): Promise<SaleRecord[]> {
+  if (forceRefresh) {
+    invalidateSalesCache();
+  }
+  if (cachedSalesList) {
+    return cachedSalesList;
+  }
+  if (!cachedSalesPromise) {
+    cachedSalesPromise = db.sales.toArray().then(records => {
+      cachedSalesList = records;
+      return records;
+    }).finally(() => {
+      cachedSalesPromise = null;
+    });
+  }
+  return cachedSalesPromise;
+}
+
+/**
+ * Add or append bulk sales records (e.g. from Daily Sales PDF uploads)
+ */
+export async function addBulkSales(newSales: SaleRecord[]): Promise<number> {
+  if (!newSales || newSales.length === 0) return 0;
+  await db.sales.bulkPut(newSales);
+  invalidateSalesCache();
+  await getCachedSales();
+
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('batesville_sales_updated', { 
+      detail: { count: newSales.length, timestamp: Date.now() } 
+    }));
+  }
+  return newSales.length;
+}
+
+// Analytics: Calculate Year-over-Year (YoY) Sales Metrics with In-Memory Acceleration
 export async function getSalesYoYMetrics(
   currentYear: string | number = 2025,
   previousYear: string | number = 2024,
   customerId?: string,
   productId?: string
 ): Promise<SalesYoYMetrics> {
-  let querySales = await db.sales.toArray();
+  // Use in-memory cached sales for sub-millisecond calculation
+  let querySales = await getCachedSales();
 
   if (customerId && customerId !== 'all') {
     const cStr = String(customerId).toLowerCase().trim();

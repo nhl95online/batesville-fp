@@ -8,6 +8,7 @@ import { CustomerList } from './components/customers/CustomerList';
 import { ProductCatalog } from './components/products/ProductCatalog';
 import { CatalogYearManager } from './components/catalogs/CatalogYearManager';
 import { CasketImageManagerModal } from './components/catalogs/CasketImageManagerModal';
+import { DailySalesUploadModal } from './components/sales/DailySalesUploadModal';
 import { syncFromSupabase } from './services/supabase';
 import { Tag, BarChart3, Building2, Layers, Calendar, Image as ImageIcon, Loader2 } from 'lucide-react';
 
@@ -29,6 +30,7 @@ export function App() {
 
   // Modals
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [isSalesUploadModalOpen, setIsSalesUploadModalOpen] = useState(false);
 
   // Automatic background update function
   const runAutoSync = async () => {
@@ -113,24 +115,25 @@ export function App() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center text-slate-100">
+      <div className="min-h-screen bg-[#121820] flex flex-col items-center justify-center text-slate-200">
         <Loader2 className="w-10 h-10 text-amber-500 animate-spin mb-4" />
-        <h2 className="font-serif text-2xl font-bold">Batesville-FP</h2>
+        <h2 className="font-serif text-2xl font-bold text-white tracking-wide">BATESVILLE<span className="text-amber-400">-FP</span></h2>
         <p className="text-sm text-slate-400 mt-1">Connecting to Batesville Cloud Database...</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col selection:bg-amber-500/20 selection:text-amber-300">
+    <div className="min-h-screen bg-[#121820] text-slate-200 flex flex-col selection:bg-amber-500/20 selection:text-amber-300">
       
       {/* Top Navigation */}
       <Navbar
         isAutoSyncing={isAutoSyncing}
+        onOpenSalesUpload={() => setIsSalesUploadModalOpen(true)}
       />
 
       {/* Main Tab Navigation Bar */}
-      <div className="no-print bg-slate-900/80 border-b border-slate-800">
+      <div className="no-print bg-[#161e2a]/95 border-b border-slate-800/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between overflow-x-auto py-2">
           
           <div className="flex items-center space-x-1 sm:space-x-3">
@@ -253,13 +256,25 @@ export function App() {
       </main>
 
       {/* Casket Image Storage & Custom Matching Modal */}
-
       <CasketImageManagerModal
         isOpen={isImageModalOpen}
         onClose={() => setIsImageModalOpen(false)}
         products={products}
         onImagesUpdated={loadData}
       />
+
+      {/* Daily Sales PDF Upload Modal */}
+      {isSalesUploadModalOpen && (
+        <DailySalesUploadModal
+          isOpen={isSalesUploadModalOpen}
+          onClose={() => setIsSalesUploadModalOpen(false)}
+          customers={customers}
+          products={products}
+          onSalesAdded={() => {
+            loadData();
+          }}
+        />
+      )}
 
     </div>
   );
