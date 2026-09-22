@@ -1,16 +1,21 @@
 import React from 'react';
 import { Customer, Product, PriceCardConfig } from '../../../types';
 
+export type CardCollectionType = 'commemorative' | 'classic' | 'conventional' | 'basic';
+export type RightGraphicType = 'tributes' | 'refined-styling' | 'none';
+
 interface Card6x6Props {
   product: Product;
   customer?: Customer;
   config: PriceCardConfig;
   retailPrice: number;
-  collectionType?: 'commemorative-green' | 'commemorative-blue' | 'classic' | 'conventional';
+  collectionType?: CardCollectionType;
   productNameOverride?: string;
   customBullets?: string[];
   activeMiscFeatures?: string[];
-  tributeCount?: number;
+  rightGraphic?: RightGraphicType;
+  onClearBullet?: (index: number) => void;
+  onUpdateBullet?: (index: number, text: string) => void;
 }
 
 const SUPABASE_MISC_BASE = 'https://yrprtpqwojpeskccerec.supabase.co/storage/v1/object/public/misc';
@@ -20,72 +25,79 @@ export const Card6x6: React.FC<Card6x6Props> = ({
   customer,
   config,
   retailPrice,
-  collectionType: explicitCollection,
+  collectionType = 'commemorative',
   productNameOverride,
   customBullets,
   activeMiscFeatures,
-  tributeCount: explicitTributeCount,
+  rightGraphic = collectionType === 'classic' ? 'refined-styling' : (collectionType === 'basic' ? 'none' : 'tributes'),
+  onClearBullet,
+  onUpdateBullet,
 }) => {
-  // Determine collection type (Auto-detect if not explicitly provided)
-  const collectionType = explicitCollection || (() => {
-    if (config.theme === 'classic-burgundy' || config.theme === 'modern-dark') {
-      return 'classic';
-    }
-    if (config.theme === 'funeral-navy') {
-      return 'conventional';
-    }
-    if (product.lifesymbols || product.lifestories) {
-      return 'commemorative-green';
-    }
-    if (product.material.toLowerCase().includes('mahogany') || product.material.toLowerCase().includes('cherry') || product.material.toLowerCase().includes('bronze')) {
-      return 'classic';
-    }
-    return 'commemorative-green';
-  })();
-
-  // Collection Theme Colors
+  // Collection Theme Styling
   const themeConfig = {
-    'commemorative-green': {
-      bannerBg: 'bg-[#15662a]', // Rich Batesville green
+    'commemorative': {
+      bannerBg: 'bg-[#15662a]', // Rich Batesville Emerald Green
       accentBorder: 'border-emerald-600',
       titlePrimary: 'Commemorative',
       titleSecondary: 'Collection',
-      type: 'commemorative',
-    },
-    'commemorative-blue': {
-      bannerBg: 'bg-[#006cb8]', // Vibrant Batesville blue
-      accentBorder: 'border-blue-600',
-      titlePrimary: 'Commemorative',
-      titleSecondary: 'Collection',
-      type: 'commemorative',
+      isLight: false,
+      bottomBannerBg: 'bg-[#15662a]',
+      bottomTextColor: 'text-white',
+      bottomSubtextColor: 'text-white/95',
+      bottomCopyrightColor: 'text-white/60',
     },
     'classic': {
-      bannerBg: 'bg-[#3b434e]', // Charcoal slate
-      accentBorder: 'border-[#c59b27]', // Classic gold border trim
+      bannerBg: 'bg-[#3b434e]', // Charcoal Slate
+      accentBorder: 'border-[#c59b27]',
       titlePrimary: 'Classic',
       titleSecondary: 'Collection',
-      type: 'classic',
+      isLight: false,
+      bottomBannerBg: 'bg-[#3b434e]',
+      bottomTextColor: 'text-white',
+      bottomSubtextColor: 'text-white/95',
+      bottomCopyrightColor: 'text-white/60',
     },
     'conventional': {
-      bannerBg: 'bg-[#112d4e]', // Deep navy
-      accentBorder: 'border-[#3f72af]',
+      bannerBg: 'bg-[#006cb8]', // Batesville Royal Blue
+      accentBorder: 'border-blue-600',
       titlePrimary: 'Conventional',
       titleSecondary: 'Collection',
-      type: 'conventional',
+      isLight: false,
+      bottomBannerBg: 'bg-[#006cb8]',
+      bottomTextColor: 'text-white',
+      bottomSubtextColor: 'text-white/95',
+      bottomCopyrightColor: 'text-white/60',
+    },
+    'basic': {
+      bannerBg: 'bg-white border-b-2 border-slate-300', // Crisp Showroom White
+      accentBorder: 'border-slate-300',
+      titlePrimary: 'Basic',
+      titleSecondary: 'Collection',
+      isLight: true,
+      bottomBannerBg: 'bg-slate-100 border-t-2 border-slate-300',
+      bottomTextColor: 'text-slate-950',
+      bottomSubtextColor: 'text-slate-700',
+      bottomCopyrightColor: 'text-slate-500',
     }
-  }[collectionType];
-
-  // Number of tribute options
-  const tributeCount = explicitTributeCount || (product.lifestories ? 7 : (product.lifesymbols ? 4 : 4));
+  }[collectionType] || {
+    bannerBg: 'bg-[#15662a]',
+    accentBorder: 'border-emerald-600',
+    titlePrimary: 'Commemorative',
+    titleSecondary: 'Collection',
+    isLight: false,
+    bottomBannerBg: 'bg-[#15662a]',
+    bottomTextColor: 'text-white',
+    bottomSubtextColor: 'text-white/95',
+    bottomCopyrightColor: 'text-white/60',
+  };
 
   // Determine Material & Finish display line
   const materialFinishLine = (() => {
     let m = product.material || 'Premium Steel';
     let f = product.finish || product.exteriorFinish || '';
-    // Clean up finish if it has redundant "Finish"
     f = f.replace(/Finish/i, '').trim();
     if (f && !m.toLowerCase().includes(f.toLowerCase())) {
-      return `${m}-${f}`;
+      return `${m} - ${f}`;
     }
     return m;
   })();
@@ -99,52 +111,68 @@ export const Card6x6: React.FC<Card6x6Props> = ({
     return int;
   })();
 
-  // Default bullets based on collection & casket specs
-  const bullets = customBullets && customBullets.length > 0 ? customBullets : (() => {
-    if (themeConfig.type === 'commemorative') {
+  // Tribute Option Count
+  const tributeCount = product.lifestories && product.lifesymbols ? 4 : (product.lifesymbols || product.lifestories ? 3 : 2);
+
+  // Default bullets (6 ledger rows matching reference card)
+  const defaultBullets: string[] = (() => {
+    if (collectionType === 'commemorative') {
       return [
-        `${tributeCount === 7 ? 'Seven' : (tributeCount === 4 ? 'Four' : `${tributeCount}`)} Tribute Options Included`,
-        'May be saved as lasting keepsakes',
+        `${tributeCount} Tribute Option Choices`,
+        `${tributeCount} Keepsake Medallions or Corners`,
         materialFinishLine,
-        'Display on casket optional',
+        '', // Clean empty ledger row by default (user can fill or clear)
+        'LifeView Display optional',
         interiorLine,
       ];
-    } else if (themeConfig.type === 'classic') {
+    } else if (collectionType === 'classic') {
       return [
         'Fine craftsmanship',
         'Exceptional finish',
         materialFinishLine,
+        '',
         'Timeless design',
+        interiorLine,
+      ];
+    } else if (collectionType === 'conventional') {
+      return [
+        'Quality craftsmanship',
+        'Reliable protection',
+        materialFinishLine,
+        '',
+        'Traditional styling',
         interiorLine,
       ];
     } else {
       return [
-        'Quality construction',
-        'Reliable protection',
+        'Essential craftsmanship',
+        'Dignified simplicity',
         materialFinishLine,
-        'Traditional styling',
+        '',
+        'Standard styling',
         interiorLine,
       ];
     }
   })();
 
+  // Use custom bullets if provided and has 6 rows
+  const bullets = customBullets && customBullets.length === 6 ? customBullets : defaultBullets;
+
   // Features to display under "Additional Features"
-  // Checks if casket has TRUE for flags from 4th attached image:
-  // lifestories, lifeview, lifesymbols, dual_disposition (or MemorySafe)
   const availableFeatures = [
     {
       id: 'embroidered',
       title: 'Embroidered Tribute Panel',
       subtitle: "A personal way to highlight a loved one's interests, hobbies or values (optional).",
       fileName: 'Embroidered Cap Panel.png',
-      isDefault: Boolean(product.lifeview || true), // Most Batesville display units feature embroidered panel option
+      isDefault: Boolean(product.lifeview || true),
     },
     {
       id: 'memorysafe',
       title: 'MemorySafe® Drawer',
       subtitle: 'A secure space for farewell messages and small personal mementos (included).',
       fileName: 'MemorySafe.png',
-      isDefault: Boolean(product.material.toLowerCase().includes('pecan') || product.material.toLowerCase().includes('mahogany') || product.code === '242987'),
+      isDefault: Boolean(product.material?.toLowerCase().includes('pecan') || product.material?.toLowerCase().includes('mahogany') || product.code === '242987'),
     },
     {
       id: 'lifestories',
@@ -176,184 +204,116 @@ export const Card6x6: React.FC<Card6x6Props> = ({
     },
   ];
 
-  // Active feature list
+  // Active feature list (limit to 1 or 2 for 6x6 square)
   const activeFeatures = activeMiscFeatures && activeMiscFeatures.length > 0
     ? availableFeatures.filter(f => activeMiscFeatures.includes(f.id) || activeMiscFeatures.includes(f.fileName))
-    : availableFeatures.filter(f => f.isDefault).slice(0, 2);
+    : availableFeatures.filter(f => f.isDefault).slice(0, 1);
 
   // Product Name: defaults to description
   const displayName = productNameOverride || product.description || product.name;
 
   return (
     <div 
-      className="card-6x6 relative flex flex-col justify-between overflow-hidden shadow-2xl select-none print:shadow-none"
+      className="card-6x6 relative flex flex-col justify-between overflow-hidden shadow-2xl select-none print:shadow-none bg-white"
       style={{
         width: '576px',  // Exactly 6 inches at 96 DPI
         height: '576px', // Exactly 6 inches at 96 DPI
         boxSizing: 'border-box',
-        backgroundColor: '#ffffff',
         fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif'
       }}
     >
       {/* 1. TOP HEADER BANNER */}
-      <div className={`${themeConfig.bannerBg} px-6 py-3.5 flex items-center justify-between text-white shadow-sm shrink-0`}>
-        <div className="flex items-baseline space-x-1.5 tracking-tight">
+      <div className={`${themeConfig.bannerBg} px-6 py-3.5 flex items-center justify-between shadow-sm shrink-0`}>
+        <div className={`flex items-baseline space-x-1.5 tracking-tight ${themeConfig.isLight ? 'text-slate-900' : 'text-white'}`}>
           <span className="font-bold text-2xl tracking-normal">{themeConfig.titlePrimary}</span>
-          <span className="font-normal text-2xl tracking-normal opacity-95">{themeConfig.titleSecondary}</span>
+          <span className="font-normal text-2xl tracking-normal opacity-90">{themeConfig.titleSecondary}</span>
         </div>
       </div>
 
-      {/* Gold Trim Line for Classic Collection */}
+      {/* Gold Trim Accent Line for Classic Collection */}
       {collectionType === 'classic' && (
         <div className="h-1 bg-gradient-to-r from-[#b38728] via-[#fbf5b7] to-[#aa771c] shrink-0" />
       )}
 
-      {/* 2. SPECIFICATION BULLETS & RIGHT MEDALLION / SEAL */}
-      <div className="flex-1 bg-white flex flex-row px-5 py-3 relative overflow-hidden">
+      {/* 2. SPECIFICATION BULLETS & RIGHT GRAPHIC (TRIBUTES / REFINED STYLING) */}
+      <div className="flex-1 bg-white flex flex-row px-5 py-2.5 relative overflow-hidden">
         
-        {/* Left Side: Bullet Points with Ledger Lined Rows */}
+        {/* Left Side: 6 Bullet Points on Authentic Ledger Lined Rows */}
         <div className="flex-1 pr-3 flex flex-col justify-between">
-          <div className="divide-y divide-slate-200/90 border-t border-b border-slate-200/90 text-[13px] text-slate-800">
-            
-            {/* Row 1 */}
-            <div className="py-1.5 flex items-start space-x-2 min-h-[28px]">
-              <span className="text-slate-900 font-bold leading-none select-none">•</span>
-              <span className="font-medium text-slate-800 leading-snug">{bullets[0] || ''}</span>
-            </div>
+          <div className="border-t border-b border-slate-200/90 divide-y divide-slate-200/90 text-[12.5px] text-slate-800">
+            {bullets.map((bullet, idx) => {
+              const hasText = Boolean(bullet && bullet.trim().length > 0);
 
-            {/* Row 2 */}
-            <div className="py-1.5 flex items-start space-x-2 min-h-[28px]">
-              <span className="text-slate-900 font-bold leading-none select-none">•</span>
-              <span className="font-medium text-slate-800 leading-snug">{bullets[1] || ''}</span>
-            </div>
+              return (
+                <div 
+                  key={idx} 
+                  className="py-1 px-1 flex items-center justify-between min-h-[25px] group hover:bg-amber-50/30 transition-colors"
+                >
+                  <div className="flex items-center space-x-2 flex-1 min-w-0 pr-2">
+                    {hasText ? (
+                      <>
+                        <span className="text-slate-900 font-bold leading-none select-none text-[13px] shrink-0">•</span>
+                        <span className="font-medium text-slate-800 leading-tight truncate">
+                          {bullet}
+                        </span>
+                      </>
+                    ) : (
+                      /* Clean empty ledger row without bullet dot (as shown in reference image) */
+                      <div className="h-[14px] w-full select-none" />
+                    )}
+                  </div>
 
-            {/* Row 3: Material & Gauge */}
-            <div className="py-1.5 flex items-start space-x-2 min-h-[28px]">
-              <span className="text-slate-900 font-bold leading-none select-none">•</span>
-              <span className="font-medium text-slate-800 leading-snug">{bullets[2] || materialFinishLine}</span>
-            </div>
-
-            {/* Row 4: Subtle separator spacing row */}
-            <div className="py-1 min-h-[16px] bg-slate-50/40" />
-
-            {/* Row 5: Display optional / Timeless design */}
-            <div className="py-1.5 flex items-start space-x-2 min-h-[28px]">
-              <span className="text-slate-900 font-bold leading-none select-none">•</span>
-              <span className="font-medium text-slate-800 leading-snug">{bullets[3] || 'Display on casket optional'}</span>
-            </div>
-
-            {/* Row 6: Interior */}
-            <div className="py-1.5 flex items-start space-x-2 min-h-[28px]">
-              <span className="text-slate-900 font-bold leading-none select-none">•</span>
-              <span className="font-medium text-slate-800 leading-snug">{bullets[4] || interiorLine}</span>
-            </div>
-
+                  {/* Inline Quick-Clear Button (visible on hover) */}
+                  {hasText && onClearBullet && (
+                    <button
+                      type="button"
+                      onClick={() => onClearBullet(idx)}
+                      title="Clear bullet point"
+                      className="opacity-0 group-hover:opacity-100 text-slate-400 hover:text-red-500 text-[11px] px-1 font-bold no-print transition-opacity cursor-pointer"
+                    >
+                      ×
+                    </button>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
 
-        {/* Right Side: Graphic Medallions / Seal */}
-        <div className="w-[170px] border-l border-slate-200 pl-3 flex flex-col items-center justify-center shrink-0">
-          
-          {themeConfig.type === 'commemorative' ? (
-            <div className="w-full flex flex-col items-center">
-              <div className="text-[11px] font-bold text-slate-800 text-center tracking-tight mb-2 uppercase">
-                Tribute Option Categories
-              </div>
-
-              {/* 2x2 Medallions Grid */}
-              <div className="grid grid-cols-2 gap-x-2 gap-y-1.5 w-full">
-                
-                {/* 1. Relationships */}
-                <div className="flex flex-col items-center text-center">
-                  <div className="w-11 h-11 rounded-full bg-gradient-to-tr from-amber-700 via-amber-600 to-amber-200 p-0.5 shadow-sm flex items-center justify-center">
-                    <div className="w-full h-full rounded-full bg-stone-900 border border-amber-300/40 flex items-center justify-center">
-                      <span className="text-amber-300 text-sm font-serif">💍</span>
-                    </div>
-                  </div>
-                  <span className="text-[9px] font-medium text-slate-700 mt-0.5">Relationships</span>
-                </div>
-
-                {/* 2. Spirituality */}
-                <div className="flex flex-col items-center text-center">
-                  <div className="w-11 h-11 rounded-full bg-gradient-to-tr from-amber-700 via-amber-600 to-amber-200 p-0.5 shadow-sm flex items-center justify-center">
-                    <div className="w-full h-full rounded-full bg-stone-900 border border-amber-300/40 flex items-center justify-center">
-                      <span className="text-amber-300 text-sm font-serif">🕊️</span>
-                    </div>
-                  </div>
-                  <span className="text-[9px] font-medium text-slate-700 mt-0.5">Spirituality</span>
-                </div>
-
-                {/* 3. Affiliations */}
-                <div className="flex flex-col items-center text-center">
-                  <div className="w-11 h-11 rounded-full bg-gradient-to-tr from-red-700 via-amber-600 to-amber-200 p-0.5 shadow-sm flex items-center justify-center">
-                    <div className="w-full h-full rounded-full bg-stone-900 border border-red-400/40 flex items-center justify-center">
-                      <span className="text-red-400 text-sm font-serif">🎖️</span>
-                    </div>
-                  </div>
-                  <span className="text-[9px] font-medium text-slate-700 mt-0.5">Affiliations</span>
-                </div>
-
-                {/* 4. Hobbies & Interests */}
-                <div className="flex flex-col items-center text-center">
-                  <div className="w-11 h-11 rounded-full bg-gradient-to-tr from-amber-700 via-amber-600 to-amber-200 p-0.5 shadow-sm flex items-center justify-center">
-                    <div className="w-full h-full rounded-full bg-stone-900 border border-amber-300/40 flex items-center justify-center">
-                      <span className="text-amber-300 text-sm font-serif">🌹</span>
-                    </div>
-                  </div>
-                  <span className="text-[9px] font-medium text-slate-700 mt-0.5 leading-tight">Hobbies &amp; Interests</span>
-                </div>
-
-              </div>
-            </div>
-          ) : themeConfig.type === 'classic' ? (
-            /* Classic Collection Golden Medallion Seal */
-            <div className="flex flex-col items-center justify-center p-1">
-              <div className="w-28 h-28 rounded-full bg-gradient-to-tr from-[#9c7820] via-[#f7e49e] to-[#7d5f19] p-1 shadow-md">
-                <div className="w-full h-full rounded-full bg-gradient-to-b from-[#fbf8f0] to-[#e8dcb8] border-2 border-[#b58c27] flex flex-col items-center justify-center text-center p-1 shadow-inner">
-                  <span className="text-[9px] font-serif font-black tracking-widest text-[#694e0f] uppercase leading-none">
-                    Refined
-                  </span>
-                  <span className="text-[12px] font-serif font-black tracking-wider text-[#4d3809] uppercase leading-tight">
-                    Styling
-                  </span>
-                  <div className="w-12 h-0.5 bg-[#b58c27]/60 my-0.5" />
-                  <span className="text-[7.5px] font-bold tracking-tight text-[#694e0f] uppercase leading-tight">
-                    Classic Collection
-                  </span>
-                </div>
-              </div>
-            </div>
-          ) : (
-            /* Conventional Collection Seal */
-            <div className="flex flex-col items-center justify-center p-1">
-              <div className="w-28 h-28 rounded-full bg-gradient-to-tr from-slate-600 via-slate-200 to-slate-500 p-1 shadow-md">
-                <div className="w-full h-full rounded-full bg-gradient-to-b from-slate-100 to-slate-200 border-2 border-slate-400 flex flex-col items-center justify-center text-center p-1 shadow-inner">
-                  <span className="text-[9px] font-serif font-black tracking-widest text-slate-700 uppercase leading-none">
-                    Certified
-                  </span>
-                  <span className="text-[12px] font-serif font-black tracking-wider text-slate-900 uppercase leading-tight">
-                    Quality
-                  </span>
-                  <div className="w-12 h-0.5 bg-slate-400/60 my-0.5" />
-                  <span className="text-[7.5px] font-bold tracking-tight text-slate-600 uppercase leading-tight">
-                    Conventional Collection
-                  </span>
-                </div>
-              </div>
-            </div>
-          )}
-
-        </div>
+        {/* Right Side: TRIBUTES Graphic or REFINED STYLING Medallion from misc bucket */}
+        {rightGraphic !== 'none' && (
+          <div className="w-[140px] pl-3 border-l border-slate-200 flex flex-col items-center justify-center shrink-0">
+            {rightGraphic === 'refined-styling' ? (
+              <img
+                src={`${SUPABASE_MISC_BASE}/Refined%20Styling.png`}
+                onError={(e) => {
+                  e.currentTarget.src = '/misc/Refined Styling.png';
+                }}
+                alt="Refined Styling Classic Collection"
+                className="w-[125px] h-auto object-contain drop-shadow-sm"
+              />
+            ) : (
+              <img
+                src={`${SUPABASE_MISC_BASE}/Tributes.png`}
+                onError={(e) => {
+                  e.currentTarget.src = '/misc/Tributes.png';
+                }}
+                alt="Tribute Option Categories"
+                className="w-[125px] h-auto object-contain"
+              />
+            )}
+          </div>
+        )}
 
       </div>
 
       {/* 3. ADDITIONAL FEATURES SECTION */}
       <div className="bg-[#f0f2f5] border-t border-b border-slate-300/80 px-4 py-2 shrink-0">
-        <div className="font-bold text-[11px] text-slate-900 tracking-tight mb-1.5 uppercase">
+        <div className="font-bold text-[10.5px] text-slate-900 tracking-tight mb-1 uppercase">
           Additional Features
         </div>
 
-        <div className={`grid ${activeFeatures.length > 1 ? 'grid-cols-2 gap-2.5' : 'grid-cols-1 max-w-[320px]'}`}>
+        <div className={`grid ${activeFeatures.length > 1 ? 'grid-cols-2 gap-2' : 'grid-cols-1 max-w-[340px]'}`}>
           {activeFeatures.map((feat) => {
             const miscImageUrl = `${SUPABASE_MISC_BASE}/${encodeURIComponent(feat.fileName)}`;
             const localFallback = `/misc/${feat.fileName}`;
@@ -361,13 +321,12 @@ export const Card6x6: React.FC<Card6x6Props> = ({
             return (
               <div 
                 key={feat.id}
-                className="bg-white rounded-lg border border-slate-200/90 p-2 flex items-center space-x-2.5 shadow-sm"
+                className="bg-white rounded-lg border border-slate-200/90 p-1.5 flex items-center space-x-2.5 shadow-sm"
               >
-                <div className="w-11 h-11 shrink-0 bg-slate-50 rounded border border-slate-100 overflow-hidden flex items-center justify-center">
+                <div className="w-10 h-10 shrink-0 bg-slate-50 rounded border border-slate-100 overflow-hidden flex items-center justify-center">
                   <img 
                     src={miscImageUrl}
                     onError={(e) => {
-                      // Fallback to local cached copy if offline
                       const target = e.currentTarget;
                       if (target.src !== localFallback) {
                         target.src = localFallback;
@@ -381,7 +340,7 @@ export const Card6x6: React.FC<Card6x6Props> = ({
                   <h5 className="font-bold text-[11px] text-slate-900 leading-tight truncate">
                     {feat.title}
                   </h5>
-                  <p className="text-[9.5px] text-slate-500 italic leading-tight mt-0.5 line-clamp-2">
+                  <p className="text-[9px] text-slate-500 italic leading-tight mt-0.5 line-clamp-2">
                     {feat.subtitle}
                   </p>
                 </div>
@@ -397,27 +356,27 @@ export const Card6x6: React.FC<Card6x6Props> = ({
       )}
 
       {/* 4. BOTTOM BANNER */}
-      <div className={`${themeConfig.bannerBg} px-6 pt-3 pb-2 text-white flex flex-col justify-between shrink-0`}>
+      <div className={`${themeConfig.bottomBannerBg} px-6 pt-2.5 pb-2 flex flex-col justify-between shrink-0`}>
         
         {/* Product Name from Description */}
-        <div className="font-sans text-xl font-medium text-white tracking-wide truncate">
+        <div className={`font-sans text-xl font-medium tracking-wide truncate ${themeConfig.bottomTextColor}`}>
           {displayName}
         </div>
 
         {/* Large Retail Price */}
-        <div className="font-sans font-bold text-5xl tracking-tight text-white my-0.5">
+        <div className={`font-sans font-bold text-5xl tracking-tight my-0.5 ${themeConfig.bottomTextColor}`}>
           ${retailPrice.toLocaleString()}
         </div>
 
         {/* Manufacturer Line: Batesville Canada, ULC - [Product Code] */}
-        <div className="flex items-center justify-between pt-1">
-          <span className="font-sans text-base font-semibold text-white/95 tracking-normal">
+        <div className="flex items-center justify-between pt-0.5">
+          <span className={`font-sans text-base font-semibold tracking-normal ${themeConfig.bottomSubtextColor}`}>
             Batesville Canada, ULC - &nbsp;&nbsp;{product.code}
           </span>
         </div>
 
         {/* Bottom Copyright Line */}
-        <div className="text-[9px] text-white/60 font-sans tracking-tight mt-0.5">
+        <div className={`text-[9px] font-sans tracking-tight mt-0.5 ${themeConfig.bottomCopyrightColor}`}>
           @ 2025 Batesville Services LLC
         </div>
 

@@ -61,20 +61,20 @@
     break-inside: avoid !important;
   }
 
-  .printing-8x11 {
-    width: 8.5in !important;
-    height: 11in !important;
-    max-width: 8.5in !important;
-    max-height: 11in !important;
+  .printing-8\.5x11, .printing-8x11 {
+    width: 11in !important;
+    height: 8.5in !important;
+    max-width: 11in !important;
+    max-height: 8.5in !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
   }
 
   .printing-11x17 {
-    width: 11in !important;
-    height: 17in !important;
-    max-width: 11in !important;
-    max-height: 17in !important;
+    width: 17in !important;
+    height: 11in !important;
+    max-width: 17in !important;
+    max-height: 11in !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
   }

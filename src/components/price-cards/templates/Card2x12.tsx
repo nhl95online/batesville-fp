@@ -1,107 +1,149 @@
 import React from 'react';
 import { Customer, Product, PriceCardConfig } from '../../../types';
+import { CardCollectionType } from './Card6x6';
 
-interface CardProps {
+interface Card2x12Props {
   product: Product;
   customer?: Customer;
   config: PriceCardConfig;
   retailPrice: number;
+  collectionType?: CardCollectionType;
+  productNameOverride?: string;
 }
 
-export const Card2x12: React.FC<CardProps> = ({ product, customer, config, retailPrice }) => {
-  const { theme, showImage, showSpecs, showModelCode, showCustomerLogo, showMonthlyPayment, monthlyTermMonths } = config;
+export const Card2x12: React.FC<Card2x12Props> = ({
+  product,
+  customer,
+  config,
+  retailPrice,
+  collectionType = 'classic',
+  productNameOverride,
+}) => {
+  // Collection Titles for 2x12 Urn Strips (Exact specifications)
+  const collectionInfo = {
+    'classic': {
+      headerBg: 'bg-[#3b434e]',
+      headerTitle: 'CLASSIC Collection - Refined styling and premium materials',
+      accentBorder: 'border-b-2 border-amber-400',
+      isLight: false,
+    },
+    'commemorative': {
+      headerBg: 'bg-[#15662a]',
+      headerTitle: 'COMMEMORATIVE Collection - Touching ways to tell the story',
+      accentBorder: 'border-b-2 border-emerald-500',
+      isLight: false,
+    },
+    'conventional': {
+      headerBg: 'bg-[#006cb8]',
+      headerTitle: 'CONVENTIONAL Collection - Traditional styling and materials',
+      accentBorder: 'border-b-2 border-blue-400',
+      isLight: false,
+    },
+    'basic': {
+      headerBg: 'bg-white',
+      headerTitle: 'BASIC Collection - Traditional value and materials',
+      accentBorder: 'border-b-2 border-slate-300',
+      isLight: true,
+    },
+  }[collectionType] || {
+    headerBg: 'bg-[#3b434e]',
+    headerTitle: 'CLASSIC Collection - Refined styling and premium materials',
+    accentBorder: 'border-b-2 border-amber-400',
+    isLight: false,
+  };
 
-  const monthlyPayment = showMonthlyPayment && monthlyTermMonths > 0
-    ? Math.round(retailPrice / monthlyTermMonths)
-    : null;
-
-  const themeStyles = {
-    'classic-burgundy': 'bg-gradient-to-r from-[#3a060e] via-[#2a040a] to-[#3a060e] text-amber-50 border-amber-500/50 shadow-burgundy-900/40',
-    'modern-dark': 'bg-gradient-to-r from-slate-900 via-slate-950 to-slate-900 text-slate-100 border-amber-400/40 shadow-slate-950/40',
-    'clean-white': 'bg-white text-slate-800 border-amber-700/40 shadow-slate-300',
-    'funeral-navy': 'bg-gradient-to-r from-[#0c1626] via-[#070e1a] to-[#0c1626] text-blue-50 border-blue-400/40 shadow-navy-950/40',
-    'champagne-gold': 'bg-gradient-to-r from-[#faf6ed] via-[#f3ebe0] to-[#faf6ed] text-stone-900 border-amber-600/60 shadow-amber-900/10'
-  }[theme];
-
-  const isLight = theme === 'clean-white' || theme === 'champagne-gold';
+  const displayName = productNameOverride || product.description || product.name;
 
   return (
     <div 
-      className={`card-2x12 relative flex items-center justify-between px-6 py-2 rounded-lg border-2 overflow-hidden transition-all ${themeStyles}`}
+      className="card-2x12 relative flex flex-col justify-between overflow-hidden shadow-2xl select-none print:shadow-none bg-white border border-slate-300"
       style={{
         width: '1152px', // 12 inches at 96 DPI
         height: '192px',  // 2 inches at 96 DPI
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif'
       }}
     >
-      {/* Decorative Outer Inset Border */}
-      <div className={`absolute inset-1.5 border border-dashed rounded pointer-events-none ${isLight ? 'border-amber-700/30' : 'border-amber-400/30'}`} />
-
-      {/* Left Section: Logo & Image Preview */}
-      <div className="flex items-center space-x-4 max-w-[280px]">
-        {showImage && (
-          <div className="w-32 h-24 rounded border border-amber-500/30 overflow-hidden shrink-0 bg-black/10">
-            <img 
-              src={product.imageUrl} 
-              alt={product.name} 
-              className="w-full h-full object-cover object-center"
-            />
+      {/* 1. TOP HEADER STRIP WITH EXACT COLLECTION TITLE */}
+      <div className={`${collectionInfo.headerBg} ${collectionInfo.accentBorder} px-6 py-2 flex items-center justify-between shrink-0 shadow-sm`}>
+        <div className={`text-base font-bold italic tracking-wide ${collectionInfo.isLight ? 'text-slate-900' : 'text-white'}`}>
+          {collectionInfo.headerTitle}
+        </div>
+        {customer && (
+          <div className={`text-xs font-semibold uppercase tracking-wider ${collectionInfo.isLight ? 'text-slate-600' : 'text-white/80'}`}>
+            {customer.name}
           </div>
         )}
-        <div className="truncate">
-          {showCustomerLogo && customer && (
-            <div className="flex items-center space-x-2">
-              {customer.logoUrl && (
-                <img src={customer.logoUrl} alt={customer.name} className="h-6 max-w-[50px] object-contain rounded shrink-0" />
-              )}
-              <div className={`text-[11px] font-semibold uppercase tracking-wider truncate ${isLight ? 'text-amber-800' : 'text-amber-300'}`}>
-                {customer.name}
-              </div>
+      </div>
+
+      {/* 2. BODY CONTENT SECTION DIVIDED INTO DOTTED COLUMNS */}
+      <div className="flex-1 flex items-center justify-between px-6 py-2 divide-x divide-dashed divide-blue-400 bg-white">
+        
+        {/* Column 1: Batesville Branding & Urn Thumbnail */}
+        <div className="flex items-center space-x-4 pr-6 shrink-0 min-w-[260px]">
+          {/* Batesville Tree Logo Representation */}
+          <div className="flex flex-col items-center justify-center shrink-0">
+            <svg className="w-9 h-9 text-[#15662a]" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C7.58 2 4 5.58 4 10c0 2.5 1.15 4.73 2.95 6.2L6 22h12l-.95-5.8C18.85 14.73 20 12.5 20 10c0-4.42-3.58-8-8-8zm-1 16H9v-2h2v2zm0-4H9v-2h2v2zm0-4H9V8h2v2zm4 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V8h2v2z"/>
+            </svg>
+            <span className="text-[11px] font-serif font-bold text-slate-900 tracking-tight leading-none mt-0.5">
+              Batesville
+            </span>
+          </div>
+
+          {/* Urn Photo / Preview */}
+          {product.imageUrl && (
+            <div className="w-20 h-20 bg-slate-50 rounded-md border border-slate-200 overflow-hidden flex items-center justify-center p-1">
+              <img 
+                src={product.imageUrl} 
+                alt={displayName} 
+                className="w-full h-full object-contain"
+              />
             </div>
           )}
-          {showModelCode && (
-            <span className={`inline-block text-[10px] font-mono px-1.5 py-0.5 mt-1 rounded border ${isLight ? 'bg-amber-100 text-stone-700 border-amber-300' : 'bg-white/10 text-amber-200 border-amber-400/30'}`}>
-              {product.code}
-            </span>
-          )}
         </div>
-      </div>
 
-      {/* Middle Section: Product Details & Specs */}
-      <div className="flex-1 px-6 text-center max-w-[520px]">
-        <h3 className={`font-serif text-xl font-bold leading-tight ${isLight ? 'text-stone-900' : 'text-white'}`}>
-          {product.name}
-        </h3>
-        <p className={`text-xs mt-0.5 truncate italic ${isLight ? 'text-stone-600' : 'text-amber-200/80'}`}>
-          {product.exteriorFinish}
-        </p>
-
-        {showSpecs && (
-          <div className="flex items-center justify-center space-x-4 mt-2 text-xs">
-            <span className="truncate">
-              <strong className={isLight ? 'text-stone-700' : 'text-stone-300'}>Material:</strong> {product.material}
+        {/* Column 2: Urn Model Description & Specs */}
+        <div className="flex-1 px-6 min-w-0">
+          <h3 className="font-sans text-xl font-bold text-slate-900 truncate leading-tight">
+            {displayName}
+          </h3>
+          <p className="text-xs text-slate-600 font-medium truncate mt-0.5">
+            {product.material} {product.finish ? `• ${product.finish}` : ''}
+          </p>
+          <div className="flex items-center space-x-3 text-[11px] text-slate-500 mt-1">
+            <span className="font-mono bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200">
+              SKU: {product.code}
             </span>
-            <span>•</span>
-            <span className="truncate">
-              <strong className={isLight ? 'text-stone-700' : 'text-stone-300'}>Interior:</strong> {product.interior}
-            </span>
+            {product.interior && (
+              <span className="truncate">{product.interior}</span>
+            )}
           </div>
-        )}
-      </div>
-
-      {/* Right Section: Price & Finance */}
-      <div className="text-right pl-6 border-l border-amber-500/30 shrink-0 min-w-[200px]">
-        <span className={`text-[11px] uppercase tracking-wider block font-medium ${isLight ? 'text-stone-500' : 'text-stone-400'}`}>
-          Showroom Price
-        </span>
-        <div className={`font-serif text-4xl font-extrabold tracking-tight ${isLight ? 'text-amber-900' : 'text-amber-300'}`}>
-          ${retailPrice.toLocaleString()}
         </div>
-        {monthlyPayment && (
-          <div className={`text-xs font-medium mt-0.5 ${isLight ? 'text-amber-800' : 'text-amber-300'}`}>
-            Est. ${monthlyPayment}/mo ({monthlyTermMonths} mo)
+
+        {/* Column 3: Large Retail Price */}
+        <div className="px-6 text-right shrink-0 min-w-[200px]">
+          <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 block leading-none">
+            Showroom Retail
+          </span>
+          <div className="font-sans font-extrabold text-4xl text-slate-950 tracking-tight leading-tight my-0.5">
+            ${retailPrice.toLocaleString()}
           </div>
-        )}
+        </div>
+
+        {/* Column 4: Manufacturer Footer & Copyright */}
+        <div className="pl-6 text-right shrink-0 min-w-[190px]">
+          <div className="font-sans font-bold text-sm text-slate-900 leading-tight">
+            Batesville Canada, ULC
+          </div>
+          <div className="font-mono text-xs font-semibold text-slate-600 mt-0.5">
+            Item #{product.code}
+          </div>
+          <div className="text-[9px] text-slate-400 mt-1">
+            @ 2025 Batesville Services LLC
+          </div>
+        </div>
+
       </div>
     </div>
   );

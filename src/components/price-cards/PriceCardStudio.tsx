@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Customer, Product, CardDimension, CardTheme, PriceCardConfig } from '../../types';
-import { Card6x6 } from './templates/Card6x6';
+import { Card6x6, CardCollectionType, RightGraphicType } from './templates/Card6x6';
 import { Card2x12 } from './templates/Card2x12';
 import { Card8x11 } from './templates/Card8x11';
 import { Card11x17 } from './templates/Card11x17';
@@ -8,8 +8,7 @@ import { CustomerRetailModal } from './CustomerRetailModal';
 import { getCustomerRetailPrice } from '../../services/customerRetails';
 import { 
   Printer, Eye, RefreshCw, ZoomIn, ZoomOut, Check, Building2, 
-  Tag, DollarSign, Sparkles, Image as ImageIcon, Upload, FileText,
-  CheckCircle2, ShieldCheck, Award, Palette
+  Tag, DollarSign, Upload, FileText, CheckCircle2, X, Trash2, Award
 } from 'lucide-react';
 
 interface PriceCardStudioProps {
@@ -19,10 +18,23 @@ interface PriceCardStudioProps {
   initialProductId?: string;
 }
 
-// Helpers to auto-populate 6x6 defaults from product details
-const getInitialCollection = (p: Product | undefined): 'commemorative-green' | 'commemorative-blue' | 'classic' | 'conventional' => {
-  if (!p) return 'commemorative-green';
-  if (p.lifesymbols || p.lifestories) return 'commemorative-green';
+const isUrnProduct = (p: Product) => {
+  const cat = (p.category || '').toLowerCase();
+  const sub = (p.subcategory || '').toLowerCase();
+  const mat = (p.material || '').toLowerCase();
+  const name = (p.name || '').toLowerCase();
+  const desc = (p.description || '').toLowerCase();
+  return (
+    cat.includes('urn') || cat.includes('cremation') ||
+    sub.includes('urn') || sub.includes('cremation') ||
+    mat.includes('urn') || name.includes('urn') || desc.includes('urn') ||
+    cat.includes('keepsake')
+  );
+};
+
+const getInitialCollection = (p: Product | undefined): CardCollectionType => {
+  if (!p) return 'commemorative';
+  if (p.lifesymbols || p.lifestories) return 'commemorative';
   const mat = (p.material || '').toLowerCase();
   if (mat.includes('mahogany') || mat.includes('cherry') || mat.includes('bronze') || mat.includes('copper')) {
     return 'classic';
@@ -30,15 +42,15 @@ const getInitialCollection = (p: Product | undefined): 'commemorative-green' | '
   if (mat.includes('gauge') || mat.includes('steel') || mat.includes('20 ga') || mat.includes('18 ga')) {
     return 'conventional';
   }
-  return 'commemorative-green';
+  return 'commemorative';
 };
 
 const getInitialBullets = (
   p: Product | undefined, 
-  coll: 'commemorative-green' | 'commemorative-blue' | 'classic' | 'conventional'
+  coll: CardCollectionType
 ): string[] => {
-  if (!p) return ['', '', '', '', ''];
-  const tributeCount = p.lifesymbols && p.lifestories ? 4 : (p.lifesymbols || p.lifestories ? 3 : 2);
+  if (!p) return ['', '', '', '', '', ''];
+  const tributeCount = p.lifestories && p.lifesymbols ? 4 : (p.lifesymbols || p.lifestories ? 3 : 2);
   const materialFinishLine = `${p.material || ''} - ${p.finish || ''}`.replace(/^ - |- $/g, '').trim() || p.material || 'Hand-rubbed finish';
   const interiorLine = (() => {
     let int = p.interior || 'Velvet';
@@ -48,28 +60,40 @@ const getInitialBullets = (
     return int;
   })();
 
-  if (coll === 'commemorative-green' || coll === 'commemorative-blue') {
+  if (coll === 'commemorative') {
     return [
       `${tributeCount} Tribute Option Choices`,
       `${tributeCount} Keepsake Medallions or Corners`,
       materialFinishLine,
+      '', // Clean empty ledger row by default
       'LifeView Display optional',
       interiorLine,
     ];
   } else if (coll === 'classic') {
     return [
-      'Exceptional Craftsmanship',
-      'Hand-Rubbed Lustrous Finish',
+      'Fine craftsmanship',
+      'Exceptional finish',
       materialFinishLine,
-      'Classic Timeless Design',
+      '',
+      'Timeless design',
+      interiorLine,
+    ];
+  } else if (coll === 'conventional') {
+    return [
+      'Quality craftsmanship',
+      'Reliable protection',
+      materialFinishLine,
+      '',
+      'Traditional styling',
       interiorLine,
     ];
   } else {
     return [
-      'Quality construction',
-      'Reliable protection',
+      'Essential craftsmanship',
+      'Dignified simplicity',
       materialFinishLine,
-      'Traditional styling',
+      '',
+      'Standard styling',
       interiorLine,
     ];
   }
@@ -102,7 +126,7 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
   );
   const [dimension, setDimension] = useState<CardDimension>('6x6');
   const [theme, setTheme] = useState<CardTheme>('classic-burgundy');
-  const [zoomScale, setZoomScale] = useState<number>(1);
+  const [zoomScale, setZoomScale] = useState<number>(0.95);
   
   // Custom price / markup overrides
   const [markupPercent, setMarkupPercent] = useState<number>(140);
@@ -112,13 +136,22 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
   const [isRetailModalOpen, setIsRetailModalOpen] = useState<boolean>(false);
   const [retailVersion, setRetailVersion] = useState<number>(0);
 
-  // 6x6 Authentic Showroom Card States
-  const [collection6x6, setCollection6x6] = useState<'commemorative-green' | 'commemorative-blue' | 'classic' | 'conventional'>('commemorative-green');
-  const [productName6x6, setProductName6x6] = useState<string>('');
-  const [bullets6x6, setBullets6x6] = useState<string[]>([]);
-  const [activeMiscFeatures6x6, setActiveMiscFeatures6x6] = useState<string[]>(['embroidered']);
+  // 4 Collections: Commemorative (Green), Classic (Slate/Gold), Conventional (Royal Blue), Basic (White)
+  const [collection, setCollection] = useState<CardCollectionType>('commemorative');
+  
+  // Right Graphic: Tributes, Refined Styling (Classic only), or None
+  const [rightGraphic, setRightGraphic] = useState<RightGraphicType>('tributes');
 
-  // Toggles for 8.5x11 / 11x17 / 2x12
+  // Product Name (defaults to description)
+  const [productName, setProductName] = useState<string>('');
+
+  // 6 Clearable & Editable Ledger Bullets
+  const [bullets, setBullets] = useState<string[]>(['', '', '', '', '', '']);
+
+  // Additional Features from MISC Bucket
+  const [activeMiscFeatures, setActiveMiscFeatures] = useState<string[]>(['embroidered']);
+
+  // Toggles
   const [showImage, setShowImage] = useState<boolean>(true);
   const [showSpecs, setShowSpecs] = useState<boolean>(true);
   const [showFeatures, setShowFeatures] = useState<boolean>(true);
@@ -126,21 +159,45 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
   const [showCustomerLogo, setShowCustomerLogo] = useState<boolean>(true);
   const [showMonthlyPayment, setShowMonthlyPayment] = useState<boolean>(true);
   const [monthlyTermMonths, setMonthlyTermMonths] = useState<number>(36);
-  const [customTitle, setCustomTitle] = useState<string>('');
-  const [customSubtitle, setCustomSubtitle] = useState<string>('');
-  const [footerText, setFooterText] = useState<string>('');
 
   const selectedCustomer = customers.find(c => c.id === selectedCustomerId) || customers[0];
-  const selectedProduct = products.find(p => p.id === selectedProductId) || products[0];
+  
+  // Filter products for Urns if 2x12 is active
+  const availableProducts = useMemo(() => {
+    if (dimension === '2x12') {
+      const urns = products.filter(isUrnProduct);
+      return urns.length > 0 ? urns : products;
+    }
+    return products;
+  }, [dimension, products]);
 
-  // Auto initialize 6x6 states when product changes
+  // When switching to 2x12, ensure an urn is selected
+  useEffect(() => {
+    if (dimension === '2x12') {
+      const urns = products.filter(isUrnProduct);
+      if (urns.length > 0 && !urns.some(p => p.id === selectedProductId)) {
+        setSelectedProductId(urns[0].id);
+      }
+    }
+  }, [dimension, products, selectedProductId]);
+
+  const selectedProduct = availableProducts.find(p => p.id === selectedProductId) || availableProducts[0] || products[0];
+
+  // Auto-initialize collection, name, bullets, and misc features on product change
   useEffect(() => {
     if (selectedProduct) {
       const coll = getInitialCollection(selectedProduct);
-      setCollection6x6(coll);
-      setProductName6x6(selectedProduct.description || selectedProduct.name || '');
-      setBullets6x6(getInitialBullets(selectedProduct, coll));
-      setActiveMiscFeatures6x6(getInitialMiscFeatures(selectedProduct));
+      setCollection(coll);
+      setProductName(selectedProduct.description || selectedProduct.name || '');
+      setBullets(getInitialBullets(selectedProduct, coll));
+      setActiveMiscFeatures(getInitialMiscFeatures(selectedProduct));
+      if (coll === 'classic') {
+        setRightGraphic('refined-styling');
+      } else if (coll === 'basic') {
+        setRightGraphic('none');
+      } else {
+        setRightGraphic('tributes');
+      }
     }
   }, [selectedProductId]);
 
@@ -152,12 +209,12 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
     }
   }, [selectedCustomerId, selectedCustomer]);
 
-  // Adjust default zoom based on card dimensions so it fits viewport nicely
+  // Adjust zoom for landscape / format
   useEffect(() => {
     if (dimension === '11x17') {
-      setZoomScale(0.48);
+      setZoomScale(0.45);
     } else if (dimension === '8.5x11') {
-      setZoomScale(0.68);
+      setZoomScale(0.65);
     } else if (dimension === '2x12') {
       setZoomScale(0.75);
     } else {
@@ -172,7 +229,7 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
     return getCustomerRetailPrice(customerIdOrCode, selectedProduct.code);
   }, [customerIdOrCode, selectedProduct?.code, retailVersion]);
 
-  // Calculate Retail Price based on formula or manual override or loaded customer retail
+  // Calculate Retail Price
   const calculatedRetailPrice = Math.round(
     (selectedProduct?.wholesalePrice || 0) * (1 + markupPercent / 100)
   );
@@ -195,47 +252,64 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
     showMonthlyPayment,
     monthlyTermMonths,
     theme,
-    customTitle: customTitle.trim() || undefined,
-    customSubtitle: customSubtitle.trim() || undefined,
-    footerText: footerText.trim() || undefined,
   };
 
   const handlePrint = () => {
     window.print();
   };
 
-  const dimensionLabels: { id: CardDimension; name: string; desc: string }[] = [
-    { id: '6x6', name: '6" × 6" Square', desc: 'Authentic 3-Collection Showroom Card' },
-    { id: '2x12', name: '2" × 12" Rail Strip', desc: 'Horizontal casket rail / ledge card' },
-    { id: '8.5x11', name: '8.5" × 11" Letter', desc: 'Standard showroom presentation sheet' },
-    { id: '11x17', name: '11" × 17" Tabloid', desc: 'Large selection room display board' },
-  ];
+  // Bullet manipulation functions
+  const handleClearBullet = (idx: number) => {
+    setBullets(prev => {
+      const next = [...prev];
+      next[idx] = '';
+      return next;
+    });
+  };
 
-  const themeOptions: { id: CardTheme; name: string; previewBg: string }[] = [
-    { id: 'classic-burgundy', name: 'Classic Burgundy', previewBg: 'bg-[#520d1a]' },
-    { id: 'modern-dark', name: 'Slate Luxury Dark', previewBg: 'bg-slate-900 border border-slate-700' },
-    { id: 'clean-white', name: 'Crisp Showroom White', previewBg: 'bg-white border border-slate-300' },
-    { id: 'funeral-navy', name: 'Prestige Navy', previewBg: 'bg-[#0c1626]' },
-    { id: 'champagne-gold', name: 'Warm Champagne', previewBg: 'bg-[#f3ede1] border border-amber-300' },
+  const handleClearAllBullets = () => {
+    setBullets(['', '', '', '', '', '']);
+  };
+
+  const handleResetBullets = () => {
+    setBullets(getInitialBullets(selectedProduct, collection));
+  };
+
+  const handleSelectCollection = (newColl: CardCollectionType) => {
+    setCollection(newColl);
+    setBullets(getInitialBullets(selectedProduct, newColl));
+    if (newColl === 'classic') {
+      setRightGraphic('refined-styling');
+    } else if (newColl === 'basic') {
+      setRightGraphic('none');
+    } else {
+      setRightGraphic('tributes');
+    }
+  };
+
+  const dimensionLabels: { id: CardDimension; name: string; desc: string }[] = [
+    { id: '6x6', name: '6" × 6" Square', desc: 'Authentic 4-Collection Showroom Card' },
+    { id: '2x12', name: '2" × 12" Urn Strip', desc: 'Ledge / Rail Card (Urns & Cremation)' },
+    { id: '8.5x11', name: '8.5" × 11" Horizontal', desc: 'Landscape Showroom Display Sheet' },
+    { id: '11x17', name: '11" × 17" Horizontal', desc: 'Landscape Selection Room Display Board' },
   ];
 
   const miscFeaturesList = [
-    { id: 'embroidered', label: 'Embroidered Tribute Panel', file: 'Embroidered Cap Panel.png', desc: 'Cap panel embroidery insert' },
-    { id: 'memorysafe', label: 'MemorySafe® Drawer', file: 'MemorySafe.png', desc: 'Secure drawer for mementos' },
-    { id: 'lifestories', label: 'LifeStories® Medallions', file: 'LifeStories.png', desc: 'Keepsake medallions & tribute' },
-    { id: 'lifesymbols', label: 'LifeSymbols® Corner Designs', file: 'LifeSymbols.png', desc: 'Interchangeable corners' },
-    { id: 'livingtree', label: 'Living Memorial® Tree', file: 'LivingTree.png', desc: 'Seedling planted in memory' },
-    { id: 'memorialrecord', label: 'Memorial Record® System', file: 'MemorialRecord.png', desc: 'Keepsake record compartment' },
+    { id: 'embroidered', label: 'Embroidered Tribute Panel', file: 'Embroidered Cap Panel.png' },
+    { id: 'memorysafe', label: 'MemorySafe® Drawer', file: 'MemorySafe.png' },
+    { id: 'lifestories', label: 'LifeStories® Medallions', file: 'LifeStories.png' },
+    { id: 'lifesymbols', label: 'LifeSymbols® Corner Designs', file: 'LifeSymbols.png' },
+    { id: 'livingtree', label: 'Living Memorial® Tree', file: 'LivingTree.png' },
+    { id: 'memorialrecord', label: 'Memorial Record® System', file: 'MemorialRecord.png' },
   ];
 
   const toggleMiscFeature = (featId: string) => {
-    setActiveMiscFeatures6x6(prev => {
+    setActiveMiscFeatures(prev => {
       if (prev.includes(featId)) {
         return prev.filter(id => id !== featId);
       } else {
-        // limit to 2 for authentic 6x6 card layout
-        if (prev.length >= 2) {
-          return [prev[1], featId];
+        if (prev.length >= 3) {
+          return [prev[1], prev[2], featId];
         }
         return [...prev, featId];
       }
@@ -256,7 +330,7 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
                 Showroom Price Card Studio
               </h1>
               <p className="text-sm text-slate-400">
-                Design, customize, and print showroom display cards with customer-specific pricing.
+                Four authentic collections (Commemorative, Classic, Conventional, Basic) with custom customer retail lists.
               </p>
             </div>
           </div>
@@ -287,7 +361,7 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
         {/* Controls Column (Left, 4 cols) */}
         <div className="no-print lg:col-span-4 space-y-5 bg-slate-900/90 border border-slate-800/90 p-5 rounded-2xl h-fit">
           
-          {/* 1. Target Format / Dimension */}
+          {/* 1. Format / Dimensions */}
           <div>
             <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-2">
               Card Dimensions
@@ -303,19 +377,19 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
                       : 'bg-slate-800/50 border-slate-700/60 text-slate-300 hover:bg-slate-800'
                   }`}
                 >
-                  <div className="text-sm">{d.name}</div>
+                  <div className="text-sm font-semibold">{d.name}</div>
                   <div className="text-[11px] text-slate-400 font-normal truncate">{d.desc}</div>
                 </button>
               ))}
             </div>
           </div>
 
-          {/* 2. Customer Selection (Sets Customer-Specific Markup & Retails) */}
+          {/* 2. Customer Selection */}
           <div className="border-t border-slate-800 pt-4">
             <label className="flex items-center justify-between text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
               <span className="flex items-center gap-1.5">
                 <Building2 className="w-3.5 h-3.5 text-amber-400" />
-                Select Customer (Funeral Home)
+                Funeral Home (Customer)
               </span>
               <span className="text-[11px] text-amber-400/80 lowercase">tier: {selectedCustomer?.tier}</span>
             </label>
@@ -332,35 +406,24 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
             </select>
           </div>
 
-          {/* 3. Product Selection with Catalog Year Filter */}
+          {/* 3. Product Selection (Filtered to Urns when 2x12 is active) */}
           <div className="border-t border-slate-800 pt-4 space-y-2">
             <div className="flex items-center justify-between">
               <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider block">
-                Select Product / Casket
+                {dimension === '2x12' ? 'Select Urn / Cremation Item' : 'Select Casket / Product'}
               </label>
-              <select
-                value={cardConfig.catalogYear || 'all'}
-                onChange={(e) => {
-                  const yr = e.target.value;
-                  const available = yr === 'all' ? products : products.filter(p => String(p.catalogYear) === yr);
-                  if (available.length > 0 && !available.some(p => p.id === selectedProductId)) {
-                    setSelectedProductId(available[0].id);
-                  }
-                }}
-                className="bg-slate-800 border border-slate-700 rounded-lg px-2 py-0.5 text-[11px] text-amber-400 focus:outline-none"
-              >
-                <option value="all">All Catalog Years</option>
-                {Array.from(new Set(products.map(p => String(p.catalogYear)))).sort().reverse().map(y => (
-                  <option key={y} value={y}>{y} Catalog</option>
-                ))}
-              </select>
+              {dimension === '2x12' && (
+                <span className="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded-full font-semibold">
+                  Urns Only
+                </span>
+              )}
             </div>
             <select
               value={selectedProductId}
               onChange={(e) => setSelectedProductId(e.target.value)}
               className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-amber-500"
             >
-              {products.map((p) => (
+              {availableProducts.map((p) => (
                 <option key={p.id} value={p.id}>
                   [{p.catalogYear}] {p.code} - {p.name} (${p.wholesalePrice} wholesale)
                 </option>
@@ -368,19 +431,19 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
             </select>
           </div>
 
-          {/* 4. Pricing & Customer Retail Price List Connection */}
+          {/* 4. Pricing & Customer Retail Connection */}
           <div className="border-t border-slate-800 pt-4 bg-slate-950/40 p-3.5 rounded-xl border border-slate-800/80 space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-xs font-semibold text-slate-200 flex items-center gap-1.5">
                 <DollarSign className="w-3.5 h-3.5 text-amber-400" />
-                Customer Pricing & Retails
+                Funeral Home Pricing & Retails
               </span>
               <button
                 onClick={() => setIsRetailModalOpen(true)}
-                className="text-[11px] text-amber-400 hover:underline flex items-center gap-1"
+                className="text-[11px] text-amber-400 hover:underline flex items-center gap-1 cursor-pointer"
               >
                 <FileText className="w-3 h-3" />
-                Price Lists
+                Manage Price Lists
               </button>
             </div>
 
@@ -404,7 +467,7 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
               </div>
             ) : (
               <div className="text-[11px] text-slate-400 bg-slate-800/40 border border-slate-800 rounded-lg p-2">
-                No custom retail loaded for this item. Using customer markup formula (+{markupPercent}%).
+                No custom retail loaded for this item. Using default markup (+{markupPercent}%).
               </div>
             )}
 
@@ -456,298 +519,248 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
             </div>
           </div>
 
-          {/* 5. SPECIFIC 6x6 AUTHENTIC CONTROLS */}
-          {dimension === '6x6' ? (
-            <div className="border-t border-slate-800 pt-4 space-y-4">
-              
-              {/* 6x6 Collection Buttons */}
-              <div>
-                <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block mb-2 flex items-center justify-between">
-                  <span>6x6 Showroom Collection</span>
-                  <span className="text-[10px] text-amber-400 lowercase">authentic branding</span>
-                </label>
-                <div className="grid grid-cols-2 gap-2">
-                  <button
-                    onClick={() => {
-                      setCollection6x6('commemorative-green');
-                      setBullets6x6(getInitialBullets(selectedProduct, 'commemorative-green'));
-                    }}
-                    className={`p-2.5 rounded-xl border text-left transition-all ${
-                      collection6x6 === 'commemorative-green'
-                        ? 'bg-[#15662a]/25 border-emerald-500 text-emerald-300 font-bold'
-                        : 'bg-slate-800/40 border-slate-700 text-slate-300 hover:bg-slate-800'
-                    }`}
-                  >
-                    <div className="flex items-center space-x-1.5">
-                      <span className="w-2.5 h-2.5 rounded-full bg-[#15662a]" />
-                      <span className="text-xs">Commemorative</span>
-                    </div>
-                    <div className="text-[10px] text-slate-400 pl-4">Emerald Green</div>
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      setCollection6x6('commemorative-blue');
-                      setBullets6x6(getInitialBullets(selectedProduct, 'commemorative-blue'));
-                    }}
-                    className={`p-2.5 rounded-xl border text-left transition-all ${
-                      collection6x6 === 'commemorative-blue'
-                        ? 'bg-[#006cb8]/25 border-blue-500 text-blue-300 font-bold'
-                        : 'bg-slate-800/40 border-slate-700 text-slate-300 hover:bg-slate-800'
-                    }`}
-                  >
-                    <div className="flex items-center space-x-1.5">
-                      <span className="w-2.5 h-2.5 rounded-full bg-[#006cb8]" />
-                      <span className="text-xs">Commemorative</span>
-                    </div>
-                    <div className="text-[10px] text-slate-400 pl-4">Royal Blue</div>
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      setCollection6x6('classic');
-                      setBullets6x6(getInitialBullets(selectedProduct, 'classic'));
-                    }}
-                    className={`p-2.5 rounded-xl border text-left transition-all ${
-                      collection6x6 === 'classic'
-                        ? 'bg-amber-500/20 border-amber-400 text-amber-300 font-bold'
-                        : 'bg-slate-800/40 border-slate-700 text-slate-300 hover:bg-slate-800'
-                    }`}
-                  >
-                    <div className="flex items-center space-x-1.5">
-                      <span className="w-2.5 h-2.5 rounded-full bg-[#3b434e] border border-amber-400" />
-                      <span className="text-xs">Classic Collection</span>
-                    </div>
-                    <div className="text-[10px] text-slate-400 pl-4">Slate & Gold Trim</div>
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      setCollection6x6('conventional');
-                      setBullets6x6(getInitialBullets(selectedProduct, 'conventional'));
-                    }}
-                    className={`p-2.5 rounded-xl border text-left transition-all ${
-                      collection6x6 === 'conventional'
-                        ? 'bg-sky-900/30 border-sky-400 text-sky-300 font-bold'
-                        : 'bg-slate-800/40 border-slate-700 text-slate-300 hover:bg-slate-800'
-                    }`}
-                  >
-                    <div className="flex items-center space-x-1.5">
-                      <span className="w-2.5 h-2.5 rounded-full bg-[#112d4e]" />
-                      <span className="text-xs">Conventional</span>
-                    </div>
-                    <div className="text-[10px] text-slate-400 pl-4">Deep Navy</div>
-                  </button>
+          {/* 5. FOUR COLLECTIONS SELECTOR */}
+          <div className="border-t border-slate-800 pt-4 space-y-3">
+            <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block flex items-center justify-between">
+              <span>Showroom Collection</span>
+              <span className="text-[10px] text-amber-400 lowercase">4 official styles</span>
+            </label>
+            <div className="grid grid-cols-2 gap-2">
+              {/* Commemorative (Green) */}
+              <button
+                onClick={() => handleSelectCollection('commemorative')}
+                className={`p-2.5 rounded-xl border text-left transition-all ${
+                  collection === 'commemorative'
+                    ? 'bg-[#15662a]/25 border-emerald-500 text-emerald-300 font-bold shadow-sm'
+                    : 'bg-slate-800/40 border-slate-700 text-slate-300 hover:bg-slate-800'
+                }`}
+              >
+                <div className="flex items-center space-x-1.5">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#15662a]" />
+                  <span className="text-xs">Commemorative</span>
                 </div>
-              </div>
+                <div className="text-[10px] text-slate-400 pl-4">Emerald Green</div>
+              </button>
 
-              {/* Product Name from Description */}
-              <div>
-                <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block mb-1">
-                  Product Name (from Description)
-                </label>
-                <input
-                  type="text"
-                  value={productName6x6}
-                  onChange={(e) => setProductName6x6(e.target.value)}
-                  placeholder={selectedProduct?.description || selectedProduct?.name}
-                  className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-amber-500"
-                />
-                <p className="text-[10px] text-slate-400 mt-1">
-                  Appears in bottom banner above retail price.
-                </p>
-              </div>
+              {/* Classic (Slate & Gold) */}
+              <button
+                onClick={() => handleSelectCollection('classic')}
+                className={`p-2.5 rounded-xl border text-left transition-all ${
+                  collection === 'classic'
+                    ? 'bg-amber-500/20 border-amber-400 text-amber-300 font-bold shadow-sm'
+                    : 'bg-slate-800/40 border-slate-700 text-slate-300 hover:bg-slate-800'
+                }`}
+              >
+                <div className="flex items-center space-x-1.5">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#3b434e] border border-amber-400" />
+                  <span className="text-xs">Classic Collection</span>
+                </div>
+                <div className="text-[10px] text-slate-400 pl-4">Slate & Gold Trim</div>
+              </button>
 
-              {/* 5 Ledger Specification Bullets */}
-              <div className="space-y-1.5">
-                <div className="flex items-center justify-between">
-                  <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block">
-                    Specification Bullets (5 Ledger Lines)
-                  </label>
+              {/* Conventional (Royal Blue) */}
+              <button
+                onClick={() => handleSelectCollection('conventional')}
+                className={`p-2.5 rounded-xl border text-left transition-all ${
+                  collection === 'conventional'
+                    ? 'bg-[#006cb8]/25 border-blue-500 text-blue-300 font-bold shadow-sm'
+                    : 'bg-slate-800/40 border-slate-700 text-slate-300 hover:bg-slate-800'
+                }`}
+              >
+                <div className="flex items-center space-x-1.5">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#006cb8]" />
+                  <span className="text-xs">Conventional</span>
+                </div>
+                <div className="text-[10px] text-slate-400 pl-4">Royal Blue</div>
+              </button>
+
+              {/* Basic (White) */}
+              <button
+                onClick={() => handleSelectCollection('basic')}
+                className={`p-2.5 rounded-xl border text-left transition-all ${
+                  collection === 'basic'
+                    ? 'bg-white/20 border-slate-300 text-white font-bold shadow-sm'
+                    : 'bg-slate-800/40 border-slate-700 text-slate-300 hover:bg-slate-800'
+                }`}
+              >
+                <div className="flex items-center space-x-1.5">
+                  <span className="w-2.5 h-2.5 rounded-full bg-white border border-slate-400" />
+                  <span className="text-xs">Basic Collection</span>
+                </div>
+                <div className="text-[10px] text-slate-400 pl-4">Crisp White</div>
+              </button>
+            </div>
+          </div>
+
+          {/* 6. RIGHT-SIDE IMAGE (MISC BUCKET: TRIBUTES / REFINED STYLING) */}
+          {dimension !== '2x12' && (
+            <div className="border-t border-slate-800 pt-4 space-y-2">
+              <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block">
+                Right-Side Image (from MISC Bucket)
+              </label>
+              
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                {/* Refined Styling - Only when Classic is selected */}
+                {collection === 'classic' && (
                   <button
-                    onClick={() => setBullets6x6(getInitialBullets(selectedProduct, collection6x6))}
-                    className="text-[10px] text-amber-400 hover:underline flex items-center gap-1"
+                    type="button"
+                    onClick={() => setRightGraphic('refined-styling')}
+                    className={`p-2 rounded-lg border text-left transition-all ${
+                      rightGraphic === 'refined-styling'
+                        ? 'bg-amber-500/20 border-amber-400 text-amber-300 font-semibold'
+                        : 'bg-slate-800/40 border-slate-700 text-slate-300 hover:bg-slate-800'
+                    }`}
+                  >
+                    <div className="font-semibold text-xs truncate">Refined Styling</div>
+                    <div className="text-[10px] text-slate-400 truncate">Refined Styling.png</div>
+                  </button>
+                )}
+
+                {/* Tributes Category Badge */}
+                <button
+                  type="button"
+                  onClick={() => setRightGraphic('tributes')}
+                  className={`p-2 rounded-lg border text-left transition-all ${
+                    rightGraphic === 'tributes'
+                      ? 'bg-amber-500/20 border-amber-400 text-amber-300 font-semibold'
+                      : 'bg-slate-800/40 border-slate-700 text-slate-300 hover:bg-slate-800'
+                  }`}
+                >
+                  <div className="font-semibold text-xs truncate">Tribute Categories</div>
+                  <div className="text-[10px] text-slate-400 truncate">Tributes.png</div>
+                </button>
+
+                {/* None / Hide Graphic */}
+                <button
+                  type="button"
+                  onClick={() => setRightGraphic('none')}
+                  className={`p-2 rounded-lg border text-left transition-all ${
+                    rightGraphic === 'none'
+                      ? 'bg-amber-500/20 border-amber-400 text-amber-300 font-semibold'
+                      : 'bg-slate-800/40 border-slate-700 text-slate-300 hover:bg-slate-800'
+                  }`}
+                >
+                  <div className="font-semibold text-xs truncate">No Right Graphic</div>
+                  <div className="text-[10px] text-slate-400 truncate">Clean ruled lines</div>
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* 7. PRODUCT NAME (FROM DESCRIPTION) */}
+          <div className="border-t border-slate-800 pt-4">
+            <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block mb-1">
+              Product Name (from Description)
+            </label>
+            <input
+              type="text"
+              value={productName}
+              onChange={(e) => setProductName(e.target.value)}
+              placeholder={selectedProduct?.description || selectedProduct?.name}
+              className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-amber-500"
+            />
+            <p className="text-[10px] text-slate-400 mt-1">
+              Appears prominently in bottom banner above retail price.
+            </p>
+          </div>
+
+          {/* 8. CLEARABLE & EDITABLE 6 BULLET ROWS (For 6x6, 8.5x11, 11x17) */}
+          {dimension !== '2x12' && (
+            <div className="border-t border-slate-800 pt-4 space-y-2">
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block">
+                  Specification Bullets (6 Ledger Rows)
+                </label>
+                <div className="flex items-center space-x-2">
+                  <button
+                    type="button"
+                    onClick={handleClearAllBullets}
+                    className="text-[10px] text-red-400 hover:text-red-300 hover:underline flex items-center gap-1 cursor-pointer"
+                  >
+                    <Trash2 className="w-2.5 h-2.5" />
+                    Clear All
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleResetBullets}
+                    className="text-[10px] text-amber-400 hover:underline flex items-center gap-1 cursor-pointer"
                   >
                     <RefreshCw className="w-2.5 h-2.5" />
                     Reset
                   </button>
                 </div>
-                {bullets6x6.map((bullet, idx) => (
+              </div>
+
+              <div className="space-y-1.5">
+                {bullets.map((bullet, idx) => (
                   <div key={idx} className="flex items-center space-x-1.5">
-                    <span className="text-xs font-mono text-slate-500 w-4 text-center">{idx + 1}</span>
+                    <span className="text-xs font-mono text-slate-500 w-4 text-center shrink-0">{idx + 1}</span>
                     <input
                       type="text"
                       value={bullet}
+                      placeholder={`Row ${idx + 1} (leave blank to show clean ruled line)`}
                       onChange={(e) => {
-                        const updated = [...bullets6x6];
+                        const updated = [...bullets];
                         updated[idx] = e.target.value;
-                        setBullets6x6(updated);
+                        setBullets(updated);
                       }}
-                      className="w-full bg-slate-800/80 border border-slate-700/80 rounded-lg px-2.5 py-1 text-xs text-slate-100 focus:outline-none focus:border-amber-500"
+                      className="w-full bg-slate-800/80 border border-slate-700/80 rounded-lg px-2.5 py-1 text-xs text-slate-100 focus:outline-none focus:border-amber-500 placeholder:text-slate-600"
                     />
+                    {bullet && (
+                      <button
+                        type="button"
+                        onClick={() => handleClearBullet(idx)}
+                        title="Clear this bullet"
+                        className="p-1 text-slate-400 hover:text-red-400 transition-colors shrink-0 cursor-pointer"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    )}
                   </div>
                 ))}
               </div>
-
-              {/* Additional Features (MISC Bucket Images) */}
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block">
-                    Additional Features (MISC Bucket)
-                  </label>
-                  <span className="text-[10px] text-slate-400">
-                    {activeMiscFeatures6x6.length}/2 active
-                  </span>
-                </div>
-                <div className="grid grid-cols-2 gap-2 text-xs">
-                  {miscFeaturesList.map((feat) => {
-                    const isSelected = activeMiscFeatures6x6.includes(feat.id);
-                    return (
-                      <button
-                        key={feat.id}
-                        type="button"
-                        onClick={() => toggleMiscFeature(feat.id)}
-                        className={`p-2 rounded-lg border text-left transition-all flex items-start space-x-2 ${
-                          isSelected
-                            ? 'bg-amber-500/15 border-amber-500 text-amber-300'
-                            : 'bg-slate-800/40 border-slate-700 text-slate-300 hover:bg-slate-800'
-                        }`}
-                      >
-                        <div className={`w-3.5 h-3.5 rounded border mt-0.5 flex items-center justify-center shrink-0 ${
-                          isSelected ? 'bg-amber-500 border-amber-500 text-slate-950' : 'border-slate-600'
-                        }`}>
-                          {isSelected && <Check className="w-2.5 h-2.5 stroke-[3]" />}
-                        </div>
-                        <div className="min-w-0">
-                          <div className="font-semibold text-[11px] truncate leading-tight">{feat.label}</div>
-                          <div className="text-[9px] text-slate-400 truncate">{feat.file}</div>
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
             </div>
-          ) : (
-            /* NON-6X6 CONTROLS (Theme, Toggles, Text Overrides) */
-            <>
-              {/* Theme Palette */}
-              <div className="border-t border-slate-800 pt-4">
-                <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-2">
-                  Card Visual Theme
+          )}
+
+          {/* 9. ADDITIONAL FEATURES (MISC BUCKET) */}
+          {dimension !== '2x12' && (
+            <div className="border-t border-slate-800 pt-4 space-y-2">
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block">
+                  Additional Features (MISC Bucket)
                 </label>
-                <div className="grid grid-cols-5 gap-2">
-                  {themeOptions.map((t) => (
+                <span className="text-[10px] text-slate-400">
+                  {activeMiscFeatures.length} active
+                </span>
+              </div>
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                {miscFeaturesList.map((feat) => {
+                  const isSelected = activeMiscFeatures.includes(feat.id);
+                  return (
                     <button
-                      key={t.id}
-                      title={t.name}
-                      onClick={() => setTheme(t.id)}
-                      className={`h-9 rounded-lg flex items-center justify-center transition-all ${t.previewBg} ${
-                        theme === t.id ? 'ring-2 ring-amber-400 ring-offset-2 ring-offset-slate-900 scale-105' : 'opacity-70 hover:opacity-100'
+                      key={feat.id}
+                      type="button"
+                      onClick={() => toggleMiscFeature(feat.id)}
+                      className={`p-2 rounded-lg border text-left transition-all flex items-start space-x-2 ${
+                        isSelected
+                          ? 'bg-amber-500/15 border-amber-500 text-amber-300'
+                          : 'bg-slate-800/40 border-slate-700 text-slate-300 hover:bg-slate-800'
                       }`}
                     >
-                      {theme === t.id && (
-                        <Check className={`w-4 h-4 ${t.id === 'clean-white' || t.id === 'champagne-gold' ? 'text-slate-900' : 'text-amber-300'}`} />
-                      )}
+                      <div className={`w-3.5 h-3.5 rounded border mt-0.5 flex items-center justify-center shrink-0 ${
+                        isSelected ? 'bg-amber-500 border-amber-500 text-slate-950' : 'border-slate-600'
+                      }`}>
+                        {isSelected && <Check className="w-2.5 h-2.5 stroke-[3]" />}
+                      </div>
+                      <div className="min-w-0">
+                        <div className="font-semibold text-[11px] truncate leading-tight">{feat.label}</div>
+                        <div className="text-[9px] text-slate-400 truncate">{feat.file}</div>
+                      </div>
                     </button>
-                  ))}
-                </div>
+                  );
+                })}
               </div>
-
-              {/* Visibility Toggles */}
-              <div className="border-t border-slate-800 pt-4 space-y-2">
-                <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-2">
-                  Display Elements
-                </label>
-                <div className="grid grid-cols-2 gap-2 text-xs">
-                  <label className="flex items-center space-x-2 text-slate-300 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={showImage}
-                      onChange={(e) => setShowImage(e.target.checked)}
-                      className="rounded bg-slate-800 border-slate-700 text-amber-500 focus:ring-0"
-                    />
-                    <span>Product Photo</span>
-                  </label>
-                  <label className="flex items-center space-x-2 text-slate-300 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={showSpecs}
-                      onChange={(e) => setShowSpecs(e.target.checked)}
-                      className="rounded bg-slate-800 border-slate-700 text-amber-500 focus:ring-0"
-                    />
-                    <span>Material & Specs</span>
-                  </label>
-                  <label className="flex items-center space-x-2 text-slate-300 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={showFeatures}
-                      onChange={(e) => setShowFeatures(e.target.checked)}
-                      className="rounded bg-slate-800 border-slate-700 text-amber-500 focus:ring-0"
-                    />
-                    <span>Craft Features</span>
-                  </label>
-                  <label className="flex items-center space-x-2 text-slate-300 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={showModelCode}
-                      onChange={(e) => setShowModelCode(e.target.checked)}
-                      className="rounded bg-slate-800 border-slate-700 text-amber-500 focus:ring-0"
-                    />
-                    <span>Model SKU</span>
-                  </label>
-                  <label className="flex items-center space-x-2 text-slate-300 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={showCustomerLogo}
-                      onChange={(e) => setShowCustomerLogo(e.target.checked)}
-                      className="rounded bg-slate-800 border-slate-700 text-amber-500 focus:ring-0"
-                    />
-                    <span>Funeral Home</span>
-                  </label>
-                  <label className="flex items-center space-x-2 text-slate-300 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={showMonthlyPayment}
-                      onChange={(e) => setShowMonthlyPayment(e.target.checked)}
-                      className="rounded bg-slate-800 border-slate-700 text-amber-500 focus:ring-0"
-                    />
-                    <span>Financing Est.</span>
-                  </label>
-                </div>
-              </div>
-
-              {/* Custom Text Overrides */}
-              {(dimension === '8.5x11' || dimension === '11x17') && (
-                <div className="border-t border-slate-800 pt-4 space-y-2.5">
-                  <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider block">
-                    Header & Footer Customization
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Custom Header Title"
-                    value={customTitle}
-                    onChange={(e) => setCustomTitle(e.target.value)}
-                    className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-amber-500"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Custom Subtitle"
-                    value={customSubtitle}
-                    onChange={(e) => setCustomSubtitle(e.target.value)}
-                    className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-amber-500"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Custom Footer (e.g. Living Memorial info)"
-                    value={footerText}
-                    onChange={(e) => setFooterText(e.target.value)}
-                    className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-amber-500"
-                  />
-                </div>
-              )}
-            </>
+            </div>
           )}
 
         </div>
@@ -761,10 +774,10 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
               <Eye className="w-4 h-4 text-amber-400" />
               <span className="font-semibold">Live Card Preview:</span>
               <span className="text-amber-300 font-mono">
-                {dimension === '6x6' && `6" × 6" Square Cap Card (${collection6x6.replace('-', ' ').toUpperCase()})`}
-                {dimension === '2x12' && '2" × 12" Casket Rail Strip'}
-                {dimension === '8.5x11' && '8.5" × 11" Showroom Letter Sheet'}
-                {dimension === '11x17' && '11" × 17" Tabloid Display Board'}
+                {dimension === '6x6' && `6" × 6" Square Cap Card (${collection.toUpperCase()})`}
+                {dimension === '2x12' && `2" × 12" Urn Rail Strip (${collection.toUpperCase()})`}
+                {dimension === '8.5x11' && `8.5" × 11" Horizontal Sheet (${collection.toUpperCase()})`}
+                {dimension === '11x17' && `11" × 17" Horizontal Display Board (${collection.toUpperCase()})`}
               </span>
             </div>
 
@@ -772,7 +785,7 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
             <div className="flex items-center space-x-2">
               <button
                 onClick={() => setZoomScale((z) => Math.max(0.3, z - 0.1))}
-                className="p-1.5 text-slate-400 hover:text-white bg-slate-800 rounded-lg border border-slate-700"
+                className="p-1.5 text-slate-400 hover:text-white bg-slate-800 rounded-lg border border-slate-700 cursor-pointer"
                 title="Zoom Out"
               >
                 <ZoomOut className="w-3.5 h-3.5" />
@@ -782,21 +795,21 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
               </span>
               <button
                 onClick={() => setZoomScale((z) => Math.min(1.5, z + 0.1))}
-                className="p-1.5 text-slate-400 hover:text-white bg-slate-800 rounded-lg border border-slate-700"
+                className="p-1.5 text-slate-400 hover:text-white bg-slate-800 rounded-lg border border-slate-700 cursor-pointer"
                 title="Zoom In"
               >
                 <ZoomIn className="w-3.5 h-3.5" />
               </button>
               <button
                 onClick={() => {
-                  if (dimension === '11x17') setZoomScale(0.48);
-                  else if (dimension === '8.5x11') setZoomScale(0.68);
+                  if (dimension === '11x17') setZoomScale(0.45);
+                  else if (dimension === '8.5x11') setZoomScale(0.65);
                   else if (dimension === '2x12') setZoomScale(0.75);
                   else setZoomScale(0.95);
                 }}
-                className="text-[11px] text-amber-400 hover:underline px-2"
+                className="text-[11px] text-amber-400 hover:underline px-2 cursor-pointer"
               >
-                Reset Fit
+                Fit
               </button>
             </div>
           </div>
@@ -816,10 +829,12 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
                   customer={selectedCustomer}
                   config={cardConfig}
                   retailPrice={finalRetailPrice}
-                  collectionType={collection6x6}
-                  productNameOverride={productName6x6.trim() || undefined}
-                  customBullets={bullets6x6.length === 5 && bullets6x6.some(b => b.trim()) ? bullets6x6 : undefined}
-                  activeMiscFeatures={activeMiscFeatures6x6}
+                  collectionType={collection}
+                  productNameOverride={productName.trim() || undefined}
+                  customBullets={bullets}
+                  activeMiscFeatures={activeMiscFeatures}
+                  rightGraphic={rightGraphic}
+                  onClearBullet={handleClearBullet}
                 />
               )}
 
@@ -829,6 +844,8 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
                   customer={selectedCustomer}
                   config={cardConfig}
                   retailPrice={finalRetailPrice}
+                  collectionType={collection}
+                  productNameOverride={productName.trim() || undefined}
                 />
               )}
 
@@ -838,6 +855,12 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
                   customer={selectedCustomer}
                   config={cardConfig}
                   retailPrice={finalRetailPrice}
+                  collectionType={collection}
+                  productNameOverride={productName.trim() || undefined}
+                  customBullets={bullets}
+                  activeMiscFeatures={activeMiscFeatures}
+                  rightGraphic={rightGraphic}
+                  onClearBullet={handleClearBullet}
                 />
               )}
 
@@ -847,6 +870,12 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
                   customer={selectedCustomer}
                   config={cardConfig}
                   retailPrice={finalRetailPrice}
+                  collectionType={collection}
+                  productNameOverride={productName.trim() || undefined}
+                  customBullets={bullets}
+                  activeMiscFeatures={activeMiscFeatures}
+                  rightGraphic={rightGraphic}
+                  onClearBullet={handleClearBullet}
                 />
               )}
             </div>
@@ -855,7 +884,7 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
           {/* Quick Print Banner Footer */}
           <div className="no-print px-6 py-3 bg-slate-900/90 border-t border-slate-800 text-xs text-slate-400 flex items-center justify-between">
             <p>
-              💡 <strong>Print Tip:</strong> When using standard printers, select <em>&quot;Actual Size&quot;</em> or <em>&quot;100% Scale&quot;</em> in your print dialog to maintain precise physical inches.
+              💡 <strong>Print Tip:</strong> For 8.5&quot; × 11&quot; and 11&quot; × 17&quot;, select <em>&quot;Landscape&quot;</em> orientation and <em>&quot;Actual Size&quot;</em> in your browser print dialog.
             </p>
             <button
               onClick={handlePrint}
