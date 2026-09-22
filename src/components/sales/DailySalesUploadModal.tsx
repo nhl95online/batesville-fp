@@ -398,7 +398,9 @@ export const DailySalesUploadModal: React.FC<DailySalesUploadModalProps> = ({
                   <table className="w-full text-left text-xs border-collapse">
                     <thead className="sticky top-0 bg-[#121820] text-slate-400 uppercase text-[10px] tracking-wider border-b border-slate-800">
                       <tr>
-                        <th className="px-3 py-2.5">Date</th>
+                        <th className="px-2.5 py-2.5">Year</th>
+                        <th className="px-2 py-2.5 text-center">Month</th>
+                        <th className="px-2 py-2.5 text-center">Day</th>
                         <th className="px-3 py-2.5">Account #</th>
                         <th className="px-3 py-2.5">Customer Name</th>
                         <th className="px-3 py-2.5">Order #</th>
@@ -414,13 +416,38 @@ export const DailySalesUploadModal: React.FC<DailySalesUploadModalProps> = ({
                       {editableRows.map((row) => (
                         <tr key={row.id} className="hover:bg-slate-800/40 transition-colors">
                           
-                          {/* Date */}
-                          <td className="px-3 py-2 whitespace-nowrap">
+                          {/* Year (e.g. 2025-26) */}
+                          <td className="px-2.5 py-2 whitespace-nowrap">
                             <input
                               type="text"
-                              value={row.saleDate}
-                              onChange={(e) => handleRowChange(row.id, 'saleDate', e.target.value)}
-                              className="bg-slate-800/80 border border-slate-700/80 rounded px-1.5 py-0.5 text-xs text-white font-mono w-24 focus:outline-none focus:border-amber-500"
+                              value={row.year}
+                              onChange={(e) => handleRowChange(row.id, 'year', e.target.value)}
+                              className="bg-slate-800/80 border border-slate-700/80 rounded px-1.5 py-0.5 text-xs text-amber-300 font-mono w-20 focus:outline-none focus:border-amber-500"
+                              title="Batesville Fiscal Year (e.g. 2025-26, rolls to 2026-27 in October)"
+                            />
+                          </td>
+
+                          {/* Month (e.g. SEP) */}
+                          <td className="px-2 py-2 text-center whitespace-nowrap">
+                            <input
+                              type="text"
+                              value={row.month}
+                              onChange={(e) => handleRowChange(row.id, 'month', e.target.value.toUpperCase())}
+                              className="bg-slate-800/80 border border-slate-700/80 rounded px-1 py-0.5 text-xs text-center text-slate-200 font-mono w-14 uppercase focus:outline-none focus:border-amber-500"
+                              title="Fiscal Month (e.g. SEP, OCT)"
+                            />
+                          </td>
+
+                          {/* Day (e.g. 19) */}
+                          <td className="px-2 py-2 text-center whitespace-nowrap">
+                            <input
+                              type="number"
+                              min="1"
+                              max="31"
+                              value={row.day}
+                              onChange={(e) => handleRowChange(row.id, 'day', parseInt(e.target.value, 10) || 1)}
+                              className="bg-slate-800/80 border border-slate-700/80 rounded px-1 py-0.5 text-xs text-center text-slate-200 font-mono w-12 focus:outline-none focus:border-amber-500"
+                              title="Day of Month (1-31)"
                             />
                           </td>
 

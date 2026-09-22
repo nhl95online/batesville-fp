@@ -48,6 +48,46 @@ const FISCAL_MONTH_NUM: Record<string, number> = {
 };
 
 /**
+ * Calculates Batesville Fiscal Year, Month, and Day.
+ * Batesville's fiscal year runs October 1 to September 30.
+ * - Months Jan-Sep (1-9): Year is (calYear - 1)-(calYear) [e.g. Sep 19, 2026 -> 2025-26, SEP, 19]
+ * - Once it hits October (months 10-12): Year increases to calYear-(calYear + 1) [e.g. Oct 1, 2026 -> 2026-27, OCT, 1]
+ */
+export function calculateBatesvilleFiscalDate(calYear: number, calMonth: number, day: number): {
+  year: string;
+  month: string;
+  day: number;
+  fiscalMonth: number;
+  calMonth: number;
+  formattedDate: string;
+} {
+  const mStr = MONTH_NAMES[calMonth - 1] || 'SEP';
+  const fiscalMonth = FISCAL_MONTH_NUM[mStr] || 12;
+
+  let fiscalYearStr: string;
+  if (calMonth >= 10) {
+    // October, November, December: increases to calYear-(calYear+1) e.g. "2026-27"
+    const nextShort = String(calYear + 1).slice(-2);
+    fiscalYearStr = `${calYear}-${nextShort}`;
+  } else {
+    // January through September: (calYear-1)-calYear e.g. "2025-26"
+    const curShort = String(calYear).slice(-2);
+    fiscalYearStr = `${calYear - 1}-${curShort}`;
+  }
+
+  const formattedDate = `${calYear}-${String(calMonth).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+
+  return {
+    year: fiscalYearStr,
+    month: mStr,
+    day,
+    fiscalMonth,
+    calMonth,
+    formattedDate
+  };
+}
+
+/**
  * Clean up funeral home name by removing leading program/territory prefixes (e.g. ARB101, ARB142)
  * and trailing account numbers.
  */
@@ -306,15 +346,7 @@ export function parseSalesLines(
 
       const prodResolution = matchProductEntity(item.itemNumber, item.description, products);
       const dateInfo = normalizeDate(item.lineDate || activeDate);
-      
-      const calMonth = dateInfo.month;
-      const mStr = MONTH_NAMES[calMonth - 1] || 'SEP';
-      const fiscalMonth = FISCAL_MONTH_NUM[mStr] || 12;
-
-      // Batesville Fiscal Year format e.g. "2025-26"
-      const baseYear = fiscalMonth <= 3 ? dateInfo.year : dateInfo.year - 1;
-      const nextYearShort = String(baseYear + 1).slice(-2);
-      const fiscalYearStr = `${baseYear}-${nextYearShort}`;
+      const fiscalInfo = calculateBatesvilleFiscalDate(dateInfo.year, dateInfo.month, dateInfo.day);
 
       const totalAmount = item.cost; // Invoice $$ in Batesville billing is extended line total
       const unitCost = item.quantity > 0 ? Number((item.cost / item.quantity).toFixed(2)) : item.cost;
@@ -332,12 +364,12 @@ export function parseSalesLines(
 
       rows.push({
         id: `parsed-${rowCounter}-${Date.now()}`,
-        saleDate: dateInfo.formatted,
-        year: fiscalYearStr,
-        month: mStr,
-        day: dateInfo.day,
-        fiscalMonth,
-        calMonth,
+        saleDate: fiscalInfo.formattedDate,
+        year: fiscalInfo.year,
+        month: fiscalInfo.month,
+        day: fiscalInfo.day,
+        fiscalMonth: fiscalInfo.fiscalMonth,
+        calMonth: fiscalInfo.calMonth,
         orderNumber: item.orderNumber || activeOrderNumber,
         accountNumber: custResolution.accountNumber || blockAcct,
         accountName: custResolution.accountName,
