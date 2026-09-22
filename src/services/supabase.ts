@@ -445,8 +445,8 @@ export async function syncFromSupabase(): Promise<{
       const saleDate = `${actualCalYear}-${String(calMonth).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
 
       return {
-        id: `sale-${s.sale_id || idx}`,
-        saleId: Number(s.sale_id || idx),
+        id: `sale-${s.sales_id || s.sale_id || idx}`,
+        saleId: Number(s.sales_id || s.sale_id || idx),
         year: yr,
         month: mStr,
         day: s.day,

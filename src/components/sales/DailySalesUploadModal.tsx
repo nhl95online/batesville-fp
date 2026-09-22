@@ -166,12 +166,12 @@ export const DailySalesUploadModal: React.FC<DailySalesUploadModalProps> = ({
         const client = getSupabaseClient();
         const { data: maxRow } = await client
           .from('sales')
-          .select('sale_id')
-          .order('sale_id', { ascending: false })
+          .select('sales_id')
+          .order('sales_id', { ascending: false })
           .limit(1);
 
-        const currentMaxId = (maxRow && maxRow[0] && typeof maxRow[0].sale_id === 'number')
-          ? maxRow[0].sale_id
+        const currentMaxId = (maxRow && maxRow[0] && typeof maxRow[0].sales_id === 'number')
+          ? maxRow[0].sales_id
           : 51358;
 
         saleRecords = saleRecords.map((s, idx) => ({
@@ -180,13 +180,13 @@ export const DailySalesUploadModal: React.FC<DailySalesUploadModalProps> = ({
         }));
 
         const remotePayload = saleRecords.map(s => ({
-          sale_id: s.saleId,
+          sales_id: s.saleId,
           year: s.year,
           month: s.month,
           day: String(s.day),
           program: s.program,
           account_name: s.accountName,
-          'account_#': s.accountNumber,
+          'account_#': Number(s.accountNumber) || s.accountNumber,
           product_code: s.productCode,
           category: s.category,
           description: s.description,
