@@ -315,7 +315,7 @@ export const DailySalesUploadModal: React.FC<DailySalesUploadModalProps> = ({
                 {isLoading ? 'Extracting & Parsing Daily Sales PDF...' : 'Drop your Daily Sales PDF here'}
               </h3>
               <p className="text-xs text-slate-400 max-w-md">
-                Select or drag any Batesville daily invoice, shipping manifest, or sales report PDF. Transactions, account codes, and casket/urn models will be extracted automatically.
+                Supports Batesville <strong>Daily Billing Reports</strong>: automatically parses Item Number, Description, Qty, and Invoice $$, resolves the Account # from Customer Ship-to Name, matches official customer names, and excludes grey subtotal rows.
               </p>
               <button
                 type="button"
@@ -369,7 +369,7 @@ export const DailySalesUploadModal: React.FC<DailySalesUploadModalProps> = ({
                 <div className="bg-slate-900/80 border border-slate-800 p-3 rounded-xl">
                   <span className="text-slate-400 block mb-0.5">Total Revenue</span>
                   <span className="text-base font-bold text-emerald-400 font-mono">
-                    ${totalCalculatedRevenue.toLocaleString()}
+                    ${totalCalculatedRevenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </span>
                 </div>
                 <div className="bg-slate-900/80 border border-slate-800 p-3 rounded-xl flex items-center justify-between">
@@ -401,8 +401,9 @@ export const DailySalesUploadModal: React.FC<DailySalesUploadModalProps> = ({
                         <th className="px-3 py-2.5">Date</th>
                         <th className="px-3 py-2.5">Account #</th>
                         <th className="px-3 py-2.5">Customer Name</th>
-                        <th className="px-3 py-2.5">Product Code</th>
-                        <th className="px-3 py-2.5">Description</th>
+                        <th className="px-3 py-2.5">Order #</th>
+                        <th className="px-3 py-2.5">Item #</th>
+                        <th className="px-3 py-2.5">Product Description</th>
                         <th className="px-3 py-2.5 text-center">Qty</th>
                         <th className="px-3 py-2.5 text-right">Cost ($)</th>
                         <th className="px-3 py-2.5 text-right">Total ($)</th>
@@ -440,6 +441,16 @@ export const DailySalesUploadModal: React.FC<DailySalesUploadModalProps> = ({
                               value={row.accountName}
                               onChange={(e) => handleRowChange(row.id, 'accountName', e.target.value)}
                               className="bg-slate-800/80 border border-slate-700/80 rounded px-1.5 py-0.5 text-xs text-slate-200 w-full focus:outline-none focus:border-amber-500"
+                            />
+                          </td>
+
+                          {/* Order Number */}
+                          <td className="px-3 py-2 whitespace-nowrap">
+                            <input
+                              type="text"
+                              value={row.orderNumber || ''}
+                              onChange={(e) => handleRowChange(row.id, 'orderNumber', e.target.value)}
+                              className="bg-slate-800/80 border border-slate-700/80 rounded px-1.5 py-0.5 text-xs text-slate-300 font-mono w-24 focus:outline-none focus:border-amber-500"
                             />
                           </td>
 
@@ -486,7 +497,7 @@ export const DailySalesUploadModal: React.FC<DailySalesUploadModalProps> = ({
 
                           {/* Total */}
                           <td className="px-3 py-2 text-right font-mono font-semibold text-emerald-400 whitespace-nowrap">
-                            ${row.totalAmount.toLocaleString()}
+                            ${row.totalAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                           </td>
 
                           {/* Delete */}
