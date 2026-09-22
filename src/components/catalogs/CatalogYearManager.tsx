@@ -137,19 +137,19 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fadeIn">
       {/* Top Banner */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-slate-900 border border-slate-800 p-6 rounded-2xl">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-white border border-slate-200 p-6 rounded-2xl shadow-sm">
         <div>
           <div className="flex items-center space-x-3">
-            <div className="p-2.5 bg-amber-500/10 border border-amber-500/30 rounded-xl text-amber-400">
+            <div className="p-2.5 bg-amber-50 border border-amber-200 rounded-xl text-amber-600">
               <Calendar className="w-6 h-6" />
             </div>
             <div>
-              <h1 className="text-2xl font-serif font-bold text-white tracking-wide">
+              <h1 className="text-2xl font-serif font-bold text-slate-900 tracking-wide">
                 Catalogs by Year & Product Editions
               </h1>
-              <p className="text-sm text-slate-400">
+              <p className="text-xs sm:text-sm text-slate-500">
                 Organize, import, and compare Batesville casket catalogs, pricing, and specs across years.
               </p>
             </div>
@@ -171,9 +171,9 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
           {/* Manage Images Shortcut */}
           <button
             onClick={onOpenImageManager}
-            className="flex items-center space-x-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold px-4 py-2.5 rounded-xl transition-colors cursor-pointer text-xs"
+            className="flex items-center space-x-2 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 font-semibold px-4 py-2.5 rounded-xl transition-colors cursor-pointer text-xs shadow-sm"
           >
-            <Layers className="w-4 h-4 text-amber-400" />
+            <Layers className="w-4 h-4 text-amber-600" />
             <span>Casket Images</span>
           </button>
 
@@ -187,10 +187,10 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
           />
           <button
             onClick={() => fileInputRef.current?.click()}
-            className="flex items-center space-x-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold px-4 py-2.5 rounded-xl transition-colors cursor-pointer text-xs"
+            className="flex items-center space-x-2 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 font-semibold px-4 py-2.5 rounded-xl transition-colors cursor-pointer text-xs shadow-sm"
             title="Import a catalog year spreadsheet"
           >
-            <Upload className="w-4 h-4 text-emerald-400" />
+            <Upload className="w-4 h-4 text-emerald-600" />
             <span>Import Catalog CSV</span>
           </button>
         </div>
@@ -198,12 +198,12 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
 
       {/* Sync Status Banner */}
       {syncStatus && (
-        <div className={`p-4 rounded-xl flex items-center space-x-3 text-xs border ${
+        <div className={`p-4 rounded-xl flex items-center space-x-3 text-xs border shadow-sm ${
           syncStatus.success 
-            ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300' 
-            : 'bg-rose-500/10 border-rose-500/30 text-rose-300'
+            ? 'bg-emerald-50 border-emerald-200 text-emerald-800 font-medium' 
+            : 'bg-rose-50 border-rose-200 text-rose-800'
         }`}>
-          {syncStatus.success ? <CheckCircle2 className="w-5 h-5 shrink-0 text-emerald-400" /> : <AlertCircle className="w-5 h-5 shrink-0 text-rose-400" />}
+          {syncStatus.success ? <CheckCircle2 className="w-5 h-5 shrink-0 text-emerald-600" /> : <AlertCircle className="w-5 h-5 shrink-0 text-rose-600" />}
           <span>{syncStatus.message}</span>
         </div>
       )}
@@ -212,10 +212,10 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
       <div className="flex items-center space-x-2 overflow-x-auto pb-2 scrollbar-none">
         <button
           onClick={() => setSelectedYear('all')}
-          className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
+          className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer shadow-sm ${
             selectedYear === 'all'
-              ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
-              : 'bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:bg-slate-800'
+              ? 'bg-amber-600 text-white'
+              : 'bg-white border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50'
           }`}
         >
           All Years Combined ({products.length} Items)
@@ -227,10 +227,10 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
             <button
               key={yr}
               onClick={() => setSelectedYear(yr)}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
+              className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer shadow-sm ${
                 selectedYear === yr
-                  ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
-                  : 'bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:bg-slate-800'
+                  ? 'bg-amber-600 text-white'
+                  : 'bg-white border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50'
               }`}
             >
               {yr} Catalog Edition ({count} models)
@@ -241,51 +241,51 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
 
       {/* Catalog Overview Metrics */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-slate-900/90 border border-slate-800 p-5 rounded-2xl">
-          <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">
+        <div className="bg-white border border-slate-200 p-5 rounded-2xl shadow-sm">
+          <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider block mb-1">
             Active Edition
           </span>
-          <div className="font-serif text-3xl font-black text-white">
+          <div className="font-serif text-3xl font-black text-slate-900">
             {selectedYear === 'all' ? 'All Catalog Years' : `${selectedYear} Catalog`}
           </div>
-          <p className="text-xs text-slate-400 mt-1">
+          <p className="text-xs text-slate-500 mt-1">
             {filteredProducts.length} total models indexed
           </p>
         </div>
 
-        <div className="bg-slate-900/90 border border-slate-800 p-5 rounded-2xl">
-          <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">
+        <div className="bg-white border border-slate-200 p-5 rounded-2xl shadow-sm">
+          <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider block mb-1">
             Available Catalog Years
           </span>
-          <div className="font-serif text-3xl font-black text-amber-300">
+          <div className="font-serif text-3xl font-black text-amber-700">
             {distinctYears.length} Years
           </div>
-          <p className="text-xs text-slate-400 mt-1 truncate">
+          <p className="text-xs text-slate-500 mt-1 truncate">
             {distinctYears.join(' • ')}
           </p>
         </div>
 
-        <div className="bg-slate-900/90 border border-slate-800 p-5 rounded-2xl">
-          <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">
+        <div className="bg-white border border-slate-200 p-5 rounded-2xl shadow-sm">
+          <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider block mb-1">
             Average Wholesale Base
           </span>
-          <div className="font-serif text-3xl font-black text-emerald-400">
+          <div className="font-serif text-3xl font-black text-emerald-700">
             ${filteredProducts.length > 0 ? Math.round(filteredProducts.reduce((a, b) => a + b.wholesalePrice, 0) / filteredProducts.length).toLocaleString() : 0}
           </div>
-          <p className="text-xs text-slate-400 mt-1">
+          <p className="text-xs text-slate-500 mt-1">
             Per unit catalog wholesale baseline
           </p>
         </div>
       </div>
 
       {/* Product List for Selected Catalog Year */}
-      <div className="bg-slate-900/90 border border-slate-800 rounded-2xl overflow-hidden">
-        <div className="p-5 border-b border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+        <div className="p-5 border-b border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h3 className="font-serif font-bold text-white text-base">
+            <h3 className="font-serif font-bold text-slate-900 text-base">
               Merchandise in {selectedYear === 'all' ? 'All Catalogs' : `${selectedYear} Edition`}
             </h3>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-slate-500">
               Caskets, urns, dimensions, and specifications indexed for this catalog edition.
             </p>
           </div>
@@ -297,15 +297,15 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
               placeholder="Filter by code, name, finish..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="bg-slate-950 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-amber-500 w-48"
+              className="bg-slate-50 border border-slate-300 rounded-xl px-3 py-1.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-amber-500 focus:bg-white w-48"
             />
 
             {/* Feature Filter Buttons */}
-            <div className="flex items-center space-x-1 bg-slate-950 border border-slate-800 p-1 rounded-xl text-xs">
+            <div className="flex items-center space-x-1 bg-slate-100 border border-slate-200 p-1 rounded-xl text-xs">
               <button
                 onClick={() => setSelectedFeature('all')}
                 className={`px-2 py-1 rounded-lg font-semibold transition-colors cursor-pointer ${
-                  selectedFeature === 'all' ? 'bg-amber-500 text-slate-950' : 'text-slate-400 hover:text-white'
+                  selectedFeature === 'all' ? 'bg-amber-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 All
@@ -313,7 +313,7 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
               <button
                 onClick={() => setSelectedFeature('lifesymbols')}
                 className={`px-2 py-1 rounded-lg font-semibold transition-colors cursor-pointer ${
-                  selectedFeature === 'lifesymbols' ? 'bg-amber-500 text-slate-950' : 'text-slate-400 hover:text-white'
+                  selectedFeature === 'lifesymbols' ? 'bg-amber-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 LifeSymbols®
@@ -321,7 +321,7 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
               <button
                 onClick={() => setSelectedFeature('lifestories')}
                 className={`px-2 py-1 rounded-lg font-semibold transition-colors cursor-pointer ${
-                  selectedFeature === 'lifestories' ? 'bg-blue-500 text-slate-950' : 'text-slate-400 hover:text-white'
+                  selectedFeature === 'lifestories' ? 'bg-blue-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 LifeStories®
@@ -329,7 +329,7 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
               <button
                 onClick={() => setSelectedFeature('dual')}
                 className={`px-2 py-1 rounded-lg font-semibold transition-colors cursor-pointer ${
-                  selectedFeature === 'dual' ? 'bg-emerald-500 text-slate-950' : 'text-slate-400 hover:text-white'
+                  selectedFeature === 'dual' ? 'bg-emerald-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 Dual Disp.
@@ -337,22 +337,22 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
               <button
                 onClick={() => setSelectedFeature('oversize')}
                 className={`px-2 py-1 rounded-lg font-semibold transition-colors cursor-pointer ${
-                  selectedFeature === 'oversize' ? 'bg-rose-500 text-slate-950' : 'text-slate-400 hover:text-white'
+                  selectedFeature === 'oversize' ? 'bg-rose-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 Oversize
               </button>
             </div>
 
-            <span className="text-xs font-mono text-amber-400 pl-2">
+            <span className="text-xs font-mono font-bold text-amber-700 pl-2">
               {filteredProducts.length} models
             </span>
           </div>
         </div>
 
         <div className="overflow-x-auto max-h-[580px]">
-          <table className="w-full text-left text-xs">
-            <thead className="bg-slate-950/80 text-slate-400 uppercase tracking-wider border-b border-slate-800 sticky top-0 z-10 backdrop-blur">
+          <table className="w-full text-left text-xs border-collapse">
+            <thead className="bg-slate-100 text-slate-600 uppercase tracking-wider border-b border-slate-200 sticky top-0 z-10 backdrop-blur font-mono text-[11px]">
               <tr>
                 <th className="py-3 px-4 font-semibold">Photo</th>
                 <th className="py-3 px-4 font-semibold">SKU / Code</th>
@@ -366,76 +366,76 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
                 <th className="py-3 px-4 font-semibold text-right">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60 text-slate-200">
+            <tbody className="divide-y divide-slate-100 text-slate-700">
               {filteredProducts.slice(0, 100).map((prod) => (
-                <tr key={prod.id} className="hover:bg-slate-800/40 transition-colors">
+                <tr key={prod.id} className="hover:bg-slate-50 transition-colors">
                   <td className="py-2.5 px-4">
-                    <div className="w-12 h-9 rounded-lg overflow-hidden border border-slate-700 bg-black/30 shrink-0">
+                    <div className="w-12 h-9 rounded-lg overflow-hidden border border-slate-200 bg-slate-100 shrink-0 shadow-sm">
                       <img src={prod.imageUrl} alt={prod.name} className="w-full h-full object-cover" />
                     </div>
                   </td>
-                  <td className="py-2.5 px-4 font-mono font-bold text-amber-300">
+                  <td className="py-2.5 px-4 font-mono font-bold text-amber-700">
                     {prod.code}
                   </td>
                   <td className="py-2.5 px-4 min-w-[240px] max-w-[360px]">
-                    <div className="font-serif font-bold text-white text-sm leading-snug break-words" title={prod.name}>
+                    <div className="font-serif font-bold text-slate-900 text-sm leading-snug break-words" title={prod.name}>
                       {prod.name}
                     </div>
-                    <div className="text-[10px] text-slate-400 mt-0.5">{prod.category}</div>
+                    <div className="text-[10px] text-slate-500 mt-0.5">{prod.category}</div>
                   </td>
                   <td className="py-2.5 px-4">
                     <div className="flex flex-wrap gap-1 max-w-[170px]">
                       {prod.lifesymbols && (
-                        <span className="px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 text-[9px] font-semibold">
+                        <span className="px-1.5 py-0.5 rounded bg-amber-50 text-amber-700 border border-amber-200 text-[9px] font-semibold">
                           LifeSymbols
                         </span>
                       )}
                       {prod.lifestories && (
-                        <span className="px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-300 text-[9px] font-semibold">
+                        <span className="px-1.5 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200 text-[9px] font-semibold">
                           LifeStories
                         </span>
                       )}
                       {(prod.dualDisposition || prod.dual_disposition) && (
-                        <span className="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 text-[9px] font-semibold">
+                        <span className="px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 text-[9px] font-semibold">
                           Dual Disp.
                         </span>
                       )}
                       {prod.oversize && (
-                        <span className="px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-300 text-[9px] font-semibold">
+                        <span className="px-1.5 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200 text-[9px] font-semibold">
                           Oversize
                         </span>
                       )}
                     </div>
                   </td>
                   <td className="py-2.5 px-4 whitespace-nowrap">
-                    <div className="font-mono text-slate-300 text-[11px]">
+                    <div className="font-mono text-slate-700 text-[11px]">
                       {prod.extLength && prod.extWidth ? `${prod.extLength}"L × ${prod.extWidth}"W` : prod.dimensions}
                     </div>
                     {prod.intWidth && (
-                      <div className="text-[10px] text-amber-400/90 font-mono">
+                      <div className="text-[10px] text-amber-700 font-mono font-semibold">
                         Int: {prod.intWidth}" W
                       </div>
                     )}
                   </td>
                   <td className="py-2.5 px-4 max-w-[160px] truncate">
-                    <div className="text-slate-200 font-medium">{prod.material}</div>
-                    <div className="text-[10px] text-slate-400 italic truncate">{prod.finish || prod.exteriorFinish}</div>
+                    <div className="text-slate-800 font-medium">{prod.material}</div>
+                    <div className="text-[10px] text-slate-500 italic truncate">{prod.finish || prod.exteriorFinish}</div>
                   </td>
-                  <td className="py-2.5 px-4 text-slate-300 max-w-[140px] truncate">
+                  <td className="py-2.5 px-4 text-slate-700 max-w-[140px] truncate">
                     {prod.interior}
                   </td>
-                  <td className="py-2.5 px-4 text-slate-400 whitespace-nowrap">
+                  <td className="py-2.5 px-4 text-slate-500 whitespace-nowrap">
                     {prod.top || 'Half Couch'}
                   </td>
-                  <td className="py-2.5 px-4 font-mono font-semibold text-emerald-400">
+                  <td className="py-2.5 px-4 font-mono font-bold text-emerald-700">
                     ${prod.wholesalePrice.toLocaleString()}
                   </td>
                   <td className="py-2.5 px-4 text-right">
                     <button
                       onClick={() => onSelectProductForCard(prod.id)}
-                      className="inline-flex items-center space-x-1 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 px-2.5 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer"
+                      className="inline-flex items-center space-x-1 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 px-2.5 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer shadow-sm"
                     >
-                      <Tag className="w-3 h-3 text-amber-400" />
+                      <Tag className="w-3 h-3 text-amber-600" />
                       <span>Price Card</span>
                     </button>
                   </td>

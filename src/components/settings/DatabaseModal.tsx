@@ -87,27 +87,27 @@ export const DatabaseModal: React.FC<DatabaseModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
-      <div className="relative w-full max-w-xl bg-slate-900 border border-slate-700 rounded-3xl shadow-2xl overflow-hidden my-8">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm overflow-y-auto">
+      <div className="relative w-full max-w-xl bg-white border border-slate-200 rounded-3xl shadow-2xl overflow-hidden my-8">
         
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-950/60">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 bg-slate-50">
           <div className="flex items-center space-x-3">
-            <div className="p-2 bg-amber-500/10 border border-amber-500/30 rounded-xl text-amber-400">
+            <div className="p-2 bg-amber-50 border border-amber-200 rounded-xl text-amber-700">
               <HardDrive className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="font-serif text-lg font-bold text-white">
+              <h2 className="font-serif text-lg font-bold text-slate-900">
                 Portable Database Manager
               </h2>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-500">
                 Offline-capable local storage with instant export and portable backup.
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
+            className="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -115,18 +115,18 @@ export const DatabaseModal: React.FC<DatabaseModalProps> = ({
 
         <div className="p-6 space-y-6">
           {/* Current Local Database Stats */}
-          <div className="grid grid-cols-3 gap-3 bg-slate-950/60 p-4 rounded-2xl border border-slate-800 text-center">
+          <div className="grid grid-cols-3 gap-3 bg-slate-50 p-4 rounded-2xl border border-slate-200 text-center">
             <div>
-              <span className="text-[11px] text-slate-400 block uppercase">Customers</span>
-              <span className="font-serif text-2xl font-bold text-white">{counts.customers}</span>
+              <span className="text-[11px] text-slate-500 block uppercase font-medium">Customers</span>
+              <span className="font-serif text-2xl font-bold text-slate-900">{counts.customers}</span>
             </div>
             <div>
-              <span className="text-[11px] text-slate-400 block uppercase">Products</span>
-              <span className="font-serif text-2xl font-bold text-amber-300">{counts.products}</span>
+              <span className="text-[11px] text-slate-500 block uppercase font-medium">Products</span>
+              <span className="font-serif text-2xl font-bold text-amber-800">{counts.products}</span>
             </div>
             <div>
-              <span className="text-[11px] text-slate-400 block uppercase">Sales Records</span>
-              <span className="font-serif text-2xl font-bold text-emerald-400">{counts.sales}</span>
+              <span className="text-[11px] text-slate-500 block uppercase font-medium">Sales Records</span>
+              <span className="font-serif text-2xl font-bold text-emerald-800">{counts.sales}</span>
             </div>
           </div>
 
@@ -134,13 +134,13 @@ export const DatabaseModal: React.FC<DatabaseModalProps> = ({
           {statusMessage && (
             <div className={`p-4 rounded-xl flex items-center space-x-3 text-xs border ${
               statusMessage.success 
-                ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300' 
-                : 'bg-rose-500/10 border-rose-500/30 text-rose-300'
+                ? 'bg-emerald-50 border-emerald-200 text-emerald-800' 
+                : 'bg-rose-50 border-rose-200 text-rose-800'
             }`}>
               {statusMessage.success ? (
-                <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-400" />
+                <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-600" />
               ) : (
-                <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
+                <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
               )}
               <span>{statusMessage.message}</span>
             </div>
@@ -149,26 +149,26 @@ export const DatabaseModal: React.FC<DatabaseModalProps> = ({
           {/* Actions List */}
           <div className="space-y-3">
             {/* 1. Export */}
-            <div className="flex items-center justify-between p-4 bg-slate-800/50 border border-slate-700/60 rounded-xl">
+            <div className="flex items-center justify-between p-4 bg-slate-50 border border-slate-200 rounded-xl">
               <div>
-                <h4 className="text-sm font-semibold text-slate-200">Export Portable Database</h4>
-                <p className="text-xs text-slate-400">Download entire offline catalog, accounts, and sales history.</p>
+                <h4 className="text-sm font-semibold text-slate-800">Export Portable Database</h4>
+                <p className="text-xs text-slate-500">Download entire offline catalog, accounts, and sales history.</p>
               </div>
               <button
                 onClick={handleExport}
                 disabled={isProcessing}
-                className="flex items-center space-x-2 bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-200 text-xs font-semibold px-4 py-2 rounded-xl transition-all cursor-pointer"
+                className="flex items-center space-x-2 bg-white hover:bg-slate-100 border border-slate-300 text-slate-700 text-xs font-semibold px-4 py-2 rounded-xl transition-all cursor-pointer shadow-xs"
               >
-                <Download className="w-4 h-4 text-amber-400" />
+                <Download className="w-4 h-4 text-amber-600" />
                 <span>Export (.json)</span>
               </button>
             </div>
 
             {/* 2. Import */}
-            <div className="flex items-center justify-between p-4 bg-slate-800/50 border border-slate-700/60 rounded-xl">
+            <div className="flex items-center justify-between p-4 bg-slate-50 border border-slate-200 rounded-xl">
               <div>
-                <h4 className="text-sm font-semibold text-slate-200">Import Portable Database</h4>
-                <p className="text-xs text-slate-400">Restore or update records from a previously exported snapshot.</p>
+                <h4 className="text-sm font-semibold text-slate-800">Import Portable Database</h4>
+                <p className="text-xs text-slate-500">Restore or update records from a previously exported snapshot.</p>
               </div>
               <input
                 type="file"
@@ -180,23 +180,23 @@ export const DatabaseModal: React.FC<DatabaseModalProps> = ({
               <button
                 onClick={() => fileInputRef.current?.click()}
                 disabled={isProcessing}
-                className="flex items-center space-x-2 bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-200 text-xs font-semibold px-4 py-2 rounded-xl transition-all cursor-pointer"
+                className="flex items-center space-x-2 bg-white hover:bg-slate-100 border border-slate-300 text-slate-700 text-xs font-semibold px-4 py-2 rounded-xl transition-all cursor-pointer shadow-xs"
               >
-                <Upload className="w-4 h-4 text-emerald-400" />
+                <Upload className="w-4 h-4 text-emerald-600" />
                 <span>Import File</span>
               </button>
             </div>
 
             {/* 3. Reset to Seed */}
-            <div className="flex items-center justify-between p-4 bg-rose-950/10 border border-rose-900/30 rounded-xl">
+            <div className="flex items-center justify-between p-4 bg-rose-50/60 border border-rose-200 rounded-xl">
               <div>
-                <h4 className="text-sm font-semibold text-rose-300">Restore Default Seed Data</h4>
-                <p className="text-xs text-slate-400">Reset customers, products, and 4-year sales metrics to factory defaults.</p>
+                <h4 className="text-sm font-semibold text-rose-900">Restore Default Seed Data</h4>
+                <p className="text-xs text-slate-500">Reset customers, products, and 4-year sales metrics to factory defaults.</p>
               </div>
               <button
                 onClick={handleResetToSeed}
                 disabled={isProcessing}
-                className="flex items-center space-x-1.5 bg-rose-900/30 hover:bg-rose-900/50 text-rose-300 border border-rose-700/40 text-xs font-semibold px-3 py-2 rounded-xl transition-all cursor-pointer"
+                className="flex items-center space-x-1.5 bg-rose-100 hover:bg-rose-200 text-rose-800 border border-rose-300 text-xs font-semibold px-3 py-2 rounded-xl transition-all cursor-pointer shadow-xs"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
                 <span>Reset Data</span>

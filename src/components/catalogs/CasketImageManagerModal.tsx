@@ -171,27 +171,27 @@ export const CasketImageManagerModal: React.FC<CasketImageManagerModalProps> = (
   );
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
-      <div className="relative w-full max-w-5xl bg-slate-900 border border-slate-700 rounded-3xl shadow-2xl overflow-hidden my-6 flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm overflow-y-auto">
+      <div className="relative w-full max-w-5xl bg-white border border-slate-200 rounded-3xl shadow-2xl overflow-hidden my-6 flex flex-col max-h-[90vh]">
         
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-950/70 shrink-0">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 bg-slate-50 shrink-0">
           <div className="flex items-center space-x-3">
-            <div className="p-2 bg-amber-500/10 border border-amber-500/30 rounded-xl text-amber-400">
+            <div className="p-2 bg-amber-50 border border-amber-200 rounded-xl text-amber-700">
               <ImageIcon className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="font-serif text-lg font-bold text-white">
+              <h2 className="font-serif text-lg font-bold text-slate-900">
                 Casket Image Studio & Supabase Uploader
               </h2>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-500">
                 Upload photos, match them to casket SKUs, and sync with your catalogs.
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
+            className="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -201,10 +201,10 @@ export const CasketImageManagerModal: React.FC<CasketImageManagerModalProps> = (
         {statusMessage && (
           <div className={`mx-6 mt-4 p-3 rounded-xl flex items-center space-x-3 text-xs border shrink-0 ${
             statusMessage.success 
-              ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300' 
-              : 'bg-rose-500/10 border-rose-500/30 text-rose-300'
+              ? 'bg-emerald-50 border-emerald-200 text-emerald-800' 
+              : 'bg-rose-50 border-rose-200 text-rose-800'
           }`}>
-            {statusMessage.success ? <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-400" /> : <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />}
+            {statusMessage.success ? <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-600" /> : <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />}
             <span>{statusMessage.message}</span>
           </div>
         )}
@@ -220,7 +220,7 @@ export const CasketImageManagerModal: React.FC<CasketImageManagerModalProps> = (
               onDragOver={(e) => e.preventDefault()}
               onDrop={handleDrop}
               onClick={() => fileInputRef.current?.click()}
-              className="border-2 border-dashed border-amber-500/40 hover:border-amber-400 bg-slate-950/40 hover:bg-slate-950/60 p-6 rounded-2xl text-center cursor-pointer transition-all group"
+              className="border-2 border-dashed border-amber-300 hover:border-amber-400 bg-amber-50/40 hover:bg-amber-50/70 p-6 rounded-2xl text-center cursor-pointer transition-all group"
             >
               <input
                 type="file"
@@ -232,11 +232,11 @@ export const CasketImageManagerModal: React.FC<CasketImageManagerModalProps> = (
                 }}
                 className="hidden"
               />
-              <UploadCloud className="w-8 h-8 text-amber-400 group-hover:scale-110 transition-transform mx-auto mb-2" />
-              <h4 className="text-sm font-semibold text-slate-200">
+              <UploadCloud className="w-8 h-8 text-amber-600 group-hover:scale-110 transition-transform mx-auto mb-2" />
+              <h4 className="text-sm font-semibold text-slate-800">
                 {isUploading ? 'Processing & Linking Casket Images...' : 'Drop Casket Images Here or Browse'}
               </h4>
-              <p className="text-xs text-amber-300/90 font-medium mt-1">
+              <p className="text-xs text-amber-800 font-medium mt-1">
                 Naming images with the <strong>Product Code</strong> (e.g. <code>146799.png</code>, <code>20A_880.png</code>, <code>4BH_891.png</code>) auto-links them across all catalog years & price cards!
               </p>
             </div>
@@ -250,18 +250,18 @@ export const CasketImageManagerModal: React.FC<CasketImageManagerModalProps> = (
                   placeholder="Search uploaded images by name or SKU..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full bg-slate-800 border border-slate-700 rounded-xl pl-9 pr-3 py-1.5 text-xs text-slate-100 placeholder-slate-400 focus:outline-none focus:border-amber-500"
+                  className="w-full bg-white border border-slate-300 rounded-xl pl-9 pr-3 py-1.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500"
                 />
               </div>
-              <span className="text-xs text-slate-400 shrink-0">
+              <span className="text-xs text-slate-500 shrink-0">
                 {filteredImages.length} images
               </span>
             </div>
 
             {/* Gallery Grid */}
             {filteredImages.length === 0 ? (
-              <div className="text-center py-12 text-slate-500 text-xs border border-slate-800/80 rounded-2xl bg-slate-950/30">
-                <FileImage className="w-8 h-8 mx-auto mb-2 opacity-50" />
+              <div className="text-center py-12 text-slate-500 text-xs border border-slate-200 rounded-2xl bg-slate-50">
+                <FileImage className="w-8 h-8 mx-auto mb-2 opacity-50 text-slate-400" />
                 No casket images found. Drag & drop images above to start!
               </div>
             ) : (
@@ -270,27 +270,27 @@ export const CasketImageManagerModal: React.FC<CasketImageManagerModalProps> = (
                   <div
                     key={img.id}
                     onClick={() => setSelectedImage(img)}
-                    className={`relative rounded-xl overflow-hidden border-2 cursor-pointer transition-all bg-slate-950 group ${
+                    className={`relative rounded-xl overflow-hidden border-2 cursor-pointer transition-all bg-slate-50 group shadow-xs ${
                       selectedImage?.id === img.id
-                        ? 'border-amber-400 ring-2 ring-amber-400/30 scale-95'
-                        : 'border-slate-800 hover:border-slate-700'
+                        ? 'border-amber-500 ring-2 ring-amber-500/30 scale-95'
+                        : 'border-slate-200 hover:border-slate-300'
                     }`}
                   >
-                    <div className="h-28 w-full overflow-hidden">
+                    <div className="h-28 w-full overflow-hidden bg-white">
                       <img
                         src={img.dataUrl}
                         alt={img.fileName}
                         className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
                       />
                     </div>
-                    <div className="p-1.5 text-[10px] bg-slate-900/90 truncate border-t border-slate-800">
-                      <span className="font-semibold text-slate-200 block truncate">
+                    <div className="p-1.5 text-[10px] bg-white truncate border-t border-slate-200">
+                      <span className="font-semibold text-slate-800 block truncate">
                         {img.productCode ? `SKU: ${img.productCode}` : img.fileName}
                       </span>
                     </div>
                     {img.productCode && (
-                      <div className="absolute top-1 right-1 bg-emerald-500 text-slate-950 p-0.5 rounded-full shadow">
-                        <Check className="w-2.5 h-2.5" />
+                      <div className="absolute top-1 right-1 bg-emerald-600 text-white p-0.5 rounded-full shadow">
+                        <Check className="w-2.5 h-2.5 stroke-[3]" />
                       </div>
                     )}
                   </div>
@@ -301,23 +301,23 @@ export const CasketImageManagerModal: React.FC<CasketImageManagerModalProps> = (
           </div>
 
           {/* Right Column: Selected Image Inspector & Linker (4 cols) */}
-          <div className="lg:col-span-4 bg-slate-950/60 border border-slate-800 p-5 rounded-2xl flex flex-col justify-between space-y-4">
+          <div className="lg:col-span-4 bg-slate-50 border border-slate-200 p-5 rounded-2xl flex flex-col justify-between space-y-4">
             {selectedImage ? (
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                  <h3 className="text-xs font-semibold text-slate-700 uppercase tracking-wider">
                     Selected Image
                   </h3>
                   <button
                     onClick={() => handleDelete(selectedImage.id)}
-                    className="p-1 text-slate-400 hover:text-rose-400 transition-colors"
+                    className="p-1 text-slate-400 hover:text-rose-600 transition-colors"
                     title="Delete image"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
 
-                <div className="relative h-44 rounded-xl overflow-hidden border border-slate-800 bg-black/40">
+                <div className="relative h-44 rounded-xl overflow-hidden border border-slate-200 bg-white">
                   <img
                     src={selectedImage.dataUrl}
                     alt={selectedImage.fileName}
@@ -325,27 +325,27 @@ export const CasketImageManagerModal: React.FC<CasketImageManagerModalProps> = (
                   />
                 </div>
 
-                <div className="text-xs space-y-1 text-slate-300">
-                  <div className="truncate font-semibold text-white">{selectedImage.fileName}</div>
+                <div className="text-xs space-y-1 text-slate-700">
+                  <div className="truncate font-semibold text-slate-900">{selectedImage.fileName}</div>
                   {selectedImage.productCode ? (
-                    <div className="text-emerald-400 flex items-center space-x-1">
+                    <div className="text-emerald-700 flex items-center space-x-1 font-medium">
                       <Check className="w-3.5 h-3.5" />
                       <span>Linked to: <strong>{selectedImage.productCode}</strong> ({selectedImage.productName})</span>
                     </div>
                   ) : (
-                    <div className="text-amber-400 italic">Not yet linked to any casket SKU</div>
+                    <div className="text-amber-700 italic font-medium">Not yet linked to any casket SKU</div>
                   )}
                 </div>
 
                 {/* Link to Product Dropdown */}
-                <div className="pt-3 border-t border-slate-800 space-y-2">
-                  <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider block">
+                <div className="pt-3 border-t border-slate-200 space-y-2">
+                  <label className="text-xs font-semibold text-slate-600 uppercase tracking-wider block">
                     Link / Reassign to Casket
                   </label>
                   <select
                     value={assignProductId}
                     onChange={(e) => setAssignProductId(e.target.value)}
-                    className="w-full bg-slate-800 border border-slate-700 rounded-xl px-2.5 py-2 text-xs text-slate-100 focus:outline-none focus:border-amber-500"
+                    className="w-full bg-white border border-slate-300 rounded-xl px-2.5 py-2 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500"
                   >
                     <option value="">-- Select Casket Product --</option>
                     {products.map((p) => (
@@ -358,7 +358,7 @@ export const CasketImageManagerModal: React.FC<CasketImageManagerModalProps> = (
                   <button
                     onClick={handleAssignToProduct}
                     disabled={!assignProductId}
-                    className="w-full flex items-center justify-center space-x-1.5 bg-amber-500 hover:bg-amber-400 disabled:opacity-50 text-slate-950 font-bold py-2 px-3 rounded-xl text-xs transition-all cursor-pointer shadow-md shadow-amber-500/20"
+                    className="w-full flex items-center justify-center space-x-1.5 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-600 disabled:opacity-50 text-white font-bold py-2 px-3 rounded-xl text-xs transition-all cursor-pointer shadow-md shadow-amber-500/20"
                   >
                     <Link2 className="w-3.5 h-3.5" />
                     <span>Apply Image to Product</span>
@@ -367,7 +367,7 @@ export const CasketImageManagerModal: React.FC<CasketImageManagerModalProps> = (
               </div>
             ) : (
               <div className="text-center my-auto py-8 text-slate-500 text-xs">
-                <ImageIcon className="w-8 h-8 mx-auto mb-2 opacity-40" />
+                <ImageIcon className="w-8 h-8 mx-auto mb-2 opacity-40 text-slate-400" />
                 Select any casket image from the gallery to view details or link it to a product.
               </div>
             )}

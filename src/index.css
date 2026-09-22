@@ -4,8 +4,8 @@
 
 @layer base {
   body {
-    @apply font-sans text-slate-200 antialiased;
-    background-color: #121820;
+    @apply font-sans text-slate-800 antialiased;
+    background-color: #f8fafc;
   }
 
   h1, h2, h3, h4, .font-serif {
@@ -81,13 +81,13 @@
   }
 }
 
-/* Custom Scrollbars */
+/* Custom Scrollbars (Light Mode) */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(15, 23, 42, 0.6);
+  background: rgba(241, 245, 249, 0.8);
 }
 ::-webkit-scrollbar-thumb {
   background: rgba(217, 119, 6, 0.3);

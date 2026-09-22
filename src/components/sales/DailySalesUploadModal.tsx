@@ -236,23 +236,23 @@ export const DailySalesUploadModal: React.FC<DailySalesUploadModalProps> = ({
   const totalCalculatedUnits = editableRows.reduce((sum, r) => sum + Number(r.quantity || 1), 0);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fadeIn">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fadeIn">
       <div 
-        className="bg-[#161e2a] border border-slate-700/80 rounded-2xl w-full max-w-5xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden"
+        className="bg-white border border-slate-200 rounded-2xl w-full max-w-5xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden"
         style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}
       >
         
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-700/80 bg-[#121820]/90">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 bg-slate-50">
           <div className="flex items-center space-x-3">
-            <div className="p-2.5 bg-amber-500/10 border border-amber-500/30 rounded-xl text-amber-400">
+            <div className="p-2.5 bg-amber-50 border border-amber-200 rounded-xl text-amber-600">
               <UploadCloud className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-white tracking-wide">
+              <h2 className="text-lg font-bold text-slate-900 tracking-wide font-serif">
                 Daily Sales PDF Report Upload
               </h2>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-500">
                 Upload Batesville daily sales reports or invoices in PDF format to append to the sales table.
               </p>
             </div>
@@ -260,20 +260,20 @@ export const DailySalesUploadModal: React.FC<DailySalesUploadModalProps> = ({
 
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-200 transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Tab Toggle: PDF File vs Paste Text */}
-        <div className="flex items-center px-6 pt-3 border-b border-slate-800 bg-[#141b25] text-xs space-x-3">
+        <div className="flex items-center px-6 pt-3 border-b border-slate-200 bg-slate-100/70 text-xs space-x-3">
           <button
             onClick={() => setActiveTab('pdf')}
             className={`flex items-center space-x-1.5 pb-2.5 font-semibold transition-all border-b-2 cursor-pointer ${
               activeTab === 'pdf'
-                ? 'border-amber-400 text-amber-300'
-                : 'border-transparent text-slate-400 hover:text-slate-200'
+                ? 'border-amber-600 text-amber-700 font-bold'
+                : 'border-transparent text-slate-500 hover:text-slate-800'
             }`}
           >
             <FileText className="w-4 h-4" />
@@ -284,8 +284,8 @@ export const DailySalesUploadModal: React.FC<DailySalesUploadModalProps> = ({
             onClick={() => setActiveTab('paste')}
             className={`flex items-center space-x-1.5 pb-2.5 font-semibold transition-all border-b-2 cursor-pointer ${
               activeTab === 'paste'
-                ? 'border-amber-400 text-amber-300'
-                : 'border-transparent text-slate-400 hover:text-slate-200'
+                ? 'border-amber-600 text-amber-700 font-bold'
+                : 'border-transparent text-slate-500 hover:text-slate-800'
             }`}
           >
             <FileSpreadsheet className="w-4 h-4" />
@@ -298,25 +298,25 @@ export const DailySalesUploadModal: React.FC<DailySalesUploadModalProps> = ({
           
           {/* Messages */}
           {errorMessage && (
-            <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 space-y-3 text-red-300 text-xs">
+            <div className="bg-rose-50 border border-rose-200 rounded-xl p-4 space-y-3 text-rose-800 text-xs">
               <div className="flex items-start space-x-3">
-                <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5 text-red-400" />
+                <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5 text-rose-600" />
                 <div className="flex-1 font-medium">{errorMessage}</div>
               </div>
               {errorMessage.includes('Row-Level Security') && (
-                <div className="bg-slate-950/80 border border-red-500/20 rounded-lg p-3 space-y-2 text-[11px] text-slate-300">
-                  <p className="font-semibold text-amber-300">
-                    Run this SQL in your Supabase SQL Editor to allow public inserts & enable auto-incrementing sale_id:
+                <div className="bg-white border border-rose-200 rounded-lg p-3 space-y-2 text-[11px] text-slate-700 shadow-sm">
+                  <p className="font-semibold text-amber-700">
+                    Run this SQL in your Supabase SQL Editor to allow public inserts & enable auto-incrementing sales_id:
                   </p>
                   <pre className="bg-slate-900 border border-slate-800 rounded p-2 text-emerald-300 font-mono text-[10px] overflow-x-auto select-all">
 {`-- 1. Allow inserts from web application
 ALTER TABLE sales ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Allow public insert on sales" ON sales FOR INSERT TO anon, authenticated WITH CHECK (true);
 
--- 2. Optional: Ensure sale_id auto-increments automatically in Supabase
-CREATE SEQUENCE IF NOT EXISTS sales_sale_id_seq;
-SELECT setval('sales_sale_id_seq', (SELECT COALESCE(MAX(sale_id), 0) + 1 FROM sales));
-ALTER TABLE sales ALTER COLUMN sale_id SET DEFAULT nextval('sales_sale_id_seq');`}
+-- 2. Optional: Ensure sales_id auto-increments automatically in Supabase
+CREATE SEQUENCE IF NOT EXISTS sales_sales_id_seq;
+SELECT setval('sales_sales_id_seq', (SELECT COALESCE(MAX(sales_id), 0) + 1 FROM sales));
+ALTER TABLE sales ALTER COLUMN sales_id SET DEFAULT nextval('sales_sales_id_seq');`}
                   </pre>
                 </div>
               )}
@@ -324,9 +324,9 @@ ALTER TABLE sales ALTER COLUMN sale_id SET DEFAULT nextval('sales_sale_id_seq');
           )}
 
           {successMessage && (
-            <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-3.5 flex items-center space-x-3 text-emerald-300 text-xs">
-              <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-400" />
-              <div className="font-semibold">{successMessage}</div>
+            <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-3.5 flex items-center space-x-3 text-emerald-800 text-xs font-semibold shadow-sm">
+              <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-600" />
+              <div>{successMessage}</div>
             </div>
           )}
 
@@ -339,8 +339,8 @@ ALTER TABLE sales ALTER COLUMN sale_id SET DEFAULT nextval('sales_sale_id_seq');
               onClick={() => fileInputRef.current?.click()}
               className={`border-2 border-dashed rounded-2xl p-10 flex flex-col items-center justify-center text-center cursor-pointer transition-all ${
                 isDragging
-                  ? 'border-amber-400 bg-amber-500/10 scale-[0.99]'
-                  : 'border-slate-700 bg-slate-900/40 hover:bg-slate-900/70 hover:border-slate-600'
+                  ? 'border-amber-500 bg-amber-50 scale-[0.99]'
+                  : 'border-slate-300 bg-slate-50 hover:bg-slate-100 hover:border-slate-400'
               }`}
             >
               <input
@@ -351,7 +351,7 @@ ALTER TABLE sales ALTER COLUMN sale_id SET DEFAULT nextval('sales_sale_id_seq');
                 onChange={handleFileChange}
               />
               
-              <div className="w-14 h-14 rounded-2xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-3 shadow-lg shadow-amber-500/10">
+              <div className="w-14 h-14 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600 mb-3 shadow-sm">
                 {isLoading ? (
                   <Loader2 className="w-7 h-7 animate-spin" />
                 ) : (
@@ -359,15 +359,15 @@ ALTER TABLE sales ALTER COLUMN sale_id SET DEFAULT nextval('sales_sale_id_seq');
                 )}
               </div>
 
-              <h3 className="text-base font-bold text-white mb-1">
+              <h3 className="text-base font-bold text-slate-900 mb-1 font-serif">
                 {isLoading ? 'Extracting & Parsing Daily Sales PDF...' : 'Drop your Daily Sales PDF here'}
               </h3>
-              <p className="text-xs text-slate-400 max-w-md">
-                Supports Batesville <strong>Daily Billing Reports</strong>: automatically parses Item Number, Description, Qty, and Invoice $$, resolves the Account # from Customer Ship-to Name, matches official customer names, and excludes grey subtotal rows.
+              <p className="text-xs text-slate-600 max-w-md leading-relaxed">
+                Supports Batesville <strong>Daily Billing Reports</strong>: automatically parses Item Number, Description, Qty, and Invoice $$, resolves Account # from Customer Ship-to Name, matches official customer names, and excludes grey subtotal rows.
               </p>
               <button
                 type="button"
-                className="mt-4 px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 cursor-pointer"
+                className="mt-4 px-4 py-2 rounded-xl bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold border border-slate-300 shadow-sm cursor-pointer"
               >
                 Browse Files
               </button>
@@ -377,7 +377,7 @@ ALTER TABLE sales ALTER COLUMN sale_id SET DEFAULT nextval('sales_sale_id_seq');
           {/* Paste Text (Tab 2) */}
           {activeTab === 'paste' && !parseResult && (
             <div className="space-y-3">
-              <label className="text-xs font-semibold text-slate-300 block">
+              <label className="text-xs font-semibold text-slate-700 block">
                 Paste Report Lines (e.g. copied from Excel, PDF, or text invoice)
               </label>
               <textarea
@@ -385,14 +385,14 @@ ALTER TABLE sales ALTER COLUMN sale_id SET DEFAULT nextval('sales_sale_id_seq');
                 onChange={(e) => setPasteText(e.target.value)}
                 rows={8}
                 placeholder={`Example lines:\n2025-04-12  134700  Scott Brampton  271819  M39 Neopolitan Blue  1  $4,065.00\n2025-04-12  134964  Forrest & Taylor  146799  Woodford Pecan  1  $4,995.00`}
-                className="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-slate-200 font-mono focus:outline-none focus:border-amber-500"
+                className="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-xs text-slate-800 font-mono focus:outline-none focus:border-amber-500 focus:bg-white"
               />
               <div className="flex justify-end">
                 <button
                   type="button"
                   onClick={handleProcessPastedText}
                   disabled={isLoading || !pasteText.trim()}
-                  className="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-xl transition-all disabled:opacity-50 cursor-pointer"
+                  className="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs rounded-xl transition-all disabled:opacity-50 cursor-pointer shadow-sm"
                 >
                   {isLoading ? 'Parsing...' : 'Parse Text Content'}
                 </button>
@@ -406,24 +406,24 @@ ALTER TABLE sales ALTER COLUMN sale_id SET DEFAULT nextval('sales_sale_id_seq');
               
               {/* Summary Cards */}
               <div className="grid grid-cols-4 gap-3 text-xs">
-                <div className="bg-slate-900/80 border border-slate-800 p-3 rounded-xl">
-                  <span className="text-slate-400 block mb-0.5">Parsed Transactions</span>
-                  <span className="text-base font-bold text-white font-mono">{editableRows.length}</span>
+                <div className="bg-slate-50 border border-slate-200 p-3 rounded-xl shadow-sm">
+                  <span className="text-slate-500 block mb-0.5">Parsed Transactions</span>
+                  <span className="text-base font-bold text-slate-900 font-mono">{editableRows.length}</span>
                 </div>
-                <div className="bg-slate-900/80 border border-slate-800 p-3 rounded-xl">
-                  <span className="text-slate-400 block mb-0.5">Total Units</span>
-                  <span className="text-base font-bold text-amber-400 font-mono">{totalCalculatedUnits}</span>
+                <div className="bg-slate-50 border border-slate-200 p-3 rounded-xl shadow-sm">
+                  <span className="text-slate-500 block mb-0.5">Total Units</span>
+                  <span className="text-base font-bold text-amber-700 font-mono">{totalCalculatedUnits}</span>
                 </div>
-                <div className="bg-slate-900/80 border border-slate-800 p-3 rounded-xl">
-                  <span className="text-slate-400 block mb-0.5">Total Revenue</span>
-                  <span className="text-base font-bold text-emerald-400 font-mono">
+                <div className="bg-slate-50 border border-slate-200 p-3 rounded-xl shadow-sm">
+                  <span className="text-slate-500 block mb-0.5">Total Revenue</span>
+                  <span className="text-base font-bold text-emerald-700 font-mono">
                     ${totalCalculatedRevenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </span>
                 </div>
-                <div className="bg-slate-900/80 border border-slate-800 p-3 rounded-xl flex items-center justify-between">
+                <div className="bg-slate-50 border border-slate-200 p-3 rounded-xl shadow-sm flex items-center justify-between">
                   <div>
-                    <span className="text-slate-400 block mb-0.5">Source Document</span>
-                    <span className="text-xs font-semibold text-slate-200 truncate block max-w-[130px]" title={parseResult?.fileName}>
+                    <span className="text-slate-500 block mb-0.5">Source Document</span>
+                    <span className="text-xs font-semibold text-slate-800 truncate block max-w-[130px]" title={parseResult?.fileName}>
                       {parseResult?.fileName}
                     </span>
                   </div>
@@ -433,7 +433,7 @@ ALTER TABLE sales ALTER COLUMN sale_id SET DEFAULT nextval('sales_sale_id_seq');
                       setEditableRows([]);
                       setPasteText('');
                     }}
-                    className="text-[11px] text-amber-400 hover:underline"
+                    className="text-[11px] text-amber-700 font-semibold hover:underline"
                   >
                     Reset
                   </button>
@@ -441,10 +441,10 @@ ALTER TABLE sales ALTER COLUMN sale_id SET DEFAULT nextval('sales_sale_id_seq');
               </div>
 
               {/* Transactions Table */}
-              <div className="border border-slate-800 rounded-xl overflow-hidden bg-slate-900/70">
+              <div className="border border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm">
                 <div className="max-h-[340px] overflow-y-auto">
                   <table className="w-full text-left text-xs border-collapse">
-                    <thead className="sticky top-0 bg-[#121820] text-slate-400 uppercase text-[10px] tracking-wider border-b border-slate-800">
+                    <thead className="sticky top-0 bg-slate-100 text-slate-600 uppercase text-[10px] tracking-wider border-b border-slate-200">
                       <tr>
                         <th className="px-2.5 py-2.5">Year</th>
                         <th className="px-2 py-2.5 text-center">Month</th>
@@ -460,9 +460,9 @@ ALTER TABLE sales ALTER COLUMN sale_id SET DEFAULT nextval('sales_sale_id_seq');
                         <th className="px-2 py-2.5 text-center">Action</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-800/80 text-slate-300">
+                    <tbody className="divide-y divide-slate-100 text-slate-700">
                       {editableRows.map((row) => (
-                        <tr key={row.id} className="hover:bg-slate-800/40 transition-colors">
+                        <tr key={row.id} className="hover:bg-slate-50 transition-colors">
                           
                           {/* Year (e.g. 2025-26) */}
                           <td className="px-2.5 py-2 whitespace-nowrap">
@@ -470,7 +470,7 @@ ALTER TABLE sales ALTER COLUMN sale_id SET DEFAULT nextval('sales_sale_id_seq');
                               type="text"
                               value={row.year}
                               onChange={(e) => handleRowChange(row.id, 'year', e.target.value)}
-                              className="bg-slate-800/80 border border-slate-700/80 rounded px-1.5 py-0.5 text-xs text-amber-300 font-mono w-20 focus:outline-none focus:border-amber-500"
+                              className="bg-white border border-slate-300 rounded px-1.5 py-0.5 text-xs text-amber-700 font-mono w-20 focus:outline-none focus:border-amber-600"
                               title="Batesville Fiscal Year (e.g. 2025-26, rolls to 2026-27 in October)"
                             />
                           </td>
@@ -481,7 +481,7 @@ ALTER TABLE sales ALTER COLUMN sale_id SET DEFAULT nextval('sales_sale_id_seq');
                               type="text"
                               value={row.month}
                               onChange={(e) => handleRowChange(row.id, 'month', e.target.value.toUpperCase())}
-                              className="bg-slate-800/80 border border-slate-700/80 rounded px-1 py-0.5 text-xs text-center text-slate-200 font-mono w-14 uppercase focus:outline-none focus:border-amber-500"
+                              className="bg-white border border-slate-300 rounded px-1 py-0.5 text-xs text-center text-slate-800 font-mono w-14 uppercase focus:outline-none focus:border-amber-600"
                               title="Fiscal Month (e.g. SEP, OCT)"
                             />
                           </td>
@@ -494,7 +494,7 @@ ALTER TABLE sales ALTER COLUMN sale_id SET DEFAULT nextval('sales_sale_id_seq');
                               max="31"
                               value={row.day}
                               onChange={(e) => handleRowChange(row.id, 'day', parseInt(e.target.value, 10) || 1)}
-                              className="bg-slate-800/80 border border-slate-700/80 rounded px-1 py-0.5 text-xs text-center text-slate-200 font-mono w-12 focus:outline-none focus:border-amber-500"
+                              className="bg-white border border-slate-300 rounded px-1 py-0.5 text-xs text-center text-slate-800 font-mono w-12 focus:outline-none focus:border-amber-600"
                               title="Day of Month (1-31)"
                             />
                           </td>
@@ -505,7 +505,7 @@ ALTER TABLE sales ALTER COLUMN sale_id SET DEFAULT nextval('sales_sale_id_seq');
                               type="text"
                               value={row.accountNumber}
                               onChange={(e) => handleRowChange(row.id, 'accountNumber', e.target.value)}
-                              className="bg-slate-800/80 border border-slate-700/80 rounded px-1.5 py-0.5 text-xs text-amber-300 font-mono w-20 focus:outline-none focus:border-amber-500"
+                              className="bg-white border border-slate-300 rounded px-1.5 py-0.5 text-xs text-amber-700 font-mono w-20 focus:outline-none focus:border-amber-600"
                             />
                           </td>
 
@@ -515,7 +515,7 @@ ALTER TABLE sales ALTER COLUMN sale_id SET DEFAULT nextval('sales_sale_id_seq');
                               type="text"
                               value={row.accountName}
                               onChange={(e) => handleRowChange(row.id, 'accountName', e.target.value)}
-                              className="bg-slate-800/80 border border-slate-700/80 rounded px-1.5 py-0.5 text-xs text-slate-200 w-full focus:outline-none focus:border-amber-500"
+                              className="bg-white border border-slate-300 rounded px-1.5 py-0.5 text-xs text-slate-800 w-full focus:outline-none focus:border-amber-600"
                             />
                           </td>
 
@@ -525,7 +525,7 @@ ALTER TABLE sales ALTER COLUMN sale_id SET DEFAULT nextval('sales_sale_id_seq');
                               type="text"
                               value={row.orderNumber || ''}
                               onChange={(e) => handleRowChange(row.id, 'orderNumber', e.target.value)}
-                              className="bg-slate-800/80 border border-slate-700/80 rounded px-1.5 py-0.5 text-xs text-slate-300 font-mono w-24 focus:outline-none focus:border-amber-500"
+                              className="bg-white border border-slate-300 rounded px-1.5 py-0.5 text-xs text-slate-700 font-mono w-24 focus:outline-none focus:border-amber-600"
                             />
                           </td>
 
@@ -535,7 +535,7 @@ ALTER TABLE sales ALTER COLUMN sale_id SET DEFAULT nextval('sales_sale_id_seq');
                               type="text"
                               value={row.productCode}
                               onChange={(e) => handleRowChange(row.id, 'productCode', e.target.value)}
-                              className="bg-slate-800/80 border border-slate-700/80 rounded px-1.5 py-0.5 text-xs text-amber-400 font-mono w-20 focus:outline-none focus:border-amber-500"
+                              className="bg-white border border-slate-300 rounded px-1.5 py-0.5 text-xs text-amber-700 font-mono w-20 focus:outline-none focus:border-amber-600 font-bold"
                             />
                           </td>
 
@@ -545,7 +545,7 @@ ALTER TABLE sales ALTER COLUMN sale_id SET DEFAULT nextval('sales_sale_id_seq');
                               type="text"
                               value={row.description}
                               onChange={(e) => handleRowChange(row.id, 'description', e.target.value)}
-                              className="bg-slate-800/80 border border-slate-700/80 rounded px-1.5 py-0.5 text-xs text-slate-200 w-full focus:outline-none focus:border-amber-500"
+                              className="bg-white border border-slate-300 rounded px-1.5 py-0.5 text-xs text-slate-800 w-full focus:outline-none focus:border-amber-600"
                             />
                           </td>
 
@@ -556,7 +556,7 @@ ALTER TABLE sales ALTER COLUMN sale_id SET DEFAULT nextval('sales_sale_id_seq');
                               min="1"
                               value={row.quantity}
                               onChange={(e) => handleRowChange(row.id, 'quantity', parseInt(e.target.value, 10) || 1)}
-                              className="bg-slate-800/80 border border-slate-700/80 rounded px-1.5 py-0.5 text-xs text-center font-mono w-12 focus:outline-none focus:border-amber-500"
+                              className="bg-white border border-slate-300 rounded px-1.5 py-0.5 text-xs text-center font-mono w-12 focus:outline-none focus:border-amber-600"
                             />
                           </td>
 
@@ -566,12 +566,12 @@ ALTER TABLE sales ALTER COLUMN sale_id SET DEFAULT nextval('sales_sale_id_seq');
                               type="number"
                               value={row.cost}
                               onChange={(e) => handleRowChange(row.id, 'cost', parseFloat(e.target.value) || 0)}
-                              className="bg-slate-800/80 border border-slate-700/80 rounded px-1.5 py-0.5 text-xs text-right font-mono w-20 text-emerald-300 focus:outline-none focus:border-amber-500"
+                              className="bg-white border border-slate-300 rounded px-1.5 py-0.5 text-xs text-right font-mono w-20 text-emerald-700 focus:outline-none focus:border-amber-600 font-semibold"
                             />
                           </td>
 
                           {/* Total */}
-                          <td className="px-3 py-2 text-right font-mono font-semibold text-emerald-400 whitespace-nowrap">
+                          <td className="px-3 py-2 text-right font-mono font-semibold text-emerald-700 whitespace-nowrap">
                             ${row.totalAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                           </td>
 
@@ -579,7 +579,7 @@ ALTER TABLE sales ALTER COLUMN sale_id SET DEFAULT nextval('sales_sale_id_seq');
                           <td className="px-2 py-2 text-center whitespace-nowrap">
                             <button
                               onClick={() => handleRemoveRow(row.id)}
-                              className="p-1 text-slate-500 hover:text-red-400 transition-colors"
+                              className="p-1 text-slate-400 hover:text-rose-600 transition-colors"
                               title="Delete row"
                             >
                               <Trash2 className="w-3.5 h-3.5" />
@@ -598,8 +598,8 @@ ALTER TABLE sales ALTER COLUMN sale_id SET DEFAULT nextval('sales_sale_id_seq');
         </div>
 
         {/* Footer Actions */}
-        <div className="flex items-center justify-between px-6 py-4 border-t border-slate-800 bg-[#121820]/90">
-          <div className="text-xs text-slate-400">
+        <div className="flex items-center justify-between px-6 py-4 border-t border-slate-200 bg-slate-50">
+          <div className="text-xs text-slate-500">
             {editableRows.length > 0 ? (
               <span>Ready to append <strong>{editableRows.length}</strong> transactions to the database.</span>
             ) : (
@@ -610,7 +610,7 @@ ALTER TABLE sales ALTER COLUMN sale_id SET DEFAULT nextval('sales_sale_id_seq');
           <div className="flex items-center space-x-3">
             <button
               onClick={onClose}
-              className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 transition-colors cursor-pointer"
+              className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:text-slate-900 bg-white hover:bg-slate-100 border border-slate-300 transition-colors cursor-pointer shadow-sm"
             >
               Cancel
             </button>
@@ -619,7 +619,7 @@ ALTER TABLE sales ALTER COLUMN sale_id SET DEFAULT nextval('sales_sale_id_seq');
               <button
                 onClick={handleCommitSales}
                 disabled={isSaving}
-                className="flex items-center space-x-2 px-5 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-slate-950 shadow-lg shadow-emerald-500/20 transition-all cursor-pointer disabled:opacity-50"
+                className="flex items-center space-x-2 px-5 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 text-white shadow-md shadow-emerald-600/20 transition-all cursor-pointer disabled:opacity-50"
               >
                 {isSaving ? (
                   <>

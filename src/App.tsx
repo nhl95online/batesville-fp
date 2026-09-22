@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Customer, Product } from './types';
 import { db, initializeDatabase } from './services/db';
 import { Navbar } from './components/layout/Navbar';
+import { LandingPage } from './components/home/LandingPage';
 import { PriceCardStudio } from './components/price-cards/PriceCardStudio';
 import { SalesDashboard } from './components/sales/SalesDashboard';
 import { CustomerList } from './components/customers/CustomerList';
@@ -10,10 +11,10 @@ import { CatalogYearManager } from './components/catalogs/CatalogYearManager';
 import { CasketImageManagerModal } from './components/catalogs/CasketImageManagerModal';
 import { DailySalesUploadModal } from './components/sales/DailySalesUploadModal';
 import { syncFromSupabase } from './services/supabase';
-import { Tag, BarChart3, Building2, Layers, Calendar, Image as ImageIcon, Loader2 } from 'lucide-react';
+import { Home, Tag, BarChart3, Building2, Layers, Calendar, Image as ImageIcon, Loader2 } from 'lucide-react';
 
 export function App() {
-  const [activeTab, setActiveTab] = useState<'cards' | 'sales' | 'customers' | 'products' | 'catalogs'>('customers');
+  const [activeTab, setActiveTab] = useState<'home' | 'cards' | 'sales' | 'customers' | 'products' | 'catalogs'>('home');
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [counts, setCounts] = useState<{ customers: number; products: number; sales: number }>({
@@ -115,34 +116,49 @@ export function App() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#121820] flex flex-col items-center justify-center text-slate-200">
-        <Loader2 className="w-10 h-10 text-amber-500 animate-spin mb-4" />
-        <h2 className="font-serif text-2xl font-bold text-white tracking-wide">BATESVILLE<span className="text-amber-400">-FP</span></h2>
-        <p className="text-sm text-slate-400 mt-1">Connecting to Batesville Cloud Database...</p>
+      <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center text-slate-800">
+        <Loader2 className="w-10 h-10 text-amber-600 animate-spin mb-4" />
+        <h2 className="font-serif text-2xl font-bold text-slate-900 tracking-wide">
+          BATESVILLE<span className="text-amber-600">-FP</span>
+        </h2>
+        <p className="text-xs sm:text-sm text-slate-500 mt-1">Connecting to Batesville Cloud Database...</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#121820] text-slate-200 flex flex-col selection:bg-amber-500/20 selection:text-amber-300">
+    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col selection:bg-amber-500/20 selection:text-amber-900">
       
       {/* Top Navigation */}
       <Navbar
         isAutoSyncing={isAutoSyncing}
         onOpenSalesUpload={() => setIsSalesUploadModalOpen(true)}
+        onGoHome={() => setActiveTab('home')}
       />
 
       {/* Main Tab Navigation Bar */}
-      <div className="no-print bg-[#161e2a]/95 border-b border-slate-800/80">
+      <div className="no-print bg-white border-b border-slate-200 shadow-sm sticky top-16 z-30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between overflow-x-auto py-2">
           
-          <div className="flex items-center space-x-1 sm:space-x-3">
+          <div className="flex items-center space-x-1 sm:space-x-2">
+            <button
+              onClick={() => setActiveTab('home')}
+              className={`flex items-center space-x-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all cursor-pointer ${
+                activeTab === 'home'
+                  ? 'bg-amber-600 text-white shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+              }`}
+            >
+              <Home className="w-4 h-4" />
+              <span>Executive Home</span>
+            </button>
+
             <button
               onClick={() => setActiveTab('catalogs')}
-              className={`flex items-center space-x-2 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all cursor-pointer ${
+              className={`flex items-center space-x-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all cursor-pointer ${
                 activeTab === 'catalogs'
-                  ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                  ? 'bg-amber-600 text-white shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
               }`}
             >
               <Calendar className="w-4 h-4" />
@@ -151,10 +167,10 @@ export function App() {
 
             <button
               onClick={() => setActiveTab('cards')}
-              className={`flex items-center space-x-2 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all cursor-pointer ${
+              className={`flex items-center space-x-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all cursor-pointer ${
                 activeTab === 'cards'
-                  ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                  ? 'bg-amber-600 text-white shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
               }`}
             >
               <Tag className="w-4 h-4" />
@@ -163,10 +179,10 @@ export function App() {
 
             <button
               onClick={() => setActiveTab('sales')}
-              className={`flex items-center space-x-2 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all cursor-pointer ${
+              className={`flex items-center space-x-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all cursor-pointer ${
                 activeTab === 'sales'
-                  ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                  ? 'bg-amber-600 text-white shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
               }`}
             >
               <BarChart3 className="w-4 h-4" />
@@ -175,10 +191,10 @@ export function App() {
 
             <button
               onClick={() => setActiveTab('customers')}
-              className={`flex items-center space-x-2 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all cursor-pointer ${
+              className={`flex items-center space-x-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all cursor-pointer ${
                 activeTab === 'customers'
-                  ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                  ? 'bg-amber-600 text-white shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
               }`}
             >
               <Building2 className="w-4 h-4" />
@@ -187,10 +203,10 @@ export function App() {
 
             <button
               onClick={() => setActiveTab('products')}
-              className={`flex items-center space-x-2 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all cursor-pointer ${
+              className={`flex items-center space-x-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all cursor-pointer ${
                 activeTab === 'products'
-                  ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                  ? 'bg-amber-600 text-white shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
               }`}
             >
               <Layers className="w-4 h-4" />
@@ -202,9 +218,9 @@ export function App() {
           <div className="pl-3 shrink-0">
             <button
               onClick={() => setIsImageModalOpen(true)}
-              className="flex items-center space-x-1.5 bg-slate-800 hover:bg-slate-700 text-amber-300 border border-slate-700 hover:border-amber-400/50 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer"
+              className="flex items-center space-x-1.5 bg-slate-50 hover:bg-slate-100 text-slate-700 hover:text-amber-700 border border-slate-200 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer shadow-sm"
             >
-              <ImageIcon className="w-3.5 h-3.5 text-amber-400" />
+              <ImageIcon className="w-3.5 h-3.5 text-amber-600" />
               <span>Casket Images</span>
             </button>
           </div>
@@ -214,6 +230,17 @@ export function App() {
 
       {/* Main Content Area */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {activeTab === 'home' && (
+          <LandingPage
+            customers={customers}
+            products={products}
+            salesCount={counts.sales}
+            onNavigate={(tab) => setActiveTab(tab)}
+            onOpenSalesUpload={() => setIsSalesUploadModalOpen(true)}
+            onOpenImageManager={() => setIsImageModalOpen(true)}
+          />
+        )}
+
         {activeTab === 'catalogs' && (
           <CatalogYearManager
             products={products}

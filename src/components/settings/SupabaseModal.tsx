@@ -121,40 +121,40 @@ CREATE TABLE IF NOT EXISTS public.sales (
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
-      <div className="relative w-full max-w-2xl bg-slate-900 border border-slate-700 rounded-3xl shadow-2xl overflow-hidden my-8">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm overflow-y-auto">
+      <div className="relative w-full max-w-2xl bg-white border border-slate-200 rounded-3xl shadow-2xl overflow-hidden my-8">
         
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-950/60">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 bg-slate-50">
           <div className="flex items-center space-x-3">
-            <div className="p-2 bg-emerald-500/10 border border-emerald-500/30 rounded-xl text-emerald-400">
+            <div className="p-2 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-700">
               <Cloud className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="font-serif text-lg font-bold text-white">
+              <h2 className="font-serif text-lg font-bold text-slate-900">
                 Supabase Integration & Cloud Sync
               </h2>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-500">
                 Connect your Supabase project to sync customer, product, and sales data.
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
+            className="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Tab Selector */}
-        <div className="flex items-center space-x-2 px-6 pt-4 border-b border-slate-800">
+        <div className="flex items-center space-x-2 px-6 pt-4 border-b border-slate-200">
           <button
             onClick={() => setActiveTab('config')}
             className={`pb-2.5 px-3 text-xs font-semibold border-b-2 transition-all cursor-pointer ${
               activeTab === 'config'
-                ? 'border-amber-400 text-amber-300'
-                : 'border-transparent text-slate-400 hover:text-white'
+                ? 'border-amber-600 text-amber-800'
+                : 'border-transparent text-slate-500 hover:text-slate-800'
             }`}
           >
             Connection Settings
@@ -163,8 +163,8 @@ CREATE TABLE IF NOT EXISTS public.sales (
             onClick={() => setActiveTab('schema')}
             className={`pb-2.5 px-3 text-xs font-semibold border-b-2 transition-all cursor-pointer ${
               activeTab === 'schema'
-                ? 'border-amber-400 text-amber-300'
-                : 'border-transparent text-slate-400 hover:text-white'
+                ? 'border-amber-600 text-amber-800'
+                : 'border-transparent text-slate-500 hover:text-slate-800'
             }`}
           >
             SQL Schema Generator
@@ -177,7 +177,7 @@ CREATE TABLE IF NOT EXISTS public.sales (
             <>
               <div className="space-y-4">
                 <div>
-                  <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block mb-1.5">
+                  <label className="text-xs font-semibold text-slate-600 uppercase tracking-wider block mb-1.5">
                     Supabase Project URL
                   </label>
                   <input
@@ -185,15 +185,15 @@ CREATE TABLE IF NOT EXISTS public.sales (
                     placeholder="https://xyzcompany.supabase.co"
                     value={config.url}
                     onChange={(e) => setConfig({ ...config, url: e.target.value.trim() })}
-                    className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-500 font-mono"
+                    className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 font-mono"
                   />
-                  <p className="text-[11px] text-slate-400 mt-1">
+                  <p className="text-[11px] text-slate-500 mt-1">
                     Found in your Supabase Dashboard under <strong>Project Settings → API</strong>.
                   </p>
                 </div>
 
                 <div>
-                  <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block mb-1.5">
+                  <label className="text-xs font-semibold text-slate-600 uppercase tracking-wider block mb-1.5">
                     Supabase Anon / Public API Key
                   </label>
                   <input
@@ -201,7 +201,7 @@ CREATE TABLE IF NOT EXISTS public.sales (
                     placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
                     value={config.anonKey}
                     onChange={(e) => setConfig({ ...config, anonKey: e.target.value.trim() })}
-                    className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-500 font-mono"
+                    className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 font-mono"
                   />
                 </div>
               </div>
@@ -210,13 +210,13 @@ CREATE TABLE IF NOT EXISTS public.sales (
               {testResult && (
                 <div className={`p-4 rounded-xl flex items-start space-x-3 text-xs border ${
                   testResult.success 
-                    ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300' 
-                    : 'bg-rose-500/10 border-rose-500/30 text-rose-300'
+                    ? 'bg-emerald-50 border-emerald-200 text-emerald-800' 
+                    : 'bg-rose-50 border-rose-200 text-rose-800'
                 }`}>
                   {testResult.success ? (
-                    <CheckCircle2 className="w-5 h-5 shrink-0 text-emerald-400" />
+                    <CheckCircle2 className="w-5 h-5 shrink-0 text-emerald-600" />
                   ) : (
-                    <AlertCircle className="w-5 h-5 shrink-0 text-rose-400" />
+                    <AlertCircle className="w-5 h-5 shrink-0 text-rose-600" />
                   )}
                   <div className="flex-1">
                     <p className="font-semibold">{testResult.message}</p>
@@ -234,7 +234,7 @@ CREATE TABLE IF NOT EXISTS public.sales (
                 <button
                   onClick={handleSaveAndTest}
                   disabled={isTesting}
-                  className="flex-1 flex items-center justify-center space-x-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold py-2.5 px-4 rounded-xl border border-slate-700 transition-colors cursor-pointer"
+                  className="flex-1 flex items-center justify-center space-x-2 bg-white hover:bg-slate-100 text-slate-700 font-semibold py-2.5 px-4 rounded-xl border border-slate-300 transition-colors cursor-pointer shadow-xs"
                 >
                   <RefreshCw className={`w-4 h-4 ${isTesting ? 'animate-spin' : ''}`} />
                   <span>{isTesting ? 'Testing Connection...' : 'Save & Test Connection'}</span>
@@ -243,7 +243,7 @@ CREATE TABLE IF NOT EXISTS public.sales (
                 <button
                   onClick={handleSyncFromSupabase}
                   disabled={isSyncing || !config.url}
-                  className="flex-1 flex items-center justify-center space-x-2 bg-amber-500 hover:bg-amber-400 disabled:opacity-50 text-slate-950 font-bold py-2.5 px-4 rounded-xl transition-all cursor-pointer shadow-md shadow-amber-500/20"
+                  className="flex-1 flex items-center justify-center space-x-2 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-600 disabled:opacity-50 text-white font-bold py-2.5 px-4 rounded-xl transition-all cursor-pointer shadow-md shadow-amber-500/20"
                 >
                   <Cloud className={`w-4 h-4 ${isSyncing ? 'animate-bounce' : ''}`} />
                   <span>{isSyncing ? 'Syncing...' : 'Sync From Supabase'}</span>
@@ -252,10 +252,10 @@ CREATE TABLE IF NOT EXISTS public.sales (
                 <button
                   onClick={handlePushToSupabase}
                   disabled={isSyncing || !config.url}
-                  className="flex items-center justify-center space-x-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold py-2.5 px-3 rounded-xl border border-slate-700 transition-colors cursor-pointer"
+                  className="flex items-center justify-center space-x-1.5 bg-white hover:bg-slate-100 text-slate-700 font-semibold py-2.5 px-3 rounded-xl border border-slate-300 transition-colors cursor-pointer shadow-xs"
                   title="Push local data up to Supabase"
                 >
-                  <UploadCloud className="w-4 h-4 text-slate-400" />
+                  <UploadCloud className="w-4 h-4 text-slate-500" />
                   <span>Push</span>
                 </button>
               </div>
@@ -263,19 +263,19 @@ CREATE TABLE IF NOT EXISTS public.sales (
           ) : (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <p className="text-xs text-slate-300">
+                <p className="text-xs text-slate-600">
                   Copy this SQL and run it in your <strong>Supabase Dashboard → SQL Editor</strong> to create all tables:
                 </p>
                 <button
                   onClick={copySchemaToClipboard}
-                  className="flex items-center space-x-1.5 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer"
+                  className="flex items-center space-x-1.5 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer shadow-xs"
                 >
                   {copiedSchema ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
                   <span>{copiedSchema ? 'Copied!' : 'Copy SQL'}</span>
                 </button>
               </div>
 
-              <pre className="p-4 rounded-xl bg-slate-950 border border-slate-800 text-[11px] font-mono text-amber-200/90 overflow-x-auto max-h-72">
+              <pre className="p-4 rounded-xl bg-slate-900 border border-slate-800 text-[11px] font-mono text-amber-200/90 overflow-x-auto max-h-72">
                 {schemaSqlSample}
               </pre>
             </div>
