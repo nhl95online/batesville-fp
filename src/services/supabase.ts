@@ -270,12 +270,6 @@ export async function syncFromSupabase(): Promise<{
     if (custError) throw new Error(`Customers sync error: ${custError.message}`);
 
     const mappedCustomers: Customer[] = (remoteCustomers || []).map((c: any) => {
-      // determine tier
-      let tier = 'Standard' as any;
-      if (c.burial_discount >= 45 || c.program === 'ARB') tier = 'Platinum';
-      else if (c.burial_discount >= 35) tier = 'Gold';
-      else if (c.burial_discount > 0) tier = 'Silver';
-
       const markup = c.burial_discount ? Math.round(100 + c.burial_discount) : 140;
 
       return {
@@ -296,7 +290,7 @@ export async function syncFromSupabase(): Promise<{
         selectionRoom: Boolean(c.selectionroom),
         selectionRoomStyle: c.selectionroom_style || (c.selectionroom ? 'Full Size' : 'None'),
         program: c.program || 'Standard',
-        tier,
+        tier: c.program || 'Standard',
         defaultMarkupPercent: markup,
         notes: `Program: ${c.program || 'N/A'} • Style: ${c.selectionroom_style || 'Standard'} • Discounts: Burial ${c.burial_discount || 0}%, Cremation ${c.cremation_discount || 0}%`,
         createdAt: c.createdAt || new Date().toISOString(),

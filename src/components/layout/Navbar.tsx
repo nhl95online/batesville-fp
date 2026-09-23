@@ -1,15 +1,17 @@
 import React from 'react';
-import { RefreshCw, UploadCloud } from 'lucide-react';
+import { RefreshCw, UploadCloud, FileSpreadsheet } from 'lucide-react';
 
 interface NavbarProps {
   isAutoSyncing?: boolean;
   onOpenSalesUpload?: () => void;
+  onOpenPriceListImport?: () => void;
   onGoHome?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
   isAutoSyncing = false,
   onOpenSalesUpload,
+  onOpenPriceListImport,
   onGoHome,
 }) => {
   return (
@@ -43,6 +45,18 @@ export const Navbar: React.FC<NavbarProps> = ({
         {/* Right Tools & Cloud Sync Indicator */}
         <div className="flex items-center space-x-3">
           
+          {/* Quick Action: Import Price List */}
+          {onOpenPriceListImport && (
+            <button
+              onClick={onOpenPriceListImport}
+              className="flex items-center space-x-1.5 bg-amber-50 hover:bg-amber-100 border border-amber-200 px-3 py-1.5 rounded-xl text-xs font-semibold text-amber-900 transition-all cursor-pointer shadow-xs"
+              title="Import Batesville Price List & Reference Guide (PDF / Text)"
+            >
+              <FileSpreadsheet className="w-3.5 h-3.5 text-amber-700" />
+              <span className="hidden sm:inline">Import Price List</span>
+            </button>
+          )}
+
           {/* Quick Action: Upload Daily Sales PDF */}
           {onOpenSalesUpload && (
             <button

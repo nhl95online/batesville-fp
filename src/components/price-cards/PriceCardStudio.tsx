@@ -16,6 +16,8 @@ interface PriceCardStudioProps {
   products: Product[];
   initialCustomerId?: string;
   initialProductId?: string;
+  initialDimension?: CardDimension;
+  onDimensionChange?: (dim: CardDimension) => void;
 }
 
 const isUrnProduct = (p: Product) => {
@@ -117,6 +119,8 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
   products,
   initialCustomerId,
   initialProductId,
+  initialDimension,
+  onDimensionChange,
 }) => {
   const [selectedCustomerId, setSelectedCustomerId] = useState<string>(
     initialCustomerId || customers[0]?.id || ''
@@ -124,7 +128,18 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
   const [selectedProductId, setSelectedProductId] = useState<string>(
     initialProductId || products[0]?.id || ''
   );
-  const [dimension, setDimension] = useState<CardDimension>('6x6');
+  const [dimension, setDimension] = useState<CardDimension>(initialDimension || '6x6');
+
+  useEffect(() => {
+    if (initialDimension && initialDimension !== dimension) {
+      setDimension(initialDimension);
+    }
+  }, [initialDimension]);
+
+  const handleSelectDimension = (d: CardDimension) => {
+    setDimension(d);
+    onDimensionChange?.(d);
+  };
   const [theme, setTheme] = useState<CardTheme>('classic-burgundy');
   const [zoomScale, setZoomScale] = useState<number>(0.95);
   
@@ -370,7 +385,7 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
               {dimensionLabels.map((d) => (
                 <button
                   key={d.id}
-                  onClick={() => setDimension(d.id)}
+                  onClick={() => handleSelectDimension(d.id)}
                   className={`text-left p-3 rounded-xl border transition-all ${
                     dimension === d.id
                       ? 'bg-amber-50 border-amber-500 text-amber-900 font-semibold shadow-sm'
@@ -391,7 +406,7 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
                 <Building2 className="w-3.5 h-3.5 text-amber-600" />
                 Funeral Home (Customer)
               </span>
-              <span className="text-[11px] text-amber-700 font-medium lowercase">tier: {selectedCustomer?.tier}</span>
+              <span className="text-[11px] text-amber-700 font-medium">Program: {selectedCustomer?.program || 'Standard'}</span>
             </label>
             <select
               value={selectedCustomerId}

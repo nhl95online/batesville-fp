@@ -3,23 +3,40 @@ import { Product, ProductCategory } from '../../types';
 import { ProductDetailModal } from './ProductDetailModal';
 import { ProductLithoModal } from './ProductLithoModal';
 import { isUrnProduct } from '../../services/supabase';
-import { Search, Tag, Eye, Layers, Image as ImageIcon, Calendar, Printer } from 'lucide-react';
+import { Search, Tag, Eye, Layers, Image as ImageIcon, Calendar, Printer, FileSpreadsheet } from 'lucide-react';
 
 interface ProductCatalogProps {
   products: Product[];
   onSelectProductForCard: (productId: string) => void;
   onOpenImageManager?: () => void;
+  onOpenPriceListImport?: () => void;
+  selectedCategory?: string;
+  onCategoryChange?: (category: string) => void;
 }
 
 export const ProductCatalog: React.FC<ProductCatalogProps> = ({
   products,
   onSelectProductForCard,
   onOpenImageManager,
+  onOpenPriceListImport,
+  selectedCategory: selectedCategoryProp,
+  onCategoryChange,
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [selectedCategory, setSelectedCategory] = useState<string>(selectedCategoryProp || 'all');
   const [activeModalProduct, setActiveModalProduct] = useState<Product | null>(null);
   const [activeLithoProduct, setActiveLithoProduct] = useState<Product | null>(null);
+
+  useEffect(() => {
+    if (selectedCategoryProp !== undefined && selectedCategoryProp !== selectedCategory) {
+      setSelectedCategory(selectedCategoryProp);
+    }
+  }, [selectedCategoryProp]);
+
+  const handleSelectCategory = (cat: string) => {
+    setSelectedCategory(cat);
+    onCategoryChange?.(cat);
+  };
 
   // Distinct categories & sorted years (most recent first)
   const categories = ['all', ...Array.from(new Set(products.map(p => p.category)))];
@@ -42,8 +59,33 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
     }
   }, [availableYears]);
 
+  const checkCategoryMatch = (p: Product, filterCat: string) => {
+    if (filterCat === 'all') return true;
+    const f = filterCat.toLowerCase();
+    const pCat = (p.category || '').toLowerCase();
+    const pMat = (p.material || '').toLowerCase();
+    const pDesc = (p.description || '').toLowerCase();
+
+    if (f === 'metal') {
+      return pCat.includes('metal') || pMat.includes('steel') || pMat.includes('bronze') || pMat.includes('copper') || pDesc.includes('18 ga') || pDesc.includes('20 ga');
+    }
+    if (f === 'wood') {
+      return pCat.includes('wood') || ['oak', 'pecan', 'cherry', 'mahogany', 'maple', 'poplar', 'pine', 'walnut'].some(m => pMat.includes(m) || pDesc.includes(m));
+    }
+    if (f === 'cloth') {
+      return pCat.includes('cloth') || pCat.includes('newpointe') || pDesc.includes('cloth') || pDesc.includes('newpointe');
+    }
+    if (f === 'urns') {
+      return isUrnProduct(p);
+    }
+    if (f === 'keepsakes') {
+      return pCat.includes('keepsake') || pCat.includes('jewelry') || pDesc.includes('keepsake') || pDesc.includes('jewelry');
+    }
+    return p.category === filterCat || pCat.includes(f);
+  };
+
   const filteredProducts = products.filter((p) => {
-    const matchesCategory = selectedCategory === 'all' || p.category === selectedCategory;
+    const matchesCategory = checkCategoryMatch(p, selectedCategory);
     const matchesYear = selectedYear === 'all' || String(p.catalogYear) === selectedYear;
     const matchesSearch = 
       p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -74,6 +116,18 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
+          {/* Import Price List button */}
+          {onOpenPriceListImport && (
+            <button
+              onClick={onOpenPriceListImport}
+              className="flex items-center space-x-1.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold px-3.5 py-2 rounded-xl text-xs shadow-md shadow-amber-500/20 transition-all cursor-pointer hover:scale-[1.01]"
+              title="Import Batesville Price Guide / Reference List (PDF / Text)"
+            >
+              <FileSpreadsheet className="w-4 h-4" />
+              <span>Import Price List</span>
+            </button>
+          )}
+
           {/* Casket Images Studio button */}
           {onOpenImageManager && (
             <button
@@ -122,7 +176,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
           <span className="text-slate-500 font-medium">Category:</span>
           <select
             value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
+            onChange={(e) => handleSelectCategory(e.target.value)}
             className="bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1 text-slate-800 focus:outline-none focus:border-amber-500 max-w-[200px] cursor-pointer"
           >
             {categories.map((cat) => (

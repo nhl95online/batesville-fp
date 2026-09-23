@@ -30,9 +30,18 @@ import {
 interface SalesDashboardProps {
   customers: Customer[];
   products: Product[];
+  initialView?: 'analytics' | 'units' | 'table';
+  onViewChange?: (view: 'analytics' | 'units' | 'table') => void;
+  onOpenSalesUpload?: () => void;
 }
 
-export const SalesDashboard: React.FC<SalesDashboardProps> = ({ customers, products }) => {
+export const SalesDashboard: React.FC<SalesDashboardProps> = ({ 
+  customers, 
+  products,
+  initialView,
+  onViewChange,
+  onOpenSalesUpload,
+}) => {
   const [availableYears, setAvailableYears] = useState<string[]>([]);
   const [currentYear, setCurrentYear] = useState<string | number>('2025-26');
   const [previousYear, setPreviousYear] = useState<string | number>('2024-25');
@@ -43,6 +52,18 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({ customers, produ
   const [chartView, setChartView] = useState<'revenue' | 'units'>('revenue');
   const [activeTab, setActiveTab] = useState<'analytics' | 'table'>('analytics');
   const [isUploadModalOpen, setIsUploadModalOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (initialView === 'table') {
+      setActiveTab('table');
+    } else if (initialView === 'units') {
+      setActiveTab('analytics');
+      setChartView('units');
+    } else if (initialView === 'analytics') {
+      setActiveTab('analytics');
+      setChartView('revenue');
+    }
+  }, [initialView]);
 
   // Sales Records for the Table view
   const [rawSales, setRawSales] = useState<SaleRecord[]>([]);

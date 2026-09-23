@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Product } from '../../types';
 import { syncFromSupabase } from '../../services/supabase';
 import { db } from '../../services/db';
@@ -22,6 +22,9 @@ interface CatalogYearManagerProps {
   onSelectProductForCard: (productId: string) => void;
   onDataChanged: () => void;
   onOpenImageManager: () => void;
+  onOpenPriceListImport?: () => void;
+  selectedYear?: string;
+  onYearChange?: (year: string) => void;
 }
 
 export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
@@ -29,20 +32,46 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
   onSelectProductForCard,
   onDataChanged,
   onOpenImageManager,
+  onOpenPriceListImport,
+  selectedYear: selectedYearProp,
+  onYearChange,
 }) => {
-  const [selectedYear, setSelectedYear] = useState<string>('all');
+  const [selectedYear, setSelectedYear] = useState<string>(selectedYearProp || 'all');
   const [selectedFeature, setSelectedFeature] = useState<'all' | 'lifesymbols' | 'lifestories' | 'dual' | 'oversize'>('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [isSyncing, setIsSyncing] = useState(false);
   const [syncStatus, setSyncStatus] = useState<{ success: boolean; message: string } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Group products by Catalog Year
-  const distinctYears = [...new Set(products.map(p => String(p.catalogYear)))].sort().reverse();
+  useEffect(() => {
+    if (selectedYearProp !== undefined && selectedYearProp !== selectedYear) {
+      setSelectedYear(selectedYearProp);
+    }
+  }, [selectedYearProp]);
+
+  const handleSelectYear = (yr: string) => {
+    setSelectedYear(yr);
+    onYearChange?.(yr);
+  };
+
+  // Group products by Catalog Year (including standard Batesville catalog editions)
+  const baseYears = ['2025-26', '2024-25', '2023-24', '2022-23', '2021-22', '2020-21', '2016-17'];
+  const productYears = Array.from(new Set(products.map(p => String(p.catalogYear || '')).filter(Boolean)));
+  const distinctYears = Array.from(new Set([...productYears, ...baseYears])).sort().reverse();
   const activeYear = selectedYear === 'all' ? (distinctYears[0] || '2025') : selectedYear;
 
+  const matchesYear = (productYear: string | number | undefined, filterYear: string) => {
+    if (filterYear === 'all') return true;
+    const pYr = String(productYear || '').trim();
+    const fYr = filterYear.trim();
+    if (pYr === fYr) return true;
+    if (fYr.includes('-') && pYr.length === 4 && fYr.startsWith(pYr)) return true;
+    if (pYr.includes('-') && fYr.length === 4 && pYr.startsWith(fYr)) return true;
+    return false;
+  };
+
   const filteredProducts = products.filter(p => {
-    const matchesYear = selectedYear === 'all' || String(p.catalogYear) === selectedYear;
+    const matchYear = matchesYear(p.catalogYear, selectedYear);
     const matchesFeature = 
       selectedFeature === 'all' ? true :
       selectedFeature === 'lifesymbols' ? Boolean(p.lifesymbols) :
@@ -55,7 +84,7 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
       (p.material && p.material.toLowerCase().includes(searchTerm.toLowerCase())) ||
       (p.interior && p.interior.toLowerCase().includes(searchTerm.toLowerCase())) ||
       (p.description && p.description.toLowerCase().includes(searchTerm.toLowerCase()));
-    return matchesYear && matchesFeature && matchesSearch;
+    return matchYear && matchesFeature && matchesSearch;
   });
 
   const handleSyncFromSupabase = async () => {
@@ -158,6 +187,18 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
 
         {/* Action Buttons */}
         <div className="flex flex-wrap items-center gap-3">
+          {/* Import Price List Button */}
+          {onOpenPriceListImport && (
+            <button
+              onClick={onOpenPriceListImport}
+              className="flex items-center space-x-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold px-4 py-2.5 rounded-xl shadow-md shadow-amber-500/20 transition-all cursor-pointer text-xs"
+              title="Import PDF / Text Product Reference Guide into Products Table"
+            >
+              <FileSpreadsheet className="w-4 h-4" />
+              <span>Import Price Guide (PDF / Text)</span>
+            </button>
+          )}
+
           {/* Supabase Ingest Button */}
           <button
             onClick={handleSyncFromSupabase}
@@ -211,7 +252,7 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
       {/* Year Edition Selector Pills */}
       <div className="flex items-center space-x-2 overflow-x-auto pb-2 scrollbar-none">
         <button
-          onClick={() => setSelectedYear('all')}
+          onClick={() => handleSelectYear('all')}
           className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer shadow-sm ${
             selectedYear === 'all'
               ? 'bg-amber-600 text-white'
@@ -222,13 +263,14 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
         </button>
 
         {distinctYears.map((yr) => {
-          const count = products.filter(p => String(p.catalogYear) === yr).length;
+          const count = products.filter(p => matchesYear(p.catalogYear, yr)).length;
+          const isSelected = selectedYear === yr || (selectedYear !== 'all' && matchesYear(yr, selectedYear));
           return (
             <button
               key={yr}
-              onClick={() => setSelectedYear(yr)}
+              onClick={() => handleSelectYear(yr)}
               className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer shadow-sm ${
-                selectedYear === yr
+                isSelected
                   ? 'bg-amber-600 text-white'
                   : 'bg-white border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50'
               }`}

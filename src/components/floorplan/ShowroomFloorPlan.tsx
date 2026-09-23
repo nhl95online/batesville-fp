@@ -30,6 +30,8 @@ interface ShowroomFloorPlanProps {
   initialCustomerId?: string;
   onOpenProductDetail?: (product: Product) => void;
   onOpenPriceCard?: (customerId: string, productId: string) => void;
+  initialRoomShape?: RoomShape;
+  onRoomShapeChange?: (shape: RoomShape) => void;
 }
 
 export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
@@ -38,6 +40,8 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
   initialCustomerId,
   onOpenProductDetail,
   onOpenPriceCard,
+  initialRoomShape,
+  onRoomShapeChange,
 }) => {
   // Active selected customer
   const [selectedCustomerId, setSelectedCustomerId] = useState<string>(() => {
@@ -56,7 +60,7 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
   const [isLoadingSales, setIsLoadingSales] = useState(false);
 
   // Room Configuration
-  const [roomShape, setRoomShape] = useState<RoomShape>('rectangle');
+  const [roomShape, setRoomShape] = useState<RoomShape>(initialRoomShape || 'rectangle');
   const [roomCapacity, setRoomCapacity] = useState<RoomCapacity>('medium');
   const [slots, setSlots] = useState<FloorSlot[]>([]);
   const [selectedSlotId, setSelectedSlotId] = useState<string | null>(null);
@@ -216,11 +220,19 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
     }
   };
 
+  useEffect(() => {
+    if (initialRoomShape && initialRoomShape !== roomShape) {
+      setRoomShape(initialRoomShape);
+      generateDefaultLayout(initialRoomShape, roomCapacity);
+    }
+  }, [initialRoomShape]);
+
   // Handle changing shape or capacity
   const handleConfigChange = (newShape: RoomShape, newCapacity: RoomCapacity) => {
     setRoomShape(newShape);
     setRoomCapacity(newCapacity);
     generateDefaultLayout(newShape, newCapacity);
+    onRoomShapeChange?.(newShape);
   };
 
   // Save current slots to localStorage

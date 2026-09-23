@@ -13,7 +13,7 @@ export type ProductCategory =
   | 'Keepsakes & Jewelry'
   | string;
 
-export type CustomerTier = 'Platinum' | 'Gold' | 'Silver' | 'Standard';
+export type CustomerTier = 'ARB' | 'PLN' | 'PA' | 'SPP' | 'AMP' | 'Standard' | string;
 
 export interface Customer {
   id: string; // e.g. "cust-1"

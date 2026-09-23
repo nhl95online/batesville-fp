@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Customer } from '../../types';
 import { CustomerDetail } from './CustomerDetail';
 import { 
@@ -20,25 +20,43 @@ interface CustomerListProps {
   customers: Customer[];
   onSelectCustomerForCard: (customerId: string) => void;
   onOpenFloorPlan?: (customerId: string) => void;
+  selectedProgram?: string;
+  onProgramChange?: (program: string) => void;
 }
 
 export const CustomerList: React.FC<CustomerListProps> = ({
   customers,
   onSelectCustomerForCard,
   onOpenFloorPlan,
+  selectedProgram: selectedProgramProp,
+  onProgramChange,
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedProgram, setSelectedProgram] = useState<string>('all');
+  const [selectedProgram, setSelectedProgram] = useState<string>(selectedProgramProp || 'all');
   const [selectedStyle, setSelectedStyle] = useState<string>('all');
   const [viewMode, setViewMode] = useState<'table' | 'cards'>('table');
   const [activeCustomer, setActiveCustomer] = useState<Customer | null>(null);
+
+  useEffect(() => {
+    if (selectedProgramProp !== undefined && selectedProgramProp !== selectedProgram) {
+      setSelectedProgram(selectedProgramProp);
+    }
+  }, [selectedProgramProp]);
+
+  const handleSelectProgram = (prog: string) => {
+    setSelectedProgram(prog);
+    onProgramChange?.(prog);
+  };
 
   // Extract distinct programs and styles
   const programs = ['all', ...Array.from(new Set(customers.map(c => c.program || 'N/A')))];
   const styles = ['all', ...Array.from(new Set(customers.map(c => c.selectionRoomStyle || 'N/A')))];
 
   const filteredCustomers = customers.filter((c) => {
-    const matchesProgram = selectedProgram === 'all' || (c.program || 'N/A') === selectedProgram;
+    const matchesProgram = 
+      selectedProgram === 'all' ? true :
+      selectedProgram === 'selection-rooms' ? Boolean(c.selectionRoom) :
+      (c.program || 'N/A') === selectedProgram;
     const matchesStyle = selectedStyle === 'all' || (c.selectionRoomStyle || 'N/A') === selectedStyle;
     const term = searchTerm.toLowerCase();
     const matchesSearch = 
@@ -129,12 +147,14 @@ export const CustomerList: React.FC<CustomerListProps> = ({
             <span className="text-slate-500 font-medium">Program:</span>
             <select
               value={selectedProgram}
-              onChange={(e) => setSelectedProgram(e.target.value)}
+              onChange={(e) => handleSelectProgram(e.target.value)}
               className="bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1 text-slate-800 focus:outline-none focus:border-amber-500 cursor-pointer"
             >
-              {programs.map((p) => (
+              <option value="all">All Programs ({customers.length})</option>
+              <option value="selection-rooms">Active Selection Rooms</option>
+              {programs.filter(p => p !== 'all').map((p) => (
                 <option key={p} value={p}>
-                  {p === 'all' ? `All Programs (${customers.length})` : p}
+                  {p} Program
                 </option>
               ))}
             </select>

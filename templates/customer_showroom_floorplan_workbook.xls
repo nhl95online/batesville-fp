@@ -1,0 +1,233 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Font ss:FontName="Segoe UI" ss:Size="10" ss:Color="#000000"/>
+  </Style>
+  <Style ss:ID="Header">
+   <Font ss:FontName="Segoe UI" ss:Size="11" ss:Color="#FFFFFF" ss:Bold="1"/>
+   <Interior ss:Color="#1E293B" ss:Pattern="Solid"/>
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+  </Style>
+  <Style ss:ID="GoldHeader">
+   <Font ss:FontName="Segoe UI" ss:Size="11" ss:Color="#000000" ss:Bold="1"/>
+   <Interior ss:Color="#F59E0B" ss:Pattern="Solid"/>
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+  </Style>
+  <Style ss:ID="DataText">
+   <Alignment ss:Vertical="Center"/>
+  </Style>
+  <Style ss:ID="DataNum">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Center"/>
+  </Style>
+  <Style ss:ID="DataInt">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Center"/>
+  </Style>
+ </Styles>
+
+ <!-- SHEET 1: ROOM DIMENSIONS -->
+ <Worksheet ss:Name="Room Dimensions">
+  <Table ss:DefaultRowHeight="20">
+   <Column ss:Width="90"/>
+   <Column ss:Width="180"/>
+   <Column ss:Width="160"/>
+   <Column ss:Width="90"/>
+   <Column ss:Width="80"/>
+   <Column ss:Width="80"/>
+   <Column ss:Width="95"/>
+   <Column ss:Width="80"/>
+   <Column ss:Width="80"/>
+   <Column ss:Width="90"/>
+   <Column ss:Width="90"/>
+   <Column ss:Width="110"/>
+   <Column ss:Width="240"/>
+   <Row ss:Height="26">
+    <Cell ss:StyleID="Header"><Data ss:Type="String">account_#</Data></Cell>
+    <Cell ss:StyleID="Header"><Data ss:Type="String">account_name</Data></Cell>
+    <Cell ss:StyleID="Header"><Data ss:Type="String">room_name</Data></Cell>
+    <Cell ss:StyleID="Header"><Data ss:Type="String">room_shape</Data></Cell>
+    <Cell ss:StyleID="Header"><Data ss:Type="String">length_ft</Data></Cell>
+    <Cell ss:StyleID="Header"><Data ss:Type="String">width_ft</Data></Cell>
+    <Cell ss:StyleID="Header"><Data ss:Type="String">ceiling_height_ft</Data></Cell>
+    <Cell ss:StyleID="Header"><Data ss:Type="String">sq_footage</Data></Cell>
+    <Cell ss:StyleID="Header"><Data ss:Type="String">door_wall</Data></Cell>
+    <Cell ss:StyleID="Header"><Data ss:Type="String">door_pos_ft</Data></Cell>
+    <Cell ss:StyleID="Header"><Data ss:Type="String">door_width_ft</Data></Cell>
+    <Cell ss:StyleID="Header"><Data ss:Type="String">max_casket_bays</Data></Cell>
+    <Cell ss:StyleID="Header"><Data ss:Type="String">notes</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="DataInt"><Data ss:Type="Number">1001</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Heritage Memorial Chapel</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Main Selection Room</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Rectangle</Data></Cell>
+    <Cell ss:StyleID="DataNum"><Data ss:Type="Number">32.0</Data></Cell>
+    <Cell ss:StyleID="DataNum"><Data ss:Type="Number">24.0</Data></Cell>
+    <Cell ss:StyleID="DataNum"><Data ss:Type="Number">10.0</Data></Cell>
+    <Cell ss:StyleID="DataInt"><Data ss:Type="Number">768</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">South</Data></Cell>
+    <Cell ss:StyleID="DataNum"><Data ss:Type="Number">12.0</Data></Cell>
+    <Cell ss:StyleID="DataNum"><Data ss:Type="Number">6.0</Data></Cell>
+    <Cell ss:StyleID="DataInt"><Data ss:Type="Number">16</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Main hardwood and metal casket showroom</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="DataInt"><Data ss:Type="Number">1001</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Heritage Memorial Chapel</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">East Urn Gallery</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Rectangle</Data></Cell>
+    <Cell ss:StyleID="DataNum"><Data ss:Type="Number">18.0</Data></Cell>
+    <Cell ss:StyleID="DataNum"><Data ss:Type="Number">14.0</Data></Cell>
+    <Cell ss:StyleID="DataNum"><Data ss:Type="Number">9.0</Data></Cell>
+    <Cell ss:StyleID="DataInt"><Data ss:Type="Number">252</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">West</Data></Cell>
+    <Cell ss:StyleID="DataNum"><Data ss:Type="Number">6.0</Data></Cell>
+    <Cell ss:StyleID="DataNum"><Data ss:Type="Number">3.5</Data></Cell>
+    <Cell ss:StyleID="DataInt"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Dedicated urn and keepsake boutique</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="DataInt"><Data ss:Type="Number">1002</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Oakwood Family Mortuary</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Casket Presentation Center</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Rectangle</Data></Cell>
+    <Cell ss:StyleID="DataNum"><Data ss:Type="Number">36.0</Data></Cell>
+    <Cell ss:StyleID="DataNum"><Data ss:Type="Number">28.0</Data></Cell>
+    <Cell ss:StyleID="DataNum"><Data ss:Type="Number">11.0</Data></Cell>
+    <Cell ss:StyleID="DataInt"><Data ss:Type="Number">1008</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">South</Data></Cell>
+    <Cell ss:StyleID="DataNum"><Data ss:Type="Number">14.0</Data></Cell>
+    <Cell ss:StyleID="DataNum"><Data ss:Type="Number">6.0</Data></Cell>
+    <Cell ss:StyleID="DataInt"><Data ss:Type="Number">20</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Features high-end bronze and copper alcove</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="DataInt"><Data ss:Type="Number">1003</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">St. Patrick Funeral Services</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">St. Jude Memorial Room</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">L-Shaped</Data></Cell>
+    <Cell ss:StyleID="DataNum"><Data ss:Type="Number">28.0</Data></Cell>
+    <Cell ss:StyleID="DataNum"><Data ss:Type="Number">22.0</Data></Cell>
+    <Cell ss:StyleID="DataNum"><Data ss:Type="Number">10.0</Data></Cell>
+    <Cell ss:StyleID="DataInt"><Data ss:Type="Number">616</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">North</Data></Cell>
+    <Cell ss:StyleID="DataNum"><Data ss:Type="Number">8.0</Data></Cell>
+    <Cell ss:StyleID="DataNum"><Data ss:Type="Number">5.0</Data></Cell>
+    <Cell ss:StyleID="DataInt"><Data ss:Type="Number">12</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Traditional faith-based display room</Data></Cell>
+   </Row>
+  </Table>
+ </Worksheet>
+
+ <!-- SHEET 2: CASKET LOCATIONS -->
+ <Worksheet ss:Name="Casket Locations">
+  <Table ss:DefaultRowHeight="20">
+   <Column ss:Width="80"/>
+   <Column ss:Width="160"/>
+   <Column ss:Width="75"/>
+   <Column ss:Width="150"/>
+   <Column ss:Width="90"/>
+   <Column ss:Width="190"/>
+   <Column ss:Width="160"/>
+   <Column ss:Width="90"/>
+   <Column ss:Width="90"/>
+   <Column ss:Width="70"/>
+   <Column ss:Width="70"/>
+   <Column ss:Width="90"/>
+   <Column ss:Width="85"/>
+   <Column ss:Width="70"/>
+   <Column ss:Width="220"/>
+   <Row ss:Height="26">
+    <Cell ss:StyleID="GoldHeader"><Data ss:Type="String">account_#</Data></Cell>
+    <Cell ss:StyleID="GoldHeader"><Data ss:Type="String">room_name</Data></Cell>
+    <Cell ss:StyleID="GoldHeader"><Data ss:Type="String">bay_number</Data></Cell>
+    <Cell ss:StyleID="GoldHeader"><Data ss:Type="String">bay_label</Data></Cell>
+    <Cell ss:StyleID="GoldHeader"><Data ss:Type="String">product_code</Data></Cell>
+    <Cell ss:StyleID="GoldHeader"><Data ss:Type="String">product_name</Data></Cell>
+    <Cell ss:StyleID="GoldHeader"><Data ss:Type="String">category</Data></Cell>
+    <Cell ss:StyleID="GoldHeader"><Data ss:Type="String">display_type</Data></Cell>
+    <Cell ss:StyleID="GoldHeader"><Data ss:Type="String">wall_zone</Data></Cell>
+    <Cell ss:StyleID="GoldHeader"><Data ss:Type="String">pos_x_ft</Data></Cell>
+    <Cell ss:StyleID="GoldHeader"><Data ss:Type="String">pos_y_ft</Data></Cell>
+    <Cell ss:StyleID="GoldHeader"><Data ss:Type="String">orientation_deg</Data></Cell>
+    <Cell ss:StyleID="GoldHeader"><Data ss:Type="String">tier_level</Data></Cell>
+    <Cell ss:StyleID="GoldHeader"><Data ss:Type="String">status</Data></Cell>
+    <Cell ss:StyleID="GoldHeader"><Data ss:Type="String">notes</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="DataInt"><Data ss:Type="Number">1001</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Main Selection Room</Data></Cell>
+    <Cell ss:StyleID="DataInt"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Bay 1 - Entrance Feature</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">147959</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Z64 824 DH Classic Gold</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Caskets &amp; Containers - Metal</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Full Casket</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">North Wall</Data></Cell>
+    <Cell ss:StyleID="DataNum"><Data ss:Type="Number">4.0</Data></Cell>
+    <Cell ss:StyleID="DataNum"><Data ss:Type="Number">20.0</Data></Cell>
+    <Cell ss:StyleID="DataInt"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Floor</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Active</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Premier entrance showcase feature</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="DataInt"><Data ss:Type="Number">1001</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Main Selection Room</Data></Cell>
+    <Cell ss:StyleID="DataInt"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Bay 2 - North Wall</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">280178</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Z65 8J3 D DaVinci Bronze</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Caskets &amp; Containers - Metal</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Full Casket</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">North Wall</Data></Cell>
+    <Cell ss:StyleID="DataNum"><Data ss:Type="Number">11.0</Data></Cell>
+    <Cell ss:StyleID="DataNum"><Data ss:Type="Number">20.0</Data></Cell>
+    <Cell ss:StyleID="DataInt"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Floor</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Active</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Includes LifeSymbols medallion corners</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="DataInt"><Data ss:Type="Number">1001</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Main Selection Room</Data></Cell>
+    <Cell ss:StyleID="DataInt"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Bay 3 - North Wall</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">147862</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">O39 884 IDH Aegean Bronze</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Caskets &amp; Containers - Metal</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Full Casket</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">North Wall</Data></Cell>
+    <Cell ss:StyleID="DataNum"><Data ss:Type="Number">18.0</Data></Cell>
+    <Cell ss:StyleID="DataNum"><Data ss:Type="Number">20.0</Data></Cell>
+    <Cell ss:StyleID="DataInt"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Floor</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Active</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Living Memorial display tag</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="DataInt"><Data ss:Type="Number">1001</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Main Selection Room</Data></Cell>
+    <Cell ss:StyleID="DataInt"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Bay 4 - East Wall</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">146876</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">5ZZ 865 HD Barkley Oak</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Burial Solutions - Wood</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Full Casket</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">East Wall</Data></Cell>
+    <Cell ss:StyleID="DataNum"><Data ss:Type="Number">28.0</Data></Cell>
+    <Cell ss:StyleID="DataNum"><Data ss:Type="Number">16.0</Data></Cell>
+    <Cell ss:StyleID="DataInt"><Data ss:Type="Number">270</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Floor</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Active</Data></Cell>
+    <Cell ss:StyleID="DataText"><Data ss:Type="String">Solid American oak natural satin</Data></Cell>
+   </Row>
+  </Table>
+ </Worksheet>
+</Workbook>
