@@ -115,36 +115,36 @@ export const Card11x17: React.FC<Card11x17Props> = ({
         `${tributeCount} Tribute Option Choices`,
         `${tributeCount} Keepsake Medallions or Corners`,
         materialFinishLine,
-        '',
         'LifeView Display optional',
         interiorLine,
+        '',
       ];
     } else if (collectionType === 'classic') {
       return [
         'Fine craftsmanship',
         'Exceptional finish',
         materialFinishLine,
-        '',
         'Timeless design',
         interiorLine,
+        '',
       ];
     } else if (collectionType === 'conventional') {
       return [
         'Quality craftsmanship',
         'Reliable protection',
         materialFinishLine,
-        '',
         'Traditional styling',
         interiorLine,
+        '',
       ];
     } else {
       return [
         'Essential craftsmanship',
         'Dignified simplicity',
         materialFinishLine,
-        '',
         'Standard styling',
         interiorLine,
+        '',
       ];
     }
   })();
@@ -236,30 +236,25 @@ export const Card11x17: React.FC<Card11x17Props> = ({
         {/* Left Half: 6 Bullet Points on Ledger Grid + Right-Side Graphic */}
         <div className="w-[58%] flex flex-row border-r border-slate-200 pr-8">
           
-          {/* Bullets Ledger */}
-          <div className="flex-1 flex flex-col justify-between">
-            <div className="border-t border-b border-slate-200 divide-y divide-slate-200 text-lg text-slate-800">
+          {/* Bullets List (clean without divider lines) */}
+          <div className="flex-1 flex flex-col justify-start">
+            <div className="space-y-2 text-lg text-slate-800 py-1">
               {bullets.map((bullet, idx) => {
                 const hasText = Boolean(bullet && bullet.trim().length > 0);
+                if (!hasText) return null;
                 return (
-                  <div key={idx} className="py-3 px-2 flex items-center justify-between min-h-[46px] group hover:bg-amber-50/20">
+                  <div key={idx} className="py-1 px-2 flex items-center justify-between group hover:bg-amber-50/20 rounded">
                     <div className="flex items-center space-x-3 flex-1 min-w-0 pr-2">
-                      {hasText ? (
-                        <>
-                          <span className="text-slate-900 font-bold leading-none select-none text-xl shrink-0">•</span>
-                          <span className="font-medium text-slate-800 leading-tight truncate">
-                            {bullet}
-                          </span>
-                        </>
-                      ) : (
-                        <div className="h-[26px] w-full select-none" />
-                      )}
+                      <span className="text-slate-900 font-bold leading-none select-none text-xl shrink-0">•</span>
+                      <span className="font-medium text-slate-800 leading-tight truncate">
+                        {bullet}
+                      </span>
                     </div>
-                    {hasText && onClearBullet && (
+                    {onClearBullet && (
                       <button
                         type="button"
                         onClick={() => onClearBullet(idx)}
-                        className="opacity-0 group-hover:opacity-100 text-slate-400 hover:text-red-500 font-bold text-sm no-print"
+                        className="opacity-0 group-hover:opacity-100 text-slate-400 hover:text-red-500 font-bold text-sm no-print shrink-0 cursor-pointer"
                       >
                         ×
                       </button>

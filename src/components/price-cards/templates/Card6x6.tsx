@@ -121,36 +121,36 @@ export const Card6x6: React.FC<Card6x6Props> = ({
         `${tributeCount} Tribute Option Choices`,
         `${tributeCount} Keepsake Medallions or Corners`,
         materialFinishLine,
-        '', // Clean empty ledger row by default (user can fill or clear)
         'LifeView Display optional',
         interiorLine,
+        '',
       ];
     } else if (collectionType === 'classic') {
       return [
         'Fine craftsmanship',
         'Exceptional finish',
         materialFinishLine,
-        '',
         'Timeless design',
         interiorLine,
+        '',
       ];
     } else if (collectionType === 'conventional') {
       return [
         'Quality craftsmanship',
         'Reliable protection',
         materialFinishLine,
-        '',
         'Traditional styling',
         interiorLine,
+        '',
       ];
     } else {
       return [
         'Essential craftsmanship',
         'Dignified simplicity',
         materialFinishLine,
-        '',
         'Standard styling',
         interiorLine,
+        '',
       ];
     }
   })();
@@ -238,38 +238,32 @@ export const Card6x6: React.FC<Card6x6Props> = ({
       {/* 2. SPECIFICATION BULLETS & RIGHT GRAPHIC (TRIBUTES / REFINED STYLING) */}
       <div className="flex-1 bg-white flex flex-row px-5 py-2.5 relative overflow-hidden">
         
-        {/* Left Side: 6 Bullet Points on Authentic Ledger Lined Rows */}
-        <div className="flex-1 pr-3 flex flex-col justify-between">
-          <div className="border-t border-b border-slate-200/90 divide-y divide-slate-200/90 text-[12.5px] text-slate-800">
+        {/* Left Side: Clean Specification Bullets (no divider lines) */}
+        <div className="flex-1 pr-3 flex flex-col justify-start">
+          <div className="space-y-1 text-[12.5px] text-slate-800 py-0.5">
             {bullets.map((bullet, idx) => {
               const hasText = Boolean(bullet && bullet.trim().length > 0);
+              if (!hasText) return null;
 
               return (
                 <div 
                   key={idx} 
-                  className="py-1 px-1 flex items-center justify-between min-h-[25px] group hover:bg-amber-50/30 transition-colors"
+                  className="py-0.5 px-1 flex items-center justify-between group hover:bg-amber-50/30 transition-colors rounded"
                 >
                   <div className="flex items-center space-x-2 flex-1 min-w-0 pr-2">
-                    {hasText ? (
-                      <>
-                        <span className="text-slate-900 font-bold leading-none select-none text-[13px] shrink-0">•</span>
-                        <span className="font-medium text-slate-800 leading-tight truncate">
-                          {bullet}
-                        </span>
-                      </>
-                    ) : (
-                      /* Clean empty ledger row without bullet dot (as shown in reference image) */
-                      <div className="h-[14px] w-full select-none" />
-                    )}
+                    <span className="text-slate-900 font-bold leading-none select-none text-[13px] shrink-0">•</span>
+                    <span className="font-medium text-slate-800 leading-tight truncate">
+                      {bullet}
+                    </span>
                   </div>
 
                   {/* Inline Quick-Clear Button (visible on hover) */}
-                  {hasText && onClearBullet && (
+                  {onClearBullet && (
                     <button
                       type="button"
                       onClick={() => onClearBullet(idx)}
                       title="Clear bullet point"
-                      className="opacity-0 group-hover:opacity-100 text-slate-400 hover:text-red-500 text-[11px] px-1 font-bold no-print transition-opacity cursor-pointer"
+                      className="opacity-0 group-hover:opacity-100 text-slate-400 hover:text-red-500 text-[11px] px-1 font-bold no-print transition-opacity cursor-pointer shrink-0"
                     >
                       ×
                     </button>

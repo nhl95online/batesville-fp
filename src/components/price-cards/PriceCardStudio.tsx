@@ -8,7 +8,7 @@ import { CustomerRetailModal } from './CustomerRetailModal';
 import { getCustomerRetailPrice } from '../../services/customerRetails';
 import { 
   Printer, Eye, RefreshCw, ZoomIn, ZoomOut, Check, Building2, 
-  Tag, DollarSign, Upload, FileText, CheckCircle2, X, Trash2, Award
+  Tag, DollarSign, Upload, FileText, CheckCircle2, X, Trash2, Award, Search
 } from 'lucide-react';
 
 interface PriceCardStudioProps {
@@ -67,36 +67,36 @@ const getInitialBullets = (
       `${tributeCount} Tribute Option Choices`,
       `${tributeCount} Keepsake Medallions or Corners`,
       materialFinishLine,
-      '', // Clean empty ledger row by default
       'LifeView Display optional',
       interiorLine,
+      '',
     ];
   } else if (coll === 'classic') {
     return [
       'Fine craftsmanship',
       'Exceptional finish',
       materialFinishLine,
-      '',
       'Timeless design',
       interiorLine,
+      '',
     ];
   } else if (coll === 'conventional') {
     return [
       'Quality craftsmanship',
       'Reliable protection',
       materialFinishLine,
-      '',
       'Traditional styling',
       interiorLine,
+      '',
     ];
   } else {
     return [
       'Essential craftsmanship',
       'Dignified simplicity',
       materialFinishLine,
-      '',
       'Standard styling',
       interiorLine,
+      '',
     ];
   }
 };
@@ -175,6 +175,9 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
   const [showMonthlyPayment, setShowMonthlyPayment] = useState<boolean>(true);
   const [monthlyTermMonths, setMonthlyTermMonths] = useState<number>(36);
 
+  // Product search filter state
+  const [productSearch, setProductSearch] = useState<string>('');
+
   const selectedCustomer = customers.find(c => c.id === selectedCustomerId) || customers[0];
   
   // Filter products for Urns if 2x12 is active
@@ -185,6 +188,37 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
     }
     return products;
   }, [dimension, products]);
+
+  // Filter available products by search term (name, SKU / code, description, material, finish)
+  const filteredProducts = useMemo(() => {
+    const q = productSearch.trim().toLowerCase();
+    if (!q) return availableProducts;
+    return availableProducts.filter((p) => {
+      const name = (p.name || '').toLowerCase();
+      const code = String(p.code || p.productCode || '').toLowerCase();
+      const desc = (p.description || '').toLowerCase();
+      const mat = (p.material || '').toLowerCase();
+      const finish = (p.finish || p.exteriorFinish || '').toLowerCase();
+      const yr = String(p.catalogYear || '').toLowerCase();
+      return (
+        name.includes(q) ||
+        code.includes(q) ||
+        desc.includes(q) ||
+        mat.includes(q) ||
+        finish.includes(q) ||
+        yr.includes(q)
+      );
+    });
+  }, [availableProducts, productSearch]);
+
+  // Auto-select first matching product when searching if current product is filtered out
+  useEffect(() => {
+    if (productSearch.trim() && filteredProducts.length > 0) {
+      if (!filteredProducts.some(p => p.id === selectedProductId)) {
+        setSelectedProductId(filteredProducts[0].id);
+      }
+    }
+  }, [productSearch, filteredProducts, selectedProductId]);
 
   // When switching to 2x12, ensure an urn is selected
   useEffect(() => {
@@ -370,11 +404,11 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
         </div>
       </div>
 
-      {/* Main Studio Workspace: Left Controls, Right Live Preview */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      {/* Main Studio Workspace: 3 Columns (Setup & Pricing | Live Preview | Content & Features) */}
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-5 items-start">
         
-        {/* Controls Column (Left, 4 cols) */}
-        <div className="no-print lg:col-span-4 space-y-5 bg-white border border-slate-200 p-5 rounded-2xl shadow-sm h-fit">
+        {/* Column 1: Setup & Pricing Controls (Left, 3 cols on xl) */}
+        <div className="no-print col-span-12 xl:col-span-3 space-y-4 bg-white border border-slate-200 p-4 sm:p-5 rounded-2xl shadow-sm h-fit order-1">
           
           {/* 1. Format / Dimensions */}
           <div>
@@ -386,21 +420,21 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
                 <button
                   key={d.id}
                   onClick={() => handleSelectDimension(d.id)}
-                  className={`text-left p-3 rounded-xl border transition-all ${
+                  className={`text-left p-2.5 rounded-xl border transition-all ${
                     dimension === d.id
                       ? 'bg-amber-50 border-amber-500 text-amber-900 font-semibold shadow-sm'
                       : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
                   }`}
                 >
-                  <div className="text-sm font-semibold">{d.name}</div>
-                  <div className="text-[11px] text-slate-500 font-normal truncate">{d.desc}</div>
+                  <div className="text-xs sm:text-sm font-semibold">{d.name}</div>
+                  <div className="text-[10px] text-slate-500 font-normal truncate">{d.desc}</div>
                 </button>
               ))}
             </div>
           </div>
 
           {/* 2. Customer Selection */}
-          <div className="border-t border-slate-200 pt-4">
+          <div className="border-t border-slate-200 pt-3.5">
             <label className="flex items-center justify-between text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
               <span className="flex items-center gap-1.5">
                 <Building2 className="w-3.5 h-3.5 text-amber-600" />
@@ -411,7 +445,7 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
             <select
               value={selectedCustomerId}
               onChange={(e) => setSelectedCustomerId(e.target.value)}
-              className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500"
+              className="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500"
             >
               {customers.map((c) => (
                 <option key={c.id} value={c.id}>
@@ -421,33 +455,65 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
             </select>
           </div>
 
-          {/* 3. Product Selection (Filtered to Urns when 2x12 is active) */}
-          <div className="border-t border-slate-200 pt-4 space-y-2">
+          {/* 3. Product Selection with Search Filter Spot */}
+          <div className="border-t border-slate-200 pt-3.5 space-y-2">
             <div className="flex items-center justify-between">
               <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider block">
                 {dimension === '2x12' ? 'Select Urn / Cremation Item' : 'Select Casket / Product'}
               </label>
-              {dimension === '2x12' && (
+              {dimension === '2x12' ? (
                 <span className="text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-semibold">
                   Urns Only
                 </span>
+              ) : (
+                <span className="text-[10px] text-slate-400 font-mono">
+                  {filteredProducts.length} of {availableProducts.length}
+                </span>
               )}
             </div>
+
+            {/* Spot to type in product name to filter through instead of scrolling */}
+            <div className="relative">
+              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5 pointer-events-none" />
+              <input
+                type="text"
+                value={productSearch}
+                onChange={(e) => setProductSearch(e.target.value)}
+                placeholder="Search by product name, SKU, material..."
+                className="w-full bg-white border border-slate-300 rounded-xl pl-9 pr-8 py-2 text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 shadow-xs transition-all"
+              />
+              {productSearch && (
+                <button
+                  type="button"
+                  onClick={() => setProductSearch('')}
+                  className="absolute right-2.5 top-2.5 p-0.5 text-slate-400 hover:text-slate-700 cursor-pointer"
+                  title="Clear filter"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
+
+            {/* Product Dropdown (Filtered) */}
             <select
               value={selectedProductId}
               onChange={(e) => setSelectedProductId(e.target.value)}
-              className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500"
+              className="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 cursor-pointer"
             >
-              {availableProducts.map((p) => (
-                <option key={p.id} value={p.id}>
-                  [{p.catalogYear}] {p.code} - {p.name} (${p.wholesalePrice} wholesale)
-                </option>
-              ))}
+              {filteredProducts.length === 0 ? (
+                <option value="" disabled>No products matching &quot;{productSearch}&quot;</option>
+              ) : (
+                filteredProducts.map((p) => (
+                  <option key={p.id} value={p.id}>
+                    [{p.catalogYear}] {p.code} - {p.name} (${p.wholesalePrice} wholesale)
+                  </option>
+                ))
+              )}
             </select>
           </div>
 
           {/* 4. Pricing & Customer Retail Connection */}
-          <div className="border-t border-slate-200 pt-4 bg-slate-50/70 p-3.5 rounded-xl border border-slate-200 space-y-3">
+          <div className="border-t border-slate-200 pt-3.5 bg-slate-50/70 p-3.5 rounded-xl border border-slate-200 space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-xs font-semibold text-slate-800 flex items-center gap-1.5">
                 <DollarSign className="w-3.5 h-3.5 text-amber-600" />
@@ -535,7 +601,7 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
           </div>
 
           {/* 5. FOUR COLLECTIONS SELECTOR */}
-          <div className="border-t border-slate-200 pt-4 space-y-3">
+          <div className="border-t border-slate-200 pt-3.5 space-y-2.5">
             <label className="text-xs font-semibold text-slate-600 uppercase tracking-wider block flex items-center justify-between">
               <span>Showroom Collection</span>
               <span className="text-[10px] text-amber-700 font-medium lowercase">4 official styles</span>
@@ -607,181 +673,10 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
             </div>
           </div>
 
-          {/* 6. RIGHT-SIDE IMAGE (MISC BUCKET: TRIBUTES / REFINED STYLING) */}
-          {dimension !== '2x12' && (
-            <div className="border-t border-slate-200 pt-4 space-y-2">
-              <label className="text-xs font-semibold text-slate-600 uppercase tracking-wider block">
-                Right-Side Image (from MISC Bucket)
-              </label>
-              
-              <div className="grid grid-cols-2 gap-2 text-xs">
-                {/* Refined Styling - Only when Classic is selected */}
-                {collection === 'classic' && (
-                  <button
-                    type="button"
-                    onClick={() => setRightGraphic('refined-styling')}
-                    className={`p-2 rounded-lg border text-left transition-all ${
-                      rightGraphic === 'refined-styling'
-                        ? 'bg-amber-50 border-amber-500 text-amber-900 font-semibold shadow-xs'
-                        : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
-                    }`}
-                  >
-                    <div className="font-semibold text-xs truncate">Refined Styling</div>
-                    <div className="text-[10px] text-slate-500 truncate">Refined Styling.png</div>
-                  </button>
-                )}
-
-                {/* Tributes Category Badge */}
-                <button
-                  type="button"
-                  onClick={() => setRightGraphic('tributes')}
-                  className={`p-2 rounded-lg border text-left transition-all ${
-                    rightGraphic === 'tributes'
-                      ? 'bg-amber-50 border-amber-500 text-amber-900 font-semibold shadow-xs'
-                      : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
-                  }`}
-                >
-                  <div className="font-semibold text-xs truncate">Tribute Categories</div>
-                  <div className="text-[10px] text-slate-500 truncate">Tributes.png</div>
-                </button>
-
-                {/* None / Hide Graphic */}
-                <button
-                  type="button"
-                  onClick={() => setRightGraphic('none')}
-                  className={`p-2 rounded-lg border text-left transition-all ${
-                    rightGraphic === 'none'
-                      ? 'bg-amber-50 border-amber-500 text-amber-900 font-semibold shadow-xs'
-                      : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
-                  }`}
-                >
-                  <div className="font-semibold text-xs truncate">No Right Graphic</div>
-                  <div className="text-[10px] text-slate-500 truncate">Clean ruled lines</div>
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* 7. PRODUCT NAME (FROM DESCRIPTION) */}
-          <div className="border-t border-slate-200 pt-4">
-            <label className="text-xs font-semibold text-slate-600 uppercase tracking-wider block mb-1">
-              Product Name (from Description)
-            </label>
-            <input
-              type="text"
-              value={productName}
-              onChange={(e) => setProductName(e.target.value)}
-              placeholder={selectedProduct?.description || selectedProduct?.name}
-              className="w-full bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 placeholder:text-slate-400"
-            />
-            <p className="text-[10px] text-slate-500 mt-1">
-              Appears prominently in bottom banner above retail price.
-            </p>
-          </div>
-
-          {/* 8. CLEARABLE & EDITABLE 6 BULLET ROWS (For 6x6, 8.5x11, 11x17) */}
-          {dimension !== '2x12' && (
-            <div className="border-t border-slate-200 pt-4 space-y-2">
-              <div className="flex items-center justify-between">
-                <label className="text-xs font-semibold text-slate-600 uppercase tracking-wider block">
-                  Specification Bullets (6 Ledger Rows)
-                </label>
-                <div className="flex items-center space-x-2">
-                  <button
-                    type="button"
-                    onClick={handleClearAllBullets}
-                    className="text-[10px] text-rose-600 hover:text-rose-700 hover:underline flex items-center gap-1 cursor-pointer font-medium"
-                  >
-                    <Trash2 className="w-2.5 h-2.5" />
-                    Clear All
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleResetBullets}
-                    className="text-[10px] text-amber-700 hover:text-amber-800 hover:underline flex items-center gap-1 cursor-pointer font-medium"
-                  >
-                    <RefreshCw className="w-2.5 h-2.5" />
-                    Reset
-                  </button>
-                </div>
-              </div>
-
-              <div className="space-y-1.5">
-                {bullets.map((bullet, idx) => (
-                  <div key={idx} className="flex items-center space-x-1.5">
-                    <span className="text-xs font-mono text-slate-400 w-4 text-center shrink-0">{idx + 1}</span>
-                    <input
-                      type="text"
-                      value={bullet}
-                      placeholder={`Row ${idx + 1} (leave blank to show clean ruled line)`}
-                      onChange={(e) => {
-                        const updated = [...bullets];
-                        updated[idx] = e.target.value;
-                        setBullets(updated);
-                      }}
-                      className="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-1 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 placeholder:text-slate-400"
-                    />
-                    {bullet && (
-                      <button
-                        type="button"
-                        onClick={() => handleClearBullet(idx)}
-                        title="Clear this bullet"
-                        className="p-1 text-slate-400 hover:text-rose-600 transition-colors shrink-0 cursor-pointer"
-                      >
-                        <X className="w-3.5 h-3.5" />
-                      </button>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* 9. ADDITIONAL FEATURES (MISC BUCKET) */}
-          {dimension !== '2x12' && (
-            <div className="border-t border-slate-200 pt-4 space-y-2">
-              <div className="flex items-center justify-between">
-                <label className="text-xs font-semibold text-slate-600 uppercase tracking-wider block">
-                  Additional Features (MISC Bucket)
-                </label>
-                <span className="text-[10px] text-slate-500 font-medium">
-                  {activeMiscFeatures.length} active
-                </span>
-              </div>
-              <div className="grid grid-cols-2 gap-2 text-xs">
-                {miscFeaturesList.map((feat) => {
-                  const isSelected = activeMiscFeatures.includes(feat.id);
-                  return (
-                    <button
-                      key={feat.id}
-                      type="button"
-                      onClick={() => toggleMiscFeature(feat.id)}
-                      className={`p-2 rounded-lg border text-left transition-all flex items-start space-x-2 ${
-                        isSelected
-                          ? 'bg-amber-50 border-amber-500 text-amber-900 shadow-xs'
-                          : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
-                      }`}
-                    >
-                      <div className={`w-3.5 h-3.5 rounded border mt-0.5 flex items-center justify-center shrink-0 ${
-                        isSelected ? 'bg-amber-600 border-amber-600 text-white' : 'border-slate-300 bg-white'
-                      }`}>
-                        {isSelected && <Check className="w-2.5 h-2.5 stroke-[3]" />}
-                      </div>
-                      <div className="min-w-0">
-                        <div className="font-semibold text-[11px] truncate leading-tight">{feat.label}</div>
-                        <div className="text-[9px] text-slate-500 truncate">{feat.file}</div>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
         </div>
 
-        {/* Live Preview Canvas Column (Right, 8 cols) */}
-        <div className="lg:col-span-8 flex flex-col bg-white border border-slate-200 rounded-2xl overflow-hidden min-h-[680px] shadow-sm">
+        {/* Column 2: Live Preview Canvas (Center, 6 cols on xl) */}
+        <div className="col-span-12 xl:col-span-6 flex flex-col bg-white border border-slate-200 rounded-2xl overflow-hidden min-h-[660px] shadow-sm order-2">
           
           {/* Preview Toolbar */}
           <div className="no-print flex items-center justify-between px-6 py-3 border-b border-slate-200 bg-slate-50">
@@ -830,7 +725,7 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
           </div>
 
           {/* Scaled Preview Canvas Area */}
-          <div className="flex-1 flex items-center justify-center p-8 overflow-auto bg-slate-100/90 border-b border-slate-200">
+          <div className="flex-1 flex items-center justify-center p-6 overflow-auto bg-slate-100/90 border-b border-slate-200">
             <div 
               className={`print-area transition-transform duration-200 origin-center printing-${dimension}`}
               style={{
@@ -908,6 +803,190 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
               Print Now
             </button>
           </div>
+
+        </div>
+
+        {/* Column 3: 2nd Attached Details (Right, 3 cols on xl) */}
+        <div className="no-print col-span-12 xl:col-span-3 space-y-3.5 bg-white border border-slate-200 p-4 sm:p-5 rounded-2xl shadow-sm h-fit order-3">
+          
+          <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+            <span className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+              <FileText className="w-3.5 h-3.5 text-amber-600" />
+              Card Content & Features
+            </span>
+            <span className="text-[10px] text-slate-400 font-medium">Customizable</span>
+          </div>
+
+          {/* 6. RIGHT-SIDE IMAGE (MISC BUCKET: TRIBUTES / REFINED STYLING) */}
+          {dimension !== '2x12' && (
+            <div className="space-y-2">
+              <label className="text-xs font-semibold text-slate-600 uppercase tracking-wider block">
+                Right-Side Image (from MISC Bucket)
+              </label>
+              
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                {/* Refined Styling - Only when Classic is selected */}
+                {collection === 'classic' && (
+                  <button
+                    type="button"
+                    onClick={() => setRightGraphic('refined-styling')}
+                    className={`p-2 rounded-lg border text-left transition-all ${
+                      rightGraphic === 'refined-styling'
+                        ? 'bg-amber-50 border-amber-500 text-amber-900 font-semibold shadow-xs'
+                        : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
+                    }`}
+                  >
+                    <div className="font-semibold text-xs truncate">Refined Styling</div>
+                    <div className="text-[10px] text-slate-500 truncate">Refined Styling.png</div>
+                  </button>
+                )}
+
+                {/* Tributes Category Badge */}
+                <button
+                  type="button"
+                  onClick={() => setRightGraphic('tributes')}
+                  className={`p-2 rounded-lg border text-left transition-all ${
+                    rightGraphic === 'tributes'
+                      ? 'bg-amber-50 border-amber-500 text-amber-900 font-semibold shadow-xs'
+                      : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
+                  }`}
+                >
+                  <div className="font-semibold text-xs truncate">Tribute Categories</div>
+                  <div className="text-[10px] text-slate-500 truncate">Tributes.png</div>
+                </button>
+
+                {/* None / Hide Graphic */}
+                <button
+                  type="button"
+                  onClick={() => setRightGraphic('none')}
+                  className={`p-2 rounded-lg border text-left transition-all ${
+                    rightGraphic === 'none'
+                      ? 'bg-amber-50 border-amber-500 text-amber-900 font-semibold shadow-xs'
+                      : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
+                  }`}
+                >
+                  <div className="font-semibold text-xs truncate">No Right Graphic</div>
+                  <div className="text-[10px] text-slate-500 truncate">Clean full width</div>
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* 7. PRODUCT NAME (FROM DESCRIPTION) */}
+          <div className={dimension !== '2x12' ? "border-t border-slate-200 pt-3.5" : ""}>
+            <label className="text-xs font-semibold text-slate-600 uppercase tracking-wider block mb-1">
+              Product Name (from Description)
+            </label>
+            <input
+              type="text"
+              value={productName}
+              onChange={(e) => setProductName(e.target.value)}
+              placeholder={selectedProduct?.description || selectedProduct?.name}
+              className="w-full bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 placeholder:text-slate-400"
+            />
+            <p className="text-[10px] text-slate-500 mt-1">
+              Appears prominently in bottom banner above retail price.
+            </p>
+          </div>
+
+          {/* 8. CLEARABLE & EDITABLE 6 BULLET ROWS (For 6x6, 8.5x11, 11x17) */}
+          {dimension !== '2x12' && (
+            <div className="border-t border-slate-200 pt-3.5 space-y-2">
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-semibold text-slate-600 uppercase tracking-wider block">
+                  Specification Bullets (Up to 6)
+                </label>
+                <div className="flex items-center space-x-2">
+                  <button
+                    type="button"
+                    onClick={handleClearAllBullets}
+                    className="text-[10px] text-rose-600 hover:text-rose-700 hover:underline flex items-center gap-1 cursor-pointer font-medium"
+                  >
+                    <Trash2 className="w-2.5 h-2.5" />
+                    Clear All
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleResetBullets}
+                    className="text-[10px] text-amber-700 hover:text-amber-800 hover:underline flex items-center gap-1 cursor-pointer font-medium"
+                  >
+                    <RefreshCw className="w-2.5 h-2.5" />
+                    Reset
+                  </button>
+                </div>
+              </div>
+
+              <div className="space-y-1.5">
+                {bullets.map((bullet, idx) => (
+                  <div key={idx} className="flex items-center space-x-1.5">
+                    <span className="text-xs font-mono text-slate-400 w-4 text-center shrink-0">{idx + 1}</span>
+                    <input
+                      type="text"
+                      value={bullet}
+                      placeholder={`Bullet ${idx + 1} (optional)`}
+                      onChange={(e) => {
+                        const updated = [...bullets];
+                        updated[idx] = e.target.value;
+                        setBullets(updated);
+                      }}
+                      className="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-1 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 placeholder:text-slate-400"
+                    />
+                    {bullet && (
+                      <button
+                        type="button"
+                        onClick={() => handleClearBullet(idx)}
+                        title="Clear this bullet"
+                        className="p-1 text-slate-400 hover:text-rose-600 transition-colors shrink-0 cursor-pointer"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* 9. ADDITIONAL FEATURES (MISC BUCKET) */}
+          {dimension !== '2x12' && (
+            <div className="border-t border-slate-200 pt-3.5 space-y-2">
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-semibold text-slate-600 uppercase tracking-wider block">
+                  Additional Features (MISC Bucket)
+                </label>
+                <span className="text-[10px] text-slate-500 font-medium">
+                  {activeMiscFeatures.length} active
+                </span>
+              </div>
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                {miscFeaturesList.map((feat) => {
+                  const isSelected = activeMiscFeatures.includes(feat.id);
+                  return (
+                    <button
+                      key={feat.id}
+                      type="button"
+                      onClick={() => toggleMiscFeature(feat.id)}
+                      className={`p-2 rounded-lg border text-left transition-all flex items-start space-x-2 ${
+                        isSelected
+                          ? 'bg-amber-50 border-amber-500 text-amber-900 shadow-xs'
+                          : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
+                      }`}
+                    >
+                      <div className={`w-3.5 h-3.5 rounded border mt-0.5 flex items-center justify-center shrink-0 ${
+                        isSelected ? 'bg-amber-600 border-amber-600 text-white' : 'border-slate-300 bg-white'
+                      }`}>
+                        {isSelected && <Check className="w-2.5 h-2.5 stroke-[3]" />}
+                      </div>
+                      <div className="min-w-0">
+                        <div className="font-semibold text-[11px] truncate leading-tight">{feat.label}</div>
+                        <div className="text-[9px] text-slate-500 truncate">{feat.file}</div>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
         </div>
 

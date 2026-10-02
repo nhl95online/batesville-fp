@@ -58,6 +58,17 @@ export function App() {
   // Navigation dropdown popover state
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
+  // Close dropdown on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setOpenDropdown(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   // Pre-selected IDs when transitioning into PriceCardStudio or ShowroomFloorPlan
   const [targetCustomerId, setTargetCustomerId] = useState<string | undefined>(undefined);
   const [targetProductId, setTargetProductId] = useState<string | undefined>(undefined);
@@ -224,13 +235,13 @@ interface NavTabItem {
 
   // Main Navigation Tabs
   const navTabs: NavTabItem[] = [
-    { id: 'home', label: 'Executive Home', icon: Home, subpages: homeSubpages },
-    { id: 'catalogs', label: 'Catalogs by Year', icon: Calendar, badge: catalogSubpage !== 'all' ? catalogSubpage : undefined, subpages: catalogSubpages },
-    { id: 'cards', label: 'Price Card Studio', icon: Tag, badge: cardSubpage, subpages: cardSubpages },
-    { id: 'sales', label: 'Sales (Monthly & YoY)', icon: BarChart3, subpages: salesSubpages },
-    { id: 'customers', label: `Customers (${counts.customers})`, icon: Building2, subpages: customerSubpages },
-    { id: 'products', label: `All Products (${counts.products})`, icon: Layers, subpages: productSubpages },
-    { id: 'floorplans', label: 'Showroom Floor Plans', icon: LayoutGrid, subpages: floorplanSubpages },
+    { id: 'home', label: 'Home', icon: Home, subpages: homeSubpages },
+    { id: 'catalogs', label: 'Catalogs', icon: Calendar, subpages: catalogSubpages },
+    { id: 'cards', label: 'Price Cards', icon: Tag, subpages: cardSubpages },
+    { id: 'sales', label: 'Sales', icon: BarChart3, subpages: salesSubpages },
+    { id: 'customers', label: 'Customers', icon: Building2, subpages: customerSubpages },
+    { id: 'products', label: 'Products', icon: Layers, subpages: productSubpages },
+    { id: 'floorplans', label: 'Floor Plans', icon: LayoutGrid, subpages: floorplanSubpages },
   ];
 
   // Unified Navigation Handler supporting Tab + Subpage
@@ -277,33 +288,6 @@ interface NavTabItem {
     setActiveTab('floorplans');
   };
 
-  // Determine current active subpages for the Ribbon
-  const currentSubpages = useMemo(() => {
-    switch (activeTab) {
-      case 'catalogs': return catalogSubpages;
-      case 'products': return productSubpages;
-      case 'customers': return customerSubpages;
-      case 'cards': return cardSubpages;
-      case 'sales': return salesSubpages;
-      case 'floorplans': return floorplanSubpages;
-      case 'home': return homeSubpages;
-      default: return [];
-    }
-  }, [activeTab, catalogSubpages, productSubpages, customerSubpages, cardSubpages, salesSubpages, floorplanSubpages, homeSubpages]);
-
-  const currentSubpageTitle = useMemo(() => {
-    switch (activeTab) {
-      case 'catalogs': return 'Catalog Editions';
-      case 'products': return 'Product Categories';
-      case 'customers': return 'Account Programs';
-      case 'cards': return 'Card Formats';
-      case 'sales': return 'Sales Views';
-      case 'floorplans': return 'Showroom Layouts';
-      case 'home': return 'Executive Sections';
-      default: return 'Subpages';
-    }
-  }, [activeTab]);
-
   const isCurrentSubpageActive = (subId: string) => {
     switch (activeTab) {
       case 'catalogs': return catalogSubpage === subId;
@@ -341,50 +325,42 @@ interface NavTabItem {
       />
 
       {/* Main Tab Navigation Bar & Dropdown Menus */}
-      <div className="no-print bg-white border-b border-slate-200 shadow-sm sticky top-16 z-30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between overflow-x-auto py-1.5">
+      <div className="no-print bg-white border-b border-slate-200 shadow-2xs sticky top-16 z-30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between py-1">
           
-          <div className="flex items-center space-x-1 sm:space-x-1.5">
+          <div className="flex items-center space-x-1 sm:space-x-1.5 overflow-x-auto scrollbar-none py-0.5">
             {navTabs.map((tab) => {
-              const Icon = tab.icon;
               const isActive = activeTab === tab.id;
               const isDropdownOpen = openDropdown === tab.id;
 
               return (
-                <div key={tab.id} className="relative">
-                  <div className={`flex items-center rounded-xl transition-all ${
-                    isActive ? 'bg-amber-600 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-                  }`}>
-                    {/* Primary Button */}
-                    <button
-                      onClick={() => handleNavigate(tab.id as typeof activeTab)}
-                      className="flex items-center space-x-2 pl-3 pr-1.5 py-2 text-xs sm:text-sm font-semibold whitespace-nowrap cursor-pointer"
-                    >
-                      <Icon className="w-4 h-4" />
-                      <span>{tab.label}</span>
-                      {tab.badge && (
-                        <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono font-normal ${
-                          isActive ? 'bg-amber-700/60 text-white' : 'bg-slate-200 text-slate-700'
-                        }`}>
-                          {tab.badge}
-                        </span>
-                      )}
-                    </button>
-
-                    {/* Subpage Dropdown Chevron Button */}
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setOpenDropdown(isDropdownOpen ? null : tab.id);
-                      }}
-                      className={`py-2 px-1.5 rounded-r-xl transition-colors cursor-pointer ${
-                        isActive ? 'text-amber-100 hover:text-white hover:bg-amber-700/50' : 'text-slate-400 hover:text-slate-700'
-                      }`}
-                      title={`View ${tab.label} subpages`}
-                    >
-                      <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-150 ${isDropdownOpen ? 'rotate-180' : ''}`} />
-                    </button>
-                  </div>
+                <div 
+                  key={tab.id} 
+                  className="relative shrink-0"
+                  onMouseEnter={() => {
+                    if (openDropdown !== null && openDropdown !== tab.id) {
+                      setOpenDropdown(tab.id);
+                    }
+                  }}
+                >
+                  <button
+                    onClick={() => {
+                      if (activeTab !== tab.id) {
+                        handleNavigate(tab.id as typeof activeTab);
+                      }
+                      setOpenDropdown(isDropdownOpen ? null : tab.id);
+                    }}
+                    className={`flex items-center space-x-1 px-3 py-1.5 rounded-lg text-xs sm:text-[13px] font-medium transition-all cursor-pointer ${
+                      isActive 
+                        ? 'text-amber-800 font-semibold bg-amber-50/90 border border-amber-200/80 shadow-2xs' 
+                        : isDropdownOpen
+                          ? 'text-slate-900 bg-slate-100 border border-slate-200'
+                          : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-transparent'
+                    }`}
+                  >
+                    <span>{tab.label}</span>
+                    <ChevronDown className={`w-3 h-3 text-slate-400 transition-transform duration-150 ${isDropdownOpen ? 'rotate-180 text-slate-600' : ''}`} />
+                  </button>
 
                   {/* Dropdown Menu Flyout */}
                   {isDropdownOpen && (
@@ -393,9 +369,9 @@ interface NavTabItem {
                         className="fixed inset-0 z-40" 
                         onClick={() => setOpenDropdown(null)} 
                       />
-                      <div className="absolute left-0 mt-1 w-72 bg-white border border-slate-200 rounded-2xl shadow-xl py-2 z-50 animate-fadeIn max-h-96 overflow-y-auto">
-                        <div className="px-3.5 py-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100 mb-1 flex items-center justify-between">
-                          <span>{tab.label} Subpages</span>
+                      <div className="absolute left-0 mt-1 w-64 bg-white border border-slate-200 rounded-xl shadow-xl py-1.5 z-50 animate-fadeIn max-h-[420px] overflow-y-auto">
+                        <div className="px-3 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100 mb-1 flex items-center justify-between">
+                          <span>{tab.label}</span>
                           <span className="text-[9px] font-normal text-slate-400">{tab.subpages.length} options</span>
                         </div>
                         {tab.subpages.map(sub => {
@@ -411,21 +387,26 @@ interface NavTabItem {
                                   handleNavigate(tab.id as typeof activeTab, sub.id);
                                 }
                               }}
-                              className={`w-full text-left px-3.5 py-2 flex items-center justify-between hover:bg-amber-50/70 transition-colors cursor-pointer ${
+                              className={`w-full text-left px-3 py-2 flex items-center justify-between hover:bg-amber-50/70 transition-colors cursor-pointer group ${
                                 isSubActive ? 'bg-amber-50 text-amber-900 font-bold' : 'text-slate-700'
                               }`}
                             >
-                              <div className="pr-2">
-                                <div className="text-xs font-semibold">{sub.label}</div>
-                                {sub.description && (
-                                  <div className="text-[10px] text-slate-400 font-normal leading-tight mt-0.5 truncate max-w-[180px]">
-                                    {sub.description}
-                                  </div>
-                                )}
+                              <div className="flex items-center space-x-2 min-w-0 pr-2">
+                                <span className={`w-3.5 text-xs text-center shrink-0 ${isSubActive ? 'text-amber-600 font-bold' : 'text-transparent group-hover:text-slate-300'}`}>
+                                  ✓
+                                </span>
+                                <div className="min-w-0">
+                                  <div className="text-xs font-semibold truncate">{sub.label}</div>
+                                  {sub.description && (
+                                    <div className="text-[10px] text-slate-400 font-normal leading-tight truncate">
+                                      {sub.description}
+                                    </div>
+                                  )}
+                                </div>
                               </div>
                               {sub.badge !== undefined && (
-                                <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full shrink-0 ${
-                                  isSubActive ? 'bg-amber-200 text-amber-900' : 'bg-slate-100 text-slate-600'
+                                <span className={`text-[10px] font-mono px-1.5 py-0.2 rounded-full shrink-0 ${
+                                  isSubActive ? 'bg-amber-200 text-amber-900 font-semibold' : 'bg-slate-100 text-slate-600'
                                 }`}>
                                   {sub.badge}
                                 </span>
@@ -445,7 +426,7 @@ interface NavTabItem {
           <div className="pl-3 shrink-0">
             <button
               onClick={() => setIsImageModalOpen(true)}
-              className="flex items-center space-x-1.5 bg-slate-50 hover:bg-slate-100 text-slate-700 hover:text-amber-700 border border-slate-200 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer shadow-xs"
+              className="flex items-center space-x-1.5 bg-slate-50 hover:bg-slate-100 text-slate-700 hover:text-amber-700 border border-slate-200 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer shadow-xs"
             >
               <ImageIcon className="w-3.5 h-3.5 text-amber-600" />
               <span>Casket Images</span>
@@ -453,53 +434,10 @@ interface NavTabItem {
           </div>
 
         </div>
-
-        {/* Subpage Ribbon: Power BI Sheet / Excel Tabs Style */}
-        <div className="bg-slate-100/90 border-t border-slate-200/80 px-4 sm:px-6 lg:px-8 py-2 overflow-x-auto scrollbar-none shadow-xs">
-          <div className="max-w-7xl mx-auto flex items-center space-x-2">
-            <div className="flex items-center space-x-1.5 text-slate-500 font-bold text-[11px] shrink-0 mr-1 uppercase tracking-wider">
-              <span>{currentSubpageTitle}:</span>
-            </div>
-            
-            <div className="flex items-center space-x-1.5 overflow-x-auto scrollbar-none py-0.5">
-              {currentSubpages.map(sub => {
-                const isActive = isCurrentSubpageActive(sub.id);
-                return (
-                  <button
-                    key={sub.id}
-                    onClick={() => {
-                      if (sub.action) {
-                        sub.action();
-                      } else {
-                        handleNavigate(activeTab, sub.id);
-                      }
-                    }}
-                    className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
-                      isActive
-                        ? 'bg-amber-600 text-white shadow-xs'
-                        : 'bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 shadow-2xs'
-                    }`}
-                    title={sub.description}
-                  >
-                    <span>{sub.label}</span>
-                    {sub.badge !== undefined && (
-                      <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono font-normal ${
-                        isActive ? 'bg-amber-700/60 text-white' : 'bg-slate-100 text-slate-600'
-                      }`}>
-                        {sub.badge}
-                      </span>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-
       </div>
 
       {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className={`flex-1 w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 ${activeTab === 'cards' ? 'max-w-[1720px]' : 'max-w-7xl'}`}>
         {activeTab === 'home' && (
           <LandingPage
             customers={customers}

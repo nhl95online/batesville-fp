@@ -193,110 +193,109 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
       </div>
 
       {/* Products Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
         {filteredProducts.map((product) => (
           <div
             key={product.id}
-            className="bg-white border border-slate-200 rounded-2xl overflow-hidden hover:border-amber-400 hover:shadow-md transition-all flex flex-col group shadow-sm"
+            className="bg-white border border-slate-200 rounded-xl overflow-hidden hover:border-amber-400 hover:shadow-md transition-all flex flex-col group shadow-xs"
           >
-            {/* Image Container */}
+            {/* Image Container - Expanded & Uncropped */}
             <div 
-              className="relative h-52 w-full bg-slate-100 overflow-hidden cursor-pointer"
+              className="relative h-48 sm:h-52 w-full bg-slate-50/70 overflow-hidden cursor-pointer flex items-center justify-center p-2.5 border-b border-slate-100"
               onClick={() => setActiveModalProduct(product)}
             >
               <img
                 src={product.imageUrl}
                 alt={product.name}
-                className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
               />
-              <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm border border-slate-200 text-amber-800 text-[11px] font-mono px-2.5 py-0.5 rounded-md font-bold shadow-sm">
+              <div className="absolute top-2 left-2 bg-white/95 backdrop-blur-sm border border-slate-200 text-amber-800 text-[10px] font-mono px-2 py-0.5 rounded-md font-bold shadow-xs">
                 {product.code}
               </div>
-              <div className="absolute top-3 right-3 bg-slate-900/70 backdrop-blur-sm text-white text-[10px] uppercase tracking-wider px-2 py-0.5 rounded shadow-sm">
+              <div className="absolute top-2 right-2 bg-slate-900/80 backdrop-blur-sm text-white text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded shadow-xs">
                 Year: {product.catalogYear}
               </div>
             </div>
 
-            {/* Product Body */}
-            <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
+            {/* Product Body - Compact & Tight */}
+            <div className="p-3 sm:p-3.5 flex-1 flex flex-col justify-between space-y-2">
               <div>
-                <span className="text-[10px] text-amber-700 font-bold uppercase tracking-wider block">
+                <span className="text-[9px] sm:text-[10px] text-amber-700 font-bold uppercase tracking-wider block truncate">
                   {product.category}
                 </span>
                 <h3 
                   onClick={() => setActiveModalProduct(product)}
-                  className="font-serif text-xl font-bold text-slate-900 group-hover:text-amber-700 transition-colors cursor-pointer leading-snug mt-0.5"
+                  className="font-serif text-sm sm:text-[15px] font-bold text-slate-900 group-hover:text-amber-700 transition-colors cursor-pointer leading-snug line-clamp-2 h-10 mt-0.5"
+                  title={product.name}
                 >
                   {product.name}
                 </h3>
-                <p className="text-xs text-slate-500 italic mt-1 truncate">
-                  {product.exteriorFinish}
+                <p className="text-[11px] text-slate-500 italic mt-0.5 truncate" title={product.exteriorFinish}>
+                  {product.exteriorFinish || 'Standard Finish'}
                 </p>
 
                 {isUrnProduct(product) ? (
-                  <div className="mt-3 space-y-1 text-xs text-slate-600">
-                    <div className="flex justify-between">
-                      <span className="text-slate-500">Material:</span>
-                      <span className="text-slate-800 font-medium truncate max-w-[170px]">{product.material}</span>
+                  <div className="mt-1.5 space-y-0.5 text-[11px] text-slate-600">
+                    <div className="flex justify-between items-center">
+                      <span className="text-slate-400">Material:</span>
+                      <span className="text-slate-800 font-medium truncate max-w-[130px]">{product.material}</span>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-slate-500">Capacity:</span>
-                      <span className="text-amber-800 font-medium font-mono truncate max-w-[170px]">
-                        {product.capacity ? `${product.capacity} cu. in.` : '200 cu. in. (Adult)'}
+                    <div className="flex justify-between items-center">
+                      <span className="text-slate-400">Capacity:</span>
+                      <span className="text-amber-800 font-medium font-mono truncate max-w-[130px]">
+                        {product.capacity ? `${product.capacity} cu. in.` : '200 cu. in.'}
                       </span>
                     </div>
                   </div>
                 ) : (
-                  <div className="mt-3 space-y-1 text-xs text-slate-600">
-                    <div className="flex justify-between">
-                      <span className="text-slate-500">Material:</span>
-                      <span className="text-slate-800 font-medium truncate max-w-[170px]">{product.material}</span>
+                  <div className="mt-1.5 space-y-0.5 text-[11px] text-slate-600">
+                    <div className="flex justify-between items-center">
+                      <span className="text-slate-400">Material:</span>
+                      <span className="text-slate-800 font-medium truncate max-w-[130px]">{product.material}</span>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-slate-500">Interior:</span>
-                      <span className="text-slate-800 font-medium truncate max-w-[170px]">{product.interior || 'Rosetan Crepe'}</span>
+                    <div className="flex justify-between items-center">
+                      <span className="text-slate-400">Interior:</span>
+                      <span className="text-slate-800 font-medium truncate max-w-[130px]">{product.interior || 'Rosetan Crepe'}</span>
                     </div>
                   </div>
                 )}
               </div>
 
-              {/* Pricing & Actions */}
-              <div className="pt-3 border-t border-slate-100 space-y-3">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <span className="text-[10px] text-slate-500 block uppercase">Wholesale Cost</span>
-                    <span className="font-mono text-sm font-bold text-emerald-700">
-                      ${product.wholesalePrice.toLocaleString()}
-                    </span>
-                  </div>
+              {/* Pricing & Square Action Buttons with Curved Corners */}
+              <div className="pt-2 border-t border-slate-100 flex items-center justify-between gap-2">
+                <div className="min-w-0">
+                  <span className="text-[9px] text-slate-400 font-semibold block uppercase tracking-wider leading-none">Wholesale</span>
+                  <span className="font-mono text-sm font-bold text-emerald-700 leading-tight">
+                    ${product.wholesalePrice.toLocaleString()}
+                  </span>
                 </div>
 
-                <div className="grid grid-cols-3 gap-1.5 pt-1">
+                <div className="flex items-center space-x-1.5 shrink-0">
                   <button
                     onClick={() => setActiveModalProduct(product)}
-                    className="flex items-center justify-center space-x-1 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 text-[11px] font-semibold py-2 px-1 rounded-xl transition-colors cursor-pointer shadow-sm"
-                    title="View Specs & Historical Sales"
+                    className="w-8 h-8 rounded-lg flex items-center justify-center bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 hover:border-slate-300 transition-all cursor-pointer shadow-xs hover:scale-105 active:scale-95"
+                    title="Specs - View Details & Historical Sales"
+                    aria-label="View Specs"
                   >
-                    <Eye className="w-3.5 h-3.5" />
-                    <span>Specs</span>
+                    <Eye className="w-4 h-4" />
                   </button>
 
                   <button
                     onClick={() => setActiveLithoProduct(product)}
-                    className="flex items-center justify-center space-x-1 bg-slate-900 hover:bg-slate-800 text-white text-[11px] font-semibold py-2 px-1 rounded-xl transition-colors cursor-pointer shadow-sm"
-                    title="Print 8.5x11 Showcase Litho Cut Sheet"
+                    className="w-8 h-8 rounded-lg flex items-center justify-center bg-slate-900 hover:bg-slate-800 text-white transition-all cursor-pointer shadow-xs hover:scale-105 active:scale-95"
+                    title="Litho - Print 8.5x11 Showcase Litho Cut Sheet"
+                    aria-label="Print Litho"
                   >
-                    <Printer className="w-3.5 h-3.5 text-amber-400" />
-                    <span>Litho</span>
+                    <Printer className="w-4 h-4 text-amber-400" />
                   </button>
 
                   <button
                     onClick={() => onSelectProductForCard(product.id)}
-                    className="flex items-center justify-center space-x-1 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 text-[11px] font-semibold py-2 px-1 rounded-xl transition-all cursor-pointer shadow-sm"
-                    title="Generate Showroom Price Card"
+                    className="w-8 h-8 rounded-lg flex items-center justify-center bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 hover:border-amber-400 transition-all cursor-pointer shadow-xs hover:scale-105 active:scale-95"
+                    title="Card - Generate Showroom Price Card"
+                    aria-label="Generate Price Card"
                   >
-                    <Tag className="w-3.5 h-3.5 text-amber-600" />
-                    <span>Card</span>
+                    <Tag className="w-4 h-4 text-amber-600" />
                   </button>
                 </div>
               </div>
