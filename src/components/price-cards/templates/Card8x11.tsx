@@ -39,10 +39,12 @@ export const Card8x11: React.FC<Card8x11Props> = ({
       titlePrimary: 'Commemorative',
       titleSecondary: 'Collection',
       isLight: false,
-      bottomBannerBg: 'bg-[#15662a]',
+      bottomBannerBg: 'bg-gradient-to-r from-[#15662a] from-25% via-[#28793b] via-60% to-white to-92%',
+      bottomAccentTrim: 'bg-gradient-to-r from-[#b38728] via-[#fbf5b7] to-[#aa771c]',
       bottomTextColor: 'text-white',
       bottomSubtextColor: 'text-white/95',
-      bottomCopyrightColor: 'text-white/60',
+      bottomCopyrightColor: 'text-white/80',
+      bottomRightCodeColor: 'text-slate-900',
     },
     'classic': {
       bannerBg: 'bg-[#3b434e]', // Charcoal Slate
@@ -50,10 +52,12 @@ export const Card8x11: React.FC<Card8x11Props> = ({
       titlePrimary: 'Classic',
       titleSecondary: 'Collection',
       isLight: false,
-      bottomBannerBg: 'bg-[#3b434e]',
+      bottomBannerBg: 'bg-gradient-to-r from-[#4a515a] from-25% via-[#707985] via-60% to-white to-92%',
+      bottomAccentTrim: 'bg-gradient-to-r from-[#b38728] via-[#fbf5b7] to-[#aa771c]',
       bottomTextColor: 'text-white',
       bottomSubtextColor: 'text-white/95',
-      bottomCopyrightColor: 'text-white/60',
+      bottomCopyrightColor: 'text-white/80',
+      bottomRightCodeColor: 'text-slate-900',
     },
     'conventional': {
       bannerBg: 'bg-[#006cb8]', // Royal Blue
@@ -61,10 +65,12 @@ export const Card8x11: React.FC<Card8x11Props> = ({
       titlePrimary: 'Conventional',
       titleSecondary: 'Collection',
       isLight: false,
-      bottomBannerBg: 'bg-[#006cb8]',
+      bottomBannerBg: 'bg-gradient-to-r from-[#006cb8] from-25% via-[#2287d9] via-60% to-white to-92%',
+      bottomAccentTrim: 'bg-gradient-to-r from-[#b38728] via-[#fbf5b7] to-[#aa771c]',
       bottomTextColor: 'text-white',
       bottomSubtextColor: 'text-white/95',
-      bottomCopyrightColor: 'text-white/60',
+      bottomCopyrightColor: 'text-white/80',
+      bottomRightCodeColor: 'text-slate-900',
     },
     'basic': {
       bannerBg: 'bg-white border-b-2 border-slate-300', // Crisp White
@@ -72,10 +78,12 @@ export const Card8x11: React.FC<Card8x11Props> = ({
       titlePrimary: 'Basic',
       titleSecondary: 'Collection',
       isLight: true,
-      bottomBannerBg: 'bg-slate-100 border-t-2 border-slate-300',
-      bottomTextColor: 'text-slate-950',
-      bottomSubtextColor: 'text-slate-700',
-      bottomCopyrightColor: 'text-slate-500',
+      bottomBannerBg: 'bg-gradient-to-r from-[#475569] from-25% via-[#758498] via-60% to-white to-92%',
+      bottomAccentTrim: 'bg-gradient-to-r from-[#94a3b8] via-[#e2e8f0] to-[#64748b]',
+      bottomTextColor: 'text-white',
+      bottomSubtextColor: 'text-white/95',
+      bottomCopyrightColor: 'text-white/80',
+      bottomRightCodeColor: 'text-slate-900',
     }
   }[collectionType] || {
     bannerBg: 'bg-[#15662a]',
@@ -83,10 +91,12 @@ export const Card8x11: React.FC<Card8x11Props> = ({
     titlePrimary: 'Commemorative',
     titleSecondary: 'Collection',
     isLight: false,
-    bottomBannerBg: 'bg-[#15662a]',
+    bottomBannerBg: 'bg-gradient-to-r from-[#15662a] from-25% via-[#28793b] via-60% to-white to-92%',
+    bottomAccentTrim: 'bg-gradient-to-r from-[#b38728] via-[#fbf5b7] to-[#aa771c]',
     bottomTextColor: 'text-white',
     bottomSubtextColor: 'text-white/95',
-    bottomCopyrightColor: 'text-white/60',
+    bottomCopyrightColor: 'text-white/80',
+    bottomRightCodeColor: 'text-slate-900',
   };
 
   const materialFinishLine = (() => {
@@ -349,28 +359,32 @@ export const Card8x11: React.FC<Card8x11Props> = ({
         </div>
       </div>
 
-      {/* Gold Trim Line for Classic Collection bottom banner */}
-      {collectionType === 'classic' && (
-        <div className="h-1 bg-gradient-to-r from-[#b38728] via-[#fbf5b7] to-[#aa771c] shrink-0" />
-      )}
+      {/* 3D Bevel Shadow & Metallic Accent Trim Line */}
+      <div className="h-2.5 bg-gradient-to-b from-transparent to-black/20 shrink-0 -mb-2.5 pointer-events-none z-10" />
+      <div className={`h-1.5 ${themeConfig.bottomAccentTrim} shrink-0 z-10 shadow-xs`} />
 
-      {/* 4. BOTTOM BANNER */}
-      <div className={`${themeConfig.bottomBannerBg} px-8 py-3.5 flex items-center justify-between shrink-0`}>
+      {/* 4. BOTTOM BANNER WITH COLOR-TO-WHITE HORIZONTAL GRADIENT */}
+      <div className={`${themeConfig.bottomBannerBg} px-8 py-3 flex items-center justify-between shrink-0 relative overflow-hidden`}>
         <div>
-          <div className={`font-sans text-2xl font-medium tracking-wide truncate ${themeConfig.bottomTextColor}`}>
+          <div className={`font-sans text-2xl font-normal tracking-wide truncate ${themeConfig.bottomTextColor} drop-shadow-[0_1px_1px_rgba(0,0,0,0.3)]`}>
             {displayName}
           </div>
-          <div className={`font-sans text-base font-semibold tracking-normal mt-0.5 ${themeConfig.bottomSubtextColor}`}>
-            Batesville Canada, ULC - &nbsp;&nbsp;{product.code}
+          <div className={`font-sans font-bold text-5xl tracking-tight my-0.5 ${themeConfig.bottomTextColor} drop-shadow-[0_1px_2px_rgba(0,0,0,0.35)]`}>
+            ${retailPrice.toLocaleString()}
+          </div>
+          <div className={`font-sans text-lg font-semibold tracking-normal ${themeConfig.bottomSubtextColor} drop-shadow-[0_1px_1px_rgba(0,0,0,0.25)]`}>
+            {product.code}
           </div>
           <div className={`text-[10px] font-sans tracking-tight mt-1 ${themeConfig.bottomCopyrightColor}`}>
-            @ 2025 Batesville Services LLC
+            © 2025 Batesville Services, LLC
           </div>
         </div>
 
-        {/* Large Retail Price */}
-        <div className={`font-sans font-bold text-6xl tracking-tight ${themeConfig.bottomTextColor}`}>
-          ${retailPrice.toLocaleString()}
+        {/* Right side in clean white gradient area */}
+        <div className="text-right flex flex-col items-end justify-end h-full self-end pb-1">
+          <span className={`text-xs font-mono font-bold tracking-wider ${themeConfig.bottomRightCodeColor}`}>
+            {product.code ? `13060${product.code}`.slice(0, 10) : '1306000082'}
+          </span>
         </div>
       </div>
 
