@@ -267,18 +267,18 @@ export const Card8x11: React.FC<Card8x11Props> = ({
 
           {/* Right Graphic in Left Box */}
           {rightGraphic !== 'none' && (
-            <div className="w-[230px] pl-5 border-l border-slate-200 flex flex-col items-center justify-center shrink-0">
+            <div className="w-[230px] pl-3 flex flex-col items-center justify-center shrink-0">
               {rightGraphic === 'refined-styling' ? (
                 <img
-                  src={`${SUPABASE_MISC_BASE}/Refined%20Styling.png`}
-                  onError={(e) => { e.currentTarget.src = '/misc/Refined Styling.png'; }}
+                  src="/misc/Refined Styling.png"
+                  onError={(e) => { e.currentTarget.src = `${SUPABASE_MISC_BASE}/Refined%20Styling.png`; }}
                   alt="Refined Styling"
-                  className="w-full max-w-[215px] max-h-[260px] h-auto object-contain drop-shadow"
+                  className="w-full max-w-[215px] max-h-[260px] h-auto object-contain"
                 />
               ) : (
                 <img
-                  src={`${SUPABASE_MISC_BASE}/Tributes.png`}
-                  onError={(e) => { e.currentTarget.src = '/misc/Tributes.png'; }}
+                  src="/misc/Tributes.png"
+                  onError={(e) => { e.currentTarget.src = `${SUPABASE_MISC_BASE}/Tributes.png`; }}
                   alt="Tributes"
                   className="w-full max-w-[215px] max-h-[260px] h-auto object-contain"
                 />

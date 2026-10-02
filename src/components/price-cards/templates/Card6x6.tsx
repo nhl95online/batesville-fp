@@ -274,26 +274,26 @@ export const Card6x6: React.FC<Card6x6Props> = ({
           </div>
         </div>
 
-        {/* Right Side: TRIBUTES Graphic or REFINED STYLING Medallion from misc bucket */}
+        {/* Right Side: TRIBUTES Graphic or REFINED STYLING Medallion */}
         {rightGraphic !== 'none' && (
-          <div className="w-[195px] pl-3.5 border-l border-slate-200 flex flex-col items-center justify-center shrink-0">
+          <div className="w-[195px] pl-3 flex flex-col items-center justify-center shrink-0">
             {rightGraphic === 'refined-styling' ? (
               <img
-                src={`${SUPABASE_MISC_BASE}/Refined%20Styling.png`}
+                src="/misc/Refined Styling.png"
                 onError={(e) => {
-                  e.currentTarget.src = '/misc/Refined Styling.png';
+                  e.currentTarget.src = `${SUPABASE_MISC_BASE}/Refined%20Styling.png`;
                 }}
                 alt="Refined Styling Classic Collection"
-                className="w-full max-w-[185px] max-h-[175px] h-auto object-contain drop-shadow-sm"
+                className="w-full max-w-[185px] max-h-[175px] h-auto object-contain"
               />
             ) : (
               <img
-                src={`${SUPABASE_MISC_BASE}/Tributes.png`}
+                src="/misc/Tributes.png"
                 onError={(e) => {
-                  e.currentTarget.src = '/misc/Tributes.png';
+                  e.currentTarget.src = `${SUPABASE_MISC_BASE}/Tributes.png`;
                 }}
                 alt="Tribute Option Categories"
-                className="w-full max-w-[185px] max-h-[175px] h-auto object-contain drop-shadow-sm"
+                className="w-full max-w-[185px] max-h-[175px] h-auto object-contain"
               />
             )}
           </div>
