@@ -267,20 +267,20 @@ export const Card11x17: React.FC<Card11x17Props> = ({
 
           {/* Right Graphic in Left Box */}
           {rightGraphic !== 'none' && (
-            <div className="w-[210px] pl-6 border-l border-slate-200 flex flex-col items-center justify-center shrink-0">
+            <div className="w-[340px] pl-8 border-l border-slate-200 flex flex-col items-center justify-center shrink-0">
               {rightGraphic === 'refined-styling' ? (
                 <img
                   src={`${SUPABASE_MISC_BASE}/Refined%20Styling.png`}
                   onError={(e) => { e.currentTarget.src = '/misc/Refined Styling.png'; }}
                   alt="Refined Styling"
-                  className="w-[190px] h-auto object-contain drop-shadow"
+                  className="w-full max-w-[315px] max-h-[380px] h-auto object-contain drop-shadow"
                 />
               ) : (
                 <img
                   src={`${SUPABASE_MISC_BASE}/Tributes.png`}
                   onError={(e) => { e.currentTarget.src = '/misc/Tributes.png'; }}
                   alt="Tributes"
-                  className="w-[190px] h-auto object-contain"
+                  className="w-full max-w-[315px] max-h-[380px] h-auto object-contain"
                 />
               )}
             </div>
@@ -294,7 +294,7 @@ export const Card11x17: React.FC<Card11x17Props> = ({
             <img 
               src={product.imageUrl} 
               alt={displayName} 
-              className="max-w-full max-h-[380px] object-contain drop-shadow-lg"
+              className="max-w-full max-h-[420px] object-contain drop-shadow-lg"
             />
           ) : (
             <div className="text-center text-slate-400 italic text-base">

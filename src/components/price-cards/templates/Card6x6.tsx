@@ -276,7 +276,7 @@ export const Card6x6: React.FC<Card6x6Props> = ({
 
         {/* Right Side: TRIBUTES Graphic or REFINED STYLING Medallion from misc bucket */}
         {rightGraphic !== 'none' && (
-          <div className="w-[140px] pl-3 border-l border-slate-200 flex flex-col items-center justify-center shrink-0">
+          <div className="w-[195px] pl-3.5 border-l border-slate-200 flex flex-col items-center justify-center shrink-0">
             {rightGraphic === 'refined-styling' ? (
               <img
                 src={`${SUPABASE_MISC_BASE}/Refined%20Styling.png`}
@@ -284,7 +284,7 @@ export const Card6x6: React.FC<Card6x6Props> = ({
                   e.currentTarget.src = '/misc/Refined Styling.png';
                 }}
                 alt="Refined Styling Classic Collection"
-                className="w-[125px] h-auto object-contain drop-shadow-sm"
+                className="w-full max-w-[185px] max-h-[175px] h-auto object-contain drop-shadow-sm"
               />
             ) : (
               <img
@@ -293,7 +293,7 @@ export const Card6x6: React.FC<Card6x6Props> = ({
                   e.currentTarget.src = '/misc/Tributes.png';
                 }}
                 alt="Tribute Option Categories"
-                className="w-[125px] h-auto object-contain"
+                className="w-full max-w-[185px] max-h-[175px] h-auto object-contain drop-shadow-sm"
               />
             )}
           </div>
