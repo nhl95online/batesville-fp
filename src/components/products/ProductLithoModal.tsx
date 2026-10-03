@@ -178,12 +178,12 @@ export const ProductLithoModal: React.FC<ProductLithoModalProps> = ({
                   {/* Caskets ONLY: Interior & Cap Style */}
                   {!isUrn && (
                     <>
-                      <div className="flex justify-between">
-                        <span className="text-slate-500">Interior Fabric & Style:</span>
-                        <span className="font-bold text-amber-800">
-                          {product.interior ? product.interior : <span className="text-slate-400 font-normal italic">None / Unlined</span>}
-                        </span>
-                      </div>
+                      {product.interior && (
+                        <div className="flex justify-between">
+                          <span className="text-slate-500">Interior Fabric & Style:</span>
+                          <span className="font-bold text-amber-800">{product.interior}</span>
+                        </div>
+                      )}
                       {product.top && (
                         <div className="flex justify-between">
                           <span className="text-slate-500">Cap / Top Style:</span>

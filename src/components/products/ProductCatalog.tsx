@@ -51,14 +51,14 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
   };
 
   // Distinct categories & sorted years (most recent first)
-  const categories = ['all', ...Array.from(new Set(products.map(p => p.category)))];
+  const categories = ['all', ...Array.from(new Set(products.map(p => p.category))).filter(Boolean)];
   const availableYears = useMemo(() => {
-    return Array.from(new Set(products.map(p => String(p.catalogYear)))).filter(Boolean).sort().reverse();
+    return Array.from(new Set(products.map(p => String(p.catalogYear || p.year)))).filter(Boolean).sort().reverse();
   }, [products]);
 
   // Default automatically to the most recent year
   const [selectedYear, setSelectedYear] = useState<string>(() => {
-    const sorted = Array.from(new Set(products.map(p => String(p.catalogYear)))).filter(Boolean).sort().reverse();
+    const sorted = Array.from(new Set(products.map(p => String(p.catalogYear || p.year)))).filter(Boolean).sort().reverse();
     return sorted[0] || 'all';
   });
 
@@ -75,17 +75,18 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
     if (filterCat === 'all') return true;
     const f = filterCat.toLowerCase();
     const pCat = (p.category || '').toLowerCase();
+    const pSub = (p.subcategory || '').toLowerCase();
     const pMat = (p.material || '').toLowerCase();
     const pDesc = (p.description || '').toLowerCase();
 
     if (f === 'metal') {
-      return pCat.includes('metal') || pMat.includes('steel') || pMat.includes('bronze') || pMat.includes('copper') || pDesc.includes('18 ga') || pDesc.includes('20 ga');
+      return pCat.includes('metal') || pSub.includes('metal') || pMat.includes('steel') || pMat.includes('bronze') || pMat.includes('copper') || pDesc.includes('18 ga') || pDesc.includes('20 ga');
     }
     if (f === 'wood') {
-      return pCat.includes('wood') || ['oak', 'pecan', 'cherry', 'mahogany', 'maple', 'poplar', 'pine', 'walnut'].some(m => pMat.includes(m) || pDesc.includes(m));
+      return pCat.includes('wood') || pSub.includes('wood') || ['oak', 'pecan', 'cherry', 'mahogany', 'maple', 'poplar', 'pine', 'walnut'].some(m => pMat.includes(m) || pDesc.includes(m));
     }
     if (f === 'cloth') {
-      return pCat.includes('cloth') || pCat.includes('newpointe') || pDesc.includes('cloth') || pDesc.includes('newpointe');
+      return pCat.includes('cloth') || pCat.includes('newpointe') || pSub.includes('cloth') || pDesc.includes('cloth') || pDesc.includes('newpointe');
     }
     if (f === 'urns') {
       return isUrnProduct(p);
@@ -98,13 +99,15 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
 
   const filteredProducts = products.filter((p) => {
     const matchesCategory = checkCategoryMatch(p, selectedCategory);
-    const matchesYear = selectedYear === 'all' || String(p.catalogYear) === selectedYear;
+    const matchesYear = selectedYear === 'all' || String(p.catalogYear || p.year) === selectedYear;
     const term = searchTerm.toLowerCase();
     const matchesSearch = 
-      p.name.toLowerCase().includes(term) ||
-      p.code.toLowerCase().includes(term) ||
-      String(p.product_code || '').toLowerCase().includes(term) ||
+      (p.name && p.name.toLowerCase().includes(term)) ||
+      (p.code && p.code.toLowerCase().includes(term)) ||
+      (p.product_code !== undefined && String(p.product_code).toLowerCase().includes(term)) ||
       (p.description && p.description.toLowerCase().includes(term)) ||
+      (p.category && p.category.toLowerCase().includes(term)) ||
+      (p.subcategory && p.subcategory.toLowerCase().includes(term)) ||
       (p.material && p.material.toLowerCase().includes(term)) ||
       (p.finish && p.finish.toLowerCase().includes(term)) ||
       (p.exteriorFinish && p.exteriorFinish.toLowerCase().includes(term)) ||
@@ -126,7 +129,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                 Batesville Merchandise & Product Catalog
               </h1>
               <p className="text-xs sm:text-sm text-slate-500">
-                Full Supabase schema database with 19 columns, category filtering, lithos, and card generation.
+                Merchandise database with 20 columns including subcategory, zero forced fallbacks, lithos, and price cards.
               </p>
             </div>
           </div>
@@ -140,7 +143,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
               className={`p-1.5 rounded-lg transition-all cursor-pointer ${
                 viewMode === 'table' ? 'bg-amber-600 text-white font-bold shadow-sm' : 'text-slate-600 hover:text-slate-900'
               }`}
-              title="Table Grid View (Exact 19 Supabase Headers)"
+              title="Table Grid View"
             >
               <TableIcon className="w-4 h-4" />
             </button>
@@ -231,7 +234,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
         </span>
       </div>
 
-      {/* View Mode 1: Table Grid View with EXACT 19 Supabase Headers */}
+      {/* View Mode 1: Table Grid View */}
       {viewMode === 'table' ? (
         <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
           <div className="overflow-x-auto max-h-[750px] relative">
@@ -241,6 +244,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                   <th className="py-3 px-3 font-semibold whitespace-nowrap">product_id</th>
                   <th className="py-3 px-3 font-semibold whitespace-nowrap">year</th>
                   <th className="py-3 px-3 font-semibold whitespace-nowrap min-w-[140px]">category</th>
+                  <th className="py-3 px-3 font-semibold whitespace-nowrap min-w-[130px]">subcategory</th>
                   <th className="py-3 px-3 font-semibold whitespace-nowrap">product_code</th>
                   <th className="py-3 px-3 font-semibold whitespace-nowrap min-w-[220px]">description</th>
                   <th className="py-3 px-3 font-semibold whitespace-nowrap min-w-[130px]">interior</th>
@@ -278,178 +282,169 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                       onClick={() => setActiveModalProduct(p)}
                     >
                       {/* 1. product_id */}
-                      <td className="py-2.5 px-3 text-slate-400">
-                        {p.productId || p.product_id || <span className="text-slate-300 font-sans italic text-[11px]">NULL</span>}
+                      <td className="py-2.5 px-3 text-slate-500 font-mono">
+                        {p.productId ?? p.product_id ?? ''}
                       </td>
 
                       {/* 2. year */}
                       <td className="py-2.5 px-3">
-                        <span className="px-1.5 py-0.5 rounded bg-slate-100 font-bold text-slate-700 text-[11px]">
-                          {p.year || p.catalogYear || '—'}
-                        </span>
+                        {p.year || p.catalogYear ? (
+                          <span className="px-1.5 py-0.5 rounded bg-slate-100 font-bold text-slate-700 text-[11px]">
+                            {p.year || p.catalogYear}
+                          </span>
+                        ) : ''}
                       </td>
 
                       {/* 3. category */}
                       <td className="py-2.5 px-3 font-sans">
-                        <span className="text-slate-800 font-medium truncate block max-w-[160px]" title={p.category}>
-                          {p.category}
-                        </span>
-                      </td>
-
-                      {/* 4. product_code */}
-                      <td className="py-2.5 px-3">
-                        <span className="text-amber-700 font-bold font-mono">
-                          {p.product_code || p.code}
-                        </span>
-                      </td>
-
-                      {/* 5. description */}
-                      <td className="py-2.5 px-3">
-                        <div className="flex items-center space-x-2">
-                          <img
-                            src={p.imageUrl}
-                            alt=""
-                            className="w-7 h-7 object-contain bg-slate-50 border border-slate-200 rounded shrink-0"
-                          />
-                          <span 
-                            className="font-serif font-bold text-slate-900 group-hover:text-amber-700 transition-colors truncate max-w-[220px]"
-                            title={p.description || p.name}
-                          >
-                            {p.description || p.name}
+                        {p.category ? (
+                          <span className="text-slate-800 font-medium truncate block max-w-[160px]" title={p.category}>
+                            {p.category}
                           </span>
-                        </div>
+                        ) : ''}
                       </td>
 
-                      {/* 6. interior */}
+                      {/* 4. subcategory */}
+                      <td className="py-2.5 px-3 font-sans">
+                        {p.subcategory ? (
+                          <span className="text-slate-700 truncate block max-w-[140px]" title={p.subcategory}>
+                            {p.subcategory}
+                          </span>
+                        ) : ''}
+                      </td>
+
+                      {/* 5. product_code */}
+                      <td className="py-2.5 px-3">
+                        {p.product_code || p.code ? (
+                          <span className="text-amber-700 font-bold font-mono">
+                            {p.product_code || p.code}
+                          </span>
+                        ) : ''}
+                      </td>
+
+                      {/* 6. description */}
+                      <td className="py-2.5 px-3">
+                        {p.description || p.name ? (
+                          <div className="flex items-center space-x-2">
+                            {p.imageUrl ? (
+                              <img
+                                src={p.imageUrl}
+                                alt=""
+                                className="w-7 h-7 object-contain bg-slate-50 border border-slate-200 rounded shrink-0"
+                              />
+                            ) : null}
+                            <span 
+                              className="font-serif font-bold text-slate-900 group-hover:text-amber-700 transition-colors truncate max-w-[220px]"
+                              title={p.description || p.name}
+                            >
+                              {p.description || p.name}
+                            </span>
+                          </div>
+                        ) : ''}
+                      </td>
+
+                      {/* 7. interior */}
                       <td className="py-2.5 px-3 font-sans">
                         {hasInterior ? (
                           <span className="text-slate-800 font-medium truncate block max-w-[130px]" title={p.interior!}>
                             {p.interior}
                           </span>
-                        ) : (
-                          <span className="text-slate-400 italic text-[11px]">NULL</span>
-                        )}
+                        ) : ''}
                       </td>
 
-                      {/* 7. order_qty */}
+                      {/* 8. order_qty */}
                       <td className="py-2.5 px-3">
-                        {p.order_qty !== undefined && p.order_qty !== null ? (
-                          p.order_qty
-                        ) : p.orderQty !== undefined && p.orderQty !== null ? (
-                          p.orderQty
-                        ) : (
-                          <span className="text-slate-400 font-sans italic text-[11px]">NULL</span>
-                        )}
+                        {p.order_qty !== undefined && p.order_qty !== null ? p.order_qty : (p.orderQty !== undefined && p.orderQty !== null ? p.orderQty : '')}
                       </td>
 
-                      {/* 8. accessories */}
+                      {/* 9. accessories */}
                       <td className="py-2.5 px-3">
-                        {p.accessories !== undefined && p.accessories !== null && String(p.accessories).trim() !== '' ? (
-                          String(p.accessories)
-                        ) : (
-                          <span className="text-slate-400 font-sans italic text-[11px]">NULL</span>
-                        )}
+                        {p.accessories !== undefined && p.accessories !== null && String(p.accessories).trim() !== '' ? String(p.accessories) : ''}
                       </td>
 
-                      {/* 9. lifeview */}
+                      {/* 10. lifeview */}
                       <td className="py-2.5 px-3">
                         {hasLifeview ? (
                           <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-purple-50 text-purple-700 font-bold border border-purple-200 text-[10px]">
                             {typeof p.lifeview === 'string' ? p.lifeview : 'TRUE'}
                           </span>
-                        ) : (
-                          <span className="text-slate-400 font-sans italic text-[11px]">NULL</span>
-                        )}
+                        ) : ''}
                       </td>
 
-                      {/* 10. dual_disposition */}
+                      {/* 11. dual_disposition */}
                       <td className="py-2.5 px-3">
                         {hasDual ? (
                           <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 font-bold border border-emerald-200 text-[10px]">
                             {typeof p.dual_disposition === 'string' ? p.dual_disposition : 'TRUE'}
                           </span>
-                        ) : (
-                          <span className="text-slate-400 font-sans italic text-[11px]">NULL</span>
-                        )}
+                        ) : ''}
                       </td>
 
-                      {/* 11. top */}
+                      {/* 12. top */}
                       <td className="py-2.5 px-3 font-sans">
                         {hasTop ? (
                           <span className="text-slate-800 truncate block max-w-[110px]" title={p.top!}>
                             {p.top}
                           </span>
-                        ) : (
-                          <span className="text-slate-400 italic text-[11px]">NULL</span>
-                        )}
+                        ) : ''}
                       </td>
 
-                      {/* 12. finish */}
+                      {/* 13. finish */}
                       <td className="py-2.5 px-3 font-sans">
                         {hasFinish ? (
                           <span className="text-slate-800 font-medium truncate block max-w-[140px]" title={p.finish || p.exteriorFinish}>
                             {p.finish || p.exteriorFinish}
                           </span>
-                        ) : (
-                          <span className="text-slate-400 italic text-[11px]">NULL</span>
-                        )}
+                        ) : ''}
                       </td>
 
-                      {/* 13. oversize */}
+                      {/* 14. oversize */}
                       <td className="py-2.5 px-3">
                         {hasOversize ? (
                           <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-rose-50 text-rose-700 font-bold border border-rose-200 text-[10px]">
                             {typeof p.oversize === 'string' ? p.oversize : 'TRUE'}
                           </span>
-                        ) : (
-                          <span className="text-slate-400 font-sans italic text-[11px]">NULL</span>
-                        )}
+                        ) : ''}
                       </td>
 
-                      {/* 14. ext_width */}
+                      {/* 15. ext_width */}
                       <td className="py-2.5 px-3">
-                        {p.ext_width || p.extWidth ? `${p.ext_width || p.extWidth}"` : <span className="text-slate-400 font-sans italic text-[11px]">NULL</span>}
+                        {(p.ext_width || p.extWidth) ? `${p.ext_width || p.extWidth}"` : ''}
                       </td>
 
-                      {/* 15. ext_length */}
+                      {/* 16. ext_length */}
                       <td className="py-2.5 px-3">
-                        {p.ext_length || p.extLength ? `${p.ext_length || p.extLength}"` : <span className="text-slate-400 font-sans italic text-[11px]">NULL</span>}
+                        {(p.ext_length || p.extLength) ? `${p.ext_length || p.extLength}"` : ''}
                       </td>
 
-                      {/* 16. int_width */}
+                      {/* 17. int_width */}
                       <td className="py-2.5 px-3">
-                        {p.int_width || p.intWidth ? (
+                        {(p.int_width || p.intWidth) ? (
                           <span className="text-amber-700 font-bold">{p.int_width || p.intWidth}"</span>
-                        ) : (
-                          <span className="text-slate-400 font-sans italic text-[11px]">NULL</span>
-                        )}
+                        ) : ''}
                       </td>
 
-                      {/* 17. weight_capacity */}
+                      {/* 18. weight_capacity */}
                       <td className="py-2.5 px-3">
-                        {p.weight_capacity || p.weightCapacity || p.capacity ? (
-                          p.weight_capacity || p.weightCapacity || p.capacity
-                        ) : (
-                          <span className="text-slate-400 font-sans italic text-[11px]">NULL</span>
-                        )}
+                        {(p.weight_capacity || p.weightCapacity || p.capacity) ? (p.weight_capacity || p.weightCapacity || p.capacity) : ''}
                       </td>
 
-                      {/* 18. discountinued */}
+                      {/* 19. discountinued */}
                       <td className="py-2.5 px-3">
                         {hasDiscontinued ? (
                           <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-rose-100 text-rose-800 font-bold text-[10px]">
                             {typeof (p.discountinued || p.discontinued) === 'string' ? (p.discountinued || p.discontinued) : 'TRUE'}
                           </span>
-                        ) : (
-                          <span className="text-slate-400 font-sans italic text-[11px]">NULL</span>
-                        )}
+                        ) : ''}
                       </td>
 
-                      {/* 19. price */}
+                      {/* 20. price */}
                       <td className="py-2.5 px-3">
-                        <span className="font-bold text-emerald-700 font-mono">
-                          ${Number(p.price || p.wholesalePrice || 0).toLocaleString()}
-                        </span>
+                        {(p.price || p.wholesalePrice) ? (
+                          <span className="font-bold text-emerald-700 font-mono">
+                            ${Number(p.price || p.wholesalePrice).toLocaleString()}
+                          </span>
+                        ) : ''}
                       </td>
 
                       {/* Actions */}
@@ -498,25 +493,45 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                 className="relative h-48 sm:h-52 w-full bg-slate-50/70 overflow-hidden cursor-pointer flex items-center justify-center p-2.5 border-b border-slate-100"
                 onClick={() => setActiveModalProduct(product)}
               >
-                <img
-                  src={product.imageUrl}
-                  alt={product.name}
-                  className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute top-2 left-2 bg-white/95 backdrop-blur-sm border border-slate-200 text-amber-800 text-[10px] font-mono px-2 py-0.5 rounded-md font-bold shadow-xs">
-                  {product.product_code || product.code}
-                </div>
-                <div className="absolute top-2 right-2 bg-slate-900/80 backdrop-blur-sm text-white text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded shadow-xs">
-                  Year: {product.year || product.catalogYear}
-                </div>
+                {product.imageUrl ? (
+                  <img
+                    src={product.imageUrl}
+                    alt={product.name || ''}
+                    className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-slate-300">
+                    <ImageIcon className="w-10 h-10" />
+                  </div>
+                )}
+                {(product.product_code || product.code) && (
+                  <div className="absolute top-2 left-2 bg-white/95 backdrop-blur-sm border border-slate-200 text-amber-800 text-[10px] font-mono px-2 py-0.5 rounded-md font-bold shadow-xs">
+                    {product.product_code || product.code}
+                  </div>
+                )}
+                {(product.year || product.catalogYear) && (
+                  <div className="absolute top-2 right-2 bg-slate-900/80 backdrop-blur-sm text-white text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded shadow-xs">
+                    Year: {product.year || product.catalogYear}
+                  </div>
+                )}
               </div>
 
               {/* Product Body */}
               <div className="p-3 sm:p-3.5 flex-1 flex flex-col justify-between space-y-2">
                 <div>
-                  <span className="text-[9px] sm:text-[10px] text-amber-700 font-bold uppercase tracking-wider block truncate">
-                    {product.category}
-                  </span>
+                  <div className="flex items-center justify-between gap-1">
+                    {product.category && (
+                      <span className="text-[9px] sm:text-[10px] text-amber-700 font-bold uppercase tracking-wider block truncate">
+                        {product.category}
+                      </span>
+                    )}
+                    {product.subcategory && (
+                      <span className="text-[9px] text-slate-500 font-medium truncate">
+                        {product.subcategory}
+                      </span>
+                    )}
+                  </div>
+                  
                   <h3 
                     onClick={() => setActiveModalProduct(product)}
                     className="font-serif text-sm sm:text-[15px] font-bold text-slate-900 group-hover:text-amber-700 transition-colors cursor-pointer leading-snug line-clamp-2 h-10 mt-0.5"
@@ -526,41 +541,43 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                   </h3>
                   
                   {/* Exterior Finish - No forced fallback */}
-                  {product.finish || product.exteriorFinish ? (
+                  {(product.finish || product.exteriorFinish) && (
                     <p className="text-[11px] text-slate-500 italic mt-0.5 truncate" title={product.finish || product.exteriorFinish}>
                       {product.finish || product.exteriorFinish}
-                    </p>
-                  ) : (
-                    <p className="text-[11px] text-slate-400 italic mt-0.5 truncate">
-                      No finish specified
                     </p>
                   )}
 
                   {isUrnProduct(product) ? (
                     <div className="mt-1.5 space-y-0.5 text-[11px] text-slate-600">
-                      <div className="flex justify-between items-center">
-                        <span className="text-slate-400">Material:</span>
-                        <span className="text-slate-800 font-medium truncate max-w-[130px]">{product.material || 'Hardwood / Metal'}</span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-slate-400">Capacity:</span>
-                        <span className="text-amber-800 font-medium font-mono truncate max-w-[130px]">
-                          {product.weight_capacity || product.capacity ? `${product.weight_capacity || product.capacity} cu. in.` : '200 cu. in.'}
-                        </span>
-                      </div>
+                      {product.material && (
+                        <div className="flex justify-between items-center">
+                          <span className="text-slate-400">Material:</span>
+                          <span className="text-slate-800 font-medium truncate max-w-[130px]">{product.material}</span>
+                        </div>
+                      )}
+                      {(product.weight_capacity || product.capacity) && (
+                        <div className="flex justify-between items-center">
+                          <span className="text-slate-400">Capacity:</span>
+                          <span className="text-amber-800 font-medium font-mono truncate max-w-[130px]">
+                            {product.weight_capacity || product.capacity} cu. in.
+                          </span>
+                        </div>
+                      )}
                     </div>
                   ) : (
                     <div className="mt-1.5 space-y-0.5 text-[11px] text-slate-600">
-                      <div className="flex justify-between items-center">
-                        <span className="text-slate-400">Material:</span>
-                        <span className="text-slate-800 font-medium truncate max-w-[130px]">{product.material || 'Steel / Timber'}</span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-slate-400">Interior:</span>
-                        <span className="text-slate-800 font-medium truncate max-w-[130px]">
-                          {product.interior ? product.interior : <span className="text-slate-400 italic font-normal">None / Unlined</span>}
-                        </span>
-                      </div>
+                      {product.material && (
+                        <div className="flex justify-between items-center">
+                          <span className="text-slate-400">Material:</span>
+                          <span className="text-slate-800 font-medium truncate max-w-[130px]">{product.material}</span>
+                        </div>
+                      )}
+                      {product.interior && (
+                        <div className="flex justify-between items-center">
+                          <span className="text-slate-400">Interior:</span>
+                          <span className="text-slate-800 font-medium truncate max-w-[130px]">{product.interior}</span>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
@@ -568,10 +585,14 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                 {/* Pricing & Square Action Buttons */}
                 <div className="pt-2 border-t border-slate-100 flex items-center justify-between gap-2">
                   <div className="min-w-0">
-                    <span className="text-[9px] text-slate-400 font-semibold block uppercase tracking-wider leading-none">Wholesale</span>
-                    <span className="font-mono text-sm font-bold text-emerald-700 leading-tight">
-                      ${Number(product.price || product.wholesalePrice || 0).toLocaleString()}
-                    </span>
+                    {(product.price || product.wholesalePrice) ? (
+                      <>
+                        <span className="text-[9px] text-slate-400 font-semibold block uppercase tracking-wider leading-none">Wholesale</span>
+                        <span className="font-mono text-sm font-bold text-emerald-700 leading-tight">
+                          ${Number(product.price || product.wholesalePrice).toLocaleString()}
+                        </span>
+                      </>
+                    ) : <span className="text-slate-300 text-xs">—</span>}
                   </div>
 
                   <div className="flex items-center space-x-1.5 shrink-0">

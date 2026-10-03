@@ -197,12 +197,12 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
 
                 {!isUrn && (
                   <>
-                    <div className="flex justify-between">
-                      <span className="text-slate-500">Interior Fabric & Style:</span>
-                      <span className="text-slate-900 font-semibold">
-                        {product.interior ? product.interior : <span className="text-slate-400 font-normal italic">None / Unlined</span>}
-                      </span>
-                    </div>
+                    {product.interior && (
+                      <div className="flex justify-between">
+                        <span className="text-slate-500">Interior Fabric & Style:</span>
+                        <span className="text-slate-900 font-semibold">{product.interior}</span>
+                      </div>
+                    )}
                     {product.top && (
                       <div className="flex justify-between">
                         <span className="text-slate-500">Cap / Top Style:</span>
