@@ -206,12 +206,22 @@ export interface FloorSlot {
   slotNumber: number;
   label: string;
   type: 'casket' | 'urn';
+  // Double Rack support for caskets
+  isDoubleRack?: boolean;
+  rackType?: 'single' | 'double' | 'pedestal' | 'urn-shelf' | 'urn-tower';
+  levelNumber?: number; // 1 = Floor / Bottom Rack / Shelf 1, 2 = Top Rack / Shelf 2, 3..5 = Urn Shelves
+  tierLevel?: string; // 'Double Rack - Top', 'Double Rack - Bottom', 'Shelf 1 (Bottom)', 'Floor'
+  shelfSlotPosition?: number; // 1, 2, 3 across the shelf
   productId?: string;
   productCode?: string;
   productName?: string;
   category?: string;
   wholesalePrice?: number;
   imageUrl?: string;
+  wallZone?: string;
+  posX?: number;
+  posY?: number;
+  notes?: string;
 }
 
 export interface CustomerFloorPlan {

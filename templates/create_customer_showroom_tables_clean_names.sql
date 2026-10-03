@@ -35,16 +35,20 @@ CREATE TABLE IF NOT EXISTS public.customer_casket_locations (
   product_name TEXT,
   category TEXT,
   display_type TEXT DEFAULT 'Full Casket',
+  is_double_rack BOOLEAN DEFAULT FALSE,
+  rack_type TEXT DEFAULT 'Single Rack',
+  level_number INTEGER DEFAULT 1,
+  tier_level TEXT DEFAULT 'Floor',
+  shelf_slot_position INTEGER DEFAULT 1,
   wall_zone TEXT,
   pos_x_ft NUMERIC(6, 2) NOT NULL,
   pos_y_ft NUMERIC(6, 2) NOT NULL,
   orientation_deg INTEGER DEFAULT 0,
-  tier_level TEXT DEFAULT 'Floor',
   status TEXT DEFAULT 'Active',
   notes TEXT,
   created_at TIMESTAMPTZ DEFAULT now(),
   updated_at TIMESTAMPTZ DEFAULT now(),
-  CONSTRAINT uq_customer_bay_clean UNIQUE (account_number, room_name, bay_number)
+  CONSTRAINT uq_customer_bay_clean_level UNIQUE (account_number, room_name, bay_number, level_number, shelf_slot_position)
 );
 
 -- Indexes

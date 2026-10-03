@@ -35,17 +35,21 @@ CREATE TABLE IF NOT EXISTS public.customer_casket_locations (
   product_code TEXT NOT NULL,                         -- Batesville SKU (matches products.product_code)
   product_name TEXT,                                  -- Batesville model name (e.g. "Classic Gold")
   category TEXT,                                      -- "Metal", "Wood", "Urn", etc.
-  display_type TEXT DEFAULT 'Full Casket',            -- "Full Casket", "Quarter Couch", "Urn Pedestal"
+  display_type TEXT DEFAULT 'Full Casket',            -- "Full Casket", "Quarter Couch", "Urn Wall Unit", "Urn Pedestal"
+  is_double_rack BOOLEAN DEFAULT FALSE,               -- TRUE if casket bay is a 2-tier double rack
+  rack_type TEXT DEFAULT 'Single Rack',               -- "Single Rack", "Double Rack", "Urn Multi-Shelf Unit", "Urn Tower", "Pedestal"
+  level_number INTEGER DEFAULT 1,                     -- 1 = Floor/Bottom Rack/Shelf 1; 2 = Top Rack/Shelf 2; 3..5 = Upper Urn Shelves
+  tier_level TEXT DEFAULT 'Floor',                    -- "Floor", "Double Rack - Bottom", "Double Rack - Top", "Shelf 1", "Shelf 2"
+  shelf_slot_position INTEGER DEFAULT 1,              -- Slot position across shelf (1, 2, 3...) when multiple urns share a level
   wall_zone TEXT,                                     -- "North Wall", "South Wall", "Center Island"
   pos_x_ft NUMERIC(6, 2) NOT NULL,                    -- X Coordinate in feet from room origin
   pos_y_ft NUMERIC(6, 2) NOT NULL,                    -- Y Coordinate in feet from room origin
   orientation_deg INTEGER DEFAULT 0,                  -- Rotation (0, 90, 180, 270 degrees)
-  tier_level TEXT DEFAULT 'Floor',                    -- "Floor", "Raised Platform", "Tier 2", "Pedestal"
   status TEXT DEFAULT 'Active',                       -- "Active", "Reserved", "Seasonal"
   notes TEXT,
   created_at TIMESTAMPTZ DEFAULT now(),
   updated_at TIMESTAMPTZ DEFAULT now(),
-  CONSTRAINT uq_customer_bay UNIQUE ("account_#", room_name, bay_number)
+  CONSTRAINT uq_customer_bay_level UNIQUE ("account_#", room_name, bay_number, level_number, shelf_slot_position)
 );
 
 -- Indexes for lightning-fast queries

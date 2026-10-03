@@ -21,7 +21,8 @@ import {
   X,
   Maximize2,
   Box,
-  Compass
+  Compass,
+  Layers
 } from 'lucide-react';
 
 interface ShowroomFloorPlanProps {
@@ -167,14 +168,19 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
 
     const newSlots: FloorSlot[] = [];
 
-    // Casket bays
+    // Casket bays (supporting single racks and double racks)
     for (let i = 1; i <= casketCount; i++) {
       const prod = caskets[(i - 1) % caskets.length];
+      const isDouble = i === 2 || i === 3;
       newSlots.push({
         id: `casket-bay-${i}`,
         slotNumber: i,
-        label: i === 1 ? 'Bay 1 (Entrance Feature)' : `Bay ${i}`,
+        label: i === 1 ? 'Bay 1 (Entrance Feature)' : isDouble ? `Bay ${i} (Double Rack)` : `Bay ${i}`,
         type: 'casket',
+        isDoubleRack: isDouble,
+        rackType: isDouble ? 'double' : 'single',
+        levelNumber: isDouble ? 2 : 1,
+        tierLevel: isDouble ? 'Double Rack - Top' : 'Floor',
         productId: prod?.id,
         productCode: prod?.code,
         productName: prod?.name,
@@ -184,14 +190,20 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
       });
     }
 
-    // Urn pedestals / shelves
+    // Urn pedestals / multi-level shelves (supporting Shelf Levels 1 to 5)
     for (let j = 1; j <= urnCount; j++) {
       const urn = urns[(j - 1) % urns.length];
+      const shelfLvl = ((j - 1) % 3) + 1; // Levels 1, 2, 3
       newSlots.push({
         id: `urn-shelf-${j}`,
         slotNumber: j,
-        label: `Urn Pedestal ${j}`,
+        label: `Urn Shelf #${j}`,
         type: 'urn',
+        isDoubleRack: false,
+        rackType: 'urn-shelf',
+        levelNumber: shelfLvl,
+        tierLevel: `Shelf ${shelfLvl}`,
+        shelfSlotPosition: ((j - 1) % 2) + 1,
         productId: urn?.id,
         productCode: urn?.code,
         productName: urn?.name,
@@ -247,6 +259,20 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
       updatedAt: new Date().toISOString(),
     };
     localStorage.setItem(`batesville_floorplan_${activeCustomer.id}`, JSON.stringify(plan));
+  };
+
+  // Update rack / level configuration for a slot
+  const handleUpdateSlotRackConfig = (slotId: string, updates: Partial<FloorSlot>) => {
+    setSlots(prev => {
+      const updated = prev.map(s => {
+        if (s.id === slotId) {
+          return { ...s, ...updates };
+        }
+        return s;
+      });
+      savePlan(updated);
+      return updated;
+    });
   };
 
   // Replace item in active slot
@@ -588,23 +614,31 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
                       >
                         {/* Status Ribbon Badge */}
                         <div className="flex items-center justify-between mb-2">
-                          <span className="text-[10px] font-mono font-bold text-slate-500">
-                            {slot.label}
-                          </span>
+                          <div className="flex items-center gap-1.5 overflow-hidden pr-1">
+                            <span className="text-[10px] font-mono font-bold text-slate-700 truncate">
+                              {slot.label}
+                            </span>
+                            {slot.isDoubleRack && (
+                              <span className="shrink-0 flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-amber-100 text-amber-900 text-[9px] font-bold border border-amber-200" title={slot.tierLevel || 'Double Rack'}>
+                                <Layers className="w-2.5 h-2.5 text-amber-700" />
+                                <span>{slot.levelNumber === 2 ? 'Top' : 'Btm'}</span>
+                              </span>
+                            )}
+                          </div>
                           {stats.status === 'top' && (
-                            <span className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-bold">
+                            <span className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-bold shrink-0">
                               <Flame className="w-3 h-3 text-emerald-600" />
                               <span>{stats.units}</span>
                             </span>
                           )}
                           {stats.status === 'steady' && (
-                            <span className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-blue-100 text-blue-800 text-[10px] font-bold">
+                            <span className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-blue-100 text-blue-800 text-[10px] font-bold shrink-0">
                               <Zap className="w-3 h-3 text-blue-600" />
                               <span>{stats.units}</span>
                             </span>
                           )}
                           {stats.status === 'stagnant' && (
-                            <span className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-rose-100 text-rose-800 text-[10px] font-bold">
+                            <span className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-rose-100 text-rose-800 text-[10px] font-bold shrink-0">
                               <Snowflake className="w-3 h-3 text-rose-600" />
                               <span>0</span>
                             </span>
@@ -667,6 +701,9 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
                       >
                         <div className="flex items-center justify-between mb-1 text-[9px]">
                           <span className="font-mono font-bold text-slate-500">#{slot.slotNumber}</span>
+                          <span className="font-mono text-[8px] px-1 py-0.2 rounded bg-purple-100 text-purple-800 font-bold border border-purple-200">
+                            Lvl {slot.levelNumber || 1}
+                          </span>
                           {stats.status === 'top' && <Flame className="w-2.5 h-2.5 text-emerald-600" />}
                           {stats.status === 'steady' && <Zap className="w-2.5 h-2.5 text-blue-600" />}
                           {stats.status === 'stagnant' && <Snowflake className="w-2.5 h-2.5 text-rose-500" />}
@@ -792,6 +829,144 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
                     <div className="col-span-2 pt-2 border-t border-slate-200 flex justify-between text-[11px]">
                       <span className="text-slate-500">Last Client Purchase:</span>
                       <span className="font-mono text-slate-700">{activeSlotStats.lastDate}</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Display & Rack Configuration (Double Rack & Urn Multi-Level Controls) */}
+              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-1.5 text-slate-800">
+                    <Layers className="w-4 h-4 text-amber-600" />
+                    <h4 className="font-bold text-xs uppercase tracking-wider">
+                      {activeSlot.type === 'casket' ? 'Casket Rack Option' : 'Urn Shelf & Multi-Tier'}
+                    </h4>
+                  </div>
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white border border-slate-200 text-slate-700 font-bold">
+                    {activeSlot.tierLevel || (activeSlot.type === 'casket' ? (activeSlot.isDoubleRack ? 'Double Rack' : 'Single Floor') : 'Shelf 1')}
+                  </span>
+                </div>
+
+                {activeSlot.type === 'casket' ? (
+                  <div className="space-y-2.5">
+                    {/* Rack Option Buttons */}
+                    <div className="grid grid-cols-2 gap-2">
+                      <button
+                        onClick={() => handleUpdateSlotRackConfig(activeSlot.id, {
+                          isDoubleRack: false,
+                          rackType: 'single',
+                          levelNumber: 1,
+                          tierLevel: 'Floor'
+                        })}
+                        className={`px-3 py-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer ${
+                          !activeSlot.isDoubleRack
+                            ? 'bg-amber-600 text-white border-amber-600 shadow-sm'
+                            : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'
+                        }`}
+                      >
+                        Single Floor Rack
+                      </button>
+                      <button
+                        onClick={() => handleUpdateSlotRackConfig(activeSlot.id, {
+                          isDoubleRack: true,
+                          rackType: 'double',
+                          levelNumber: 2,
+                          tierLevel: 'Double Rack - Top'
+                        })}
+                        className={`px-3 py-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer ${
+                          activeSlot.isDoubleRack
+                            ? 'bg-amber-600 text-white border-amber-600 shadow-sm'
+                            : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'
+                        }`}
+                      >
+                        Double Rack (2-Tier)
+                      </button>
+                    </div>
+
+                    {/* Double Rack Level Selector */}
+                    {activeSlot.isDoubleRack && (
+                      <div className="p-2.5 bg-amber-50/70 border border-amber-200 rounded-xl space-y-1.5">
+                        <span className="text-[10px] font-bold text-amber-900 uppercase tracking-wider block">
+                          Current Rack Level:
+                        </span>
+                        <div className="grid grid-cols-2 gap-2">
+                          <button
+                            onClick={() => handleUpdateSlotRackConfig(activeSlot.id, {
+                              levelNumber: 2,
+                              tierLevel: 'Double Rack - Top'
+                            })}
+                            className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                              activeSlot.levelNumber === 2
+                                ? 'bg-amber-700 text-white shadow-xs'
+                                : 'bg-white text-slate-700 hover:bg-amber-100/50 border border-amber-200'
+                            }`}
+                          >
+                            Top Rack (Level 2)
+                          </button>
+                          <button
+                            onClick={() => handleUpdateSlotRackConfig(activeSlot.id, {
+                              levelNumber: 1,
+                              tierLevel: 'Double Rack - Bottom'
+                            })}
+                            className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                              activeSlot.levelNumber === 1
+                                ? 'bg-amber-700 text-white shadow-xs'
+                                : 'bg-white text-slate-700 hover:bg-amber-100/50 border border-amber-200'
+                            }`}
+                          >
+                            Bottom Rack (Level 1)
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  /* Urn Multi-Level Controls */
+                  <div className="space-y-2.5">
+                    <div>
+                      <span className="text-[10px] text-slate-500 font-semibold block mb-1">
+                        Urn Shelf Tier (Level 1 to 5):
+                      </span>
+                      <div className="grid grid-cols-5 gap-1.5">
+                        {[1, 2, 3, 4, 5].map(lvl => (
+                          <button
+                            key={lvl}
+                            onClick={() => handleUpdateSlotRackConfig(activeSlot.id, {
+                              levelNumber: lvl,
+                              tierLevel: lvl === 1 ? 'Shelf 1 (Bottom)' : lvl === 5 ? 'Shelf 5 (Top)' : `Shelf ${lvl}`,
+                            })}
+                            className={`py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                              (activeSlot.levelNumber || 1) === lvl
+                                ? 'bg-purple-600 text-white shadow-xs'
+                                : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
+                            }`}
+                          >
+                            Lvl {lvl}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="pt-2 border-t border-slate-200 flex items-center justify-between text-xs">
+                      <span className="text-slate-500 text-[11px]">Shelf Position:</span>
+                      <div className="flex gap-1.5">
+                        {[1, 2, 3].map(pos => (
+                          <button
+                            key={pos}
+                            onClick={() => handleUpdateSlotRackConfig(activeSlot.id, {
+                              shelfSlotPosition: pos
+                            })}
+                            className={`px-2.5 py-0.5 rounded text-[11px] font-mono transition-all cursor-pointer ${
+                              (activeSlot.shelfSlotPosition || 1) === pos
+                                ? 'bg-purple-100 text-purple-900 font-bold border border-purple-300'
+                                : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
+                            }`}
+                          >
+                            Slot {pos}
+                          </button>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 )}
