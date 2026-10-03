@@ -92,9 +92,11 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 <h2 className="font-serif text-3xl font-bold text-slate-900 leading-tight">
                   {product.name}
                 </h2>
-                <p className="text-sm font-medium text-amber-700 mt-1 italic">
-                  {product.exteriorFinish}
-                </p>
+                {(product.finish || product.exteriorFinish) && (
+                  <p className="text-sm font-medium text-amber-700 mt-1 italic">
+                    {product.finish || product.exteriorFinish}
+                  </p>
+                )}
 
                 {/* Casket Merchandising Badges */}
                 <div className="flex flex-wrap items-center gap-2 mt-2">
@@ -186,16 +188,20 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   <span className="text-slate-500">Material / Composition:</span>
                   <span className="text-slate-900 font-semibold">{product.material}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-500">Exterior Finish:</span>
-                  <span className="text-slate-800">{product.finish || product.exteriorFinish}</span>
-                </div>
+                {(product.finish || product.exteriorFinish) && (
+                  <div className="flex justify-between">
+                    <span className="text-slate-500">Exterior Finish:</span>
+                    <span className="text-slate-800">{product.finish || product.exteriorFinish}</span>
+                  </div>
+                )}
 
                 {!isUrn && (
                   <>
                     <div className="flex justify-between">
                       <span className="text-slate-500">Interior Fabric & Style:</span>
-                      <span className="text-slate-900 font-semibold">{product.interior || 'Rosetan Crepe'}</span>
+                      <span className="text-slate-900 font-semibold">
+                        {product.interior ? product.interior : <span className="text-slate-400 font-normal italic">None / Unlined</span>}
+                      </span>
                     </div>
                     {product.top && (
                       <div className="flex justify-between">

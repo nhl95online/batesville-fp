@@ -168,17 +168,21 @@ export const ProductLithoModal: React.FC<ProductLithoModalProps> = ({
                     <span className="font-semibold text-slate-900">{product.material}</span>
                   </div>
 
-                  <div className="flex justify-between">
-                    <span className="text-slate-500">Exterior Finish:</span>
-                    <span className="text-slate-800">{product.exteriorFinish || product.finish}</span>
-                  </div>
+                  {(product.exteriorFinish || product.finish) && (
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">Exterior Finish:</span>
+                      <span className="text-slate-800">{product.exteriorFinish || product.finish}</span>
+                    </div>
+                  )}
 
                   {/* Caskets ONLY: Interior & Cap Style */}
                   {!isUrn && (
                     <>
                       <div className="flex justify-between">
                         <span className="text-slate-500">Interior Fabric & Style:</span>
-                        <span className="font-bold text-amber-800">{product.interior || 'Rosetan Crepe'}</span>
+                        <span className="font-bold text-amber-800">
+                          {product.interior ? product.interior : <span className="text-slate-400 font-normal italic">None / Unlined</span>}
+                        </span>
                       </div>
                       {product.top && (
                         <div className="flex justify-between">

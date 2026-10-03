@@ -48,39 +48,50 @@ export interface Customer {
 
 export interface Product {
   id: string;
-  // Exact Supabase 'products' table columns
-  productId?: number; // product_id (int8)
-  category: string; // category (text)
-  material: string; // material (text)
-  subcategory?: string; // subcategory (text)
-  productCode?: number | string; // product_code (int8)
-  price?: number; // price (numeric)
-  description?: string; // description (text)
-  interior: string; // interior (text)
-  lifestories?: boolean; // lifestories (bool)
-  lifeview?: boolean; // lifeview (bool)
-  lifesymbols?: boolean; // lifesymbols (bool)
-  dualDisposition?: boolean; // dual_disposition (bool)
-  dual_disposition?: boolean; // raw alias
-  top?: string; // top (text)
-  finish?: string; // finish (text)
-  oversize?: boolean; // oversize (bool)
-  extWidth?: number; // ext_width (float8)
-  extHeight?: number; // ext_height (float8)
-  extLength?: number; // ext_length (float8)
-  intWidth?: number; // int_width (float8)
-  ext_width?: number;
-  ext_height?: number;
-  ext_length?: number;
-  int_width?: number;
-  capacity?: number; // capacity (numeric)
+  // Exact 19 Supabase 'products' table columns
+  product_id?: number; // product_id (int8)
+  productId?: number;
   year?: string; // year (text)
+  category: string; // category (text)
+  product_code?: number | string; // product_code (int8)
+  productCode?: number | string;
+  description?: string; // description (text)
+  interior?: string | null; // interior (text) - nullable (e.g. urns, keepsakes do not have interiors)
+  order_qty?: number | null; // order_qty (int8)
+  orderQty?: number | null;
+  accessories?: number | string | null; // accessories (int8)
+  lifeview?: string | boolean | null; // lifeview (text)
+  dual_disposition?: string | boolean | null; // dual_disposition (text)
+  dualDisposition?: boolean;
+  top?: string | null; // top (text) - nullable
+  finish?: string | null; // finish (text) - nullable (e.g. unfinished or cloth items)
+  oversize?: string | boolean | null; // oversize (text)
+  ext_width?: number | null; // ext_width (float8)
+  extWidth?: number | null;
+  ext_length?: number | null; // ext_length (float8)
+  extLength?: number | null;
+  int_width?: number | null; // int_width (float8)
+  intWidth?: number | null;
+  ext_height?: number | null; // ext_height (float8)
+  extHeight?: number | null;
+  weight_capacity?: number | null; // weight_capacity (numeric)
+  weightCapacity?: number | null;
+  capacity?: number;
+  discountinued?: string | boolean | null; // discountinued (text - note table spelling)
+  discontinued?: string | boolean | null;
+  price?: number; // price (numeric)
+
+  // Merchandising & Feature Flags
+  material?: string; // material (text)
+  subcategory?: string; // subcategory (text)
+  lifestories?: boolean; // lifestories (bool)
+  lifesymbols?: boolean; // lifesymbols (bool)
 
   // Mapped & Display Fields
   code: string; // Batesville SKU / Model e.g. "146799"
   name: string; // Model name / description
   catalogYear: string | number; // e.g. "2016-17", "2017-18", "2024", "2025"
-  exteriorFinish: string;
+  exteriorFinish?: string;
   wholesalePrice: number;
   msrp?: number;
   dimensions?: string;

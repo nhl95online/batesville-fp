@@ -199,7 +199,7 @@ export function isUrnProduct(product?: { category?: string; name?: string; descr
 
 // Helper: parse raw product description into material, interior, and clean name
 function parseBatesvilleDescription(desc: string, category?: string) {
-  if (!desc) return { name: 'Casket', material: 'Steel', interior: 'Crepe', finish: 'Standard Finish', isUrn: false };
+  if (!desc) return { name: 'Merchandise', material: 'Standard', interior: '', finish: '', isUrn: false };
 
   const fullName = desc.trim();
   const isUrn = isUrnProduct({ category, name: fullName, description: fullName });
@@ -218,25 +218,25 @@ function parseBatesvilleDescription(desc: string, category?: string) {
       name: fullName,
       material,
       interior: '', // Urns do not have fabric interiors
-      finish: 'Hand-Polished Satin Urn Finish',
+      finish: '',   // Empty if not specified
       isUrn: true
     };
   }
 
   let parts = desc.split(',').map(s => s.trim());
-  let interior = parts[1] || 'Crepe Interior';
-  let finish = 'Factory Finish';
+  let interior = parts.length > 1 ? parts[1] : '';
+  let finish = '';
   let material = 'High-Grade Steel / Timber';
 
   // Determine material from description
   if (lower.includes('pecan')) { material = 'Solid Northern Pecan'; finish = 'Warm Pecan Stain'; }
   else if (lower.includes('maple')) { material = 'Solid Select Maple'; finish = 'Polished Maple Finish'; }
-  else if (lower.includes('cherry')) { material = 'Solid Appalachian Cherry'; finish = 'High-Lustre Georgetown Finish'; }
-  else if (lower.includes('oak')) { material = 'Solid American Oak'; finish = 'Natural Satin Oak Finish'; }
-  else if (lower.includes('bronze')) { material = 'Solid 48 oz. Bronze'; finish = 'High-Lustre Polished Bronze'; }
-  else if (lower.includes('steel') || lower.includes('18g') || lower.includes('20g')) { material = '18 Gauge Protective Steel'; finish = 'Brushed Metallic with Protective Seal'; }
+  else if (lower.includes('cherry')) { material = 'Solid Appalachian Cherry'; finish = 'Georgetown Cherry Finish'; }
+  else if (lower.includes('oak')) { material = 'Solid American Oak'; finish = 'Satin Oak Finish'; }
+  else if (lower.includes('bronze')) { material = 'Solid 48 oz. Bronze'; finish = 'Polished Bronze'; }
+  else if (lower.includes('steel') || lower.includes('18g') || lower.includes('20g')) { material = '18 Gauge Protective Steel'; }
   else if (lower.includes('cloth')) { material = 'Cloth Covered Fiberboard'; finish = 'Textured Cloth Weave'; }
-  else if (lower.includes('mdf') || lower.includes('pine')) { material = 'Pine & Composite Cremation'; finish = 'Natural Pine Grain'; }
+  else if (lower.includes('mdf') || lower.includes('pine')) { material = 'Pine & Composite Cremation'; }
 
   return { name: fullName, material, interior, finish, isUrn: false };
 }
@@ -356,12 +356,13 @@ export async function syncFromSupabase(): Promise<{
             material: parsed.material,
             catalogYear: yr,
             year: yr,
-            interior: parsed.interior,
-            exteriorFinish: parsed.finish,
-            finish: parsed.finish,
-            top: isUrn ? undefined : 'Casket Cap (Half Couch)',
+            interior: parsed.interior || undefined,
+            exteriorFinish: parsed.finish || undefined,
+            finish: parsed.finish || undefined,
+            top: isUrn ? undefined : (parsed.material.includes('Steel') || parsed.material.includes('Pecan') ? 'Half Couch' : undefined),
             dimensions: isUrn ? '8.5" W x 8.5" D x 10.5" H' : '83.5" L x 28.5" W x 23.0" H',
             capacity: isUrn ? 200 : undefined,
+            weight_capacity: isUrn ? 200 : undefined,
             features: isUrn ? [
               'Living Memorial® Tree Planting Program',
               'Artisan hand-finished keepsake urn',
@@ -382,7 +383,7 @@ export async function syncFromSupabase(): Promise<{
       }
     });
 
-    // Ingest and prioritize remote 'products' table from Supabase (all 21 exact columns)
+    // Ingest and prioritize remote 'products' table from Supabase (all 19 exact columns)
     const { data: remoteProducts } = await client.from('products').select('*');
     if (remoteProducts && remoteProducts.length > 0) {
       remoteProducts.forEach((p: any) => {
@@ -404,28 +405,41 @@ export async function syncFromSupabase(): Promise<{
           ? `${p.ext_length}" L x ${p.ext_width}" W${p.ext_height ? ` x ${p.ext_height}" H` : ''}`
           : '83.5" L x 28.5" W x 23.0" H';
 
+        const interiorVal = p.interior ? String(p.interior).trim() : '';
+        const finishVal = p.finish ? String(p.finish).trim() : '';
+        const topVal = p.top ? String(p.top).trim() : '';
+        const weightCap = p.weight_capacity !== undefined && p.weight_capacity !== null 
+          ? Number(p.weight_capacity) 
+          : (p.capacity !== undefined && p.capacity !== null ? Number(p.capacity) : undefined);
+        const isDiscontinued = p.discountinued !== undefined && p.discountinued !== null
+          ? p.discountinued
+          : (p.discontinued !== undefined ? p.discontinued : undefined);
+
         productMap.set(key, {
           id: `prod-${p.product_id || prodCode}-${yr}`,
           productId: p.product_id ? Number(p.product_id) : undefined,
+          product_id: p.product_id ? Number(p.product_id) : undefined,
           category: p.category || 'Caskets & Containers - Metal',
           material: p.material || p.subcategory || 'Standard Metal / Timber',
           subcategory: p.subcategory || undefined,
           productCode: p.product_code !== undefined ? p.product_code : prodCode,
+          product_code: p.product_code !== undefined ? p.product_code : prodCode,
           code: prodCode,
           price: cost,
           wholesalePrice: cost,
           description: p.description || `Model ${prodCode}`,
           name: p.description || `Model ${prodCode}`,
-          interior: p.interior || 'Rosetan Crepe',
-          lifestories: Boolean(p.lifestories),
-          lifeview: Boolean(p.lifeview),
-          lifesymbols: Boolean(p.lifesymbols),
+          interior: interiorVal || undefined,
+          order_qty: p.order_qty !== undefined && p.order_qty !== null ? Number(p.order_qty) : undefined,
+          orderQty: p.order_qty !== undefined && p.order_qty !== null ? Number(p.order_qty) : undefined,
+          accessories: p.accessories !== undefined && p.accessories !== null ? p.accessories : undefined,
+          lifeview: p.lifeview !== undefined && p.lifeview !== null ? p.lifeview : undefined,
+          dual_disposition: p.dual_disposition !== undefined && p.dual_disposition !== null ? p.dual_disposition : undefined,
           dualDisposition: Boolean(p.dual_disposition),
-          dual_disposition: Boolean(p.dual_disposition),
-          top: p.top || undefined,
-          finish: p.finish || undefined,
-          exteriorFinish: p.finish || 'Polished Finish',
-          oversize: Boolean(p.oversize),
+          top: topVal || undefined,
+          finish: finishVal || undefined,
+          exteriorFinish: finishVal || undefined,
+          oversize: p.oversize !== undefined && p.oversize !== null ? p.oversize : undefined,
           extWidth: p.ext_width ? Number(p.ext_width) : undefined,
           extHeight: p.ext_height ? Number(p.ext_height) : undefined,
           extLength: p.ext_length ? Number(p.ext_length) : undefined,
@@ -434,8 +448,14 @@ export async function syncFromSupabase(): Promise<{
           ext_height: p.ext_height ? Number(p.ext_height) : undefined,
           ext_length: p.ext_length ? Number(p.ext_length) : undefined,
           int_width: p.int_width ? Number(p.int_width) : undefined,
-          capacity: p.capacity ? Number(p.capacity) : undefined,
-          weightLbs: p.capacity ? Number(p.capacity) : undefined,
+          weight_capacity: weightCap,
+          weightCapacity: weightCap,
+          capacity: weightCap,
+          weightLbs: weightCap,
+          discountinued: isDiscontinued,
+          discontinued: isDiscontinued,
+          lifestories: Boolean(p.lifestories),
+          lifesymbols: Boolean(p.lifesymbols),
           year: yr,
           catalogYear: yr,
           dimensions: dimStr,
