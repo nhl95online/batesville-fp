@@ -339,15 +339,33 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
 
         // Map Supabase customer_casket_locations rows
         const locSlots: FloorSlot[] = cloudRes.locations.map((loc: any, idx: number) => {
-          const isUrn = String(loc.display_type || '').toLowerCase().includes('urn') || 
-                        String(loc.category || '').toLowerCase().includes('urn') ||
-                        String(loc.bay_label || '').toLowerCase().includes('urn') ||
-                        String(loc.product_name || '').toLowerCase().includes('urn') ||
-                        String(loc.wall_zone || '').toLowerCase().includes('urn');
+          const displayType = String(loc.display_type || '').toLowerCase();
+          const category = String(loc.category || '').toLowerCase();
+          const bayLabel = String(loc.bay_label || '').toLowerCase();
+          const prodName = String(loc.product_name || '').toLowerCase();
+          const wallZone = String(loc.wall_zone || '').toLowerCase();
+
+          // Robust Urn detection:
+          // Exclude burial/casket explicitly so names like "Gurnet", "Auburn", "Burnished" are never misclassified as urns
+          let isUrn = false;
+          if (displayType.includes('casket') || category.includes('burial') || category.includes('casket')) {
+            isUrn = false;
+          } else if (displayType.includes('urn') || category.includes('urn')) {
+            isUrn = true;
+          } else {
+            const urnWordRegex = /\b(urn|urns|keepsake|keepsakes)\b/i;
+            isUrn = urnWordRegex.test(bayLabel) || urnWordRegex.test(prodName) || urnWordRegex.test(wallZone);
+          }
 
           const bayNum = Number(loc.bay_number) || (idx + 1);
           const lvlNum = Number(loc.level_number) || (String(loc.tier_level || '').toLowerCase().includes('top') ? 2 : 1);
-          const isDouble = Boolean(loc.is_double_rack || String(loc.rack_type || '').toLowerCase().includes('double') || lvlNum > 1);
+          
+          // Determine if double rack
+          const rackTypeStr = String(loc.rack_type || '').toLowerCase();
+          const isDouble = !isUrn && (
+            loc.is_double_rack === true ||
+            (loc.is_double_rack !== false && (rackTypeStr.includes('double') || lvlNum > 1))
+          ) && !rackTypeStr.includes('single');
 
           // Find product in catalog if available
           const matchedProd = products.find(p => p.code === loc.product_code);
@@ -356,23 +374,45 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
             ? `urn-shelf-${bayNum}-lvl-${lvlNum}-${loc.shelf_slot_position || 1}-${loc.product_code || idx}`
             : `casket-bay-${bayNum}-lvl-${lvlNum}`;
 
-          const posX = loc.pos_x_ft !== null && loc.pos_x_ft !== undefined ? Number(loc.pos_x_ft) : undefined;
-          const posY = loc.pos_y_ft !== null && loc.pos_y_ft !== undefined ? Number(loc.pos_y_ft) : undefined;
-          const orientDeg = loc.orientation_deg !== null && loc.orientation_deg !== undefined ? Number(loc.orientation_deg) : undefined;
+          let posX = loc.pos_x_ft !== null && loc.pos_x_ft !== undefined ? Number(loc.pos_x_ft) : undefined;
+          let posY = loc.pos_y_ft !== null && loc.pos_y_ft !== undefined ? Number(loc.pos_y_ft) : undefined;
+          let orientDeg = loc.orientation_deg !== null && loc.orientation_deg !== undefined ? Number(loc.orientation_deg) : undefined;
+
+          const rLen = Number(parsedArch.lengthFt) || 28.0;
+          const rWid = Number(parsedArch.widthFt) || 19.5;
+
+          // Wall-relative coordinate normalization:
+          // When users enter floor plans from spreadsheets, distance along the North or East wall
+          // is often measured from that respective wall.
+          if (wallZone.includes('north')) {
+            if (posY !== undefined && posY <= rWid / 2) {
+              posY = Number((rWid - posY).toFixed(2));
+            }
+            if (orientDeg === undefined || orientDeg === 0) orientDeg = 180;
+          } else if (wallZone.includes('east')) {
+            if (posX !== undefined && posX <= rLen / 2) {
+              posX = Number((rLen - posX).toFixed(2));
+            }
+            if (orientDeg === undefined || orientDeg === 0) orientDeg = 270;
+          } else if (wallZone.includes('west')) {
+            if (orientDeg === undefined || orientDeg === 0) orientDeg = 90;
+          } else if (wallZone.includes('south')) {
+            if (orientDeg === undefined || orientDeg === 0) orientDeg = 0;
+          }
 
           return {
             id: slotId,
             slotNumber: bayNum,
-            label: loc.bay_label || (isUrn ? `Urn Wall - Shelf ${lvlNum}` : `Bay ${bayNum}${isDouble ? (lvlNum === 2 ? ' (Top)' : ' (Bottom)') : ''}`),
+            label: loc.bay_label || (isUrn ? `Urn Wall - Shelf ${lvlNum}` : (isDouble ? `Bay ${bayNum} (${lvlNum === 2 ? 'Top' : 'Bottom'})` : `Bay ${bayNum}`)),
             type: (isUrn ? 'urn' : 'casket') as 'casket' | 'urn',
             isDoubleRack: isDouble,
             rackType: loc.rack_type || (isDouble ? 'double' : (isUrn ? 'urn-shelf' : 'single')),
             levelNumber: lvlNum,
-            tierLevel: loc.tier_level || (isDouble ? (lvlNum === 2 ? 'Double Rack - Top' : 'Double Rack - Bottom') : `Shelf ${lvlNum}`),
+            tierLevel: loc.tier_level || (isDouble ? (lvlNum === 2 ? 'Double Rack - Top' : 'Double Rack - Bottom') : (isUrn ? `Shelf ${lvlNum}` : 'Single Floor Rack')),
             shelfSlotPosition: Number(loc.shelf_slot_position) || 1,
             wallZone: loc.wall_zone || (bayNum <= 3 ? 'North Wall' : 'East Wall'),
             posX: posX ?? (bayNum === 1 ? 5.5 : bayNum === 2 ? 14.5 : bayNum === 3 ? 23.5 : bayNum === 4 ? 26.5 : bayNum === 5 ? 26.5 : 14.5),
-            posY: posY ?? (bayNum <= 3 ? 18.0 : bayNum === 4 ? 6.0 : bayNum === 5 ? 15.5 : 2.0),
+            posY: posY ?? (bayNum <= 3 ? (rWid - 1.5) : bayNum === 4 ? 6.0 : bayNum === 5 ? 15.5 : 2.0),
             orientation_deg: orientDeg ?? (bayNum <= 3 ? 180 : bayNum <= 5 ? 270 : 180),
             notes: loc.notes,
             productId: matchedProd?.id,
@@ -1108,7 +1148,15 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
               <div className="flex items-center space-x-2">
                 <Compass className="w-4 h-4 text-amber-600" />
                 <span className="font-semibold text-slate-700 uppercase tracking-wider">
-                  {roomArch.lengthFt.toFixed(1)} FT NORTH × {(roomArch.lEastLongestFt || roomArch.widthFt).toFixed(1)} FT EAST ({Math.round(roomArch.lengthFt * roomArch.widthFt)} SQ FT) • {casketBays.length} DOUBLE RACK BAYS • {urnShelves.totalCount} URNS
+                  {roomArch.lengthFt.toFixed(1)} FT NORTH × {(roomArch.lEastLongestFt || roomArch.widthFt).toFixed(1)} FT EAST ({Math.round(roomArch.lengthFt * roomArch.widthFt)} SQ FT) • {
+                    (() => {
+                      const doubleCount = casketBays.filter(([_, bSlots]) => bSlots.some(s => s.isDoubleRack)).length;
+                      const singleCount = casketBays.length - doubleCount;
+                      if (doubleCount > 0 && singleCount > 0) return `${casketBays.length} BAYS (${doubleCount} DOUBLE, ${singleCount} SINGLE)`;
+                      if (doubleCount > 0) return `${casketBays.length} DOUBLE RACK BAYS`;
+                      return `${casketBays.length} SINGLE RACK BAYS`;
+                    })()
+                  } • {urnShelves.totalCount} URNS
                 </span>
               </div>
               <div className="flex items-center space-x-3">
@@ -1434,13 +1482,15 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
                       </g>
                     )}
 
-                    {/* Open Center Room Feature: Consultation Table & Rug */}
-                    <g transform={`translate(${toSvgX(roomLength > 20 ? 21.0 : roomLength / 2)}, ${toSvgY(roomWidth / 2)})`}>
-                      <circle cx="0" cy="0" r="36" fill="#f1f5f9" stroke="#cbd5e1" strokeWidth="1.5" strokeDasharray="4 2" />
-                      <circle cx="0" cy="0" r="20" fill="#ffffff" stroke="#94a3b8" strokeWidth="1.5" />
-                      <text x="0" y="3" textAnchor="middle" fill="#64748b" fontSize="8" fontWeight="bold">CONSULTATION</text>
-                      <text x="0" y="12" textAnchor="middle" fill="#94a3b8" fontSize="7">KIOSK & TABLE</text>
-                    </g>
+                    {/* Open Center Room Feature: Consultation Table & Rug (only when no casket bay is in center room) */}
+                    {(!casketBays.some(([_, bSlots]) => bSlots.some(s => (s.wallZone || '').toLowerCase().includes('center')))) && (
+                      <g transform={`translate(${toSvgX(roomLength > 20 ? 21.0 : roomLength / 2)}, ${toSvgY(roomWidth / 2)})`}>
+                        <circle cx="0" cy="0" r="36" fill="#f1f5f9" stroke="#cbd5e1" strokeWidth="1.5" strokeDasharray="4 2" />
+                        <circle cx="0" cy="0" r="20" fill="#ffffff" stroke="#94a3b8" strokeWidth="1.5" />
+                        <text x="0" y="3" textAnchor="middle" fill="#64748b" fontSize="8" fontWeight="bold">CONSULTATION</text>
+                        <text x="0" y="12" textAnchor="middle" fill="#94a3b8" fontSize="7">KIOSK & TABLE</text>
+                      </g>
+                    )}
 
                     {/* DYNAMIC CASKET BAYS RENDERED FROM SLOTS */}
                     {casketBays.map(([bayNumber, baySlots]) => {
@@ -1452,6 +1502,14 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
                       let posX = top.posX;
                       let posY = top.posY;
                       let orient = top.orientation_deg;
+
+                      // Wall-relative coordinate normalization fallback
+                      const wall = (top.wallZone || '').toLowerCase();
+                      if (wall.includes('north') && posY !== undefined && posY <= roomWidth / 2) {
+                        posY = roomWidth - posY;
+                      } else if (wall.includes('east') && posX !== undefined && posX <= roomLength / 2) {
+                        posX = roomLength - posX;
+                      }
 
                       // Fallback coordinates if not populated
                       if (posX === undefined || posY === undefined) {
@@ -1470,7 +1528,15 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
                         }
                       }
 
-                      const isVertical = orient === 90 || orient === 270 || (top.wallZone?.includes('East'));
+                      if (orient === undefined || orient === 0) {
+                        if (wall.includes('north')) orient = 180;
+                        else if (wall.includes('east')) orient = 270;
+                        else if (wall.includes('west')) orient = 90;
+                        else if (wall.includes('south')) orient = 0;
+                      }
+
+                      const isDoubleBay = Boolean(top.isDoubleRack || baySlots.length > 1);
+                      const isVertical = orient === 90 || orient === 270 || wall.includes('east') || wall.includes('west');
                       const rackW = isVertical ? Math.min(92, Math.max(76, 2.8 * scale)) : Math.min(210, Math.max(160, 7.2 * scale));
                       const rackH = isVertical ? Math.min(210, Math.max(160, 7.2 * scale)) : Math.min(92, Math.max(76, 2.8 * scale));
 
@@ -1494,72 +1560,134 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
                             strokeWidth={isSelected ? "3" : "1.5"}
                           />
 
-                          {/* Horizontal Layout (North / South walls) */}
+                          {/* Horizontal Layout (North / South walls / Center) */}
                           {!isVertical ? (
-                            <>
-                              {/* Header Badge */}
-                              <rect x={rx + 8} y={ry + 6} width={rackW - 16} height="15" rx="3" fill="#fef3c7" />
-                              <text x={rx + 12} y={ry + 17} fill="#92400e" fontSize="9" fontWeight="bold">
-                                BAY {bayNumber} • DOUBLE RACK ({top.wallZone || 'WALL'})
-                              </text>
-
-                              {/* Top Tier */}
-                              <rect x={rx + 8} y={ry + 24} width={rackW - 16} height="18" rx="3" fill="#fafaf9" stroke="#e7e5e4" />
-                              <rect x={rx + 10} y={ry + 26} width="26" height="14" rx="2" fill="#d97706" />
-                              <text x={rx + 23} y={ry + 36} textAnchor="middle" fill="#ffffff" fontSize="8" fontWeight="bold">TOP</text>
-                              <text x={rx + 42} y={ry + 37} fill="#1c1917" fontSize="9" fontWeight="bold">
-                                {top?.productName?.slice(0, 18) || 'Unassigned'}
-                              </text>
-                              <text x={rx + rackW - 14} y={ry + 37} textAnchor="end" fill="#78716c" fontSize="8" fontFamily="monospace">
-                                {top?.productCode || ''}
-                              </text>
-
-                              {/* Bottom Tier */}
-                              <rect x={rx + 8} y={ry + 44} width={rackW - 16} height="18" rx="3" fill="#f8fafc" stroke="#e2e8f0" />
-                              <rect x={rx + 10} y={ry + 46} width="26" height="14" rx="2" fill="#334155" />
-                              <text x={rx + 23} y={ry + 56} textAnchor="middle" fill="#ffffff" fontSize="8" fontWeight="bold">BTM</text>
-                              <text x={rx + 42} y={ry + 57} fill="#1e293b" fontSize="8.5" fontWeight="bold">
-                                {btm?.productName?.slice(0, 18) || (top.isDoubleRack ? 'Empty Bottom' : 'Single Tier')}
-                              </text>
-                              <text x={rx + rackW - 14} y={ry + 57} textAnchor="end" fill="#64748b" fontSize="8" fontFamily="monospace">
-                                {btm?.productCode || ''}
-                              </text>
-                            </>
-                          ) : (
-                            /* Vertical Layout (East / West walls) */
-                            <>
-                              {/* Header Badge */}
-                              <rect x={rx + 5} y={ry + 6} width={rackW - 10} height="16" rx="3" fill="#fef3c7" />
-                              <text x={cx} y={ry + 17} textAnchor="middle" fill="#92400e" fontSize="8.5" fontWeight="bold">
-                                BAY {bayNumber} ({top.wallZone?.includes('East') ? 'EAST' : 'WEST'})
-                              </text>
-
-                              {/* Top Tier */}
-                              <g transform={`translate(${rx + 5}, ${ry + 26})`}>
-                                <rect width={rackW - 10} height={(rackH - 36) / 2} rx="4" fill="#fafaf9" stroke="#e7e5e4" />
-                                <rect x="4" y="4" width="24" height="12" rx="2" fill="#d97706" />
-                                <text x="16" y="13" textAnchor="middle" fill="#ffffff" fontSize="7.5" fontWeight="bold">TOP</text>
-                                <text x="4" y="30" fill="#1c1917" fontSize="8" fontWeight="bold">
-                                  {top?.productName?.slice(0, 13) || 'Unassigned'}
+                            isDoubleBay ? (
+                              <>
+                                {/* Double Rack Header Badge */}
+                                <rect x={rx + 8} y={ry + 6} width={rackW - 16} height="15" rx="3" fill="#fef3c7" />
+                                <text x={rx + 12} y={ry + 17} fill="#92400e" fontSize="9" fontWeight="bold">
+                                  BAY {bayNumber} • DOUBLE RACK ({top.wallZone || 'WALL'})
                                 </text>
-                                <text x="4" y="43" fill="#78716c" fontSize="7.5" fontFamily="monospace">
+
+                                {/* Top Tier */}
+                                <rect x={rx + 8} y={ry + 24} width={rackW - 16} height="18" rx="3" fill="#fafaf9" stroke="#e7e5e4" />
+                                <rect x={rx + 10} y={ry + 26} width="26" height="14" rx="2" fill="#d97706" />
+                                <text x={rx + 23} y={ry + 36} textAnchor="middle" fill="#ffffff" fontSize="8" fontWeight="bold">TOP</text>
+                                <text x={rx + 42} y={ry + 37} fill="#1c1917" fontSize="9" fontWeight="bold">
+                                  {top?.productName?.slice(0, 18) || 'Unassigned'}
+                                </text>
+                                <text x={rx + rackW - 14} y={ry + 37} textAnchor="end" fill="#78716c" fontSize="8" fontFamily="monospace">
                                   {top?.productCode || ''}
                                 </text>
-                              </g>
 
-                              {/* Bottom Tier */}
-                              <g transform={`translate(${rx + 5}, ${ry + 26 + (rackH - 36) / 2 + 4})`}>
-                                <rect width={rackW - 10} height={(rackH - 36) / 2} rx="4" fill="#f8fafc" stroke="#e2e8f0" />
-                                <rect x="4" y="4" width="24" height="12" rx="2" fill="#334155" />
-                                <text x="16" y="13" textAnchor="middle" fill="#ffffff" fontSize="7.5" fontWeight="bold">BTM</text>
-                                <text x="4" y="30" fill="#1e293b" fontSize="8" fontWeight="bold">
-                                  {btm?.productName?.slice(0, 13) || (top.isDoubleRack ? 'Empty Bottom' : 'Single Tier')}
+                                {/* Bottom Tier */}
+                                <rect x={rx + 8} y={ry + 44} width={rackW - 16} height="18" rx="3" fill="#f8fafc" stroke="#e2e8f0" />
+                                <rect x={rx + 10} y={ry + 46} width="26" height="14" rx="2" fill="#334155" />
+                                <text x={rx + 23} y={ry + 56} textAnchor="middle" fill="#ffffff" fontSize="8" fontWeight="bold">BTM</text>
+                                <text x={rx + 42} y={ry + 57} fill="#1e293b" fontSize="8.5" fontWeight="bold">
+                                  {btm?.productName?.slice(0, 18) || 'Empty Bottom'}
                                 </text>
-                                <text x="4" y="43" fill="#64748b" fontSize="7.5" fontFamily="monospace">
+                                <text x={rx + rackW - 14} y={ry + 57} textAnchor="end" fill="#64748b" fontSize="8" fontFamily="monospace">
                                   {btm?.productCode || ''}
                                 </text>
-                              </g>
-                            </>
+                              </>
+                            ) : (
+                              /* Single Rack Horizontal */
+                              <>
+                                {/* Single Rack Header Badge */}
+                                <rect x={rx + 8} y={ry + 6} width={rackW - 16} height="15" rx="3" fill="#f1f5f9" />
+                                <text x={rx + 12} y={ry + 17} fill="#334155" fontSize="9" fontWeight="bold">
+                                  BAY {bayNumber} • SINGLE RACK ({top.wallZone || 'WALL'})
+                                </text>
+
+                                {/* Single Casket Card */}
+                                <rect x={rx + 8} y={ry + 25} width={rackW - 16} height="36" rx="4" fill="#fafaf9" stroke="#cbd5e1" strokeWidth="1" />
+                                <rect x={rx + 12} y={ry + 28} width="36" height="14" rx="2" fill="#0f172a" />
+                                <text x={rx + 30} y={ry + 38} textAnchor="middle" fill="#ffffff" fontSize="7.5" fontWeight="bold">CASKET</text>
+                                <text x={rx + 54} y={ry + 39} fill="#0f172a" fontSize="9" fontWeight="bold">
+                                  {top?.productName?.slice(0, 20) || 'Unassigned'}
+                                </text>
+                                <text x={rx + rackW - 14} y={ry + 39} textAnchor="end" fill="#64748b" fontSize="8" fontFamily="monospace">
+                                  {top?.productCode || ''}
+                                </text>
+                                <text x={rx + 12} y={ry + 53} fill="#64748b" fontSize="7.5">
+                                  {top?.category || 'Burial'}
+                                </text>
+                                {top?.wholesalePrice && (
+                                  <text x={rx + rackW - 14} y={ry + 53} textAnchor="end" fill="#059669" fontSize="8" fontWeight="bold">
+                                    ${Number(top.wholesalePrice).toLocaleString()}
+                                  </text>
+                                )}
+                              </>
+                            )
+                          ) : (
+                            /* Vertical Layout (East / West walls) */
+                            isDoubleBay ? (
+                              <>
+                                {/* Double Rack Header Badge */}
+                                <rect x={rx + 5} y={ry + 6} width={rackW - 10} height="16" rx="3" fill="#fef3c7" />
+                                <text x={cx} y={ry + 17} textAnchor="middle" fill="#92400e" fontSize="8.5" fontWeight="bold">
+                                  BAY {bayNumber} ({top.wallZone?.includes('East') ? 'EAST' : 'WEST'})
+                                </text>
+
+                                {/* Top Tier */}
+                                <g transform={`translate(${rx + 5}, ${ry + 26})`}>
+                                  <rect width={rackW - 10} height={(rackH - 36) / 2} rx="4" fill="#fafaf9" stroke="#e7e5e4" />
+                                  <rect x="4" y="4" width="24" height="12" rx="2" fill="#d97706" />
+                                  <text x="16" y="13" textAnchor="middle" fill="#ffffff" fontSize="7.5" fontWeight="bold">TOP</text>
+                                  <text x="4" y="30" fill="#1c1917" fontSize="8" fontWeight="bold">
+                                    {top?.productName?.slice(0, 13) || 'Unassigned'}
+                                  </text>
+                                  <text x="4" y="43" fill="#78716c" fontSize="7.5" fontFamily="monospace">
+                                    {top?.productCode || ''}
+                                  </text>
+                                </g>
+
+                                {/* Bottom Tier */}
+                                <g transform={`translate(${rx + 5}, ${ry + 26 + (rackH - 36) / 2 + 4})`}>
+                                  <rect width={rackW - 10} height={(rackH - 36) / 2} rx="4" fill="#f8fafc" stroke="#e2e8f0" />
+                                  <rect x="4" y="4" width="24" height="12" rx="2" fill="#334155" />
+                                  <text x="16" y="13" textAnchor="middle" fill="#ffffff" fontSize="7.5" fontWeight="bold">BTM</text>
+                                  <text x="4" y="30" fill="#1e293b" fontSize="8" fontWeight="bold">
+                                    {btm?.productName?.slice(0, 13) || 'Empty Bottom'}
+                                  </text>
+                                  <text x="4" y="43" fill="#64748b" fontSize="7.5" fontFamily="monospace">
+                                    {btm?.productCode || ''}
+                                  </text>
+                                </g>
+                              </>
+                            ) : (
+                              /* Single Rack Vertical */
+                              <>
+                                {/* Single Rack Header Badge */}
+                                <rect x={rx + 5} y={ry + 6} width={rackW - 10} height="16" rx="3" fill="#f1f5f9" />
+                                <text x={cx} y={ry + 17} textAnchor="middle" fill="#334155" fontSize="8" fontWeight="bold">
+                                  BAY {bayNumber} • SINGLE
+                                </text>
+
+                                {/* Single Casket Card */}
+                                <g transform={`translate(${rx + 5}, ${ry + 26})`}>
+                                  <rect width={rackW - 10} height={rackH - 32} rx="4" fill="#fafaf9" stroke="#cbd5e1" strokeWidth="1" />
+                                  <rect x="5" y="6" width="36" height="13" rx="2" fill="#0f172a" />
+                                  <text x="23" y="15" textAnchor="middle" fill="#ffffff" fontSize="7.5" fontWeight="bold">CASKET</text>
+                                  <text x="5" y="32" fill="#0f172a" fontSize="8.5" fontWeight="bold">
+                                    {top?.productName?.slice(0, 13) || 'Unassigned'}
+                                  </text>
+                                  <text x="5" y="46" fill="#64748b" fontSize="7.5" fontFamily="monospace">
+                                    {top?.productCode || ''}
+                                  </text>
+                                  <text x="5" y="60" fill="#64748b" fontSize="7">
+                                    {top?.category || 'Burial'}
+                                  </text>
+                                  {top?.wholesalePrice && (
+                                    <text x="5" y="74" fill="#059669" fontSize="7.5" fontWeight="bold">
+                                      ${Number(top.wholesalePrice).toLocaleString()}
+                                    </text>
+                                  )}
+                                </g>
+                              </>
+                            )
                           )}
                         </g>
                       );
@@ -1677,31 +1805,38 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
                               <span className="text-[11px] font-mono font-bold text-slate-800 truncate">
                                 {bayLabel}
                               </span>
-                              <span className="shrink-0 flex items-center gap-1 px-1.5 py-0.5 rounded bg-amber-100 text-amber-900 text-[9px] font-bold border border-amber-300">
-                                <Layers className="w-2.5 h-2.5 text-amber-700" />
-                                <span>Double Rack</span>
-                              </span>
+                              {isDouble ? (
+                                <span className="shrink-0 flex items-center gap-1 px-1.5 py-0.5 rounded bg-amber-100 text-amber-900 text-[9px] font-bold border border-amber-300">
+                                  <Layers className="w-2.5 h-2.5 text-amber-700" />
+                                  <span>Double Rack</span>
+                                </span>
+                              ) : (
+                                <span className="shrink-0 flex items-center gap-1 px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 text-[9px] font-bold border border-slate-300">
+                                  <Box className="w-2.5 h-2.5 text-slate-600" />
+                                  <span>Single Rack</span>
+                                </span>
+                              )}
                             </div>
                             <span className="text-[9px] font-mono text-slate-400">
                               {topSlot.wallZone || (bayNumber <= 3 ? 'North wall' : 'East wall')}
                             </span>
                           </div>
 
-                          {/* Top Tier Sub-Card */}
+                          {/* Top Tier Sub-Card (or Single Casket Display) */}
                           <div
                             onClick={(e) => {
                               e.stopPropagation();
                               setSelectedSlotId(topSlot.id);
                             }}
-                            className={`p-2.5 rounded-xl border transition-all cursor-pointer mb-2 ${
+                            className={`p-2.5 rounded-xl border transition-all cursor-pointer ${isDouble && btmSlot ? 'mb-2' : ''} ${
                               selectedSlotId === topSlot.id
                                 ? 'border-amber-600 bg-amber-100/70 shadow-xs ring-1 ring-amber-400'
                                 : 'border-slate-200 bg-slate-50/70 hover:bg-amber-50/40'
                             }`}
                           >
                             <div className="flex items-center justify-between mb-1">
-                              <span className="text-[9px] font-mono font-bold px-1.5 py-0.2 rounded bg-amber-700 text-white">
-                                TOP TIER
+                              <span className={`text-[9px] font-mono font-bold px-1.5 py-0.2 rounded text-white ${isDouble ? 'bg-amber-700' : 'bg-slate-800'}`}>
+                                {isDouble ? 'TOP TIER' : 'CASKET DISPLAY'}
                               </span>
                               {topSlot.productCode && (
                                 <span className="text-[9px] font-mono text-slate-600 font-semibold">
@@ -1721,15 +1856,22 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
                                 <span className="font-serif font-bold text-xs text-slate-900 block truncate" title={topSlot.productName}>
                                   {topSlot.productName || 'Unassigned'}
                                 </span>
-                                <span className="text-[10px] text-slate-500 block truncate">
-                                  {topSlot.category || 'Burial - Wood'}
-                                </span>
+                                <div className="flex items-center justify-between">
+                                  <span className="text-[10px] text-slate-500 block truncate">
+                                    {topSlot.category || 'Burial'}
+                                  </span>
+                                  {topSlot.wholesalePrice && (
+                                    <span className="text-[10px] text-emerald-700 font-bold font-mono">
+                                      ${Number(topSlot.wholesalePrice).toLocaleString()}
+                                    </span>
+                                  )}
+                                </div>
                               </div>
                             </div>
                           </div>
 
-                          {/* Bottom Tier Sub-Card */}
-                          {btmSlot && (
+                          {/* Bottom Tier Sub-Card (Only rendered for Double Racks) */}
+                          {isDouble && btmSlot && (
                             <div
                               onClick={(e) => {
                                 e.stopPropagation();
@@ -1763,9 +1905,16 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
                                   <span className="font-serif font-bold text-xs text-slate-900 block truncate" title={btmSlot.productName}>
                                     {btmSlot.productName || 'Unassigned'}
                                   </span>
-                                  <span className="text-[10px] text-slate-500 block truncate">
-                                    {btmSlot.category || 'Burial - Metal'}
-                                  </span>
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-[10px] text-slate-500 block truncate">
+                                      {btmSlot.category || 'Burial'}
+                                    </span>
+                                    {btmSlot.wholesalePrice && (
+                                      <span className="text-[10px] text-emerald-700 font-bold font-mono">
+                                        ${Number(btmSlot.wholesalePrice).toLocaleString()}
+                                      </span>
+                                    )}
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -1783,17 +1932,18 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
                   </div>
                 </div>
 
-                {/* Urn Wall Section */}
-                <div className="pt-4 border-t border-slate-200">
-                  <div className="text-[10px] font-bold text-purple-900 uppercase tracking-widest mb-2 flex items-center justify-between">
-                    <div className="flex items-center gap-1.5">
-                      <Sparkles className="w-3.5 h-3.5 text-purple-600" />
-                      <span>Bay 6 - Urn Wall Feature (3 Tiers • {urnShelves.totalCount} Urns)</span>
+                {/* Urn Wall Section (Only rendered if showroom contains urns) */}
+                {urnShelves.totalCount > 0 && (
+                  <div className="pt-4 border-t border-slate-200">
+                    <div className="text-[10px] font-bold text-purple-900 uppercase tracking-widest mb-2 flex items-center justify-between">
+                      <div className="flex items-center gap-1.5">
+                        <Sparkles className="w-3.5 h-3.5 text-purple-600" />
+                        <span>Urn Wall Feature (3 Tiers • {urnShelves.totalCount} Urns)</span>
+                      </div>
+                      <span className="text-[10px] text-slate-400">
+                        Dedicated Wall Display
+                      </span>
                     </div>
-                    <span className="text-[10px] text-slate-400">
-                      Center Peninsula Divider
-                    </span>
-                  </div>
 
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
                     {urnShelves.all.map(slot => {
@@ -1834,6 +1984,7 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
                     })}
                   </div>
                 </div>
+              )}
 
               </div>
             )}

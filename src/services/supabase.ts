@@ -14,9 +14,11 @@ const DEFAULT_CONFIG: SupabaseConfig = {
 
 export function getStoredSupabaseConfig(): SupabaseConfig {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) {
-      return JSON.parse(raw);
+    if (typeof localStorage !== 'undefined') {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        return JSON.parse(raw);
+      }
     }
   } catch (e) {
     console.error('Failed to load Supabase config from localStorage', e);
@@ -25,7 +27,9 @@ export function getStoredSupabaseConfig(): SupabaseConfig {
 }
 
 export function saveStoredSupabaseConfig(config: SupabaseConfig): void {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
+  if (typeof localStorage !== 'undefined') {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
+  }
 }
 
 let activeClient: SupabaseClient | null = null;
@@ -186,14 +190,20 @@ export function isUrnProduct(product?: { category?: string; name?: string; descr
   const cat = (product.category || '').toLowerCase();
   const name = (product.name || '').toLowerCase();
   const desc = (product.description || '').toLowerCase();
+
+  // If category specifically indicates burial or casket, it is not an urn
+  if ((cat.includes('burial') || cat.includes('casket')) && !cat.includes('urn')) {
+    return false;
+  }
+
+  // Use word boundary to avoid matching "Gurnet", "Auburn", "Burnished", "Furnishing"
+  const urnWordRegex = /\b(urn|urns|keepsake|keepsakes)\b/i;
+
   return (
-    cat.includes('urn') ||
-    cat.includes('keepsake') ||
-    (cat.includes('cremation') && (cat.includes('full size') || name.includes('urn') || desc.includes('urn'))) ||
-    name.includes('urn') ||
-    name.includes('keepsake') ||
-    desc.includes('urn') ||
-    desc.includes('keepsake')
+    urnWordRegex.test(cat) ||
+    (cat.includes('cremation') && (cat.includes('full size') || urnWordRegex.test(name) || urnWordRegex.test(desc))) ||
+    urnWordRegex.test(name) ||
+    urnWordRegex.test(desc)
   );
 }
 
