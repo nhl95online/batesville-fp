@@ -187,8 +187,9 @@ export const DailySalesUploadModal: React.FC<DailySalesUploadModalProps> = ({
           program: s.program,
           account_name: s.accountName,
           'account_#': Number(s.accountNumber) || s.accountNumber,
-          product_code: s.productCode,
+          product_code: Number(s.productCode) || s.productCode,
           category: s.category,
+          subcategory: s.subcategory || '',
           description: s.description,
           qty: s.quantity,
           cost: s.cost

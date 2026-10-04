@@ -1,50 +1,9 @@
 -- ==============================================================================
--- Batesville-FP: Supabase Database Schema
+-- Batesville-FP: Annual Quota Tracking & Pacing Schema for Supabase
 -- Run this in your Supabase SQL Editor (Dashboard -> SQL Editor -> New Query)
 -- ==============================================================================
 
--- 1. Customers Table
-CREATE TABLE IF NOT EXISTS public.customers (
-    id TEXT PRIMARY KEY,
-    code TEXT NOT NULL UNIQUE,
-    name TEXT NOT NULL,
-    contactPerson TEXT,
-    email TEXT,
-    phone TEXT,
-    address TEXT,
-    city TEXT,
-    state TEXT,
-    zip TEXT,
-    tier TEXT DEFAULT 'Standard',
-    defaultMarkupPercent NUMERIC DEFAULT 140,
-    logoUrl TEXT,
-    notes TEXT,
-    createdAt TIMESTAMPTZ DEFAULT NOW(),
-    updatedAt TIMESTAMPTZ DEFAULT NOW()
-);
-
--- 2. Products Table (Batesville Caskets, Urns, Vaults, Keepsakes)
-CREATE TABLE IF NOT EXISTS public.products (
-    id TEXT PRIMARY KEY,
-    code TEXT NOT NULL UNIQUE,
-    name TEXT NOT NULL,
-    category TEXT NOT NULL,
-    material TEXT,
-    interior TEXT,
-    exteriorFinish TEXT,
-    dimensions TEXT,
-    weightLbs NUMERIC,
-    features JSONB DEFAULT '[]'::jsonb,
-    wholesalePrice NUMERIC NOT NULL DEFAULT 0,
-    msrp NUMERIC NOT NULL DEFAULT 0,
-    imageUrl TEXT,
-    additionalImages JSONB DEFAULT '[]'::jsonb,
-    isActive BOOLEAN DEFAULT true,
-    createdAt TIMESTAMPTZ DEFAULT NOW(),
-    updatedAt TIMESTAMPTZ DEFAULT NOW()
-);
-
--- 3. Sales Table (Exact 13 Columns from Supabase)
+-- 1. Ensure public.sales Table exists with exact 13 columns
 CREATE TABLE IF NOT EXISTS public.sales (
     sales_id BIGINT PRIMARY KEY,
     year TEXT NOT NULL,
@@ -61,41 +20,10 @@ CREATE TABLE IF NOT EXISTS public.sales (
     cost NUMERIC NOT NULL
 );
 
--- 4. Indexes for Fast Analytics & YoY Queries
 CREATE INDEX IF NOT EXISTS idx_sales_year_month ON public.sales(year, month);
-CREATE INDEX IF NOT EXISTS idx_sales_account_num ON public.sales("account_#");
-CREATE INDEX IF NOT EXISTS idx_sales_product_code ON public.sales(product_code);
-CREATE INDEX IF NOT EXISTS idx_sales_category ON public.sales(category);
-CREATE INDEX IF NOT EXISTS idx_sales_subcategory ON public.sales(subcategory);
 
--- 5. Enable Row Level Security (RLS) & Policies
-ALTER TABLE public.customers ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.products ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.sales ENABLE ROW LEVEL SECURITY;
-
--- Allow public read & write access with Supabase anon key
-DO $$ 
-BEGIN
-    IF NOT EXISTS (
-        SELECT 1 FROM pg_policies WHERE policyname = 'Public Access Customers' AND tablename = 'customers'
-    ) THEN
-        CREATE POLICY "Public Access Customers" ON public.customers FOR ALL USING (true) WITH CHECK (true);
-    END IF;
-
-    IF NOT EXISTS (
-        SELECT 1 FROM pg_policies WHERE policyname = 'Public Access Products' AND tablename = 'products'
-    ) THEN
-        CREATE POLICY "Public Access Products" ON public.products FOR ALL USING (true) WITH CHECK (true);
-    END IF;
-
-    IF NOT EXISTS (
-        SELECT 1 FROM pg_policies WHERE policyname = 'Public Access Sales' AND tablename = 'sales'
-    ) THEN
-        CREATE POLICY "Public Access Sales" ON public.sales FOR ALL USING (true) WITH CHECK (true);
-    END IF;
-END $$;
-
--- 6. Sales Quotas Table (Annual & Monthly Targets by Fiscal Year)
+-- 2. Create the sales_quotas Table
+-- Stores annual & monthly quota targets and working business days per fiscal month
 CREATE TABLE IF NOT EXISTS public.sales_quotas (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     fiscal_year TEXT NOT NULL,                                           -- e.g. '2024-25', '2025-26'
@@ -109,7 +37,10 @@ CREATE TABLE IF NOT EXISTS public.sales_quotas (
     UNIQUE (fiscal_year, fiscal_month)
 );
 
+-- 2. Indexes for High-Performance Queries
 CREATE INDEX IF NOT EXISTS idx_sales_quotas_fy_fm ON public.sales_quotas(fiscal_year, fiscal_month);
+
+-- 3. Row Level Security (RLS) - Allow Read & Write with Supabase Anon Key
 ALTER TABLE public.sales_quotas ENABLE ROW LEVEL SECURITY;
 
 DO $$ 
@@ -121,8 +52,19 @@ BEGIN
     END IF;
 END $$;
 
--- 7. Real-Time View: v_annual_quota_pacing
--- Automatically updates in real time whenever new records are added to public.sales
+-- 4. Real-Time View: v_annual_quota_pacing
+-- Automatically aggregates actual sales from public.sales and calculates:
+-- - Quota (Monthly target)
+-- - Total (Cumulative quota)
+-- - Actual (Cumulative sales)
+-- - (+/-) Cumulative Variance
+-- - Sales (Monthly actual sales)
+-- - (+/-) Monthly Variance
+-- - Daily (Actual daily pace)
+-- - Req'd (Required daily pace)
+-- - % (Attainment % to date)
+-- - Annual % (% of total annual quota)
+-- THIS VIEW AUTOMATICALLY RECALCULATES REAL-TIME AS SOON AS ANY NEW RECORD IS ADDED TO SALES!
 CREATE OR REPLACE VIEW public.v_annual_quota_pacing AS
 WITH monthly_actuals AS (
     SELECT 
@@ -155,16 +97,19 @@ joined_pacing AS (
         q.working_days,
         q.quota_amount AS monthly_quota,
         COALESCE(ma.total_sales, 0) AS monthly_sales,
+        -- Cumulative Running Quota (Total)
         SUM(q.quota_amount) OVER (
             PARTITION BY q.fiscal_year 
             ORDER BY q.fiscal_month
             ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
         ) AS cumulative_quota,
+        -- Cumulative Running Actual Sales (Actual)
         SUM(COALESCE(ma.total_sales, 0)) OVER (
             PARTITION BY q.fiscal_year 
             ORDER BY q.fiscal_month
             ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
         ) AS cumulative_sales,
+        -- Full Year Annual Quota Target
         SUM(q.quota_amount) OVER (
             PARTITION BY q.fiscal_year
         ) AS full_year_quota
@@ -178,20 +123,30 @@ SELECT
     fiscal_month,
     month_name,
     working_days,
+    -- 1. Quota
     ROUND(monthly_quota, 2) AS quota,
+    -- 2. Total (Cumulative Quota)
     ROUND(cumulative_quota, 2) AS total,
+    -- 3. Actual (Cumulative Sales)
     ROUND(cumulative_sales, 2) AS actual,
+    -- 4. (+/-) Cumulative Variance
     ROUND(cumulative_sales - cumulative_quota, 2) AS cumulative_variance,
+    -- 5. Sales (Monthly Sales)
     ROUND(monthly_sales, 2) AS sales,
+    -- 6. (+/-) Monthly Variance
     ROUND(monthly_sales - monthly_quota, 2) AS monthly_variance,
+    -- 7. Daily Actual Pace
     ROUND(monthly_sales / NULLIF(working_days, 0), 2) AS daily_actual,
+    -- 8. Req'd Daily Pace
     ROUND(monthly_quota / NULLIF(working_days, 0), 2) AS required_daily,
+    -- 9. Attainment % to Date
     ROUND((cumulative_sales / NULLIF(cumulative_quota, 0)) * 100, 2) AS attainment_percent,
+    -- 10. Annual % Progress
     ROUND((cumulative_sales / NULLIF(full_year_quota, 0)) * 100, 2) AS annual_percent
 FROM joined_pacing
 ORDER BY fiscal_year, fiscal_month;
 
--- 8. Calculate Exact Billing Days in a Month (Excluding Weekends & Corporate Holidays)
+-- 5. Helper Function: Calculate Exact Billing Days in a Month (Excluding Weekends & Corporate Holidays)
 CREATE OR REPLACE FUNCTION public.get_billing_days(cal_year INT, cal_month INT)
 RETURNS INT AS $$
 DECLARE
@@ -202,7 +157,7 @@ DECLARE
     dow INT;
     is_holiday BOOLEAN;
     
-    -- Recognized US Corporate Holidays
+    -- Recognized US Corporate / Commercial Holidays
     ny DATE;
     mlk DATE;
     mem DATE;
@@ -215,11 +170,11 @@ DECLARE
 BEGIN
     -- 1. New Year's Day (Jan 1, observed)
     ny := make_date(cal_year, 1, 1);
-    IF EXTRACT(DOW FROM ny) = 0 THEN ny := ny + 1;
-    ELSIF EXTRACT(DOW FROM ny) = 6 THEN ny := ny - 1;
+    IF EXTRACT(DOW FROM ny) = 0 THEN ny := ny + 1; -- Sun -> Mon
+    ELSIF EXTRACT(DOW FROM ny) = 6 THEN ny := ny - 1; -- Sat -> Fri
     END IF;
 
-    -- 2. MLK Day (3rd Monday in Jan)
+    -- 2. Martin Luther King Jr. Day (3rd Monday in Jan)
     SELECT (make_date(cal_year, 1, 1) + ((8 - EXTRACT(ISODOW FROM make_date(cal_year, 1, 1))::INT) % 7 + 14)::INT)::DATE INTO mlk;
 
     -- 3. Memorial Day (Last Monday in May)
@@ -246,7 +201,7 @@ BEGIN
 
     -- 7. Thanksgiving (4th Thursday in Nov)
     SELECT (make_date(cal_year, 11, 1) + ((11 - EXTRACT(ISODOW FROM make_date(cal_year, 11, 1))::INT) % 7 + 21)::INT)::DATE INTO thx;
-    thx_fri := thx + 1;
+    thx_fri := thx + 1; -- Day after Thanksgiving
 
     -- 8. Christmas Day (Dec 25, observed)
     xmas := make_date(cal_year, 12, 25);
@@ -254,8 +209,10 @@ BEGIN
     ELSIF EXTRACT(DOW FROM xmas) = 6 THEN xmas := xmas - 1;
     END IF;
 
+    -- Iterate through each day of the month
     FOR d IN SELECT generate_series(start_date, end_date, '1 day'::INTERVAL)::DATE LOOP
         dow := EXTRACT(ISODOW FROM d);
+        -- Exclude Saturdays (6) and Sundays (7)
         IF dow < 6 THEN
             is_holiday := (d = ny OR d = mlk OR d = mem OR (jt IS NOT NULL AND d = jt) OR d = ind OR d = lab OR d = thx OR d = thx_fri OR d = xmas);
             IF NOT is_holiday THEN
@@ -268,7 +225,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql IMMUTABLE;
 
--- 9. Function to Auto-Seed Quotas with Exact Dynamic Billing Days
+-- 6. Function to Auto-Seed Quotas & Exact Dynamic Billing Days for Any Fiscal Year
 CREATE OR REPLACE FUNCTION public.seed_fiscal_year_quotas(
     target_year TEXT,
     annual_target NUMERIC DEFAULT 5920915
@@ -293,12 +250,14 @@ BEGIN
     END IF;
 
     FOR i IN 1..12 LOOP
+        -- Q1 (Oct, Nov, Dec) is in base_year; Q2-Q4 (Jan-Sep) is in base_year + 1
         IF i <= 3 THEN
             m_year := base_year;
         ELSE
             m_year := base_year + 1;
         END IF;
 
+        -- Automatically calculate billing days for this specific calendar year & month, excluding holidays!
         b_days := public.get_billing_days(m_year, cal_months[i]);
         m_quota := ROUND(annual_target * weights[i], 0);
 
@@ -312,7 +271,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- 10. Trigger: Auto-Seed Quotas for Any Newly Added Fiscal Year
+-- 7. Trigger: Auto-Seed Quotas for Any Newly Added Fiscal Year
 CREATE OR REPLACE FUNCTION public.trg_auto_seed_quotas_for_sales()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -331,4 +290,37 @@ AFTER INSERT ON public.sales
 FOR EACH ROW
 EXECUTE FUNCTION public.trg_auto_seed_quotas_for_sales();
 
+-- 7. Seed Baseline Data for All Fiscal Years (2016-17 to Present & Future)
+DO $$
+DECLARE
+    yr TEXT;
+    years TEXT[] := ARRAY[
+        '2016-17', '2017-18', '2018-19', '2019-20', '2020-21',
+        '2021-22', '2022-23', '2023-24', '2024-25', '2025-26', '2026-27'
+    ];
+BEGIN
+    FOREACH yr IN ARRAY years LOOP
+        PERFORM public.seed_fiscal_year_quotas(yr, 5920915);
+    END LOOP;
+END $$;
+
+-- Explicitly ensure baseline values match your exact spreadsheet for active years:
+INSERT INTO public.sales_quotas (fiscal_year, fiscal_month, month_name, quota_amount, working_days)
+VALUES 
+    ('2024-25', 1,  'OCT', 478228, 23),
+    ('2024-25', 2,  'NOV', 415280, 20),
+    ('2024-25', 3,  'DEC', 519711, 23),
+    ('2024-25', 4,  'JAN', 538549, 22),
+    ('2024-25', 5,  'FEB', 513022, 20),
+    ('2024-25', 6,  'MAR', 534499, 22),
+    ('2024-25', 7,  'APR', 488927, 22),
+    ('2024-25', 8,  'MAY', 457074, 21),
+    ('2024-25', 9,  'JUN', 473910, 22),
+    ('2024-25', 10, 'JUL', 516100, 23),
+    ('2024-25', 11, 'AUG', 484574, 21),
+    ('2024-25', 12, 'SEP', 501041, 22)
+ON CONFLICT (fiscal_year, fiscal_month) DO UPDATE 
+SET quota_amount = EXCLUDED.quota_amount,
+    working_days = EXCLUDED.working_days,
+    updated_at = NOW();
 

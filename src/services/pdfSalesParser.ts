@@ -615,6 +615,7 @@ export function convertParsedRowsToSaleRecords(rows: ParsedSaleRow[]): SaleRecor
     accountNumber: r.accountNumber,
     productCode: r.productCode,
     category: r.category,
+    subcategory: '',
     description: r.description,
     quantity: r.quantity,
     cost: r.cost,

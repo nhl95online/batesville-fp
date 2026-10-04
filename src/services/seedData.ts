@@ -378,10 +378,14 @@ export function generateSeedSales(): SaleRecord[] {
         const mText = MONTH_NAMES[month] || 'JAN';
         const fiscalMonth = month >= 10 ? (month - 9) : (month + 3);
 
+        const fiscalYearStr = month >= 10 
+          ? `${year}-${String(year + 1).slice(-2)}` 
+          : `${year - 1}-${String(year).slice(-2)}`;
+
         sales.push({
           id: `sale-${year}-${month}-${orderSeq}`,
           saleId: orderSeq,
-          year: `${year}-${String(year + 1).slice(2)}`,
+          year: fiscalYearStr,
           month: mText,
           day: dayStr,
           program: customer.program || 'OBB',
@@ -389,9 +393,10 @@ export function generateSeedSales(): SaleRecord[] {
           accountNumber: customer.accountNumber || 0,
           productCode: product.code,
           category: product.category,
+          subcategory: product.subcategory || (product.material ? product.material.slice(0, 10) : 'Standard'),
           description: product.name,
           quantity,
-          cost: unitPrice,
+          cost: totalAmount,
           customerId: customer.id,
           productId: product.id,
           orderNumber: `ORD-${year}-${orderSeq}`,

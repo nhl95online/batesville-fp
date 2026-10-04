@@ -51,7 +51,7 @@ export function App() {
   const [productSubpage, setProductSubpage] = useState<string>('all');
   const [customerSubpage, setCustomerSubpage] = useState<string>('all');
   const [cardSubpage, setCardSubpage] = useState<CardDimension>('6x6');
-  const [salesSubpage, setSalesSubpage] = useState<'analytics' | 'units' | 'table'>('analytics');
+  const [salesSubpage, setSalesSubpage] = useState<'analytics' | 'quota' | 'units' | 'table'>('quota');
   const [floorplanSubpage, setFloorplanSubpage] = useState<RoomShape>('rectangle');
   const [homeSubpage, setHomeSubpage] = useState<string>('overview');
 
@@ -110,7 +110,7 @@ export function App() {
       let allProducts = await db.products.toArray();
       let salesCount = await db.sales.count();
 
-      if (allCustomers.length === 0) {
+      if (allCustomers.length === 0 || salesCount === 0) {
         setIsAutoSyncing(true);
         const res = await syncFromSupabase();
         if (res.success) {
@@ -204,6 +204,7 @@ export function App() {
   ], []);
 
   const salesSubpages: SubpageItem[] = useMemo(() => [
+    { id: 'quota', label: 'Annual Quota Tracker', description: 'Annual quota breakdown, pacing, daily variance & attainment' },
     { id: 'analytics', label: 'Executive Analytics', description: 'Year-over-Year revenue trends & comparison' },
     { id: 'units', label: 'Unit Volume & Share', description: 'Units sold & market share metrics' },
     { id: 'table', label: 'Sales Ledger Table', description: 'Detailed individual sales transactions' },
@@ -262,7 +263,7 @@ interface NavTabItem {
       if (subpageId === 'import-sales') {
         setIsSalesUploadModalOpen(true);
       } else {
-        setSalesSubpage(subpageId as 'analytics' | 'units' | 'table');
+        setSalesSubpage(subpageId as 'quota' | 'analytics' | 'units' | 'table');
       }
     } else if (tab === 'floorplans') {
       if (subpageId !== 'interactive') {

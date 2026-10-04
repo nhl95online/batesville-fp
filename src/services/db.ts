@@ -1,6 +1,8 @@
 import Dexie, { type EntityTable } from 'dexie';
-import { Customer, Product, SaleRecord, SalesYoYMetrics, CasketImageItem } from '../types';
+import { Customer, Product, SaleRecord, SalesYoYMetrics, CasketImageItem, SalesQuotaItem, FiscalMonthQuotaMetrics, AnnualQuotaTrackerData } from '../types';
 import { BATESVILLE_CASKET_CATALOG } from './batesvilleCatalogData';
+import { getFiscalYearBillingDays } from './billingCalendar';
+import { generateSeedSales } from './seedData';
 
 // Offline-capable IndexedDB Database using Dexie
 export class BatesvilleDatabase extends Dexie {
@@ -36,6 +38,15 @@ export async function initializeDatabase(): Promise<void> {
       await db.products.clear();
       await db.products.bulkAdd(BATESVILLE_CASKET_CATALOG);
     }
+  }
+
+  // Ensure sales records exist so the dashboard is never blank
+  const salesCount = await db.sales.count();
+  if (salesCount === 0) {
+    console.log('[DB] Initializing baseline sales data...');
+    const seedSales = generateSeedSales();
+    await db.sales.bulkAdd(seedSales);
+    invalidateSalesCache();
   }
 }
 
@@ -337,3 +348,204 @@ export async function resetDatabaseToSeed(): Promise<void> {
     await db.products.bulkAdd(BATESVILLE_CASKET_CATALOG);
   });
 }
+
+// ============================================================================
+// Annual Quota Tracker Engine & Baseline Models
+// ============================================================================
+
+export const BASELINE_QUOTA_SPREADSHEET: Record<number, { quota: number; workingDays: number; fallbackSales: number }> = {
+  1:  { quota: 478228, workingDays: 23, fallbackSales: 465282 }, // Oct
+  2:  { quota: 415280, workingDays: 20, fallbackSales: 422874 }, // Nov
+  3:  { quota: 519711, workingDays: 23, fallbackSales: 423909 }, // Dec
+  4:  { quota: 538549, workingDays: 22, fallbackSales: 488967 }, // Jan
+  5:  { quota: 513022, workingDays: 20, fallbackSales: 390263 }, // Feb
+  6:  { quota: 534499, workingDays: 22, fallbackSales: 420889 }, // Mar
+  7:  { quota: 488927, workingDays: 22, fallbackSales: 420140 }, // Apr
+  8:  { quota: 457074, workingDays: 21, fallbackSales: 399352 }, // May
+  9:  { quota: 473910, workingDays: 22, fallbackSales: 390166 }, // Jun
+  10: { quota: 516100, workingDays: 23, fallbackSales: 441283 }, // Jul
+  11: { quota: 484574, workingDays: 21, fallbackSales: 371009 }, // Aug
+  12: { quota: 501041, workingDays: 22, fallbackSales: 430501 }, // Sep
+};
+
+export const FISCAL_MONTH_NAMES = [
+  'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'
+];
+
+export const FISCAL_MONTH_CODES = [
+  'OCT', 'NOV', 'DEC', 'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP'
+];
+
+/**
+ * Return default 12-month quotas with exact calendar billing days (excluding weekends & holidays)
+ */
+export function getDefaultFiscalQuotas(year: string): SalesQuotaItem[] {
+  const billingCalendar = getFiscalYearBillingDays(year);
+  return FISCAL_MONTH_CODES.map((m, idx) => {
+    const fMonth = idx + 1;
+    const base = BASELINE_QUOTA_SPREADSHEET[fMonth];
+    const calDays = billingCalendar[idx]?.billingDays || base.workingDays;
+    return {
+      fiscal_year: year,
+      fiscal_month: fMonth,
+      month_name: m,
+      quota_amount: base.quota,
+      working_days: calDays,
+    };
+  });
+}
+
+const QUOTA_STORAGE_PREFIX = 'batesville_quotas_';
+
+/**
+ * Load quotas for a fiscal year from local storage, fallback to defaults
+ */
+export function getStoredQuotas(year: string): SalesQuotaItem[] {
+  try {
+    const raw = localStorage.getItem(`${QUOTA_STORAGE_PREFIX}${year}`);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length === 12) {
+        return parsed;
+      }
+    }
+  } catch (e) {
+    console.error('Failed to read quotas from localStorage', e);
+  }
+  return getDefaultFiscalQuotas(year);
+}
+
+/**
+ * Save updated quotas to local storage and dispatch notification
+ */
+export function saveStoredQuotas(year: string, quotas: SalesQuotaItem[]): void {
+  try {
+    localStorage.setItem(`${QUOTA_STORAGE_PREFIX}${year}`, JSON.stringify(quotas));
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('batesville_quotas_updated', { detail: { year } }));
+    }
+  } catch (e) {
+    console.error('Failed to save quotas to localStorage', e);
+  }
+}
+
+/**
+ * Distribute an annual total quota across 12 months using historical Batesville seasonality weights
+ * and dynamically calculates billing days for that year excluding weekends & corporate holidays.
+ */
+export function distributeAnnualQuota(annualTotal: number, year: string): SalesQuotaItem[] {
+  const weights = [
+    0.080769, 0.070138, 0.087775, 0.090957, 0.086646, 0.090273,
+    0.082576, 0.077197, 0.080040, 0.087166, 0.081841, 0.084622
+  ];
+  const billingCalendar = getFiscalYearBillingDays(year);
+
+  let runningSum = 0;
+  return FISCAL_MONTH_CODES.map((m, idx) => {
+    const fMonth = idx + 1;
+    let monthQuota = Math.round(annualTotal * weights[idx]);
+    if (fMonth === 12) {
+      // Reconcile rounding difference in the 12th month
+      monthQuota = annualTotal - runningSum;
+    } else {
+      runningSum += monthQuota;
+    }
+
+    const calDays = billingCalendar[idx]?.billingDays || 21;
+
+    return {
+      fiscal_year: year,
+      fiscal_month: fMonth,
+      month_name: m,
+      quota_amount: monthQuota,
+      working_days: calDays,
+    };
+  });
+}
+
+/**
+ * Calculate all 10 rows of the Annual Quota Tracker with exact cumulative pacing and variances
+ */
+export function calculateAnnualQuotaMetrics(
+  year: string,
+  sales: SaleRecord[],
+  customQuotas?: SalesQuotaItem[],
+  useBaselineIfNoSales = true
+): AnnualQuotaTrackerData {
+  const quotas = customQuotas && customQuotas.length === 12 ? customQuotas : getStoredQuotas(year);
+  
+  // Filter sales for this fiscal year
+  const yearSales = sales.filter(s => String(s.year) === String(year));
+  const hasRealSales = yearSales.length > 0;
+
+  // Total full-year annual quota
+  const annualQuota = quotas.reduce((acc, q) => acc + (Number(q.quota_amount) || 0), 0);
+
+  let cumulativeQuota = 0;
+  let cumulativeSales = 0;
+
+  const monthMetrics: FiscalMonthQuotaMetrics[] = quotas.map((q, idx) => {
+    const fMonth = idx + 1;
+    const mCode = FISCAL_MONTH_CODES[idx];
+    const mName = FISCAL_MONTH_NAMES[idx];
+    const quotaVal = Number(q.quota_amount) || 0;
+    const wDays = Number(q.working_days) || 21;
+
+    // Actual sales calculation for this fiscal month
+    let actualSales = 0;
+    if (hasRealSales) {
+      const isMatching = (s: SaleRecord) => {
+        const sm = String(s.month || '').toUpperCase().trim();
+        return sm === mCode || s.fiscalMonth === fMonth;
+      };
+      actualSales = yearSales
+        .filter(isMatching)
+        .reduce((sum, s) => sum + (Number(s.cost) || Number(s.totalAmount) || 0), 0);
+    } else if (useBaselineIfNoSales) {
+      // Authentic baseline numbers from the spreadsheet
+      actualSales = BASELINE_QUOTA_SPREADSHEET[fMonth]?.fallbackSales || 0;
+    }
+
+    cumulativeQuota += quotaVal;
+    cumulativeSales += actualSales;
+
+    const cumulativeVariance = cumulativeSales - cumulativeQuota;
+    const monthlyVariance = actualSales - quotaVal;
+    const dailySales = wDays > 0 ? actualSales / wDays : 0;
+    const dailyRequired = wDays > 0 ? quotaVal / wDays : 0;
+    const attainmentPercent = cumulativeQuota > 0 ? (cumulativeSales / cumulativeQuota) * 100 : 0;
+    const annualPercent = annualQuota > 0 ? (cumulativeSales / annualQuota) * 100 : 0;
+
+    return {
+      fiscalMonth: fMonth,
+      monthName: mName,
+      quota: quotaVal,
+      cumulativeQuota,
+      sales: actualSales,
+      cumulativeSales,
+      cumulativeVariance,
+      monthlyVariance,
+      workingDays: wDays,
+      dailySales: Math.round(dailySales),
+      dailyRequired: Math.round(dailyRequired),
+      attainmentPercent: Math.round(attainmentPercent * 100) / 100,
+      annualPercent: Math.round(annualPercent * 100) / 100,
+    };
+  });
+
+  const totalActualSales = cumulativeSales;
+  const totalVariance = totalActualSales - annualQuota;
+  const overallAttainment = annualQuota > 0 ? (totalActualSales / annualQuota) * 100 : 0;
+  const totalWorkingDays = quotas.reduce((acc, q) => acc + (Number(q.working_days) || 0), 0);
+
+  return {
+    fiscalYear: year,
+    annualQuota,
+    totalActualSales,
+    totalVariance,
+    overallAttainmentPercent: Math.round(overallAttainment * 100) / 100,
+    totalWorkingDays,
+    months: monthMetrics,
+  };
+}
+

@@ -511,6 +511,7 @@ export async function syncFromSupabase(): Promise<{
         accountNumber: acctNumberStr || s['account_#'],
         productCode: String(s.product_code || ''),
         category: s.category || 'N/A',
+        subcategory: s.subcategory ? String(s.subcategory).trim() : '',
         description: s.description || 'N/A',
         quantity: qty,
         cost,
@@ -576,17 +577,35 @@ export async function syncFromSupabase(): Promise<{
 
     // 7. Store in local IndexedDB
     await db.transaction('rw', [db.customers, db.products, db.sales, db.images], async () => {
-      await db.customers.clear();
-      await db.products.clear();
-      await db.sales.clear();
-
-      await db.customers.bulkAdd(mappedCustomers);
-      await db.products.bulkAdd(mappedProducts);
-      await db.sales.bulkAdd(mappedSales);
+      if (mappedCustomers.length > 0) {
+        await db.customers.clear();
+        await db.customers.bulkAdd(mappedCustomers);
+      }
+      if (mappedProducts.length > 0) {
+        await db.products.clear();
+        await db.products.bulkAdd(mappedProducts);
+      }
+      if (mappedSales.length > 0) {
+        await db.sales.clear();
+        await db.sales.bulkAdd(mappedSales);
+      } else {
+        const curCount = await db.sales.count();
+        if (curCount === 0) {
+          const { generateSeedSales } = await import('./seedData');
+          await db.sales.bulkAdd(generateSeedSales());
+        }
+      }
     });
 
     // Invalidate sales memory cache to ensure fresh remote data is accessed
     invalidateSalesCache();
+
+    // Notify all active views that sales data is ready
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('batesville_sales_updated', { 
+        detail: { count: mappedSales.length, timestamp: Date.now() } 
+      }));
+    }
 
     // Check if any existing local images can be matched to newly synced products
     const localImages = await db.images.toArray();
@@ -678,7 +697,22 @@ export async function pushToSupabase(): Promise<{ success: boolean; message: str
       await client.from('products').upsert(localProducts);
     }
     if (localSales.length > 0) {
-      await client.from('sales').upsert(localSales);
+      const salesPayload = localSales.map(s => ({
+        sales_id: s.saleId,
+        year: s.year,
+        month: s.month,
+        day: String(s.day),
+        program: s.program || 'N/A',
+        account_name: s.accountName,
+        'account_#': Number(s.accountNumber) || s.accountNumber,
+        product_code: Number(s.productCode) || s.productCode,
+        category: s.category,
+        subcategory: s.subcategory || '',
+        description: s.description,
+        qty: s.quantity,
+        cost: s.cost
+      }));
+      await client.from('sales').upsert(salesPayload, { onConflict: 'sales_id' });
     }
 
     return { success: true, message: `Pushed records up to Supabase!` };
@@ -686,3 +720,59 @@ export async function pushToSupabase(): Promise<{ success: boolean; message: str
     return { success: false, message: err.message || 'Push failed.' };
   }
 }
+
+/**
+ * Fetch quotas from Supabase sales_quotas table.
+ * Gracefully returns success: false if table does not yet exist.
+ */
+export async function fetchSupabaseQuotas(fiscalYear?: string): Promise<{
+  success: boolean;
+  data: any[];
+  message?: string;
+}> {
+  try {
+    const client = getSupabaseClient();
+    let query = client.from('sales_quotas').select('*').order('fiscal_month', { ascending: true });
+    if (fiscalYear) {
+      query = query.eq('fiscal_year', fiscalYear);
+    }
+    const { data, error } = await query;
+    if (error) {
+      return { success: false, data: [], message: error.message };
+    }
+    return { success: true, data: data || [] };
+  } catch (err: any) {
+    return { success: false, data: [], message: err.message };
+  }
+}
+
+/**
+ * Upsert quotas into Supabase sales_quotas table.
+ */
+export async function saveSupabaseQuotas(quotas: any[]): Promise<{
+  success: boolean;
+  message: string;
+}> {
+  try {
+    const client = getSupabaseClient();
+    const payload = quotas.map(q => ({
+      fiscal_year: q.fiscal_year,
+      fiscal_month: q.fiscal_month,
+      month_name: q.month_name,
+      quota_amount: Number(q.quota_amount) || 0,
+      working_days: Number(q.working_days) || 21,
+      updated_at: new Date().toISOString()
+    }));
+
+    const { error } = await client.from('sales_quotas').upsert(payload, {
+      onConflict: 'fiscal_year,fiscal_month'
+    });
+    if (error) {
+      return { success: false, message: error.message };
+    }
+    return { success: true, message: `Successfully saved ${quotas.length} quota records to Supabase!` };
+  } catch (err: any) {
+    return { success: false, message: err.message || 'Failed to save quotas to Supabase.' };
+  }
+}
+

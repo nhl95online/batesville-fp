@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Customer, Product, SalesYoYMetrics, SaleRecord } from '../../types';
-import { getSalesYoYMetrics, getCachedSales } from '../../services/db';
+import { getSalesYoYMetrics, getCachedSales, db } from '../../services/db';
 import { DailySalesUploadModal } from './DailySalesUploadModal';
+import { AnnualQuotaTracker } from './AnnualQuotaTracker';
 import { 
   TrendingUp, 
   TrendingDown, 
@@ -14,7 +15,8 @@ import {
   Search,
   Clock,
   UploadCloud,
-  ChevronRight
+  ChevronRight,
+  Target
 } from 'lucide-react';
 import {
   ResponsiveContainer,
@@ -30,8 +32,8 @@ import {
 interface SalesDashboardProps {
   customers: Customer[];
   products: Product[];
-  initialView?: 'analytics' | 'units' | 'table';
-  onViewChange?: (view: 'analytics' | 'units' | 'table') => void;
+  initialView?: 'analytics' | 'quota' | 'units' | 'table';
+  onViewChange?: (view: 'analytics' | 'quota' | 'units' | 'table') => void;
   onOpenSalesUpload?: () => void;
 }
 
@@ -50,11 +52,15 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
   const [metrics, setMetrics] = useState<SalesYoYMetrics | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [chartView, setChartView] = useState<'revenue' | 'units'>('revenue');
-  const [activeTab, setActiveTab] = useState<'analytics' | 'table'>('analytics');
+  const [activeTab, setActiveTab] = useState<'analytics' | 'quota' | 'table'>(
+    initialView === 'table' ? 'table' : initialView === 'analytics' || initialView === 'units' ? 'analytics' : 'quota'
+  );
   const [isUploadModalOpen, setIsUploadModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    if (initialView === 'table') {
+    if (initialView === 'quota') {
+      setActiveTab('quota');
+    } else if (initialView === 'table') {
       setActiveTab('table');
     } else if (initialView === 'units') {
       setActiveTab('analytics');
@@ -153,7 +159,16 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
 
   // Load available years & raw sales from high-speed in-memory cache
   const loadInitial = async () => {
-    const sales = await getCachedSales();
+    let sales = await getCachedSales();
+    if (sales.length === 0) {
+      sales = await db.sales.toArray();
+      if (sales.length === 0) {
+        const { generateSeedSales } = await import('../../services/seedData');
+        const seedSales = generateSeedSales();
+        await db.sales.bulkAdd(seedSales);
+        sales = await getCachedSales(true);
+      }
+    }
     setRawSales(sales);
     const distinct: string[] = Array.from(new Set(sales.map(s => String(s.year))))
       .filter(Boolean)
@@ -165,7 +180,13 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
       const prev = distinct.length > 1 ? distinct[distinct.length - 2] : distinct[0];
       setCurrentYear(latest);
       setPreviousYear(prev);
-      setSelectedTableYear(latest); // Default to most recent year!
+      setSelectedTableYear(latest);
+    } else {
+      const fallbackYears = ['2022-23', '2023-24', '2024-25', '2025-26'];
+      setAvailableYears(fallbackYears);
+      setCurrentYear('2025-26');
+      setPreviousYear('2024-25');
+      setSelectedTableYear('2025-26');
     }
   };
 
@@ -271,7 +292,8 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
         (s.accountName || '').toLowerCase().includes(term) ||
         String(s.accountNumber || '').includes(term) ||
         (s.program || '').toLowerCase().includes(term) ||
-        (s.category || '').toLowerCase().includes(term)
+        (s.category || '').toLowerCase().includes(term) ||
+        (s.subcategory || '').toLowerCase().includes(term)
       );
     }
 
@@ -302,7 +324,22 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
           {/* View Toggle */}
           <div className="flex items-center space-x-1 bg-slate-100 p-1 rounded-xl border border-slate-200">
             <button
-              onClick={() => setActiveTab('analytics')}
+              onClick={() => {
+                setActiveTab('quota');
+                if (onViewChange) onViewChange('quota');
+              }}
+              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                activeTab === 'quota' ? 'bg-amber-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <Target className="w-3.5 h-3.5" />
+              <span>Annual Quota Tracker</span>
+            </button>
+            <button
+              onClick={() => {
+                setActiveTab('analytics');
+                if (onViewChange) onViewChange('analytics');
+              }}
               className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                 activeTab === 'analytics' ? 'bg-amber-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
               }`}
@@ -311,7 +348,10 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
               <span>Fiscal YoY Analytics</span>
             </button>
             <button
-              onClick={() => setActiveTab('table')}
+              onClick={() => {
+                setActiveTab('table');
+                if (onViewChange) onViewChange('table');
+              }}
               className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                 activeTab === 'table' ? 'bg-amber-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
               }`}
@@ -349,7 +389,14 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
         </span>
       </div>
 
-      {activeTab === 'analytics' ? (
+      {activeTab === 'quota' ? (
+        <AnnualQuotaTracker
+          sales={rawSales}
+          availableYears={availableYears}
+          initialYear={String(currentYear)}
+          onRefreshSales={loadInitial}
+        />
+      ) : activeTab === 'analytics' ? (
         <>
           {/* Secondary Filter Bar */}
           <div className="flex flex-wrap items-center justify-between gap-4 bg-white border border-slate-200 p-4 rounded-xl text-xs shadow-sm">
@@ -632,10 +679,10 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
           <div className="p-5 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h3 className="font-serif font-bold text-slate-900 text-base">
-                Sales Table Records (Exact Supabase Headers)
+                Sales Table Records (Exact 13 Supabase Columns)
               </h3>
               <p className="text-xs text-slate-500">
-                Defaulting to FY {selectedTableYear} • Showing {Math.min(tableDisplayLimit, filteredRawSales.length)} of {filteredRawSales.length} matching rows.
+                FY {selectedTableYear} • Showing {Math.min(tableDisplayLimit, filteredRawSales.length)} of {filteredRawSales.length} matching rows • Synced to Supabase public.sales
               </p>
             </div>
 
@@ -682,6 +729,7 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
                   <th className="py-3 px-3.5 font-semibold">account_#</th>
                   <th className="py-3 px-3.5 font-semibold">product_code</th>
                   <th className="py-3 px-3.5 font-semibold">category</th>
+                  <th className="py-3 px-3.5 font-semibold">subcategory</th>
                   <th className="py-3 px-3.5 font-semibold min-w-[240px]">description</th>
                   <th className="py-3 px-3.5 font-semibold">qty</th>
                   <th className="py-3 px-3.5 font-semibold">cost</th>
@@ -705,6 +753,7 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
                     <td className="py-2.5 px-3.5 text-slate-500">{s.accountNumber}</td>
                     <td className="py-2.5 px-3.5 text-amber-700 font-bold">{s.productCode}</td>
                     <td className="py-2.5 px-3.5 font-sans text-slate-600 truncate max-w-[160px]">{s.category}</td>
+                    <td className="py-2.5 px-3.5 font-sans text-slate-500 truncate max-w-[140px]">{s.subcategory || '—'}</td>
                     <td className="py-2.5 px-3.5 font-sans text-slate-700 truncate max-w-[260px]">{s.description}</td>
                     <td className="py-2.5 px-3.5 font-bold text-slate-900">{s.quantity}</td>
                     <td className="py-2.5 px-3.5 font-bold text-emerald-700">${s.cost.toLocaleString()}</td>

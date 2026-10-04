@@ -115,6 +115,7 @@ export interface SaleRecord {
   accountNumber: number | string; // account_#
   productCode: string; // product_code (e.g. "146799")
   category: string; // category
+  subcategory?: string; // subcategory (e.g. "18 GA", "OAK", "HARDWOOD")
   description: string; // description
   quantity: number; // qty
   cost: number; // cost
@@ -232,3 +233,42 @@ export interface CustomerFloorPlan {
   slots: FloorSlot[];
   updatedAt: string;
 }
+
+export interface SalesQuotaItem {
+  id?: string;
+  fiscal_year: string;
+  fiscal_month: number;
+  month_name: string;
+  quota_amount: number;
+  working_days: number;
+  notes?: string;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface FiscalMonthQuotaMetrics {
+  fiscalMonth: number;
+  monthName: string;
+  quota: number;
+  cumulativeQuota: number;
+  sales: number;
+  cumulativeSales: number;
+  cumulativeVariance: number;
+  monthlyVariance: number;
+  workingDays: number;
+  dailySales: number;
+  dailyRequired: number;
+  attainmentPercent: number;
+  annualPercent: number;
+}
+
+export interface AnnualQuotaTrackerData {
+  fiscalYear: string;
+  annualQuota: number;
+  totalActualSales: number;
+  totalVariance: number;
+  overallAttainmentPercent: number;
+  totalWorkingDays: number;
+  months: FiscalMonthQuotaMetrics[];
+}
+
