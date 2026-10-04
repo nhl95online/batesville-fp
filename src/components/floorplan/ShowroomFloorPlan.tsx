@@ -34,7 +34,9 @@ import {
   AlertCircle, 
   MapPin, 
   Plus, 
-  ExternalLink 
+  ExternalLink,
+  Sliders,
+  Move
 } from 'lucide-react';
 
 interface ShowroomFloorPlanProps {
@@ -67,6 +69,9 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
     return customers.find(c => c.id === selectedCustomerId) || customers[0] || null;
   }, [customers, selectedCustomerId]);
 
+  // View Mode: 'blueprint' (2D Architectural CAD plan) or 'cards' (matrix grid)
+  const [viewMode, setViewMode] = useState<'blueprint' | 'cards'>('blueprint');
+
   // Cloud Showroom sync state
   const [cloudAccounts, setCloudAccounts] = useState<string[]>([]);
   const [isCloudLoading, setIsCloudLoading] = useState(false);
@@ -80,10 +85,13 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
   const [isLoadingSales, setIsLoadingSales] = useState(false);
 
   // Room Configuration
-  const [roomShape, setRoomShape] = useState<RoomShape>(initialRoomShape || 'rectangle');
+  const [roomShape, setRoomShape] = useState<RoomShape>(initialRoomShape || 'l-shaped');
   const [roomCapacity, setRoomCapacity] = useState<RoomCapacity>('medium');
   const [slots, setSlots] = useState<FloorSlot[]>([]);
   const [selectedSlotId, setSelectedSlotId] = useState<string | null>(null);
+
+  // Hover state for blueprint tooltip
+  const [hoveredBayNumber, setHoveredBayNumber] = useState<number | null>(null);
 
   // Search & Catalog Swap Modal
   const [isCatalogModalOpen, setIsCatalogModalOpen] = useState(false);
@@ -142,7 +150,7 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
     loadSales();
   }, [activeCustomer]);
 
-  // Regional bestseller rankings (for intelligent replacement suggestions)
+  // Regional bestseller rankings
   const regionalRankings = useMemo(() => {
     const casketCounts: Record<string, { product: Product; units: number; revenue: number }> = {};
     const urnCounts: Record<string, { product: Product; units: number; revenue: number }> = {};
@@ -170,35 +178,26 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
 
   // Helper to generate default slots when neither Supabase nor localStorage has data
   const generateDefaultLayout = useCallback((shape: RoomShape, capacity: RoomCapacity) => {
-    let casketCount = 14;
+    let casketCount = 10;
     let urnCount = 12;
-
-    if (capacity === 'small') {
-      casketCount = 8;
-      urnCount = 6;
-    } else if (capacity === 'large') {
-      casketCount = 20;
-      urnCount = 18;
-    }
 
     const caskets = products.filter(p => !isUrnProduct(p));
     const urns = products.filter(p => isUrnProduct(p));
 
     const newSlots: FloorSlot[] = [];
 
-    // Casket bays (supporting single racks and double racks)
     for (let i = 1; i <= casketCount; i++) {
       const prod = caskets[(i - 1) % Math.max(1, caskets.length)];
-      const isDouble = i === 2 || i === 3;
+      const isDouble = true;
       newSlots.push({
         id: `casket-bay-${i}`,
         slotNumber: i,
-        label: i === 1 ? 'Bay 1 (Entrance Feature)' : isDouble ? `Bay ${i} (Double Rack)` : `Bay ${i}`,
+        label: `Bay ${i} (Double Rack)`,
         type: 'casket',
         isDoubleRack: isDouble,
-        rackType: isDouble ? 'double' : 'single',
-        levelNumber: isDouble ? 2 : 1,
-        tierLevel: isDouble ? 'Double Rack - Top' : 'Floor',
+        rackType: 'double',
+        levelNumber: 2,
+        tierLevel: 'Double Rack - Top',
         productId: prod?.id,
         productCode: prod?.code,
         productName: prod?.name,
@@ -208,7 +207,6 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
       });
     }
 
-    // Urn pedestals / multi-level shelves
     for (let j = 1; j <= urnCount; j++) {
       const urn = urns[(j - 1) % Math.max(1, urns.length)];
       const shelfLvl = ((j - 1) % 3) + 1;
@@ -235,20 +233,7 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
     if (newSlots.length > 0) {
       setSelectedSlotId(newSlots[0].id);
     }
-
-    // Save to localStorage
-    if (activeCustomer) {
-      const plan: CustomerFloorPlan = {
-        customerId: activeCustomer.id,
-        customerName: activeCustomer.name,
-        roomShape: shape,
-        roomCapacity: capacity,
-        slots: newSlots,
-        updatedAt: new Date().toISOString(),
-      };
-      localStorage.setItem(`batesville_floorplan_${activeCustomer.id}`, JSON.stringify(plan));
-    }
-  }, [products, activeCustomer]);
+  }, [products]);
 
   // Load customer floor plan directly from Supabase, falling back to local cache or defaults
   const loadCustomerFloorPlan = useCallback(async (forceCloud = false) => {
@@ -258,14 +243,13 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
     const acct = String(activeCustomer.accountNumber || activeCustomer.code || '').trim();
 
     try {
-      // 1. Fetch from Supabase cloud database
       const cloudRes = await fetchCustomerShowroomFromSupabase(acct, activeCustomer.name);
 
       if (cloudRes.success && (cloudRes.locations.length > 0 || cloudRes.room)) {
         setCloudRoomMeta(cloudRes.room);
 
         // Room shape from database
-        let loadedShape: RoomShape = roomShape;
+        let loadedShape: RoomShape = 'l-shaped';
         if (cloudRes.room?.room_shape) {
           const s = cloudRes.room.room_shape.toLowerCase();
           if (s.includes('l-shaped') || s.includes('l shaped')) loadedShape = 'l-shaped';
@@ -276,13 +260,16 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
           onRoomShapeChange?.(loadedShape);
         }
 
-        const maxBays = Number(cloudRes.room?.max_casket_bays) || 10;
         const newSlots: FloorSlot[] = [];
 
         // Map Supabase customer_casket_locations rows
         const locSlots: FloorSlot[] = cloudRes.locations.map((loc: any, idx: number) => {
           const isUrn = String(loc.display_type || '').toLowerCase().includes('urn') || 
-                        String(loc.category || '').toLowerCase().includes('urn');
+                        String(loc.category || '').toLowerCase().includes('urn') ||
+                        String(loc.bay_label || '').toLowerCase().includes('urn') ||
+                        String(loc.product_name || '').toLowerCase().includes('urn') ||
+                        String(loc.wall_zone || '').toLowerCase().includes('urn');
+
           const bayNum = Number(loc.bay_number) || (idx + 1);
           const lvlNum = Number(loc.level_number) || (String(loc.tier_level || '').toLowerCase().includes('top') ? 2 : 1);
           const isDouble = Boolean(loc.is_double_rack || String(loc.rack_type || '').toLowerCase().includes('double') || lvlNum > 1);
@@ -291,81 +278,33 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
           const matchedProd = products.find(p => p.code === loc.product_code);
 
           const slotId = isUrn
-            ? `urn-shelf-${bayNum}-lvl-${lvlNum}-${loc.shelf_slot_position || 1}`
+            ? `urn-shelf-${bayNum}-lvl-${lvlNum}-${loc.shelf_slot_position || 1}-${loc.product_code || idx}`
             : `casket-bay-${bayNum}-lvl-${lvlNum}`;
 
           return {
             id: slotId,
             slotNumber: bayNum,
-            label: loc.bay_label || (isUrn ? `Urn Shelf #${bayNum}` : `Bay ${bayNum}${isDouble ? (lvlNum === 2 ? ' (Top)' : ' (Bottom)') : ''}`),
+            label: loc.bay_label || (isUrn ? `Urn Wall - Shelf ${lvlNum}` : `Bay ${bayNum}${isDouble ? (lvlNum === 2 ? ' (Top)' : ' (Bottom)') : ''}`),
             type: (isUrn ? 'urn' : 'casket') as 'casket' | 'urn',
             isDoubleRack: isDouble,
             rackType: loc.rack_type || (isDouble ? 'double' : (isUrn ? 'urn-shelf' : 'single')),
             levelNumber: lvlNum,
-            tierLevel: loc.tier_level || (isDouble ? (lvlNum === 2 ? 'Double Rack - Top' : 'Double Rack - Bottom') : 'Floor'),
+            tierLevel: loc.tier_level || (isDouble ? (lvlNum === 2 ? 'Double Rack - Top' : 'Double Rack - Bottom') : `Shelf ${lvlNum}`),
             shelfSlotPosition: Number(loc.shelf_slot_position) || 1,
-            wallZone: loc.wall_zone,
-            posX: Number(loc.pos_x_ft) || undefined,
-            posY: Number(loc.pos_y_ft) || undefined,
+            wallZone: loc.wall_zone || (bayNum <= 3 ? 'North Wall' : 'East Wall'),
+            posX: Number(loc.pos_x_ft) || (bayNum === 1 ? 5.5 : bayNum === 2 ? 14.5 : bayNum === 3 ? 23.5 : bayNum === 4 ? 26.5 : bayNum === 5 ? 26.5 : 14.5),
+            posY: Number(loc.pos_y_ft) || (bayNum <= 3 ? 18.0 : bayNum === 4 ? 6.0 : bayNum === 5 ? 15.5 : 2.0),
             notes: loc.notes,
             productId: matchedProd?.id,
             productCode: loc.product_code || matchedProd?.code,
             productName: loc.product_name || matchedProd?.name || 'Unassigned',
-            category: loc.category || matchedProd?.category || (isUrn ? 'Urn' : 'Burial'),
+            category: loc.category || matchedProd?.category || (isUrn ? 'Urns & Keepsakes' : 'Burial'),
             wholesalePrice: matchedProd?.wholesalePrice || (isUrn ? 250 : 1200),
             imageUrl: matchedProd?.imageUrl,
           };
         });
 
         newSlots.push(...locSlots);
-
-        // Fill remaining casket bays up to maxBays so the full room is visible
-        const populatedBays = new Set(locSlots.filter(s => s.type === 'casket').map(s => s.slotNumber));
-        for (let b = 1; b <= maxBays; b++) {
-          if (!populatedBays.has(b)) {
-            newSlots.push({
-              id: `casket-bay-${b}-lvl-1`,
-              slotNumber: b,
-              label: `Bay ${b}`,
-              type: 'casket',
-              isDoubleRack: false,
-              rackType: 'single',
-              levelNumber: 1,
-              tierLevel: 'Floor',
-              productName: 'Unassigned Bay',
-              productCode: '',
-              category: 'Burial',
-              wholesalePrice: 0,
-            });
-          }
-        }
-
-        // Fill urn shelves
-        const populatedUrns = new Set(locSlots.filter(s => s.type === 'urn').map(s => s.slotNumber));
-        const urnTargetCount = 6;
-        const urns = products.filter(p => isUrnProduct(p));
-        for (let u = 1; u <= urnTargetCount; u++) {
-          if (!populatedUrns.has(u)) {
-            const urn = urns[(u - 1) % Math.max(1, urns.length)];
-            newSlots.push({
-              id: `urn-shelf-${u}`,
-              slotNumber: u,
-              label: `Urn Shelf #${u}`,
-              type: 'urn',
-              isDoubleRack: false,
-              rackType: 'urn-shelf',
-              levelNumber: 1,
-              tierLevel: 'Shelf 1',
-              shelfSlotPosition: 1,
-              productId: urn?.id,
-              productCode: urn?.code,
-              productName: urn?.name || 'Urn Display',
-              category: urn?.category || 'Urn',
-              wholesalePrice: urn?.wholesalePrice || 250,
-              imageUrl: urn?.imageUrl,
-            });
-          }
-        }
 
         setSlots(newSlots);
         if (newSlots.length > 0) {
@@ -376,10 +315,9 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
 
         setCloudStatusMsg({
           type: 'success',
-          text: `Loaded from Supabase: ${cloudRes.locations.length} models for ${activeCustomer.name} (${cloudRes.room?.room_shape || 'L-Shaped'} Room, ${maxBays} Bays)`
+          text: `Loaded from Supabase: ${cloudRes.locations.length} models for ${activeCustomer.name} (${cloudRes.room?.room_shape || 'L-Shaped'} Room: 28ft × 19.5ft)`
         });
 
-        // Cache in localStorage
         const plan: CustomerFloorPlan = {
           customerId: activeCustomer.id,
           customerName: activeCustomer.name,
@@ -392,14 +330,14 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
         return;
       }
 
-      // 2. If not found in cloud and not forceCloud, check localStorage
+      // Fallback
       if (!forceCloud) {
         const storageKey = `batesville_floorplan_${activeCustomer.id}`;
         const saved = localStorage.getItem(storageKey);
         if (saved) {
           try {
             const parsed: CustomerFloorPlan = JSON.parse(saved);
-            setRoomShape(parsed.roomShape || 'rectangle');
+            setRoomShape(parsed.roomShape || 'l-shaped');
             setRoomCapacity(parsed.roomCapacity || 'medium');
             setSlots(parsed.slots || []);
             if (parsed.slots && parsed.slots.length > 0) {
@@ -412,7 +350,6 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
         }
       }
 
-      // 3. Fallback to default generated layout
       generateDefaultLayout(roomShape, roomCapacity);
     } catch (err: any) {
       console.error('Error loading cloud showroom:', err);
@@ -426,7 +363,6 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
     }
   }, [activeCustomer, products, roomShape, roomCapacity, generateDefaultLayout, onRoomShapeChange]);
 
-  // Load whenever activeCustomer changes
   useEffect(() => {
     if (activeCustomer) {
       loadCustomerFloorPlan();
@@ -441,7 +377,6 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
     onRoomShapeChange?.(newShape);
   };
 
-  // Save current slots to localStorage
   const savePlan = (updatedSlots: FloorSlot[]) => {
     if (!activeCustomer) return;
     const plan: CustomerFloorPlan = {
@@ -467,11 +402,11 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
         activeCustomer.name,
         {
           room_name: cloudRoomMeta?.room_name || 'Main Selection Room',
-          room_shape: roomShape === 'l-shaped' ? 'L-Shaped' : roomShape.charAt(0).toUpperCase() + roomShape.slice(1),
+          room_shape: 'L-Shaped',
           length_ft: cloudRoomMeta?.length_ft || 28,
           width_ft: cloudRoomMeta?.width_ft || 19.5,
-          max_casket_bays: cloudRoomMeta?.max_casket_bays || slots.filter(s => s.type === 'casket').length,
-          notes: cloudRoomMeta?.notes || 'Main Selection Room Floor Plan'
+          max_casket_bays: 10,
+          notes: cloudRoomMeta?.notes || 'Urn Wall on the left side of the upside down L-Shaped Room, All caskets are currently on DOUBLE RACKS.'
         },
         slots
       );
@@ -490,7 +425,6 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
     }
   };
 
-  // Update rack / level configuration for a slot
   const handleUpdateSlotRackConfig = (slotId: string, updates: Partial<FloorSlot>) => {
     setSlots(prev => {
       const updated = prev.map(s => {
@@ -504,7 +438,6 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
     });
   };
 
-  // Replace item in active slot
   const handleSwapSlotProduct = (newProduct: Product) => {
     if (!selectedSlotId) return;
 
@@ -562,13 +495,13 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
     ? products.find(p => p.id === activeSlot.productId || p.code === activeSlot.productCode) 
     : null;
 
-  // Find siblings in the same bay (for easy double rack level switching)
+  // Find siblings in the same bay
   const baySiblingSlots = useMemo(() => {
     if (!activeSlot) return [];
     return slots.filter(s => s.type === activeSlot.type && s.slotNumber === activeSlot.slotNumber);
   }, [activeSlot, slots]);
 
-  // Group casket slots by bay number for rendering real double rack cards
+  // Group casket slots by bay number
   const casketBays = useMemo(() => {
     const bayMap = new Map<number, FloorSlot[]>();
     slots.filter(s => s.type === 'casket').forEach(slot => {
@@ -578,6 +511,21 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
     });
 
     return Array.from(bayMap.entries()).sort((a, b) => a[0] - b[0]);
+  }, [slots]);
+
+  // Group urn slots by shelf tier (Levels 1, 2, 3)
+  const urnShelves = useMemo(() => {
+    const urnList = slots.filter(s => s.type === 'urn');
+    const lvl1 = urnList.filter(s => s.levelNumber === 1);
+    const lvl2 = urnList.filter(s => s.levelNumber === 2);
+    const lvl3 = urnList.filter(s => s.levelNumber === 3);
+    return {
+      all: urnList,
+      level1: lvl1,
+      level2: lvl2,
+      level3: lvl3,
+      totalCount: urnList.length
+    };
   }, [slots]);
 
   // Smart suggestion for currently inspected slot
@@ -654,6 +602,21 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
     window.print();
   };
 
+  // Helper to select a bay on the blueprint
+  const handleSelectBay = (bayNumber: number) => {
+    const baySlots = slots.filter(s => s.slotNumber === bayNumber);
+    if (baySlots.length > 0) {
+      // Pick top rack (level 2) or first
+      const top = baySlots.find(s => s.levelNumber === 2) || baySlots[0];
+      setSelectedSlotId(top.id);
+    }
+  };
+
+  // Helper to find slots for bay number
+  const getBaySlots = (bayNum: number) => {
+    return slots.filter(s => s.slotNumber === bayNum);
+  };
+
   return (
     <div className="space-y-6 animate-fadeIn pb-12">
       
@@ -667,11 +630,11 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
             <h1 className="text-2xl font-serif font-bold text-slate-900 tracking-wide flex items-center gap-2">
               Interactive Showroom Floor Plan
               <span className="text-xs font-mono font-normal px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
-                Live Cloud Engine
+                Architectural 2D Engine
               </span>
             </h1>
             <p className="text-xs sm:text-sm text-slate-500">
-              Visual selection room floor plan mapped to {activeCustomer?.name}'s actual Supabase placement & sales data.
+              True architectural blueprint mapped to {activeCustomer?.name}'s actual 28ft × 19.5ft L-Shaped showroom & Supabase placements.
             </p>
           </div>
         </div>
@@ -696,7 +659,6 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
             </select>
           </div>
 
-          {/* Sync from Supabase Button */}
           <button
             onClick={() => loadCustomerFloorPlan(true)}
             disabled={isCloudLoading}
@@ -707,7 +669,6 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
             <span>{isCloudLoading ? 'Syncing...' : 'Sync Cloud DB'}</span>
           </button>
 
-          {/* Save to Supabase Button */}
           <button
             onClick={handleSaveToCloud}
             disabled={isCloudSaving}
@@ -756,45 +717,51 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
         </div>
       )}
 
-      {/* Room Specification Details (from customer_rooms in Supabase) */}
-      {cloudRoomMeta && (
-        <div className="bg-gradient-to-r from-amber-50/60 to-slate-50 border border-amber-200/80 p-4 rounded-2xl flex flex-wrap items-center justify-between gap-4 text-xs">
-          <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 rounded-xl bg-amber-100 flex items-center justify-center text-amber-800 font-bold">
-              <Cloud className="w-4 h-4" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-bold text-slate-900">{cloudRoomMeta.room_name || 'Main Selection Room'}</span>
-                <span className="font-mono text-[10px] px-2 py-0.5 rounded-full bg-white border border-amber-300 text-amber-900 font-bold">
-                  {cloudRoomMeta.room_shape || 'L-Shaped'}
-                </span>
-                <span className="text-[11px] text-slate-500">
-                  {cloudRoomMeta.length_ft}ft × {cloudRoomMeta.width_ft}ft ({cloudRoomMeta.sq_footage || (cloudRoomMeta.length_ft * cloudRoomMeta.width_ft)} sq ft)
-                </span>
-              </div>
-              {cloudRoomMeta.notes && (
-                <p className="text-[11px] text-slate-600 italic mt-0.5">
-                  "{cloudRoomMeta.notes}"
-                </p>
-              )}
-            </div>
+      {/* Room Specification Bar with Real Dimensions */}
+      <div className="bg-gradient-to-r from-amber-50/80 via-white to-slate-50 border border-amber-200 p-4 rounded-2xl flex flex-wrap items-center justify-between gap-4 text-xs shadow-xs">
+        <div className="flex items-center space-x-3">
+          <div className="w-9 h-9 rounded-xl bg-amber-100 flex items-center justify-center text-amber-800 font-bold shadow-xs">
+            <Compass className="w-5 h-5" />
           </div>
-
-          <div className="flex items-center gap-3 text-[11px] font-mono">
-            <div className="px-3 py-1 bg-white rounded-lg border border-slate-200 text-slate-700">
-              <span className="text-slate-400">Max Casket Bays: </span>
-              <span className="font-bold text-slate-900">{cloudRoomMeta.max_casket_bays || 10}</span>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="font-bold text-slate-900 text-sm">Main Selection Room</span>
+              <span className="font-mono text-[10px] px-2.5 py-0.5 rounded-full bg-amber-500 text-slate-950 font-bold uppercase tracking-wider">
+                L-Shaped Blueprint
+              </span>
+              <span className="text-xs font-semibold text-slate-700">
+                28.0 ft (North) × 19.5 ft (East Wall - Longest)
+              </span>
             </div>
-            {cloudRoomMeta.ceiling_height_ft && (
-              <div className="px-3 py-1 bg-white rounded-lg border border-slate-200 text-slate-700">
-                <span className="text-slate-400">Ceiling: </span>
-                <span className="font-bold text-slate-900">{cloudRoomMeta.ceiling_height_ft}ft</span>
-              </div>
-            )}
+            <p className="text-[11px] text-slate-600 italic mt-0.5">
+              "Urn Wall on the left side of the upside down L-Shaped Room, All caskets are currently on DOUBLE RACKS."
+            </p>
           </div>
         </div>
-      )}
+
+        <div className="flex flex-wrap items-center gap-2 text-[11px] font-mono">
+          <div className="px-3 py-1 bg-white rounded-lg border border-slate-200 text-slate-700 shadow-2xs">
+            <span className="text-slate-400">North Wall: </span>
+            <span className="font-bold text-slate-900">28.0 ft</span>
+          </div>
+          <div className="px-3 py-1 bg-white rounded-lg border border-slate-200 text-slate-700 shadow-2xs">
+            <span className="text-slate-400">East Wall: </span>
+            <span className="font-bold text-slate-900">19.5 ft (Longest)</span>
+          </div>
+          <div className="px-3 py-1 bg-white rounded-lg border border-slate-200 text-slate-700 shadow-2xs">
+            <span className="text-slate-400">West Wall: </span>
+            <span className="font-bold text-slate-900">13.5 ft (Lower Area)</span>
+          </div>
+          <div className="px-3 py-1 bg-white rounded-lg border border-slate-200 text-slate-700 shadow-2xs">
+            <span className="text-slate-400">Higher Area: </span>
+            <span className="font-bold text-slate-900">6.0 ft</span>
+          </div>
+          <div className="px-3 py-1 bg-white rounded-lg border border-slate-200 text-slate-700 shadow-2xs">
+            <span className="text-slate-400">Area: </span>
+            <span className="font-bold text-slate-900">546 sq ft</span>
+          </div>
+        </div>
+      </div>
 
       {/* Showroom Summary Bar */}
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 text-xs">
@@ -853,19 +820,49 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
         {/* Left Column: Visual Room Layout Canvas */}
         <div className="lg:col-span-2 space-y-4">
           
-          {/* Layout Controls Toolbar */}
+          {/* Layout Controls & View Mode Toolbar */}
           <div className="bg-white border border-slate-200 p-4 rounded-2xl flex flex-wrap items-center justify-between gap-4 shadow-sm text-xs">
+            
+            {/* View Mode Toggle */}
+            <div className="flex items-center space-x-2">
+              <span className="text-slate-500 font-bold">Display Mode:</span>
+              <div className="flex bg-slate-100 p-1 rounded-xl">
+                <button
+                  onClick={() => setViewMode('blueprint')}
+                  className={`px-3 py-1.5 rounded-lg font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
+                    viewMode === 'blueprint'
+                      ? 'bg-amber-500 text-slate-950 shadow-sm font-bold'
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  <Compass className="w-3.5 h-3.5" />
+                  <span>📐 Architectural 2D Plan (28ft × 19.5ft)</span>
+                </button>
+                <button
+                  onClick={() => setViewMode('cards')}
+                  className={`px-3 py-1.5 rounded-lg font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
+                    viewMode === 'cards'
+                      ? 'bg-white text-slate-900 shadow-sm font-bold'
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  <LayoutGrid className="w-3.5 h-3.5" />
+                  <span>▦ Bay Cards Matrix</span>
+                </button>
+              </div>
+            </div>
+
             {/* Shape Selector */}
             <div className="flex items-center space-x-2">
-              <span className="text-slate-500 font-medium">Layout Shape:</span>
+              <span className="text-slate-500 font-medium">Shape:</span>
               <div className="flex bg-slate-100 p-1 rounded-xl">
-                {(['rectangle', 'oval', 'square', 'l-shaped'] as RoomShape[]).map((shape) => (
+                {(['l-shaped', 'rectangle'] as RoomShape[]).map((shape) => (
                   <button
                     key={shape}
                     onClick={() => handleConfigChange(shape, roomCapacity)}
-                    className={`px-3 py-1.5 rounded-lg font-semibold capitalize transition-all cursor-pointer ${
+                    className={`px-2.5 py-1 rounded-lg font-semibold capitalize transition-all cursor-pointer ${
                       roomShape === shape
-                        ? 'bg-white text-slate-900 shadow-sm'
+                        ? 'bg-white text-slate-900 shadow-xs'
                         : 'text-slate-600 hover:text-slate-900'
                     }`}
                   >
@@ -875,36 +872,17 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
               </div>
             </div>
 
-            {/* Capacity Selector */}
-            <div className="flex items-center space-x-2">
-              <span className="text-slate-500 font-medium">Room Size:</span>
-              <div className="flex bg-slate-100 p-1 rounded-xl">
-                {(['small', 'medium', 'large'] as RoomCapacity[]).map((cap) => (
-                  <button
-                    key={cap}
-                    onClick={() => handleConfigChange(roomShape, cap)}
-                    className={`px-3 py-1.5 rounded-lg font-semibold capitalize transition-all cursor-pointer ${
-                      roomCapacity === cap
-                        ? 'bg-white text-slate-900 shadow-sm'
-                        : 'text-slate-600 hover:text-slate-900'
-                    }`}
-                  >
-                    {cap}
-                  </button>
-                ))}
-              </div>
-            </div>
           </div>
 
           {/* Interactive Room Canvas */}
-          <div className="bg-white border-2 border-slate-300 rounded-3xl p-6 sm:p-8 shadow-md relative min-h-[560px] flex flex-col justify-between overflow-hidden">
+          <div className="bg-white border-2 border-slate-300 rounded-3xl p-4 sm:p-6 shadow-md relative min-h-[580px] flex flex-col justify-between overflow-hidden">
             
-            {/* Architectural Compass & North Indicator */}
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4 text-[11px] text-slate-400">
-              <div className="flex items-center space-x-1.5">
+            {/* Compass & North Indicator */}
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-2 text-[11px] text-slate-400">
+              <div className="flex items-center space-x-2">
                 <Compass className="w-4 h-4 text-amber-600" />
-                <span className="font-semibold text-slate-600 uppercase tracking-wider">
-                  {roomShape.toUpperCase()} SHOWROOM • {casketBays.length} CASKET BAYS • {slots.filter(s => s.type === 'urn').length} URN SHELVES
+                <span className="font-semibold text-slate-700 uppercase tracking-wider">
+                  28.0 FT NORTH × 19.5 FT EAST (546 SQ FT) • 5 DOUBLE RACK BAYS • 14 URNS (BAY 6)
                 </span>
               </div>
               <div className="flex items-center space-x-3">
@@ -914,40 +892,469 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
               </div>
             </div>
 
-            {/* Entrance Door Symbol */}
-            <div className="flex justify-center mb-4">
-              <div className="px-6 py-1 rounded-b-xl bg-slate-800 text-amber-300 text-[10px] font-mono tracking-widest uppercase font-bold shadow-sm">
-                ▼ MAIN CLIENT ENTRANCE ▼
-              </div>
-            </div>
+            {/* VIEW 1: ARCHITECTURAL 2D SCALED BLUEPRINT CANVAS */}
+            {viewMode === 'blueprint' && (
+              <div className="relative w-full flex-1 flex flex-col items-center justify-center p-2 overflow-auto">
+                <svg
+                  viewBox="0 0 940 680"
+                  className="w-full max-w-[880px] h-auto drop-shadow-sm select-none"
+                  style={{ fontFamily: 'system-ui, sans-serif' }}
+                >
+                  <defs>
+                    {/* Blueprint Grid Pattern */}
+                    <pattern id="cadGrid" width="28" height="28" patternUnits="userSpaceOnUse">
+                      <rect width="28" height="28" fill="#f8fafc" />
+                      <path d="M 28 0 L 0 0 0 28" fill="none" stroke="#e2e8f0" strokeWidth="0.8" />
+                    </pattern>
+                    
+                    {/* Dimension Arrows */}
+                    <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#475569" />
+                    </marker>
+                    
+                    {/* Selected Bay Glow Filter */}
+                    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                      <feDropShadow dx="0" dy="0" stdDeviation="4" floodColor="#f59e0b" floodOpacity="0.8" />
+                    </filter>
+                  </defs>
 
-            {/* Dynamic Room Slots Grid Based on Shape */}
-            <div className="flex-1 flex flex-col justify-center">
-              
-              {/* Casket Bays Section */}
-              <div className="mb-6">
-                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 flex items-center justify-between">
-                  <div className="flex items-center gap-1.5">
-                    <Box className="w-3.5 h-3.5 text-amber-600" />
-                    <span>Casket Floor Bays ({casketBays.length} Bays • {slots.filter(s => s.type === 'casket').length} Models)</span>
+                  {/* Room Floor Background */}
+                  <rect x="0" y="0" width="940" height="680" fill="#ffffff" />
+                  
+                  {/* Inside Room Floor with CAD Grid */}
+                  <path
+                    d={`
+                      M 80 60
+                      H 864
+                      V 606
+                      H 616
+                      M 504 606
+                      H 416
+                      V 228
+                      H 80
+                      Z
+                    `}
+                    fill="url(#cadGrid)"
+                    stroke="none"
+                  />
+
+                  {/* DIMENSION LINES & LABELS */}
+                  {/* 1. North Wall: 28.0 ft */}
+                  <g>
+                    <line x1="80" y1="30" x2="864" y2="30" stroke="#475569" strokeWidth="1.5" markerStart="url(#arrow)" markerEnd="url(#arrow)" />
+                    <rect x="400" y="18" width="144" height="22" rx="4" fill="#0f172a" />
+                    <text x="472" y="33" textAnchor="middle" fill="#f8fafc" fontSize="11" fontWeight="bold" letterSpacing="0.05em">
+                      ← 28.0 FT NORTH WALL →
+                    </text>
+                  </g>
+
+                  {/* 2. East Wall: 19.5 ft (Longest) */}
+                  <g>
+                    <line x1="895" y1="60" x2="895" y2="606" stroke="#475569" strokeWidth="1.5" markerStart="url(#arrow)" markerEnd="url(#arrow)" />
+                    <g transform="translate(900, 333) rotate(90)">
+                      <rect x="-105" y="-12" width="210" height="22" rx="4" fill="#0f172a" />
+                      <text x="0" y="3" textAnchor="middle" fill="#f8fafc" fontSize="11" fontWeight="bold">
+                        ← 19.5 FT EAST WALL (LONGEST) →
+                      </text>
+                    </g>
+                  </g>
+
+                  {/* 3. West Wall (Lower Area): 13.5 ft */}
+                  <g>
+                    <line x1="380" y1="228" x2="380" y2="606" stroke="#475569" strokeWidth="1.5" markerStart="url(#arrow)" markerEnd="url(#arrow)" />
+                    <g transform="translate(375, 417) rotate(-90)">
+                      <rect x="-85" y="-12" width="170" height="22" rx="4" fill="#0f172a" />
+                      <text x="0" y="3" textAnchor="middle" fill="#f8fafc" fontSize="10" fontWeight="bold">
+                        ← 13.5 FT WEST WALL →
+                      </text>
+                    </g>
+                  </g>
+
+                  {/* 4. Higher Area (Upper Wing): 6.0 ft */}
+                  <g>
+                    <line x1="45" y1="60" x2="45" y2="228" stroke="#475569" strokeWidth="1.5" markerStart="url(#arrow)" markerEnd="url(#arrow)" />
+                    <g transform="translate(40, 144) rotate(-90)">
+                      <rect x="-55" y="-12" width="110" height="22" rx="4" fill="#0f172a" />
+                      <text x="0" y="3" textAnchor="middle" fill="#f8fafc" fontSize="10" fontWeight="bold">
+                        ← 6.0 FT →
+                      </text>
+                    </g>
+                  </g>
+
+                  {/* ARCHITECTURAL WALLS (Deep Slate #1e293b, 8px width) */}
+                  {/* North Wall */}
+                  <line x1="80" y1="60" x2="864" y2="60" stroke="#1e293b" strokeWidth="8" strokeLinecap="round" />
+                  
+                  {/* East Wall (19.5 ft) */}
+                  <line x1="864" y1="60" x2="864" y2="606" stroke="#1e293b" strokeWidth="8" strokeLinecap="round" />
+                  
+                  {/* South Wall (East Segment) */}
+                  <line x1="864" y1="606" x2="616" y2="606" stroke="#1e293b" strokeWidth="8" strokeLinecap="round" />
+                  
+                  {/* Main Entrance Doorway Opening (4 ft gap) */}
+                  <path d="M 616 606 A 112 112 0 0 1 504 494" fill="none" stroke="#d97706" strokeWidth="1.5" strokeDasharray="4 3" />
+                  <line x1="616" y1="606" x2="504" y2="494" stroke="#d97706" strokeWidth="3" strokeLinecap="round" />
+                  <text x="560" y="630" textAnchor="middle" fill="#d97706" fontSize="10" fontWeight="bold" letterSpacing="0.05em">
+                    ▼ MAIN CLIENT ENTRANCE (4 FT) ▼
+                  </text>
+
+                  {/* South Wall (West Segment) */}
+                  <line x1="504" y1="606" x2="416" y2="606" stroke="#1e293b" strokeWidth="8" strokeLinecap="round" />
+                  
+                  {/* Center Divider / Peninsula Wall dropping down from Ceiling */}
+                  <line x1="416" y1="228" x2="416" y2="550" stroke="#1e293b" strokeWidth="8" strokeLinecap="round" />
+
+                  {/* West Wall of Lower Room (13.5 ft) */}
+                  <line x1="416" y1="606" x2="416" y2="228" stroke="#1e293b" strokeWidth="8" strokeLinecap="round" />
+                  
+                  {/* Horizontal Transition Wall at L-Corner */}
+                  <line x1="416" y1="228" x2="260" y2="228" stroke="#1e293b" strokeWidth="8" strokeLinecap="round" />
+                  
+                  {/* Upper Wing Door Opening */}
+                  <path d="M 260 228 A 70 70 0 0 1 190 158" fill="none" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="3 3" />
+                  <line x1="260" y1="228" x2="190" y2="158" stroke="#94a3b8" strokeWidth="2.5" strokeLinecap="round" />
+                  <line x1="190" y1="228" x2="80" y2="228" stroke="#1e293b" strokeWidth="8" strokeLinecap="round" />
+                  
+                  {/* Far Left Wall of Upper Wing */}
+                  <line x1="80" y1="228" x2="80" y2="60" stroke="#1e293b" strokeWidth="8" strokeLinecap="round" />
+
+                  {/* Center Room Feature: Family Arrangement Table */}
+                  <g transform="translate(640, 360)">
+                    <circle cx="0" cy="0" r="38" fill="#f1f5f9" stroke="#cbd5e1" strokeWidth="1.5" strokeDasharray="4 2" />
+                    <circle cx="0" cy="0" r="22" fill="#ffffff" stroke="#94a3b8" strokeWidth="1.5" />
+                    <text x="0" y="3" textAnchor="middle" fill="#64748b" fontSize="8" fontWeight="bold">CONSULTATION</text>
+                    <text x="0" y="12" textAnchor="middle" fill="#94a3b8" fontSize="7">KIOSK & TABLE</text>
+                  </g>
+
+                  {/* ============================================================== */}
+                  {/* CASKET DOUBLE RACKS POSITIONED ON WALLS                        */}
+                  {/* ============================================================== */}
+
+                  {/* BAY 1: NORTH WALL (Left) - X: 5.5 ft, Y: 18.0 ft */}
+                  {(() => {
+                    const baySlots = getBaySlots(1);
+                    const top = baySlots.find(s => s.levelNumber === 2);
+                    const btm = baySlots.find(s => s.levelNumber === 1);
+                    const isSelected = selectedSlotId === top?.id || selectedSlotId === btm?.id;
+
+                    return (
+                      <g 
+                        onClick={() => handleSelectBay(1)}
+                        className="cursor-pointer group"
+                        filter={isSelected ? "url(#glow)" : undefined}
+                      >
+                        {/* Rack Outline */}
+                        <rect 
+                          x="136" y="68" width="196" height="66" rx="8" 
+                          fill={isSelected ? "#fffbeb" : "#ffffff"} 
+                          stroke={isSelected ? "#f59e0b" : "#cbd5e1"} 
+                          strokeWidth={isSelected ? "3" : "1.5"} 
+                        />
+                        {/* Header Badge */}
+                        <rect x="144" y="74" width="180" height="15" rx="3" fill="#fef3c7" />
+                        <text x="148" y="85" fill="#92400e" fontSize="9" fontWeight="bold">
+                          BAY 1 • DOUBLE RACK (NORTH WALL)
+                        </text>
+                        {/* Top Tier (Level 2): FERGUS PC */}
+                        <rect x="144" y="93" width="180" height="17" rx="3" fill="#fafaf9" stroke="#e7e5e4" />
+                        <rect x="146" y="95" width="28" height="13" rx="2" fill="#d97706" />
+                        <text x="160" y="104" textAnchor="middle" fill="#ffffff" fontSize="8" fontWeight="bold">TOP</text>
+                        <text x="180" y="105" fill="#1c1917" fontSize="9" fontWeight="bold">
+                          {top?.productName || 'FERGUS PC'}
+                        </text>
+                        <text x="318" y="105" textAnchor="end" fill="#78716c" fontSize="8" fontFamily="monospace">
+                          {top?.productCode || '52-417-103'}
+                        </text>
+                        {/* Bottom Tier (Level 1): A21 879 DH Neopolitan Blue */}
+                        <rect x="144" y="113" width="180" height="17" rx="3" fill="#f8fafc" stroke="#e2e8f0" />
+                        <rect x="146" y="115" width="28" height="13" rx="2" fill="#334155" />
+                        <text x="160" y="124" textAnchor="middle" fill="#ffffff" fontSize="8" fontWeight="bold">BTM</text>
+                        <text x="180" y="125" fill="#1e293b" fontSize="8.5" fontWeight="bold">
+                          {btm?.productName || 'A21 879 DH Neopolitan'}
+                        </text>
+                        <text x="318" y="125" textAnchor="end" fill="#64748b" fontSize="8" fontFamily="monospace">
+                          {btm?.productCode || '147719'}
+                        </text>
+                      </g>
+                    );
+                  })()}
+
+                  {/* BAY 2: NORTH WALL (Center-Left) - X: 14.5 ft, Y: 18.0 ft */}
+                  {(() => {
+                    const baySlots = getBaySlots(2);
+                    const top = baySlots.find(s => s.levelNumber === 2);
+                    const btm = baySlots.find(s => s.levelNumber === 1);
+                    const isSelected = selectedSlotId === top?.id || selectedSlotId === btm?.id;
+
+                    return (
+                      <g 
+                        onClick={() => handleSelectBay(2)}
+                        className="cursor-pointer group"
+                        filter={isSelected ? "url(#glow)" : undefined}
+                      >
+                        <rect 
+                          x="388" y="68" width="196" height="66" rx="8" 
+                          fill={isSelected ? "#fffbeb" : "#ffffff"} 
+                          stroke={isSelected ? "#f59e0b" : "#cbd5e1"} 
+                          strokeWidth={isSelected ? "3" : "1.5"} 
+                        />
+                        <rect x="396" y="74" width="180" height="15" rx="3" fill="#fef3c7" />
+                        <text x="400" y="85" fill="#92400e" fontSize="9" fontWeight="bold">
+                          BAY 2 • DOUBLE RACK (NORTH WALL)
+                        </text>
+                        {/* Top Tier */}
+                        <rect x="396" y="93" width="180" height="17" rx="3" fill="#fafaf9" stroke="#e7e5e4" />
+                        <rect x="398" y="95" width="28" height="13" rx="2" fill="#d97706" />
+                        <text x="412" y="104" textAnchor="middle" fill="#ffffff" fontSize="8" fontWeight="bold">TOP</text>
+                        <text x="432" y="105" fill="#1c1917" fontSize="9" fontWeight="bold">
+                          {top?.productName || 'DIGBY PC'}
+                        </text>
+                        <text x="570" y="105" textAnchor="end" fill="#78716c" fontSize="8" fontFamily="monospace">
+                          {top?.productCode || '32-62-12'}
+                        </text>
+                        {/* Bottom Tier */}
+                        <rect x="396" y="113" width="180" height="17" rx="3" fill="#f8fafc" stroke="#e2e8f0" />
+                        <rect x="398" y="115" width="28" height="13" rx="2" fill="#334155" />
+                        <text x="412" y="124" textAnchor="middle" fill="#ffffff" fontSize="8" fontWeight="bold">BTM</text>
+                        <text x="432" y="125" fill="#1e293b" fontSize="8.5" fontWeight="bold">
+                          {btm?.productName || 'JF9 825 CDH Golden'}
+                        </text>
+                        <text x="570" y="125" textAnchor="end" fill="#64748b" fontSize="8" fontFamily="monospace">
+                          {btm?.productCode || '185487'}
+                        </text>
+                      </g>
+                    );
+                  })()}
+
+                  {/* BAY 3: NORTH WALL (Center-Right) - X: 23.5 ft, Y: 18.0 ft */}
+                  {(() => {
+                    const baySlots = getBaySlots(3);
+                    const top = baySlots.find(s => s.levelNumber === 2);
+                    const btm = baySlots.find(s => s.levelNumber === 1);
+                    const isSelected = selectedSlotId === top?.id || selectedSlotId === btm?.id;
+
+                    return (
+                      <g 
+                        onClick={() => handleSelectBay(3)}
+                        className="cursor-pointer group"
+                        filter={isSelected ? "url(#glow)" : undefined}
+                      >
+                        <rect 
+                          x="640" y="68" width="196" height="66" rx="8" 
+                          fill={isSelected ? "#fffbeb" : "#ffffff"} 
+                          stroke={isSelected ? "#f59e0b" : "#cbd5e1"} 
+                          strokeWidth={isSelected ? "3" : "1.5"} 
+                        />
+                        <rect x="648" y="74" width="180" height="15" rx="3" fill="#fef3c7" />
+                        <text x="652" y="85" fill="#92400e" fontSize="9" fontWeight="bold">
+                          BAY 3 • DOUBLE RACK (NORTH WALL)
+                        </text>
+                        {/* Top Tier */}
+                        <rect x="648" y="93" width="180" height="17" rx="3" fill="#fafaf9" stroke="#e7e5e4" />
+                        <rect x="650" y="95" width="28" height="13" rx="2" fill="#d97706" />
+                        <text x="664" y="104" textAnchor="middle" fill="#ffffff" fontSize="8" fontWeight="bold">TOP</text>
+                        <text x="684" y="105" fill="#1c1917" fontSize="9" fontWeight="bold">
+                          {top?.productName || 'ASHTON PC'}
+                        </text>
+                        <text x="822" y="105" textAnchor="end" fill="#78716c" fontSize="8" fontFamily="monospace">
+                          {top?.productCode || '32-1062-28'}
+                        </text>
+                        {/* Bottom Tier */}
+                        <rect x="648" y="113" width="180" height="17" rx="3" fill="#f8fafc" stroke="#e2e8f0" />
+                        <rect x="650" y="115" width="28" height="13" rx="2" fill="#334155" />
+                        <text x="664" y="124" textAnchor="middle" fill="#ffffff" fontSize="8" fontWeight="bold">BTM</text>
+                        <text x="684" y="125" fill="#1e293b" fontSize="8.5" fontWeight="bold">
+                          {btm?.productName || 'MONARCH SANDSTONE'}
+                        </text>
+                        <text x="822" y="125" textAnchor="end" fill="#64748b" fontSize="8" fontFamily="monospace">
+                          {btm?.productCode || '71007964'}
+                        </text>
+                      </g>
+                    );
+                  })()}
+
+                  {/* BAY 5: EAST WALL (Upper Section) - X: 26.5 ft, Y: 15.5 ft */}
+                  {(() => {
+                    const baySlots = getBaySlots(5);
+                    const top = baySlots.find(s => s.levelNumber === 2);
+                    const btm = baySlots.find(s => s.levelNumber === 1);
+                    const isSelected = selectedSlotId === top?.id || selectedSlotId === btm?.id;
+
+                    return (
+                      <g 
+                        onClick={() => handleSelectBay(5)}
+                        className="cursor-pointer group"
+                        filter={isSelected ? "url(#glow)" : undefined}
+                      >
+                        <rect 
+                          x="770" y="152" width="88" height="200" rx="8" 
+                          fill={isSelected ? "#fffbeb" : "#ffffff"} 
+                          stroke={isSelected ? "#f59e0b" : "#cbd5e1"} 
+                          strokeWidth={isSelected ? "3" : "1.5"} 
+                        />
+                        <rect x="775" y="158" width="78" height="16" rx="3" fill="#fef3c7" />
+                        <text x="814" y="169" textAnchor="middle" fill="#92400e" fontSize="8.5" fontWeight="bold">
+                          BAY 5 (EAST)
+                        </text>
+                        {/* Top Tier */}
+                        <g transform="translate(775, 180)">
+                          <rect width="78" height="80" rx="4" fill="#fafaf9" stroke="#e7e5e4" />
+                          <rect x="4" y="4" width="26" height="12" rx="2" fill="#d97706" />
+                          <text x="17" y="13" textAnchor="middle" fill="#ffffff" fontSize="7.5" fontWeight="bold">TOP</text>
+                          <text x="4" y="30" fill="#1c1917" fontSize="8" fontWeight="bold">
+                            {top?.productName?.slice(0, 14) || 'BASIC SHELL'}
+                          </text>
+                          <text x="4" y="42" fill="#78716c" fontSize="7.5" fontFamily="monospace">
+                            {top?.productCode || '79-5055-01'}
+                          </text>
+                        </g>
+                        {/* Bottom Tier */}
+                        <g transform="translate(775, 266)">
+                          <rect width="78" height="80" rx="4" fill="#f8fafc" stroke="#e2e8f0" />
+                          <rect x="4" y="4" width="26" height="12" rx="2" fill="#334155" />
+                          <text x="17" y="13" textAnchor="middle" fill="#ffffff" fontSize="7.5" fontWeight="bold">BTM</text>
+                          <text x="4" y="30" fill="#1e293b" fontSize="8" fontWeight="bold">
+                            {btm?.productName?.slice(0, 14) || 'MDF Box'}
+                          </text>
+                          <text x="4" y="42" fill="#64748b" fontSize="7.5" fontFamily="monospace">
+                            {btm?.productCode || '245435'}
+                          </text>
+                        </g>
+                      </g>
+                    );
+                  })()}
+
+                  {/* BAY 4: EAST WALL (Lower Section) - X: 26.5 ft, Y: 6.0 ft */}
+                  {(() => {
+                    const baySlots = getBaySlots(4);
+                    const top = baySlots.find(s => s.levelNumber === 2);
+                    const btm = baySlots.find(s => s.levelNumber === 1);
+                    const isSelected = selectedSlotId === top?.id || selectedSlotId === btm?.id;
+
+                    return (
+                      <g 
+                        onClick={() => handleSelectBay(4)}
+                        className="cursor-pointer group"
+                        filter={isSelected ? "url(#glow)" : undefined}
+                      >
+                        <rect 
+                          x="770" y="366" width="88" height="200" rx="8" 
+                          fill={isSelected ? "#fffbeb" : "#ffffff"} 
+                          stroke={isSelected ? "#f59e0b" : "#cbd5e1"} 
+                          strokeWidth={isSelected ? "3" : "1.5"} 
+                        />
+                        <rect x="775" y="372" width="78" height="16" rx="3" fill="#fef3c7" />
+                        <text x="814" y="383" textAnchor="middle" fill="#92400e" fontSize="8.5" fontWeight="bold">
+                          BAY 4 (EAST)
+                        </text>
+                        {/* Top Tier */}
+                        <g transform="translate(775, 394)">
+                          <rect width="78" height="80" rx="4" fill="#fafaf9" stroke="#e7e5e4" />
+                          <rect x="4" y="4" width="26" height="12" rx="2" fill="#d97706" />
+                          <text x="17" y="13" textAnchor="middle" fill="#ffffff" fontSize="7.5" fontWeight="bold">TOP</text>
+                          <text x="4" y="30" fill="#1c1917" fontSize="8" fontWeight="bold">
+                            {top?.productName?.slice(0, 14) || 'HOMEWARD PC'}
+                          </text>
+                          <text x="4" y="42" fill="#78716c" fontSize="7.5" fontFamily="monospace">
+                            {top?.productCode || '52-5410-00'}
+                          </text>
+                        </g>
+                        {/* Bottom Tier */}
+                        <g transform="translate(775, 480)">
+                          <rect width="78" height="80" rx="4" fill="#f8fafc" stroke="#e2e8f0" />
+                          <rect x="4" y="4" width="26" height="12" rx="2" fill="#334155" />
+                          <text x="17" y="13" textAnchor="middle" fill="#ffffff" fontSize="7.5" fontWeight="bold">BTM</text>
+                          <text x="4" y="30" fill="#1e293b" fontSize="8" fontWeight="bold">
+                            {btm?.productName?.slice(0, 14) || 'WINSTON-100'}
+                          </text>
+                          <text x="4" y="42" fill="#64748b" fontSize="7.5" fontFamily="monospace">
+                            {btm?.productCode || '110951'}
+                          </text>
+                        </g>
+                      </g>
+                    );
+                  })()}
+
+                  {/* ============================================================== */}
+                  {/* BAY 6: URN WALL AT CENTER PENINSULA (3 TIERS • 14 URNS)       */}
+                  {/* ============================================================== */}
+                  {(() => {
+                    const isSelected = slots.some(s => s.type === 'urn' && s.id === selectedSlotId);
+
+                    return (
+                      <g 
+                        onClick={() => {
+                          const urn = urnShelves.all[0];
+                          if (urn) setSelectedSlotId(urn.id);
+                        }}
+                        className="cursor-pointer group"
+                        filter={isSelected ? "url(#glow)" : undefined}
+                      >
+                        {/* Peninsula Base Anchor */}
+                        <rect x="360" y="525" width="112" height="76" rx="8" fill="#faf5ff" stroke="#c084fc" strokeWidth={isSelected ? "3" : "1.5"} />
+                        
+                        {/* Header Banner */}
+                        <rect x="365" y="530" width="102" height="16" rx="3" fill="#7e22ce" />
+                        <text x="416" y="541" textAnchor="middle" fill="#ffffff" fontSize="8.5" fontWeight="bold">
+                          ✨ URN WALL (BAY 6)
+                        </text>
+
+                        {/* Shelf 3 (Top) */}
+                        <rect x="365" y="550" width="102" height="13" rx="2" fill="#f3e8ff" />
+                        <text x="370" y="560" fill="#6b21a8" fontSize="7.5" fontWeight="bold">TIER 3 (TOP):</text>
+                        <text x="462" y="560" textAnchor="end" fill="#7e22ce" fontSize="7.5" fontWeight="bold">
+                          {urnShelves.level3.length || 4} Urns
+                        </text>
+
+                        {/* Shelf 2 (Middle) */}
+                        <rect x="365" y="566" width="102" height="13" rx="2" fill="#ede9fe" />
+                        <text x="370" y="576" fill="#5b21b6" fontSize="7.5" fontWeight="bold">TIER 2 (MID):</text>
+                        <text x="462" y="576" textAnchor="end" fill="#6d28d9" fontSize="7.5" fontWeight="bold">
+                          {urnShelves.level2.length || 5} Urns
+                        </text>
+
+                        {/* Shelf 1 (Bottom) */}
+                        <rect x="365" y="582" width="102" height="13" rx="2" fill="#ddd6fe" />
+                        <text x="370" y="592" fill="#4c1d95" fontSize="7.5" fontWeight="bold">TIER 1 (BTM):</text>
+                        <text x="462" y="592" textAnchor="end" fill="#5b21b6" fontSize="7.5" fontWeight="bold">
+                          {urnShelves.level1.length || 5} Urns
+                        </text>
+                      </g>
+                    );
+                  })()}
+
+                </svg>
+
+                {/* Blueprint Instructions Helper */}
+                <div className="mt-3 flex items-center justify-between w-full max-w-[880px] px-2 text-[11px] text-slate-500">
+                  <div className="flex items-center space-x-2">
+                    <span className="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
+                    <span>Click any Double Rack or Urn Wall on the blueprint to inspect model details & sales.</span>
                   </div>
-                  <span className="text-[10px] font-normal text-slate-400">
-                    Click any bay or tier to inspect
-                  </span>
+                  <span className="font-mono text-slate-400">Scale: 1 ft = 28 px • Exact Wall Proportions</span>
                 </div>
+              </div>
+            )}
 
-                <div className={`grid gap-3 ${
-                  roomShape === 'oval' 
-                    ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 rounded-3xl p-4 bg-slate-50 border border-dashed border-amber-300'
-                    : roomShape === 'l-shaped'
-                    ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 p-4 bg-slate-50 rounded-2xl border border-slate-200'
-                    : 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3'
-                }`}>
-                  {casketBays.map(([bayNumber, baySlots]) => {
-                    const isDouble = baySlots.length > 1 || baySlots.some(s => s.isDoubleRack);
+            {/* VIEW 2: DETAILED BAY CARDS MATRIX GRID */}
+            {viewMode === 'cards' && (
+              <div className="flex-1 flex flex-col justify-center">
+                
+                {/* Casket Bays Section */}
+                <div className="mb-6">
+                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 flex items-center justify-between">
+                    <div className="flex items-center gap-1.5">
+                      <Box className="w-3.5 h-3.5 text-amber-600" />
+                      <span>Casket Floor Bays ({casketBays.length} Bays • {slots.filter(s => s.type === 'casket').length} Models)</span>
+                    </div>
+                    <span className="text-[10px] font-normal text-slate-400">
+                      Click any bay or tier to inspect
+                    </span>
+                  </div>
 
-                    if (isDouble) {
-                      // Double Rack Bay (renders both Top and Bottom models)
+                  <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 p-4 bg-slate-50 rounded-2xl border border-slate-200">
+                    {casketBays.map(([bayNumber, baySlots]) => {
+                      const isDouble = baySlots.length > 1 || baySlots.some(s => s.isDoubleRack);
                       const sorted = [...baySlots].sort((a, b) => (Number(b.levelNumber) || 1) - (Number(a.levelNumber) || 1));
                       const topSlot = sorted.find(s => s.levelNumber === 2) || sorted[0];
                       const btmSlot = sorted.find(s => s.levelNumber === 1 && s.id !== topSlot.id) || (sorted.length > 1 ? sorted[1] : null);
@@ -964,19 +1371,18 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
                               : 'border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50'
                           }`}
                         >
-                          {/* Bay Header */}
                           <div className="flex items-center justify-between mb-2">
                             <div className="flex items-center gap-1.5 overflow-hidden pr-1">
                               <span className="text-[11px] font-mono font-bold text-slate-800 truncate">
                                 {bayLabel}
                               </span>
-                              <span className="shrink-0 flex items-center gap-1 px-1.5 py-0.5 rounded bg-amber-100 text-amber-900 text-[9px] font-bold border border-amber-300" title="2-Tier Double Rack Display">
+                              <span className="shrink-0 flex items-center gap-1 px-1.5 py-0.5 rounded bg-amber-100 text-amber-900 text-[9px] font-bold border border-amber-300">
                                 <Layers className="w-2.5 h-2.5 text-amber-700" />
                                 <span>Double Rack</span>
                               </span>
                             </div>
                             <span className="text-[9px] font-mono text-slate-400">
-                              2 Models
+                              {topSlot.wallZone || (bayNumber <= 3 ? 'North wall' : 'East wall')}
                             </span>
                           </div>
 
@@ -1064,163 +1470,72 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
                             </div>
                           )}
 
-                          {/* Footer info */}
                           <div className="mt-2 pt-2 border-t border-slate-100 flex items-center justify-between text-[10px]">
-                            <span className="text-slate-400">Placement:</span>
-                            <span className="font-mono text-slate-600">
+                            <span className="text-slate-400">Position:</span>
+                            <span className="font-mono text-slate-600 font-bold">
                               {topSlot.wallZone || 'North Wall'}
                             </span>
                           </div>
                         </div>
                       );
-                    }
+                    })}
+                  </div>
+                </div>
 
-                    // Single Rack Bay
-                    const slot = baySlots[0];
-                    const stats = getSlotSalesStats(slot);
-                    const isSelected = selectedSlotId === slot.id;
-                    const isUnassigned = !slot.productCode || slot.productName === 'Unassigned Bay';
+                {/* Urn Wall Section */}
+                <div className="pt-4 border-t border-slate-200">
+                  <div className="text-[10px] font-bold text-purple-900 uppercase tracking-widest mb-2 flex items-center justify-between">
+                    <div className="flex items-center gap-1.5">
+                      <Sparkles className="w-3.5 h-3.5 text-purple-600" />
+                      <span>Bay 6 - Urn Wall Feature (3 Tiers • {urnShelves.totalCount} Urns)</span>
+                    </div>
+                    <span className="text-[10px] text-slate-400">
+                      Center Peninsula Divider
+                    </span>
+                  </div>
 
-                    return (
-                      <div
-                        key={slot.id}
-                        onClick={() => setSelectedSlotId(slot.id)}
-                        className={`p-3 rounded-2xl border-2 transition-all cursor-pointer relative flex flex-col justify-between ${
-                          isSelected
-                            ? 'border-amber-500 bg-amber-50/50 shadow-md ring-2 ring-amber-400/20'
-                            : isUnassigned
-                            ? 'border-dashed border-slate-300 bg-slate-50/50 hover:border-slate-400'
-                            : 'border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50'
-                        }`}
-                      >
-                        {/* Status Ribbon Badge */}
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="text-[10px] font-mono font-bold text-slate-700 truncate">
-                            {slot.label}
-                          </span>
-                          {isUnassigned ? (
-                            <span className="text-[9px] font-bold text-slate-400 bg-slate-200/60 px-1.5 py-0.5 rounded">
-                              Empty Bay
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
+                    {urnShelves.all.map(slot => {
+                      const isSelected = selectedSlotId === slot.id;
+
+                      return (
+                        <div
+                          key={slot.id}
+                          onClick={() => setSelectedSlotId(slot.id)}
+                          className={`p-2 rounded-xl border transition-all cursor-pointer flex flex-col justify-between ${
+                            isSelected
+                              ? 'border-purple-600 bg-purple-50 shadow-sm ring-2 ring-purple-400/30'
+                              : 'border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between mb-1 text-[9px]">
+                            <span className="font-mono text-[8px] px-1 py-0.2 rounded bg-purple-100 text-purple-800 font-bold border border-purple-200">
+                              Lvl {slot.levelNumber || 1}
                             </span>
-                          ) : (
-                            stats.status === 'top' ? (
-                              <span className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-bold shrink-0">
-                                <Flame className="w-3 h-3 text-emerald-600" />
-                                <span>{stats.units}</span>
-                              </span>
-                            ) : stats.status === 'steady' ? (
-                              <span className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-blue-100 text-blue-800 text-[10px] font-bold shrink-0">
-                                <Zap className="w-3 h-3 text-blue-600" />
-                                <span>{stats.units}</span>
-                              </span>
-                            ) : (
-                              <span className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-rose-100 text-rose-800 text-[10px] font-bold shrink-0">
-                                <Snowflake className="w-3 h-3 text-rose-600" />
-                                <span>0</span>
-                              </span>
-                            )
-                          )}
-                        </div>
+                            <span className="font-mono text-slate-400 text-[8px]">
+                              {slot.productCode}
+                            </span>
+                          </div>
 
-                        {/* Product Photo & Name */}
-                        <div className="flex items-center space-x-2 my-1">
-                          <div className="w-12 h-12 rounded-lg bg-slate-100 overflow-hidden shrink-0 border border-slate-200 flex items-center justify-center">
+                          <div className="w-full h-10 rounded bg-slate-100 overflow-hidden mb-1 flex items-center justify-center">
                             {slot.imageUrl ? (
-                              <img src={slot.imageUrl} alt={slot.productName} className="w-full h-full object-cover" />
-                            ) : isUnassigned ? (
-                              <Plus className="w-5 h-5 text-slate-400" />
+                              <img src={slot.imageUrl} alt={slot.productName} className="w-full h-full object-contain p-0.5" />
                             ) : (
-                              <Box className="w-5 h-5 text-slate-400" />
+                              <Sparkles className="w-4 h-4 text-purple-400" />
                             )}
                           </div>
-                          <div className="min-w-0 flex-1">
-                            <span className="font-serif font-bold text-xs text-slate-900 block truncate" title={slot.productName}>
-                              {slot.productName || 'Unassigned Bay'}
-                            </span>
-                            <span className="font-mono text-[10px] text-amber-700 block truncate">
-                              {slot.productCode || (isUnassigned ? 'Click to assign' : '')}
-                            </span>
-                          </div>
-                        </div>
 
-                        {/* Footer Price */}
-                        <div className="mt-2 pt-2 border-t border-slate-100 flex items-center justify-between text-[10px]">
-                          <span className="text-slate-400">Cost:</span>
-                          <span className="font-mono font-bold text-slate-700">
-                            {isUnassigned ? '$0' : `$${slot.wholesalePrice?.toLocaleString() || '1,200'}`}
+                          <span className="text-[10px] font-serif font-bold text-slate-900 truncate block" title={slot.productName}>
+                            {slot.productName}
                           </span>
                         </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Urn Wall & Pedestals Section */}
-              <div className="pt-4 border-t border-slate-200">
-                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 flex items-center justify-between">
-                  <div className="flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-                    <span>Urn & Keepsake Wall Shelves / Pedestals ({slots.filter(s => s.type === 'urn').length})</span>
+                      );
+                    })}
                   </div>
-                  <span className="text-[10px] text-slate-400">
-                    Supports 1 to 5 Shelf Tiers
-                  </span>
                 </div>
 
-                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
-                  {slots.filter(s => s.type === 'urn').map(slot => {
-                    const stats = getSlotSalesStats(slot);
-                    const isSelected = selectedSlotId === slot.id;
-
-                    return (
-                      <div
-                        key={slot.id}
-                        onClick={() => setSelectedSlotId(slot.id)}
-                        className={`p-2 rounded-xl border transition-all cursor-pointer flex flex-col justify-between ${
-                          isSelected
-                            ? 'border-amber-500 bg-amber-50/60 shadow-sm ring-2 ring-amber-400/20'
-                            : 'border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50'
-                        }`}
-                      >
-                        <div className="flex items-center justify-between mb-1 text-[9px]">
-                          <span className="font-mono font-bold text-slate-500">#{slot.slotNumber}</span>
-                          <span className="font-mono text-[8px] px-1 py-0.2 rounded bg-purple-100 text-purple-800 font-bold border border-purple-200">
-                            Lvl {slot.levelNumber || 1}
-                          </span>
-                          {stats.status === 'top' && <Flame className="w-2.5 h-2.5 text-emerald-600" />}
-                          {stats.status === 'steady' && <Zap className="w-2.5 h-2.5 text-blue-600" />}
-                          {stats.status === 'stagnant' && <Snowflake className="w-2.5 h-2.5 text-rose-500" />}
-                        </div>
-
-                        <div className="w-full h-10 rounded bg-slate-100 overflow-hidden mb-1 flex items-center justify-center">
-                          {slot.imageUrl ? (
-                            <img src={slot.imageUrl} alt={slot.productName} className="w-full h-full object-contain p-0.5" />
-                          ) : (
-                            <Sparkles className="w-4 h-4 text-slate-400" />
-                          )}
-                        </div>
-
-                        <span className="text-[10px] font-serif font-bold text-slate-900 truncate block">
-                          {slot.productName}
-                        </span>
-                        <span className="text-[9px] font-mono text-amber-800 block truncate">
-                          {stats.units} sold
-                        </span>
-                      </div>
-                    );
-                  })}
-                </div>
               </div>
-
-            </div>
-
-            {/* Showroom Consultation Island */}
-            <div className="mt-6 pt-3 border-t border-slate-100 flex items-center justify-center">
-              <div className="px-5 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-slate-500 text-[10px] font-medium flex items-center gap-2">
-                <span>Family Arrangement Table & Touchscreen Presentation Kiosk</span>
-              </div>
-            </div>
+            )}
 
           </div>
         </div>
@@ -1241,7 +1556,7 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
                     {activeSlot.label}
                   </h3>
                   <span className="text-xs text-slate-500 capitalize">
-                    {activeSlot.type} Display Position
+                    {activeSlot.wallZone || 'Floor Plan'} • {activeSlot.type} Display Position
                   </span>
                 </div>
 
@@ -1363,7 +1678,7 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
                 )}
               </div>
 
-              {/* Display & Rack Configuration (Double Rack & Urn Multi-Level Controls) */}
+              {/* Display & Rack Configuration */}
               <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-1.5 text-slate-800">
@@ -1379,7 +1694,6 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
 
                 {activeSlot.type === 'casket' ? (
                   <div className="space-y-2.5">
-                    {/* Rack Option Buttons */}
                     <div className="grid grid-cols-2 gap-2">
                       <button
                         onClick={() => handleUpdateSlotRackConfig(activeSlot.id, {
@@ -1413,7 +1727,6 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
                       </button>
                     </div>
 
-                    {/* Double Rack Level Selector */}
                     {activeSlot.isDoubleRack && (
                       <div className="p-2.5 bg-amber-50/70 border border-amber-200 rounded-xl space-y-1.5">
                         <span className="text-[10px] font-bold text-amber-900 uppercase tracking-wider block">
@@ -1451,19 +1764,18 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
                     )}
                   </div>
                 ) : (
-                  /* Urn Multi-Level Controls */
                   <div className="space-y-2.5">
                     <div>
                       <span className="text-[10px] text-slate-500 font-semibold block mb-1">
-                        Urn Shelf Tier (Level 1 to 5):
+                        Urn Shelf Tier (Level 1 to 3):
                       </span>
-                      <div className="grid grid-cols-5 gap-1.5">
-                        {[1, 2, 3, 4, 5].map(lvl => (
+                      <div className="grid grid-cols-3 gap-1.5">
+                        {[1, 2, 3].map(lvl => (
                           <button
                             key={lvl}
                             onClick={() => handleUpdateSlotRackConfig(activeSlot.id, {
                               levelNumber: lvl,
-                              tierLevel: lvl === 1 ? 'Shelf 1 (Bottom)' : lvl === 5 ? 'Shelf 5 (Top)' : `Shelf ${lvl}`,
+                              tierLevel: lvl === 1 ? 'Shelf 1 (Bottom)' : lvl === 3 ? 'Shelf 3 (Top)' : `Shelf ${lvl}`,
                             })}
                             className={`py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                               (activeSlot.levelNumber || 1) === lvl
@@ -1472,27 +1784,6 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
                             }`}
                           >
                             Lvl {lvl}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="pt-2 border-t border-slate-200 flex items-center justify-between text-xs">
-                      <span className="text-slate-500 text-[11px]">Shelf Position:</span>
-                      <div className="flex gap-1.5">
-                        {[1, 2, 3].map(pos => (
-                          <button
-                            key={pos}
-                            onClick={() => handleUpdateSlotRackConfig(activeSlot.id, {
-                              shelfSlotPosition: pos
-                            })}
-                            className={`px-2.5 py-0.5 rounded text-[11px] font-mono transition-all cursor-pointer ${
-                              (activeSlot.shelfSlotPosition || 1) === pos
-                                ? 'bg-purple-100 text-purple-900 font-bold border border-purple-300'
-                                : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
-                            }`}
-                          >
-                            Slot {pos}
                           </button>
                         ))}
                       </div>
