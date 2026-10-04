@@ -776,3 +776,69 @@ export async function saveSupabaseQuotas(quotas: any[]): Promise<{
   }
 }
 
+/**
+ * Fetch showroom room definitions and casket/urn locations for an account from Supabase
+ */
+export async function fetchCustomerShowroomFromSupabase(accountNumber: string | number): Promise<{
+  success: boolean;
+  room: any | null;
+  locations: any[];
+  message?: string;
+}> {
+  try {
+    const client = getSupabaseClient();
+    const acctStr = String(accountNumber || '').trim();
+
+    // 1. Fetch Room definition
+    const { data: allRooms, error: roomError } = await client.from('customer_rooms').select('*');
+    if (roomError) {
+      console.warn('customer_rooms fetch warning:', roomError.message);
+    }
+    const matchedRoom = allRooms ? allRooms.find((r: any) => String(r['account_#'] || r.account_number || '').trim() === acctStr) : null;
+
+    // 2. Fetch Casket/Urn Locations
+    const { data: allLocs, error: locError } = await client.from('customer_casket_locations').select('*');
+    if (locError) {
+      console.warn('customer_casket_locations fetch warning:', locError.message);
+      return { success: false, room: matchedRoom, locations: [], message: locError.message };
+    }
+    const matchedLocs = (allLocs || []).filter((l: any) => String(l['account_#'] || l.account_number || '').trim() === acctStr);
+
+    // Sort by bay_number asc, level_number asc, shelf_slot_position asc
+    matchedLocs.sort((a: any, b: any) => {
+      const bayDiff = (Number(a.bay_number) || 0) - (Number(b.bay_number) || 0);
+      if (bayDiff !== 0) return bayDiff;
+      const lvlDiff = (Number(a.level_number) || 1) - (Number(b.level_number) || 1);
+      if (lvlDiff !== 0) return lvlDiff;
+      return (Number(a.shelf_slot_position) || 1) - (Number(b.shelf_slot_position) || 1);
+    });
+
+    return {
+      success: true,
+      room: matchedRoom || null,
+      locations: matchedLocs
+    };
+  } catch (err: any) {
+    return { success: false, room: null, locations: [], message: err.message };
+  }
+}
+
+/**
+ * Fetch list of account numbers that have active showroom locations in Supabase
+ */
+export async function fetchAccountsWithShowroomLocations(): Promise<string[]> {
+  try {
+    const client = getSupabaseClient();
+    const { data, error } = await client
+      .from('customer_casket_locations')
+      .select('*');
+    
+    if (error || !data) return [];
+    const accounts = Array.from(new Set(data.map((r: any) => String(r['account_#'] || r.account_number || '').trim()).filter(Boolean)));
+    return accounts;
+  } catch {
+    return [];
+  }
+}
+
+

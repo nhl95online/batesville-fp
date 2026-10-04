@@ -130,10 +130,17 @@ export const AnnualQuotaTracker: React.FC<AnnualQuotaTrackerProps> = ({
     }));
   }, [metrics]);
 
+  // Real-time sum of all 12 monthly quotas inside the edit modal
+  const tempQuotasAnnualSum = useMemo(() => {
+    return tempQuotas.reduce((sum, q) => sum + (Number(q.quota_amount) || 0), 0);
+  }, [tempQuotas]);
+
   // Open quota edit modal
   const handleOpenEditModal = () => {
-    setTempQuotas(JSON.parse(JSON.stringify(quotas)));
-    setEditYearTarget(metrics.annualQuota || 5920915);
+    const cloned = JSON.parse(JSON.stringify(quotas));
+    setTempQuotas(cloned);
+    const sum = cloned.reduce((acc: number, q: any) => acc + (Number(q.quota_amount) || 0), 0);
+    setEditYearTarget(sum || metrics.annualQuota || 5920915);
     setIsEditingQuotas(true);
   };
 
@@ -440,7 +447,7 @@ ORDER BY fiscal_year, fiscal_month;`;
               {formatCurrency(metrics.annualQuota)}
             </div>
             <div className="text-xs text-slate-500 mt-1">
-              Full-Year Target ({selectedYear})
+              Sum of All 12 Quota Months ({selectedYear})
             </div>
           </div>
         </div>
@@ -570,8 +577,9 @@ ORDER BY fiscal_year, fiscal_month;`;
                     {m.monthName}
                   </th>
                 ))}
-                <th className="py-3 px-4 text-amber-400 bg-slate-950/80 font-bold min-w-[110px]">
-                  FY Total
+                <th className="py-3 px-4 text-amber-400 bg-slate-950/80 font-bold min-w-[125px]">
+                  <div>FY Total</div>
+                  <div className="text-[10px] text-slate-400 font-normal font-sans tracking-normal">Sum of 12 Months</div>
                 </th>
               </tr>
             </thead>
@@ -905,15 +913,47 @@ ORDER BY fiscal_year, fiscal_month;`;
             {/* Modal Body */}
             <div className="p-6 overflow-y-auto space-y-6">
               
-              {/* Quick Annual Distribution Tool */}
-              <div className="bg-amber-50/60 border border-amber-200 p-4 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <div>
-                  <div className="text-xs font-bold text-amber-900 flex items-center space-x-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-                    <span>Quick Auto-Distribute Annual Quota Target</span>
+              {/* Prominent Live Annual Quota Summary Banner */}
+              <div className="bg-gradient-to-r from-amber-500/10 via-amber-50 to-amber-50/20 border-2 border-amber-300 p-4 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
+                <div className="flex items-center space-x-3">
+                  <div className="p-2.5 bg-amber-600 text-white rounded-xl shadow-sm">
+                    <Target className="w-5 h-5" />
                   </div>
-                  <p className="text-[11px] text-amber-700 mt-0.5">
-                    Enter your total annual target and distribute using authentic Batesville seasonality weights.
+                  <div>
+                    <div className="text-xs font-bold text-amber-900 uppercase tracking-wider flex items-center space-x-1.5">
+                      <span>Annual Quota (Sum of All 12 Months)</span>
+                      <span className="px-2 py-0.5 rounded-full bg-amber-200/80 text-amber-900 text-[10px] font-mono font-bold">
+                        FY {selectedYear}
+                      </span>
+                    </div>
+                    <div className="text-2xl font-bold font-serif text-slate-900 mt-0.5">
+                      {formatCurrency(tempQuotasAnnualSum)}
+                    </div>
+                    <p className="text-[11px] text-slate-500">
+                      Summing individual quota figures for all 12 months in FY {selectedYear}. Automatically recalculates in real-time as you adjust any month below.
+                    </p>
+                  </div>
+                </div>
+                <div className="text-left sm:text-right sm:border-l sm:border-amber-200/80 sm:pl-4 shrink-0">
+                  <div className="text-[11px] text-slate-500 font-medium">12-Month Total:</div>
+                  <div className="text-base font-bold text-amber-700 font-mono">
+                    {formatCurrency(tempQuotasAnnualSum)}
+                  </div>
+                  <div className="text-[10px] text-slate-400">
+                    {tempQuotas.reduce((acc, q) => acc + (Number(q.working_days) || 0), 0)} Total Billing Days
+                  </div>
+                </div>
+              </div>
+
+              {/* Quick Annual Distribution Tool */}
+              <div className="bg-slate-50 border border-slate-200 p-4 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                  <div className="text-xs font-bold text-slate-800 flex items-center space-x-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+                    <span>Auto-Distribute Annual Target Across 12 Months</span>
+                  </div>
+                  <p className="text-[11px] text-slate-500 mt-0.5">
+                    Enter a total annual target to automatically split proportionally across all 12 months using seasonality weights:
                   </p>
                 </div>
                 <div className="flex items-center space-x-2">
@@ -923,12 +963,12 @@ ORDER BY fiscal_year, fiscal_month;`;
                       type="number"
                       value={editYearTarget}
                       onChange={(e) => setEditYearTarget(Number(e.target.value) || 0)}
-                      className="pl-6 pr-3 py-1.5 text-xs font-bold bg-white border border-amber-300 rounded-lg w-32 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                      className="pl-6 pr-3 py-1.5 text-xs font-bold bg-white border border-slate-300 rounded-lg w-32 focus:outline-none focus:ring-2 focus:ring-amber-500"
                     />
                   </div>
                   <button
                     onClick={handleAutoDistribute}
-                    className="px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-xs font-semibold shadow-xs transition-colors cursor-pointer"
+                    className="px-3.5 py-1.5 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-xs font-semibold shadow-xs transition-colors cursor-pointer shrink-0"
                   >
                     Distribute
                   </button>
@@ -985,6 +1025,8 @@ ORDER BY fiscal_year, fiscal_month;`;
                                 const updated = [...tempQuotas];
                                 updated[idx].quota_amount = val;
                                 setTempQuotas(updated);
+                                const newAnnualTotal = updated.reduce((sum, item) => sum + (Number(item.quota_amount) || 0), 0);
+                                setEditYearTarget(newAnnualTotal);
                               }}
                               className="w-full bg-white border border-slate-300 px-2.5 py-1 text-xs font-semibold rounded-lg focus:outline-none focus:ring-1 focus:ring-amber-500"
                             />
@@ -1043,10 +1085,13 @@ ORDER BY fiscal_year, fiscal_month;`;
               </div>
 
               {/* Total Summary Row */}
-              <div className="bg-slate-100 p-3 rounded-xl flex items-center justify-between text-xs font-semibold text-slate-700">
-                <span>Calculated Total Annual Quota:</span>
-                <span className="text-base font-bold text-slate-900 font-serif">
-                  {formatCurrency(tempQuotas.reduce((sum, q) => sum + (Number(q.quota_amount) || 0), 0))}
+              <div className="bg-amber-50 border border-amber-200 p-4 rounded-xl flex items-center justify-between text-xs font-semibold text-slate-800 shadow-xs">
+                <div className="flex items-center space-x-2">
+                  <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>Annual Quota (Summing figures for all 12 quota months in FY {selectedYear}):</span>
+                </div>
+                <span className="text-lg font-bold text-amber-900 font-serif">
+                  {formatCurrency(tempQuotasAnnualSum)}
                 </span>
               </div>
 
