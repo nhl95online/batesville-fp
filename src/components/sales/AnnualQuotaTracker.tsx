@@ -8,6 +8,7 @@ import {
   getDefaultFiscalQuotas,
   parseBatesvilleFiscalYear,
   HISTORICAL_ANNUAL_QUOTAS,
+  HISTORICAL_PERFORMANCE_CONFIG,
   FISCAL_MONTH_CODES, 
   FISCAL_MONTH_NAMES 
 } from '../../services/db';
@@ -99,8 +100,8 @@ export const AnnualQuotaTracker: React.FC<AnnualQuotaTrackerProps> = ({
       if (remoteRes.success && remoteRes.data && remoteRes.data.length === 12) {
         const normYear = parseBatesvilleFiscalYear(year).standardCode;
         const remoteSum = remoteRes.data.reduce((acc: number, q: any) => acc + (Number(q.quota_amount) || 0), 0);
-        // If Supabase has old stale 5,920,915 placeholder for a year that isn't 2024-25, use year-specific defaults
-        if (normYear !== '2024-25' && remoteSum === 5920915 && HISTORICAL_ANNUAL_QUOTAS[normYear]) {
+        // If Supabase has old stale 5,920,915 placeholder for a year that isn't 2025-26, use year-specific defaults
+        if (normYear !== '2025-26' && remoteSum === 5920915 && HISTORICAL_ANNUAL_QUOTAS[normYear] !== 5920915) {
           const defaults = getDefaultFiscalQuotas(normYear);
           setQuotas(defaults);
           return;
@@ -440,14 +441,43 @@ ORDER BY fiscal_year, fiscal_month;`;
       </div>
 
       {/* Informational Guidance for New Fiscal Year & Historical Years */}
-      <div className="flex items-center justify-between bg-blue-50/80 border border-blue-200 px-4 py-3 rounded-xl text-xs text-blue-900 shadow-xs">
-        <div className="flex items-center space-x-2.5">
-          <HelpCircle className="w-4 h-4 text-blue-600 shrink-0" />
-          <span>
-            <strong>New Fiscal Year Started (Oct 1st) & Quota Not Yet Assigned?</strong> That is completely fine! You can upload and track actual sales immediately from Day 1. Your daily run-rate pace and cumulative revenue will tally automatically. When your official quota arrives, simply click <strong>"Edit Quotas & Days"</strong> to plug in your new target.
-          </span>
+      {selectedYear === '2026-27' && metrics.annualQuota === 0 ? (
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-amber-50/90 border border-amber-300 px-4 py-3 rounded-xl text-xs text-amber-950 shadow-xs">
+          <div className="flex items-center space-x-2.5">
+            <Sparkles className="w-4 h-4 text-amber-700 shrink-0" />
+            <span>
+              <strong>FY 2026–27 Just Started (Oct 1st) • Quota TBD (Pending Release):</strong> Actual October revenue and daily run-rate are actively tracked in real-time. You can plug in your official quota target anytime by clicking <strong>"Edit Quotas & Days"</strong>!
+            </span>
+          </div>
+          <button
+            onClick={handleOpenEditModal}
+            className="px-3.5 py-1.5 bg-amber-700 hover:bg-amber-800 text-white rounded-lg text-xs font-bold shrink-0 shadow-xs cursor-pointer transition-all"
+          >
+            Enter FY27 Quota
+          </button>
         </div>
-      </div>
+      ) : HISTORICAL_PERFORMANCE_CONFIG[selectedYear] ? (
+        <div className="flex items-center justify-between bg-slate-50 border border-slate-200 px-4 py-3 rounded-xl text-xs text-slate-700 shadow-xs">
+          <div className="flex items-center space-x-2.5">
+            <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+            <span>
+              <strong>FY {selectedYear} Official Performance Record:</strong> Finished at <strong className="text-emerald-700 font-bold">{HISTORICAL_PERFORMANCE_CONFIG[selectedYear].attainmentPercent.toFixed(2)}%</strong> Attainment
+              {HISTORICAL_PERFORMANCE_CONFIG[selectedYear].quota > 0 && (
+                <> • Annual Target: <strong>{formatCurrency(HISTORICAL_PERFORMANCE_CONFIG[selectedYear].quota)}</strong> • Total Actual Sales: <strong>{formatCurrency(metrics.totalActualSales)}</strong></>
+              )}
+            </span>
+          </div>
+        </div>
+      ) : (
+        <div className="flex items-center justify-between bg-blue-50/80 border border-blue-200 px-4 py-3 rounded-xl text-xs text-blue-900 shadow-xs">
+          <div className="flex items-center space-x-2.5">
+            <HelpCircle className="w-4 h-4 text-blue-600 shrink-0" />
+            <span>
+              <strong>Batesville Fiscal Year:</strong> Runs October 1 to September 30. All daily sales and cumulative variances tally automatically.
+            </span>
+          </div>
+        </div>
+      )}
 
       {/* Notifications */}
       {notification && (
@@ -478,10 +508,10 @@ ORDER BY fiscal_year, fiscal_month;`;
           </div>
           <div className="mt-3">
             <div className="text-2xl font-bold font-serif text-slate-900">
-              {formatCurrency(metrics.annualQuota)}
+              {metrics.annualQuota > 0 ? formatCurrency(metrics.annualQuota) : 'TBD'}
             </div>
             <div className="text-xs text-slate-500 mt-1">
-              Sum of All 12 Quota Months ({selectedYear})
+              {metrics.annualQuota > 0 ? `Sum of All 12 Quota Months (${selectedYear})` : 'Awaiting FY27 Quota Assignment'}
             </div>
           </div>
         </div>
@@ -499,7 +529,7 @@ ORDER BY fiscal_year, fiscal_month;`;
               {formatCurrency(metrics.totalActualSales)}
             </div>
             <div className="text-xs text-slate-500 mt-1">
-              Cumulative actual sales across 12M
+              {selectedYear === '2026-27' ? 'Incoming actual sales (Oct to Date)' : 'Cumulative actual sales across 12M'}
             </div>
           </div>
         </div>
@@ -508,16 +538,16 @@ ORDER BY fiscal_year, fiscal_month;`;
         <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs flex flex-col justify-between">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Full Year (+/-)</span>
-            <div className={`p-2 rounded-lg ${metrics.totalVariance >= 0 ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
-              {metrics.totalVariance >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
+            <div className={`p-2 rounded-lg ${metrics.annualQuota === 0 ? 'bg-blue-50 text-blue-600' : metrics.totalVariance >= 0 ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
+              {metrics.annualQuota === 0 ? <TrendingUp className="w-4 h-4" /> : metrics.totalVariance >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
             </div>
           </div>
           <div className="mt-3">
-            <div className={`text-2xl font-bold font-serif ${metrics.totalVariance >= 0 ? 'text-emerald-700' : 'text-rose-700'}`}>
-              {formatCurrency(metrics.totalVariance)}
+            <div className={`text-2xl font-bold font-serif ${metrics.annualQuota === 0 ? 'text-slate-700' : metrics.totalVariance >= 0 ? 'text-emerald-700' : 'text-rose-700'}`}>
+              {metrics.annualQuota > 0 ? formatCurrency(metrics.totalVariance) : 'Tracking'}
             </div>
             <div className="text-xs text-slate-500 mt-1">
-              {metrics.totalVariance >= 0 ? 'Ahead of Annual Target' : 'Behind Annual Quota Pace'}
+              {metrics.annualQuota === 0 ? 'Tracking incoming actual sales' : metrics.totalVariance >= 0 ? 'Ahead of Annual Target' : 'Behind Annual Quota Pace'}
             </div>
           </div>
         </div>
@@ -527,32 +557,42 @@ ORDER BY fiscal_year, fiscal_month;`;
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Annual Attainment</span>
             <span className={`text-xs px-2 py-0.5 rounded-full font-bold ${
-              metrics.overallAttainmentPercent >= 100 
+              metrics.annualQuota === 0
+                ? 'bg-blue-100 text-blue-800'
+                : metrics.overallAttainmentPercent >= 100 
                 ? 'bg-emerald-100 text-emerald-800' 
                 : metrics.overallAttainmentPercent >= 90
                 ? 'bg-amber-100 text-amber-800'
                 : 'bg-rose-100 text-rose-800'
             }`}>
-              {metrics.overallAttainmentPercent}%
+              {metrics.annualQuota === 0 ? 'Pending Quota' : `${metrics.overallAttainmentPercent}%`}
             </span>
           </div>
           <div className="mt-3">
-            <div className="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden mb-2">
-              <div 
-                className={`h-full rounded-full transition-all duration-500 ${
-                  metrics.overallAttainmentPercent >= 100 
-                    ? 'bg-emerald-500' 
-                    : metrics.overallAttainmentPercent >= 90 
-                    ? 'bg-amber-500' 
-                    : 'bg-rose-500'
-                }`}
-                style={{ width: `${Math.min(metrics.overallAttainmentPercent, 100)}%` }}
-              />
-            </div>
-            <div className="text-xs text-slate-500 flex justify-between">
-              <span>Goal: 100%</span>
-              <span className="font-semibold text-slate-700">{metrics.overallAttainmentPercent}% Achieved</span>
-            </div>
+            {metrics.annualQuota > 0 ? (
+              <>
+                <div className="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden mb-2">
+                  <div 
+                    className={`h-full rounded-full transition-all duration-500 ${
+                      metrics.overallAttainmentPercent >= 100 
+                        ? 'bg-emerald-500' 
+                        : metrics.overallAttainmentPercent >= 90 
+                        ? 'bg-amber-500' 
+                        : 'bg-rose-500'
+                    }`}
+                    style={{ width: `${Math.min(metrics.overallAttainmentPercent, 100)}%` }}
+                  />
+                </div>
+                <div className="text-xs text-slate-500 flex justify-between">
+                  <span>Goal: 100%</span>
+                  <span className="font-semibold text-slate-700">{metrics.overallAttainmentPercent}% Achieved</span>
+                </div>
+              </>
+            ) : (
+              <div className="text-xs text-slate-500 py-1">
+                Attainment % will calculate automatically upon entering FY27 quota.
+              </div>
+            )}
           </div>
         </div>
 
@@ -570,7 +610,11 @@ ORDER BY fiscal_year, fiscal_month;`;
               <span className="text-xs font-normal text-slate-500 font-sans ml-1">/ day</span>
             </div>
             <div className="text-xs text-slate-500 mt-1">
-              Req'd Pace: <strong className="text-slate-700">{formatCurrency(avgRequiredDaily)}</strong> / day
+              {metrics.annualQuota > 0 ? (
+                <>Req'd Pace: <strong className="text-slate-700">{formatCurrency(avgRequiredDaily)}</strong> / day</>
+              ) : (
+                <>Req'd Pace: <strong className="text-slate-700">TBD</strong> (Pending Quota)</>
+              )}
             </div>
           </div>
         </div>
@@ -626,11 +670,11 @@ ORDER BY fiscal_year, fiscal_month;`;
                 </td>
                 {metrics.months.map((m) => (
                   <td key={m.monthName} className="py-2.5 px-3 text-slate-100 border-r border-slate-800/40">
-                    {formatCurrency(m.quota)}
+                    {metrics.annualQuota > 0 ? formatCurrency(m.quota) : 'TBD'}
                   </td>
                 ))}
                 <td className="py-2.5 px-4 font-bold text-amber-300 bg-slate-950/40">
-                  {formatCurrency(metrics.annualQuota)}
+                  {metrics.annualQuota > 0 ? formatCurrency(metrics.annualQuota) : 'TBD'}
                 </td>
               </tr>
 
@@ -641,11 +685,11 @@ ORDER BY fiscal_year, fiscal_month;`;
                 </td>
                 {metrics.months.map((m) => (
                   <td key={m.monthName} className="py-2.5 px-3 text-slate-200 border-r border-slate-800/40 font-semibold">
-                    {formatCurrency(m.cumulativeQuota)}
+                    {metrics.annualQuota > 0 ? formatCurrency(m.cumulativeQuota) : 'TBD'}
                   </td>
                 ))}
                 <td className="py-2.5 px-4 font-bold text-amber-300 bg-slate-950/40">
-                  {formatCurrency(metrics.annualQuota)}
+                  {metrics.annualQuota > 0 ? formatCurrency(metrics.annualQuota) : 'TBD'}
                 </td>
               </tr>
 
@@ -755,11 +799,11 @@ ORDER BY fiscal_year, fiscal_month;`;
                 </td>
                 {metrics.months.map((m) => (
                   <td key={m.monthName} className="py-2.5 px-3 text-slate-300 border-r border-slate-800/40">
-                    {formatCurrency(m.dailyRequired)}
+                    {metrics.annualQuota > 0 ? formatCurrency(m.dailyRequired) : 'TBD'}
                   </td>
                 ))}
                 <td className="py-2.5 px-4 font-bold text-slate-300 bg-slate-950/40">
-                  {formatCurrency(avgRequiredDaily)}
+                  {metrics.annualQuota > 0 ? formatCurrency(avgRequiredDaily) : 'TBD'}
                 </td>
               </tr>
 
@@ -774,19 +818,25 @@ ORDER BY fiscal_year, fiscal_month;`;
                     <td 
                       key={m.monthName} 
                       className={`py-2 px-2 border-r border-slate-800/40 ${
-                        isGood 
+                        metrics.annualQuota === 0
+                          ? 'bg-slate-950 text-slate-500 font-semibold'
+                          : isGood 
                           ? 'bg-emerald-600 text-white font-black' 
                           : 'bg-red-600 text-white font-black'
                       }`}
                     >
-                      {m.attainmentPercent.toFixed(2)}%
+                      {metrics.annualQuota > 0 ? `${m.attainmentPercent.toFixed(2)}%` : 'TBD'}
                     </td>
                   );
                 })}
                 <td className={`py-2 px-3 font-black ${
-                  metrics.overallAttainmentPercent >= 100 ? 'bg-emerald-600 text-white' : 'bg-red-600 text-white'
+                  metrics.annualQuota === 0
+                    ? 'bg-slate-950 text-slate-500'
+                    : metrics.overallAttainmentPercent >= 100 
+                    ? 'bg-emerald-600 text-white' 
+                    : 'bg-red-600 text-white'
                 }`}>
-                  {metrics.overallAttainmentPercent.toFixed(2)}%
+                  {metrics.annualQuota > 0 ? `${metrics.overallAttainmentPercent.toFixed(2)}%` : 'TBD'}
                 </td>
               </tr>
 
@@ -797,11 +847,11 @@ ORDER BY fiscal_year, fiscal_month;`;
                 </td>
                 {metrics.months.map((m) => (
                   <td key={m.monthName} className="py-2.5 px-3 text-slate-300 border-r border-slate-800/40 font-semibold">
-                    {m.annualPercent.toFixed(2)}%
+                    {metrics.annualQuota > 0 ? `${m.annualPercent.toFixed(2)}%` : 'TBD'}
                   </td>
                 ))}
                 <td className="py-2.5 px-4 font-bold text-amber-300 bg-slate-950/40">
-                  {metrics.overallAttainmentPercent.toFixed(2)}%
+                  {metrics.annualQuota > 0 ? `${metrics.overallAttainmentPercent.toFixed(2)}%` : 'TBD'}
                 </td>
               </tr>
 

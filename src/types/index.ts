@@ -270,5 +270,6 @@ export interface AnnualQuotaTrackerData {
   overallAttainmentPercent: number;
   totalWorkingDays: number;
   months: FiscalMonthQuotaMetrics[];
+  isQuotaTbd?: boolean;
 }
 

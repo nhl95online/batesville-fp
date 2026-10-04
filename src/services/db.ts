@@ -376,22 +376,44 @@ export const FISCAL_MONTH_CODES = [
   'OCT', 'NOV', 'DEC', 'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP'
 ];
 
+export interface HistoricalYearPerformance {
+  quota: number;
+  attainmentPercent: number;
+  isTbd?: boolean;
+}
+
+/**
+ * Historical performance records and final attainment percentages (October to September)
+ */
+export const HISTORICAL_PERFORMANCE_CONFIG: Record<string, HistoricalYearPerformance> = {
+  '2017-18': { quota: 3420000, attainmentPercent: 96.38 },
+  '2018-19': { quota: 3580000, attainmentPercent: 94.53 },
+  '2019-20': { quota: 3750000, attainmentPercent: 117.51 },
+  '2020-21': { quota: 3920000, attainmentPercent: 114.37 },
+  '2021-22': { quota: 4100000, attainmentPercent: 115.25 },
+  '2022-23': { quota: 4281810, attainmentPercent: 106.00 },
+  '2023-24': { quota: 4680827, attainmentPercent: 102.21 },
+  '2024-25': { quota: 5060563, attainmentPercent: 106.20 },
+  '2025-26': { quota: 5920915, attainmentPercent: 91.10 },
+  '2026-27': { quota: 0, attainmentPercent: 0, isTbd: true },
+};
+
 /**
  * Historical and baseline annual quota targets per fiscal year (from 2016-17 to present).
  * The annual quota changes by year and is always the sum of that year's 12 monthly targets.
  */
 export const HISTORICAL_ANNUAL_QUOTAS: Record<string, number> = {
-  '2016-17': 4280000,
-  '2017-18': 4490000,
-  '2018-19': 4710000,
-  '2019-20': 4940000,
-  '2020-21': 5180000,
-  '2021-22': 5420000,
-  '2022-23': 5650000,
-  '2023-24': 5820000,
-  '2024-25': 5920915, // Exact spreadsheet baseline
-  '2025-26': 6125000,
-  '2026-27': 6350000,
+  '2016-17': 3300000,
+  '2017-18': 3420000,
+  '2018-19': 3580000,
+  '2019-20': 3750000,
+  '2020-21': 3920000,
+  '2021-22': 4100000,
+  '2022-23': 4281810,
+  '2023-24': 4680827,
+  '2024-25': 5060563,
+  '2025-26': 5920915, // Executive baseline spreadsheet ($5,920,915 across 12M)
+  '2026-27': 0,       // TBD - brand new fiscal year just started, quota pending
 };
 
 /**
@@ -498,8 +520,8 @@ export function getSaleFiscalYearAndMonth(s: SaleRecord): { fiscalYear: string; 
 export function getDefaultFiscalQuotas(year: string): SalesQuotaItem[] {
   const normYear = parseBatesvilleFiscalYear(year).standardCode;
 
-  // For 2024-25, use the exact spreadsheet baseline numbers
-  if (normYear === '2024-25') {
+  // For 2025-26, use the exact spreadsheet baseline numbers ($5,920,915)
+  if (normYear === '2025-26') {
     const billingCalendar = getFiscalYearBillingDays(normYear);
     return FISCAL_MONTH_CODES.map((m, idx) => {
       const fMonth = idx + 1;
@@ -516,11 +538,25 @@ export function getDefaultFiscalQuotas(year: string): SalesQuotaItem[] {
   }
 
   // Look up or calculate annual target for this specific fiscal year
-  let annualTarget = HISTORICAL_ANNUAL_QUOTAS[normYear];
-  if (!annualTarget) {
+  const annualTarget = HISTORICAL_ANNUAL_QUOTAS[normYear];
+
+  // For TBD years (e.g. FY 2026-27 where quota is not yet assigned by leadership)
+  if (annualTarget === 0) {
+    const billingCalendar = getFiscalYearBillingDays(normYear);
+    return FISCAL_MONTH_CODES.map((m, idx) => ({
+      fiscal_year: normYear,
+      fiscal_month: idx + 1,
+      month_name: m,
+      quota_amount: 0,
+      working_days: billingCalendar[idx]?.billingDays || 21,
+    }));
+  }
+
+  if (annualTarget === undefined) {
     const baseYear = parseInt(normYear.split('-')[0], 10) || 2025;
-    const yearDiff = baseYear - 2024;
-    annualTarget = Math.round(5920915 * Math.pow(1.035, yearDiff));
+    const yearDiff = baseYear - 2025;
+    const target = Math.round(5920915 * Math.pow(1.035, yearDiff));
+    return distributeAnnualQuota(target, normYear);
   }
 
   // Distribute target across 12 months using authentic seasonality weights & calendar days
@@ -540,8 +576,8 @@ export function getStoredQuotas(year: string): SalesQuotaItem[] {
       const parsed = JSON.parse(raw);
       if (Array.isArray(parsed) && parsed.length === 12) {
         const sum = parsed.reduce((acc: number, q: any) => acc + (Number(q.quota_amount) || 0), 0);
-        // Invalidate stale cache if an earlier version saved the 5,920,915 placeholder for a different year
-        if (normYear !== '2024-25' && sum === 5920915 && HISTORICAL_ANNUAL_QUOTAS[normYear]) {
+        // Invalidate stale cache if an earlier version saved the 5,920,915 placeholder for a year that isn't 2025-26
+        if (normYear !== '2025-26' && sum === 5920915 && HISTORICAL_ANNUAL_QUOTAS[normYear] !== 5920915) {
           return getDefaultFiscalQuotas(normYear);
         }
         return parsed;
@@ -652,9 +688,28 @@ export function calculateAnnualQuotaMetrics(
     if (hasRealSales) {
       actualSales = monthlyActualSales[fMonth] || 0;
     } else if (useBaselineIfNoSales) {
-      // Baseline fallback scaled to this year's quota
-      const baselineFallback = BASELINE_QUOTA_SPREADSHEET[fMonth]?.fallbackSales || 0;
-      actualSales = Math.round(baselineFallback * (annualQuota / 5920915));
+      const perf = HISTORICAL_PERFORMANCE_CONFIG[normYear];
+      if (perf && perf.quota > 0 && perf.attainmentPercent > 0) {
+        const targetAnnualSales = Math.round(perf.quota * (perf.attainmentPercent / 100));
+        const weights = [
+          0.080769, 0.070138, 0.087775, 0.090957, 0.086646, 0.090273,
+          0.082576, 0.077197, 0.080040, 0.087166, 0.081841, 0.084622
+        ];
+        if (fMonth === 12) {
+          let priorSum = 0;
+          for (let m = 0; m < 11; m++) {
+            priorSum += Math.round(targetAnnualSales * weights[m]);
+          }
+          actualSales = targetAnnualSales - priorSum;
+        } else {
+          actualSales = Math.round(targetAnnualSales * weights[idx]);
+        }
+      } else if (normYear === '2026-27') {
+        actualSales = monthlyActualSales[fMonth] || 0;
+      } else {
+        const baselineFallback = BASELINE_QUOTA_SPREADSHEET[fMonth]?.fallbackSales || 0;
+        actualSales = Math.round(baselineFallback * (annualQuota / 5920915));
+      }
     }
 
     cumulativeQuota += quotaVal;
@@ -686,6 +741,7 @@ export function calculateAnnualQuotaMetrics(
 
   const totalActualSales = cumulativeSales;
   const totalVariance = totalActualSales - annualQuota;
+  const isQuotaTbd = (normYear === '2026-27' && annualQuota === 0);
   const overallAttainment = annualQuota > 0 ? (totalActualSales / annualQuota) * 100 : 0;
   const totalWorkingDays = quotas.reduce((acc, q) => acc + (Number(q.working_days) || 0), 0);
 
@@ -697,6 +753,7 @@ export function calculateAnnualQuotaMetrics(
     overallAttainmentPercent: Math.round(overallAttainment * 100) / 100,
     totalWorkingDays,
     months: monthMetrics,
+    isQuotaTbd,
   };
 }
 

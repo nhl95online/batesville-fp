@@ -251,19 +251,19 @@ BEGIN
     END IF;
 
     CASE base_yr
-        WHEN 2016 THEN RETURN 4280000;
-        WHEN 2017 THEN RETURN 4490000;
-        WHEN 2018 THEN RETURN 4710000;
-        WHEN 2019 THEN RETURN 4940000;
-        WHEN 2020 THEN RETURN 5180000;
-        WHEN 2021 THEN RETURN 5420000;
-        WHEN 2022 THEN RETURN 5650000;
-        WHEN 2023 THEN RETURN 5820000;
-        WHEN 2024 THEN RETURN 5920915;
-        WHEN 2025 THEN RETURN 6125000;
-        WHEN 2026 THEN RETURN 6350000;
+        WHEN 2016 THEN RETURN 3300000;
+        WHEN 2017 THEN RETURN 3420000;
+        WHEN 2018 THEN RETURN 3580000;
+        WHEN 2019 THEN RETURN 3750000;
+        WHEN 2020 THEN RETURN 3920000;
+        WHEN 2021 THEN RETURN 4100000;
+        WHEN 2022 THEN RETURN 4281810;
+        WHEN 2023 THEN RETURN 4680827;
+        WHEN 2024 THEN RETURN 5060563;
+        WHEN 2025 THEN RETURN 5920915;
+        WHEN 2026 THEN RETURN 0; -- TBD pending assignment
         ELSE 
-            RETURN ROUND(5920915 * POWER(1.035, base_yr - 2024), 0);
+            RETURN 0;
     END CASE;
 END;
 $$ LANGUAGE plpgsql;
@@ -311,7 +311,9 @@ BEGIN
         -- Automatically calculate billing days for this specific calendar year & month, excluding holidays!
         b_days := public.get_billing_days(m_year, cal_months[i]);
         
-        IF i = 12 THEN
+        IF actual_target = 0 THEN
+            m_quota := 0;
+        ELSIF i = 12 THEN
             -- Reconcile rounding in 12th month so sum of 12 months exactly equals annual target
             m_quota := actual_target - running_sum;
         ELSE
@@ -355,38 +357,38 @@ DECLARE
 BEGIN
     FOR rec IN 
         SELECT * FROM (VALUES
-            ('2016-17', 4280000),
-            ('2017-18', 4490000),
-            ('2018-19', 4710000),
-            ('2019-20', 4940000),
-            ('2020-21', 5180000),
-            ('2021-22', 5420000),
-            ('2022-23', 5650000),
-            ('2023-24', 5820000),
-            ('2024-25', 5920915),
-            ('2025-26', 6125000),
-            ('2026-27', 6350000)
+            ('2016-17', 3300000),
+            ('2017-18', 3420000),
+            ('2018-19', 3580000),
+            ('2019-20', 3750000),
+            ('2020-21', 3920000),
+            ('2021-22', 4100000),
+            ('2022-23', 4281810),
+            ('2023-24', 4680827),
+            ('2024-25', 5060563),
+            ('2025-26', 5920915),
+            ('2026-27', 0)
         ) AS t(yr, target)
     LOOP
         PERFORM public.seed_fiscal_year_quotas(rec.yr, rec.target);
     END LOOP;
 END $$;
 
--- Explicitly ensure baseline values match your exact spreadsheet for active years:
+-- Explicitly ensure baseline values match your exact spreadsheet for active year FY 2025-26:
 INSERT INTO public.sales_quotas (fiscal_year, fiscal_month, month_name, quota_amount, working_days)
 VALUES 
-    ('2024-25', 1,  'OCT', 478228, 23),
-    ('2024-25', 2,  'NOV', 415280, 20),
-    ('2024-25', 3,  'DEC', 519711, 23),
-    ('2024-25', 4,  'JAN', 538549, 22),
-    ('2024-25', 5,  'FEB', 513022, 20),
-    ('2024-25', 6,  'MAR', 534499, 22),
-    ('2024-25', 7,  'APR', 488927, 22),
-    ('2024-25', 8,  'MAY', 457074, 21),
-    ('2024-25', 9,  'JUN', 473910, 22),
-    ('2024-25', 10, 'JUL', 516100, 23),
-    ('2024-25', 11, 'AUG', 484574, 21),
-    ('2024-25', 12, 'SEP', 501041, 22)
+    ('2025-26', 1,  'OCT', 478228, 23),
+    ('2025-26', 2,  'NOV', 415280, 20),
+    ('2025-26', 3,  'DEC', 519711, 23),
+    ('2025-26', 4,  'JAN', 538549, 22),
+    ('2025-26', 5,  'FEB', 513022, 20),
+    ('2025-26', 6,  'MAR', 534499, 22),
+    ('2025-26', 7,  'APR', 488927, 22),
+    ('2025-26', 8,  'MAY', 457074, 21),
+    ('2025-26', 9,  'JUN', 473910, 22),
+    ('2025-26', 10, 'JUL', 516100, 23),
+    ('2025-26', 11, 'AUG', 484574, 21),
+    ('2025-26', 12, 'SEP', 501041, 22)
 ON CONFLICT (fiscal_year, fiscal_month) DO UPDATE 
 SET quota_amount = EXCLUDED.quota_amount,
     working_days = EXCLUDED.working_days,
