@@ -5,6 +5,9 @@ import {
   saveStoredQuotas, 
   calculateAnnualQuotaMetrics, 
   distributeAnnualQuota, 
+  getDefaultFiscalQuotas,
+  parseBatesvilleFiscalYear,
+  HISTORICAL_ANNUAL_QUOTAS,
   FISCAL_MONTH_CODES, 
   FISCAL_MONTH_NAMES 
 } from '../../services/db';
@@ -94,6 +97,14 @@ export const AnnualQuotaTracker: React.FC<AnnualQuotaTrackerProps> = ({
       // Try fetching from Supabase cloud
       const remoteRes = await fetchSupabaseQuotas(year);
       if (remoteRes.success && remoteRes.data && remoteRes.data.length === 12) {
+        const normYear = parseBatesvilleFiscalYear(year).standardCode;
+        const remoteSum = remoteRes.data.reduce((acc: number, q: any) => acc + (Number(q.quota_amount) || 0), 0);
+        // If Supabase has old stale 5,920,915 placeholder for a year that isn't 2024-25, use year-specific defaults
+        if (normYear !== '2024-25' && remoteSum === 5920915 && HISTORICAL_ANNUAL_QUOTAS[normYear]) {
+          const defaults = getDefaultFiscalQuotas(normYear);
+          setQuotas(defaults);
+          return;
+        }
         setQuotas(remoteRes.data);
         saveStoredQuotas(year, remoteRes.data);
         return;
@@ -113,9 +124,12 @@ export const AnnualQuotaTracker: React.FC<AnnualQuotaTrackerProps> = ({
     loadQuotas(selectedYear);
   }, [selectedYear]);
 
-  // Recalculate full 10-row matrix
+  // Recalculate full 10-row matrix summing figures for all months in selected year
   const metrics: AnnualQuotaTrackerData = useMemo(() => {
-    return calculateAnnualQuotaMetrics(selectedYear, sales, quotas, true);
+    const effectiveQuotas = (quotas && quotas.length === 12 && quotas[0].fiscal_year === selectedYear)
+      ? quotas
+      : getStoredQuotas(selectedYear);
+    return calculateAnnualQuotaMetrics(selectedYear, sales, effectiveQuotas, true);
   }, [selectedYear, sales, quotas]);
 
   // Prepare chart data
@@ -249,20 +263,40 @@ CREATE POLICY "Public Access Sales Quotas" ON public.sales_quotas FOR ALL USING 
 
 -- Real-time pacing view that automatically updates as sales are inserted
 CREATE OR REPLACE VIEW public.v_annual_quota_pacing AS
-WITH monthly_actuals AS (
+WITH normalized_sales AS (
     SELECT 
-        s.year AS fiscal_year,
-        UPPER(TRIM(s.month)) AS month_abbr,
+        CASE 
+            WHEN s.year LIKE '%-%' THEN s.year
+            WHEN UPPER(TRIM(s.month)) IN ('OCT', 'NOV', 'DEC', 'OCTOBER', 'NOVEMBER', 'DECEMBER') 
+                 THEN s.year || '-' || SUBSTRING((s.year::INT + 1)::TEXT FROM 3 FOR 2)
+            ELSE 
+                 (s.year::INT - 1)::TEXT || '-' || SUBSTRING(s.year FROM 3 FOR 2)
+        END AS fiscal_year,
         CASE UPPER(TRIM(s.month))
-            WHEN 'OCT' THEN 1 WHEN 'NOV' THEN 2 WHEN 'DEC' THEN 3
-            WHEN 'JAN' THEN 4 WHEN 'FEB' THEN 5 WHEN 'MAR' THEN 6
-            WHEN 'APR' THEN 7 WHEN 'MAY' THEN 8 WHEN 'JUN' THEN 9
-            WHEN 'JUL' THEN 10 WHEN 'AUG' THEN 11 WHEN 'SEP' THEN 12
+            WHEN 'OCT' THEN 1 WHEN 'OCTOBER' THEN 1
+            WHEN 'NOV' THEN 2 WHEN 'NOVEMBER' THEN 2
+            WHEN 'DEC' THEN 3 WHEN 'DECEMBER' THEN 3
+            WHEN 'JAN' THEN 4 WHEN 'JANUARY' THEN 4
+            WHEN 'FEB' THEN 5 WHEN 'FEBRUARY' THEN 5
+            WHEN 'MAR' THEN 6 WHEN 'MARCH' THEN 6
+            WHEN 'APR' THEN 7 WHEN 'APRIL' THEN 7
+            WHEN 'MAY' THEN 8
+            WHEN 'JUN' THEN 9 WHEN 'JUNE' THEN 9
+            WHEN 'JUL' THEN 10 WHEN 'JULY' THEN 10
+            WHEN 'AUG' THEN 11 WHEN 'AUGUST' THEN 11
+            WHEN 'SEP' THEN 12 WHEN 'SEPTEMBER' THEN 12
             ELSE 1
         END AS fiscal_month,
-        COALESCE(SUM(s.cost), 0) AS total_sales
+        COALESCE(s.cost, 0) AS cost
     FROM public.sales s
-    GROUP BY s.year, UPPER(TRIM(s.month))
+),
+monthly_actuals AS (
+    SELECT 
+        ns.fiscal_year,
+        ns.fiscal_month,
+        SUM(ns.cost) AS total_sales
+    FROM normalized_sales ns
+    GROUP BY ns.fiscal_year, ns.fiscal_month
 ),
 joined_pacing AS (
     SELECT 
@@ -278,7 +312,7 @@ joined_pacing AS (
     FROM public.sales_quotas q
     LEFT JOIN monthly_actuals ma 
         ON ma.fiscal_year = q.fiscal_year 
-       AND (ma.month_abbr = UPPER(q.month_name) OR ma.fiscal_month = q.fiscal_month)
+       AND ma.fiscal_month = q.fiscal_month
 )
 SELECT 
     fiscal_year,
@@ -1198,20 +1232,40 @@ CREATE POLICY "Public Access Sales Quotas" ON public.sales_quotas FOR ALL USING 
 -- 2. Real-Time View: v_annual_quota_pacing
 -- Automatically updates real-time as soon as any record is added to sales!
 CREATE OR REPLACE VIEW public.v_annual_quota_pacing AS
-WITH monthly_actuals AS (
+WITH normalized_sales AS (
     SELECT 
-        s.year AS fiscal_year,
-        UPPER(TRIM(s.month)) AS month_abbr,
+        CASE 
+            WHEN s.year LIKE '%-%' THEN s.year
+            WHEN UPPER(TRIM(s.month)) IN ('OCT', 'NOV', 'DEC', 'OCTOBER', 'NOVEMBER', 'DECEMBER') 
+                 THEN s.year || '-' || SUBSTRING((s.year::INT + 1)::TEXT FROM 3 FOR 2)
+            ELSE 
+                 (s.year::INT - 1)::TEXT || '-' || SUBSTRING(s.year FROM 3 FOR 2)
+        END AS fiscal_year,
         CASE UPPER(TRIM(s.month))
-            WHEN 'OCT' THEN 1 WHEN 'NOV' THEN 2 WHEN 'DEC' THEN 3
-            WHEN 'JAN' THEN 4 WHEN 'FEB' THEN 5 WHEN 'MAR' THEN 6
-            WHEN 'APR' THEN 7 WHEN 'MAY' THEN 8 WHEN 'JUN' THEN 9
-            WHEN 'JUL' THEN 10 WHEN 'AUG' THEN 11 WHEN 'SEP' THEN 12
+            WHEN 'OCT' THEN 1 WHEN 'OCTOBER' THEN 1
+            WHEN 'NOV' THEN 2 WHEN 'NOVEMBER' THEN 2
+            WHEN 'DEC' THEN 3 WHEN 'DECEMBER' THEN 3
+            WHEN 'JAN' THEN 4 WHEN 'JANUARY' THEN 4
+            WHEN 'FEB' THEN 5 WHEN 'FEBRUARY' THEN 5
+            WHEN 'MAR' THEN 6 WHEN 'MARCH' THEN 6
+            WHEN 'APR' THEN 7 WHEN 'APRIL' THEN 7
+            WHEN 'MAY' THEN 8
+            WHEN 'JUN' THEN 9 WHEN 'JUNE' THEN 9
+            WHEN 'JUL' THEN 10 WHEN 'JULY' THEN 10
+            WHEN 'AUG' THEN 11 WHEN 'AUGUST' THEN 11
+            WHEN 'SEP' THEN 12 WHEN 'SEPTEMBER' THEN 12
             ELSE 1
         END AS fiscal_month,
-        COALESCE(SUM(s.cost), 0) AS total_sales
+        COALESCE(s.cost, 0) AS cost
     FROM public.sales s
-    GROUP BY s.year, UPPER(TRIM(s.month))
+),
+monthly_actuals AS (
+    SELECT 
+        ns.fiscal_year,
+        ns.fiscal_month,
+        SUM(ns.cost) AS total_sales
+    FROM normalized_sales ns
+    GROUP BY ns.fiscal_year, ns.fiscal_month
 ),
 joined_pacing AS (
     SELECT 
@@ -1227,7 +1281,7 @@ joined_pacing AS (
     FROM public.sales_quotas q
     LEFT JOIN monthly_actuals ma 
         ON ma.fiscal_year = q.fiscal_year 
-       AND (ma.month_abbr = UPPER(q.month_name) OR ma.fiscal_month = q.fiscal_month)
+       AND ma.fiscal_month = q.fiscal_month
 )
 SELECT 
     fiscal_year,

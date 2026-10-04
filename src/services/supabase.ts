@@ -1,6 +1,6 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { db, invalidateSalesCache } from './db';
-import { Customer, Product, SaleRecord, SupabaseConfig, CasketImageItem } from '../types';
+import { Customer, Product, SaleRecord, SupabaseConfig, CasketImageItem, FloorSlot } from '../types';
 import { BATESVILLE_CASKET_CATALOG } from './batesvilleCatalogData';
 
 const STORAGE_KEY = 'batesville_fp_supabase_config';
@@ -779,7 +779,7 @@ export async function saveSupabaseQuotas(quotas: any[]): Promise<{
 /**
  * Fetch showroom room definitions and casket/urn locations for an account from Supabase
  */
-export async function fetchCustomerShowroomFromSupabase(accountNumber: string | number): Promise<{
+export async function fetchCustomerShowroomFromSupabase(accountNumber: string | number, customerName?: string): Promise<{
   success: boolean;
   room: any | null;
   locations: any[];
@@ -788,13 +788,28 @@ export async function fetchCustomerShowroomFromSupabase(accountNumber: string | 
   try {
     const client = getSupabaseClient();
     const acctStr = String(accountNumber || '').trim();
+    const nameStr = customerName ? customerName.toLowerCase().trim() : '';
+
+    const isMatch = (item: any) => {
+      const itemAcct = String(item['account_#'] || item.account_number || '').trim();
+      if (acctStr && (itemAcct === acctStr || `cust-${itemAcct}` === acctStr || itemAcct === acctStr.replace('cust-', ''))) {
+        return true;
+      }
+      if (nameStr) {
+        const itemCustName = String(item.account_name || '').toLowerCase().trim();
+        if (itemCustName && (itemCustName === nameStr || itemCustName.includes(nameStr) || nameStr.includes(itemCustName))) {
+          return true;
+        }
+      }
+      return false;
+    };
 
     // 1. Fetch Room definition
     const { data: allRooms, error: roomError } = await client.from('customer_rooms').select('*');
     if (roomError) {
       console.warn('customer_rooms fetch warning:', roomError.message);
     }
-    const matchedRoom = allRooms ? allRooms.find((r: any) => String(r['account_#'] || r.account_number || '').trim() === acctStr) : null;
+    const matchedRoom = allRooms ? allRooms.find(isMatch) : null;
 
     // 2. Fetch Casket/Urn Locations
     const { data: allLocs, error: locError } = await client.from('customer_casket_locations').select('*');
@@ -802,13 +817,13 @@ export async function fetchCustomerShowroomFromSupabase(accountNumber: string | 
       console.warn('customer_casket_locations fetch warning:', locError.message);
       return { success: false, room: matchedRoom, locations: [], message: locError.message };
     }
-    const matchedLocs = (allLocs || []).filter((l: any) => String(l['account_#'] || l.account_number || '').trim() === acctStr);
+    const matchedLocs = (allLocs || []).filter(isMatch);
 
-    // Sort by bay_number asc, level_number asc, shelf_slot_position asc
+    // Sort by bay_number asc, level_number desc (Top level 2 first, then Bottom level 1), shelf_slot_position asc
     matchedLocs.sort((a: any, b: any) => {
       const bayDiff = (Number(a.bay_number) || 0) - (Number(b.bay_number) || 0);
       if (bayDiff !== 0) return bayDiff;
-      const lvlDiff = (Number(a.level_number) || 1) - (Number(b.level_number) || 1);
+      const lvlDiff = (Number(b.level_number) || 1) - (Number(a.level_number) || 1);
       if (lvlDiff !== 0) return lvlDiff;
       return (Number(a.shelf_slot_position) || 1) - (Number(b.shelf_slot_position) || 1);
     });
@@ -840,5 +855,82 @@ export async function fetchAccountsWithShowroomLocations(): Promise<string[]> {
     return [];
   }
 }
+
+/**
+ * Save / Upsert showroom room definition and casket locations to Supabase
+ */
+export async function saveCustomerShowroomToSupabase(
+  accountNumber: string | number,
+  customerName: string,
+  roomData: {
+    room_name?: string;
+    room_shape?: string;
+    length_ft?: number;
+    width_ft?: number;
+    max_casket_bays?: number;
+    notes?: string;
+  },
+  slots: FloorSlot[]
+): Promise<{ success: boolean; message: string }> {
+  try {
+    const client = getSupabaseClient();
+    const acctNum = Number(accountNumber) || accountNumber;
+
+    // 1. Upsert customer_rooms
+    const roomPayload = {
+      'account_#': acctNum,
+      account_name: customerName || 'Showroom',
+      room_name: roomData.room_name || 'Main Selection Room',
+      room_shape: roomData.room_shape || 'L-Shaped',
+      length_ft: roomData.length_ft || 28,
+      width_ft: roomData.width_ft || 19.5,
+      max_casket_bays: roomData.max_casket_bays || slots.filter(s => s.type === 'casket').length || 10,
+      notes: roomData.notes || 'Updated via Batesville Interactive Floor Plan'
+    };
+
+    await client.from('customer_rooms').upsert(roomPayload, { onConflict: 'account_#,room_name' });
+
+    // 2. Prepare customer_casket_locations
+    const locPayload = slots
+      .filter(s => s.productCode || (s.productName && s.productName !== 'Unassigned Bay' && s.productName !== 'Unassigned'))
+      .map(s => ({
+        'account_#': acctNum,
+        room_name: roomData.room_name || 'Main Selection Room',
+        bay_number: s.slotNumber,
+        bay_label: s.label,
+        product_code: s.productCode || '',
+        product_name: s.productName || '',
+        category: s.category || (s.type === 'urn' ? 'Urn' : 'Burial'),
+        display_type: s.type === 'urn' ? 'Urn Pedestal' : 'Full Casket',
+        wall_zone: s.wallZone || 'North Wall',
+        pos_x_ft: s.posX || (s.slotNumber * 2.5),
+        pos_y_ft: s.posY || 10.0,
+        orientation_deg: 0,
+        tier_level: s.tierLevel || (s.isDoubleRack ? (s.levelNumber === 2 ? 'Double Rack - Top' : 'Double Rack - Bottom') : 'Floor'),
+        is_double_rack: Boolean(s.isDoubleRack),
+        rack_type: s.rackType || (s.isDoubleRack ? 'Double Rack' : (s.type === 'urn' ? 'Urn Shelf' : 'Single Rack')),
+        level_number: s.levelNumber || 1,
+        shelf_slot_position: s.shelfSlotPosition || 1,
+        status: 'Active',
+        notes: s.notes || ''
+      }));
+
+    if (locPayload.length > 0) {
+      await client.from('customer_casket_locations').delete().eq('account_#', acctNum);
+      const { error: insertError } = await client.from('customer_casket_locations').insert(locPayload);
+      if (insertError) {
+        return { success: false, message: insertError.message };
+      }
+    }
+
+    return {
+      success: true,
+      message: `Successfully saved ${locPayload.length} showroom placements to Supabase for ${customerName}!`
+    };
+  } catch (err: any) {
+    return { success: false, message: err.message || 'Failed to save showroom to Supabase.' };
+  }
+}
+
 
 

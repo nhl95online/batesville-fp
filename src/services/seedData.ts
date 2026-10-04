@@ -337,7 +337,7 @@ export const INITIAL_PRODUCTS: Product[] = [
 
 export function generateSeedSales(): SaleRecord[] {
   const sales: SaleRecord[] = [];
-  const years = [2023, 2024, 2025, 2026];
+  const years = [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026];
   let orderSeq = 10001;
 
   const monthWeights: Record<number, number> = {
@@ -346,6 +346,12 @@ export function generateSeedSales(): SaleRecord[] {
   };
 
   const yearGrowth: Record<number, number> = {
+    2017: 0.72,
+    2018: 0.76,
+    2019: 0.80,
+    2020: 0.85,
+    2021: 0.90,
+    2022: 0.95,
     2023: 1.0,
     2024: 1.14,
     2025: 1.26,

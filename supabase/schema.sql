@@ -268,10 +268,40 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql IMMUTABLE;
 
--- 9. Function to Auto-Seed Quotas with Exact Dynamic Billing Days
+-- 9. Helper Function: Get Year-Specific Default Annual Quota
+CREATE OR REPLACE FUNCTION public.get_default_annual_quota(target_year TEXT)
+RETURNS NUMERIC AS $$
+DECLARE
+    base_yr INT;
+BEGIN
+    IF position('-' in target_year) > 0 THEN
+        base_yr := split_part(target_year, '-', 1)::INT;
+    ELSE
+        base_yr := target_year::INT;
+    END IF;
+
+    CASE base_yr
+        WHEN 2016 THEN RETURN 4280000;
+        WHEN 2017 THEN RETURN 4490000;
+        WHEN 2018 THEN RETURN 4710000;
+        WHEN 2019 THEN RETURN 4940000;
+        WHEN 2020 THEN RETURN 5180000;
+        WHEN 2021 THEN RETURN 5420000;
+        WHEN 2022 THEN RETURN 5650000;
+        WHEN 2023 THEN RETURN 5820000;
+        WHEN 2024 THEN RETURN 5920915;
+        WHEN 2025 THEN RETURN 6125000;
+        WHEN 2026 THEN RETURN 6350000;
+        ELSE 
+            RETURN ROUND(5920915 * POWER(1.035, base_yr - 2024), 0);
+    END CASE;
+END;
+$$ LANGUAGE plpgsql;
+
+-- 10. Function to Auto-Seed Quotas with Exact Dynamic Billing Days
 CREATE OR REPLACE FUNCTION public.seed_fiscal_year_quotas(
     target_year TEXT,
-    annual_target NUMERIC DEFAULT 5920915
+    annual_target NUMERIC DEFAULT NULL
 )
 RETURNS VOID AS $$
 DECLARE
@@ -285,7 +315,15 @@ DECLARE
         0.082576, 0.077197, 0.080040, 0.087166, 0.081841, 0.084622
     ];
     m_quota NUMERIC;
+    running_sum NUMERIC := 0;
+    actual_target NUMERIC;
 BEGIN
+    IF annual_target IS NULL THEN
+        actual_target := public.get_default_annual_quota(target_year);
+    ELSE
+        actual_target := annual_target;
+    END IF;
+
     IF position('-' in target_year) > 0 THEN
         base_year := split_part(target_year, '-', 1)::INT;
     ELSE
@@ -300,7 +338,14 @@ BEGIN
         END IF;
 
         b_days := public.get_billing_days(m_year, cal_months[i]);
-        m_quota := ROUND(annual_target * weights[i], 0);
+        
+        IF i = 12 THEN
+            -- Reconcile rounding in 12th month so sum of 12 months exactly equals annual target
+            m_quota := actual_target - running_sum;
+        ELSE
+            m_quota := ROUND(actual_target * weights[i], 0);
+            running_sum := running_sum + m_quota;
+        END IF;
 
         INSERT INTO public.sales_quotas (fiscal_year, fiscal_month, month_name, quota_amount, working_days)
         VALUES (target_year, i, months[i], m_quota, b_days)
@@ -312,14 +357,14 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- 10. Trigger: Auto-Seed Quotas for Any Newly Added Fiscal Year
+-- 11. Trigger: Auto-Seed Quotas for Any Newly Added Fiscal Year
 CREATE OR REPLACE FUNCTION public.trg_auto_seed_quotas_for_sales()
 RETURNS TRIGGER AS $$
 BEGIN
     IF NEW.year IS NOT NULL AND NOT EXISTS (
         SELECT 1 FROM public.sales_quotas WHERE fiscal_year = NEW.year
     ) THEN
-        PERFORM public.seed_fiscal_year_quotas(NEW.year, 5920915);
+        PERFORM public.seed_fiscal_year_quotas(NEW.year, public.get_default_annual_quota(NEW.year));
     END IF;
     RETURN NEW;
 END;
@@ -330,5 +375,29 @@ CREATE TRIGGER trg_sales_insert_auto_seed_quotas
 AFTER INSERT ON public.sales
 FOR EACH ROW
 EXECUTE FUNCTION public.trg_auto_seed_quotas_for_sales();
+
+-- 12. Seed Baseline Data for All Fiscal Years (2016-17 to Present & Future)
+DO $$
+DECLARE
+    rec RECORD;
+BEGIN
+    FOR rec IN 
+        SELECT * FROM (VALUES
+            ('2016-17', 4280000),
+            ('2017-18', 4490000),
+            ('2018-19', 4710000),
+            ('2019-20', 4940000),
+            ('2020-21', 5180000),
+            ('2021-22', 5420000),
+            ('2022-23', 5650000),
+            ('2023-24', 5820000),
+            ('2024-25', 5920915),
+            ('2025-26', 6125000),
+            ('2026-27', 6350000)
+        ) AS t(yr, target)
+    LOOP
+        PERFORM public.seed_fiscal_year_quotas(rec.yr, rec.target);
+    END LOOP;
+END $$;
 
 

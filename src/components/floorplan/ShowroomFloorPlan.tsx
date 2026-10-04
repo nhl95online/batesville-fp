@@ -1,7 +1,12 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Customer, Product, SaleRecord, RoomShape, RoomCapacity, FloorSlot, CustomerFloorPlan } from '../../types';
 import { db } from '../../services/db';
-import { isUrnProduct } from '../../services/supabase';
+import { 
+  isUrnProduct, 
+  fetchCustomerShowroomFromSupabase, 
+  fetchAccountsWithShowroomLocations, 
+  saveCustomerShowroomToSupabase 
+} from '../../services/supabase';
 import { 
   LayoutGrid, 
   Sparkles, 
@@ -18,11 +23,18 @@ import {
   TrendingUp, 
   ShieldCheck, 
   Eye, 
-  X,
-  Maximize2,
-  Box,
-  Compass,
-  Layers
+  X, 
+  Box, 
+  Compass, 
+  Layers, 
+  Cloud, 
+  Save, 
+  CheckCircle2, 
+  RefreshCw, 
+  AlertCircle, 
+  MapPin, 
+  Plus, 
+  ExternalLink 
 } from 'lucide-react';
 
 interface ShowroomFloorPlanProps {
@@ -55,6 +67,13 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
     return customers.find(c => c.id === selectedCustomerId) || customers[0] || null;
   }, [customers, selectedCustomerId]);
 
+  // Cloud Showroom sync state
+  const [cloudAccounts, setCloudAccounts] = useState<string[]>([]);
+  const [isCloudLoading, setIsCloudLoading] = useState(false);
+  const [isCloudSaving, setIsCloudSaving] = useState(false);
+  const [cloudStatusMsg, setCloudStatusMsg] = useState<{ text: string; type: 'success' | 'info' | 'error' } | null>(null);
+  const [cloudRoomMeta, setCloudRoomMeta] = useState<any | null>(null);
+
   // Customer sales data for live interaction
   const [customerSales, setCustomerSales] = useState<SaleRecord[]>([]);
   const [allSales, setAllSales] = useState<SaleRecord[]>([]);
@@ -70,6 +89,31 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
   const [isCatalogModalOpen, setIsCatalogModalOpen] = useState(false);
   const [catalogSearch, setCatalogSearch] = useState('');
   const [catalogFilterType, setCatalogFilterType] = useState<'all' | 'casket' | 'urn'>('all');
+
+  // Discover accounts that have live showrooms stored in Supabase
+  useEffect(() => {
+    async function loadCloudAccounts() {
+      try {
+        const accounts = await fetchAccountsWithShowroomLocations();
+        setCloudAccounts(accounts);
+
+        // If no explicit customer was provided and we have accounts in Supabase,
+        // auto-select the customer that has active cloud data (e.g. Guenette: 919742)
+        if (!initialCustomerId && accounts.length > 0) {
+          const cloudCust = customers.find(c => {
+            const acct = String(c.accountNumber || c.code || '').trim();
+            return accounts.includes(acct);
+          });
+          if (cloudCust && cloudCust.id !== selectedCustomerId) {
+            setSelectedCustomerId(cloudCust.id);
+          }
+        }
+      } catch (err) {
+        console.warn('Failed to load accounts with cloud showrooms:', err);
+      }
+    }
+    loadCloudAccounts();
+  }, [customers, initialCustomerId]);
 
   // Load customer sales and all regional sales
   useEffect(() => {
@@ -124,34 +168,8 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
     };
   }, [allSales, products]);
 
-  // Generate or load customer floor plan
-  useEffect(() => {
-    if (!activeCustomer || products.length === 0) return;
-
-    const storageKey = `batesville_floorplan_${activeCustomer.id}`;
-    const saved = localStorage.getItem(storageKey);
-
-    if (saved) {
-      try {
-        const parsed: CustomerFloorPlan = JSON.parse(saved);
-        setRoomShape(parsed.roomShape || 'rectangle');
-        setRoomCapacity(parsed.roomCapacity || 'medium');
-        setSlots(parsed.slots || []);
-        if (parsed.slots && parsed.slots.length > 0) {
-          setSelectedSlotId(parsed.slots[0].id);
-        }
-        return;
-      } catch (e) {
-        console.warn('Failed to parse saved floor plan:', e);
-      }
-    }
-
-    // Auto-generate initial layout based on room capacity and shape
-    generateDefaultLayout(roomShape, roomCapacity);
-  }, [activeCustomer, products]);
-
-  // Helper to generate default slots
-  const generateDefaultLayout = (shape: RoomShape, capacity: RoomCapacity) => {
+  // Helper to generate default slots when neither Supabase nor localStorage has data
+  const generateDefaultLayout = useCallback((shape: RoomShape, capacity: RoomCapacity) => {
     let casketCount = 14;
     let urnCount = 12;
 
@@ -170,7 +188,7 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
 
     // Casket bays (supporting single racks and double racks)
     for (let i = 1; i <= casketCount; i++) {
-      const prod = caskets[(i - 1) % caskets.length];
+      const prod = caskets[(i - 1) % Math.max(1, caskets.length)];
       const isDouble = i === 2 || i === 3;
       newSlots.push({
         id: `casket-bay-${i}`,
@@ -190,10 +208,10 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
       });
     }
 
-    // Urn pedestals / multi-level shelves (supporting Shelf Levels 1 to 5)
+    // Urn pedestals / multi-level shelves
     for (let j = 1; j <= urnCount; j++) {
-      const urn = urns[(j - 1) % urns.length];
-      const shelfLvl = ((j - 1) % 3) + 1; // Levels 1, 2, 3
+      const urn = urns[(j - 1) % Math.max(1, urns.length)];
+      const shelfLvl = ((j - 1) % 3) + 1;
       newSlots.push({
         id: `urn-shelf-${j}`,
         slotNumber: j,
@@ -230,14 +248,190 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
       };
       localStorage.setItem(`batesville_floorplan_${activeCustomer.id}`, JSON.stringify(plan));
     }
-  };
+  }, [products, activeCustomer]);
 
-  useEffect(() => {
-    if (initialRoomShape && initialRoomShape !== roomShape) {
-      setRoomShape(initialRoomShape);
-      generateDefaultLayout(initialRoomShape, roomCapacity);
+  // Load customer floor plan directly from Supabase, falling back to local cache or defaults
+  const loadCustomerFloorPlan = useCallback(async (forceCloud = false) => {
+    if (!activeCustomer) return;
+
+    setIsCloudLoading(true);
+    const acct = String(activeCustomer.accountNumber || activeCustomer.code || '').trim();
+
+    try {
+      // 1. Fetch from Supabase cloud database
+      const cloudRes = await fetchCustomerShowroomFromSupabase(acct, activeCustomer.name);
+
+      if (cloudRes.success && (cloudRes.locations.length > 0 || cloudRes.room)) {
+        setCloudRoomMeta(cloudRes.room);
+
+        // Room shape from database
+        let loadedShape: RoomShape = roomShape;
+        if (cloudRes.room?.room_shape) {
+          const s = cloudRes.room.room_shape.toLowerCase();
+          if (s.includes('l-shaped') || s.includes('l shaped')) loadedShape = 'l-shaped';
+          else if (s.includes('oval')) loadedShape = 'oval';
+          else if (s.includes('square')) loadedShape = 'square';
+          else if (s.includes('rectangle')) loadedShape = 'rectangle';
+          setRoomShape(loadedShape);
+          onRoomShapeChange?.(loadedShape);
+        }
+
+        const maxBays = Number(cloudRes.room?.max_casket_bays) || 10;
+        const newSlots: FloorSlot[] = [];
+
+        // Map Supabase customer_casket_locations rows
+        const locSlots: FloorSlot[] = cloudRes.locations.map((loc: any, idx: number) => {
+          const isUrn = String(loc.display_type || '').toLowerCase().includes('urn') || 
+                        String(loc.category || '').toLowerCase().includes('urn');
+          const bayNum = Number(loc.bay_number) || (idx + 1);
+          const lvlNum = Number(loc.level_number) || (String(loc.tier_level || '').toLowerCase().includes('top') ? 2 : 1);
+          const isDouble = Boolean(loc.is_double_rack || String(loc.rack_type || '').toLowerCase().includes('double') || lvlNum > 1);
+
+          // Find product in catalog if available
+          const matchedProd = products.find(p => p.code === loc.product_code);
+
+          const slotId = isUrn
+            ? `urn-shelf-${bayNum}-lvl-${lvlNum}-${loc.shelf_slot_position || 1}`
+            : `casket-bay-${bayNum}-lvl-${lvlNum}`;
+
+          return {
+            id: slotId,
+            slotNumber: bayNum,
+            label: loc.bay_label || (isUrn ? `Urn Shelf #${bayNum}` : `Bay ${bayNum}${isDouble ? (lvlNum === 2 ? ' (Top)' : ' (Bottom)') : ''}`),
+            type: (isUrn ? 'urn' : 'casket') as 'casket' | 'urn',
+            isDoubleRack: isDouble,
+            rackType: loc.rack_type || (isDouble ? 'double' : (isUrn ? 'urn-shelf' : 'single')),
+            levelNumber: lvlNum,
+            tierLevel: loc.tier_level || (isDouble ? (lvlNum === 2 ? 'Double Rack - Top' : 'Double Rack - Bottom') : 'Floor'),
+            shelfSlotPosition: Number(loc.shelf_slot_position) || 1,
+            wallZone: loc.wall_zone,
+            posX: Number(loc.pos_x_ft) || undefined,
+            posY: Number(loc.pos_y_ft) || undefined,
+            notes: loc.notes,
+            productId: matchedProd?.id,
+            productCode: loc.product_code || matchedProd?.code,
+            productName: loc.product_name || matchedProd?.name || 'Unassigned',
+            category: loc.category || matchedProd?.category || (isUrn ? 'Urn' : 'Burial'),
+            wholesalePrice: matchedProd?.wholesalePrice || (isUrn ? 250 : 1200),
+            imageUrl: matchedProd?.imageUrl,
+          };
+        });
+
+        newSlots.push(...locSlots);
+
+        // Fill remaining casket bays up to maxBays so the full room is visible
+        const populatedBays = new Set(locSlots.filter(s => s.type === 'casket').map(s => s.slotNumber));
+        for (let b = 1; b <= maxBays; b++) {
+          if (!populatedBays.has(b)) {
+            newSlots.push({
+              id: `casket-bay-${b}-lvl-1`,
+              slotNumber: b,
+              label: `Bay ${b}`,
+              type: 'casket',
+              isDoubleRack: false,
+              rackType: 'single',
+              levelNumber: 1,
+              tierLevel: 'Floor',
+              productName: 'Unassigned Bay',
+              productCode: '',
+              category: 'Burial',
+              wholesalePrice: 0,
+            });
+          }
+        }
+
+        // Fill urn shelves
+        const populatedUrns = new Set(locSlots.filter(s => s.type === 'urn').map(s => s.slotNumber));
+        const urnTargetCount = 6;
+        const urns = products.filter(p => isUrnProduct(p));
+        for (let u = 1; u <= urnTargetCount; u++) {
+          if (!populatedUrns.has(u)) {
+            const urn = urns[(u - 1) % Math.max(1, urns.length)];
+            newSlots.push({
+              id: `urn-shelf-${u}`,
+              slotNumber: u,
+              label: `Urn Shelf #${u}`,
+              type: 'urn',
+              isDoubleRack: false,
+              rackType: 'urn-shelf',
+              levelNumber: 1,
+              tierLevel: 'Shelf 1',
+              shelfSlotPosition: 1,
+              productId: urn?.id,
+              productCode: urn?.code,
+              productName: urn?.name || 'Urn Display',
+              category: urn?.category || 'Urn',
+              wholesalePrice: urn?.wholesalePrice || 250,
+              imageUrl: urn?.imageUrl,
+            });
+          }
+        }
+
+        setSlots(newSlots);
+        if (newSlots.length > 0) {
+          // Default selection to Bay 1 Top or first slot
+          const topSlot = newSlots.find(s => s.slotNumber === 1 && s.levelNumber === 2) || newSlots[0];
+          setSelectedSlotId(topSlot.id);
+        }
+
+        setCloudStatusMsg({
+          type: 'success',
+          text: `Loaded from Supabase: ${cloudRes.locations.length} models for ${activeCustomer.name} (${cloudRes.room?.room_shape || 'L-Shaped'} Room, ${maxBays} Bays)`
+        });
+
+        // Cache in localStorage
+        const plan: CustomerFloorPlan = {
+          customerId: activeCustomer.id,
+          customerName: activeCustomer.name,
+          roomShape: loadedShape,
+          roomCapacity,
+          slots: newSlots,
+          updatedAt: new Date().toISOString(),
+        };
+        localStorage.setItem(`batesville_floorplan_${activeCustomer.id}`, JSON.stringify(plan));
+        return;
+      }
+
+      // 2. If not found in cloud and not forceCloud, check localStorage
+      if (!forceCloud) {
+        const storageKey = `batesville_floorplan_${activeCustomer.id}`;
+        const saved = localStorage.getItem(storageKey);
+        if (saved) {
+          try {
+            const parsed: CustomerFloorPlan = JSON.parse(saved);
+            setRoomShape(parsed.roomShape || 'rectangle');
+            setRoomCapacity(parsed.roomCapacity || 'medium');
+            setSlots(parsed.slots || []);
+            if (parsed.slots && parsed.slots.length > 0) {
+              setSelectedSlotId(parsed.slots[0].id);
+            }
+            return;
+          } catch (e) {
+            console.warn('Failed to parse saved floor plan:', e);
+          }
+        }
+      }
+
+      // 3. Fallback to default generated layout
+      generateDefaultLayout(roomShape, roomCapacity);
+    } catch (err: any) {
+      console.error('Error loading cloud showroom:', err);
+      generateDefaultLayout(roomShape, roomCapacity);
+      setCloudStatusMsg({
+        type: 'error',
+        text: `Failed to load cloud showroom: ${err.message}`
+      });
+    } finally {
+      setIsCloudLoading(false);
     }
-  }, [initialRoomShape]);
+  }, [activeCustomer, products, roomShape, roomCapacity, generateDefaultLayout, onRoomShapeChange]);
+
+  // Load whenever activeCustomer changes
+  useEffect(() => {
+    if (activeCustomer) {
+      loadCustomerFloorPlan();
+    }
+  }, [activeCustomer?.id, loadCustomerFloorPlan]);
 
   // Handle changing shape or capacity
   const handleConfigChange = (newShape: RoomShape, newCapacity: RoomCapacity) => {
@@ -259,6 +453,41 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
       updatedAt: new Date().toISOString(),
     };
     localStorage.setItem(`batesville_floorplan_${activeCustomer.id}`, JSON.stringify(plan));
+  };
+
+  // Save current floor plan back to Supabase
+  const handleSaveToCloud = async () => {
+    if (!activeCustomer) return;
+    setIsCloudSaving(true);
+    setCloudStatusMsg(null);
+    try {
+      const acct = String(activeCustomer.accountNumber || activeCustomer.code || '');
+      const res = await saveCustomerShowroomToSupabase(
+        acct,
+        activeCustomer.name,
+        {
+          room_name: cloudRoomMeta?.room_name || 'Main Selection Room',
+          room_shape: roomShape === 'l-shaped' ? 'L-Shaped' : roomShape.charAt(0).toUpperCase() + roomShape.slice(1),
+          length_ft: cloudRoomMeta?.length_ft || 28,
+          width_ft: cloudRoomMeta?.width_ft || 19.5,
+          max_casket_bays: cloudRoomMeta?.max_casket_bays || slots.filter(s => s.type === 'casket').length,
+          notes: cloudRoomMeta?.notes || 'Main Selection Room Floor Plan'
+        },
+        slots
+      );
+
+      if (res.success) {
+        setCloudStatusMsg({ type: 'success', text: res.message });
+        const accounts = await fetchAccountsWithShowroomLocations();
+        setCloudAccounts(accounts);
+      } else {
+        setCloudStatusMsg({ type: 'error', text: res.message });
+      }
+    } catch (err: any) {
+      setCloudStatusMsg({ type: 'error', text: err.message || 'Failed to save to Supabase.' });
+    } finally {
+      setIsCloudSaving(false);
+    }
   };
 
   // Update rack / level configuration for a slot
@@ -333,13 +562,30 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
     ? products.find(p => p.id === activeSlot.productId || p.code === activeSlot.productCode) 
     : null;
 
+  // Find siblings in the same bay (for easy double rack level switching)
+  const baySiblingSlots = useMemo(() => {
+    if (!activeSlot) return [];
+    return slots.filter(s => s.type === activeSlot.type && s.slotNumber === activeSlot.slotNumber);
+  }, [activeSlot, slots]);
+
+  // Group casket slots by bay number for rendering real double rack cards
+  const casketBays = useMemo(() => {
+    const bayMap = new Map<number, FloorSlot[]>();
+    slots.filter(s => s.type === 'casket').forEach(slot => {
+      const existing = bayMap.get(slot.slotNumber) || [];
+      existing.push(slot);
+      bayMap.set(slot.slotNumber, existing);
+    });
+
+    return Array.from(bayMap.entries()).sort((a, b) => a[0] - b[0]);
+  }, [slots]);
+
   // Smart suggestion for currently inspected slot
   const smartSuggestion = useMemo(() => {
     if (!activeSlot) return null;
     const isUrn = activeSlot.type === 'urn';
     const topList = isUrn ? regionalRankings.topUrns : regionalRankings.topCaskets;
 
-    // Filter out items already placed on the floor
     const placedCodes = new Set(slots.map(s => s.productCode));
     const candidate = topList.find(t => !placedCodes.has(t.product.code));
 
@@ -421,16 +667,16 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
             <h1 className="text-2xl font-serif font-bold text-slate-900 tracking-wide flex items-center gap-2">
               Interactive Showroom Floor Plan
               <span className="text-xs font-mono font-normal px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
-                Live Sales Engine
+                Live Cloud Engine
               </span>
             </h1>
             <p className="text-xs sm:text-sm text-slate-500">
-              Visual selection room floor plan mapped to {activeCustomer?.name}'s actual sales performance.
+              Visual selection room floor plan mapped to {activeCustomer?.name}'s actual Supabase placement & sales data.
             </p>
           </div>
         </div>
 
-        {/* Customer Dropdown Selector & Print Button */}
+        {/* Customer Dropdown Selector, Cloud Sync & Print Buttons */}
         <div className="flex flex-wrap items-center gap-3">
           <div className="relative">
             <select
@@ -438,13 +684,39 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
               onChange={(e) => setSelectedCustomerId(e.target.value)}
               className="bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-xs font-semibold text-slate-800 focus:outline-none focus:border-amber-500 focus:bg-white cursor-pointer shadow-sm pr-8"
             >
-              {customers.map(c => (
-                <option key={c.id} value={c.id}>
-                  {c.name} ({c.accountNumber || c.code})
-                </option>
-              ))}
+              {customers.map(c => {
+                const acct = String(c.accountNumber || c.code || '').trim();
+                const isCloud = cloudAccounts.includes(acct);
+                return (
+                  <option key={c.id} value={c.id}>
+                    {isCloud ? '☁️ ' : ''}{c.name} ({acct}){isCloud ? ' [Cloud Showroom]' : ''}
+                  </option>
+                );
+              })}
             </select>
           </div>
+
+          {/* Sync from Supabase Button */}
+          <button
+            onClick={() => loadCustomerFloorPlan(true)}
+            disabled={isCloudLoading}
+            title="Refresh floor plan from Supabase customer_casket_locations"
+            className="flex items-center space-x-1.5 px-3.5 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-xl shadow-sm cursor-pointer transition-all disabled:opacity-50"
+          >
+            <RefreshCw className={`w-4 h-4 ${isCloudLoading ? 'animate-spin' : ''}`} />
+            <span>{isCloudLoading ? 'Syncing...' : 'Sync Cloud DB'}</span>
+          </button>
+
+          {/* Save to Supabase Button */}
+          <button
+            onClick={handleSaveToCloud}
+            disabled={isCloudSaving}
+            title="Save floor plan changes to Supabase"
+            className="flex items-center space-x-1.5 px-3.5 py-2.5 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs rounded-xl shadow-sm cursor-pointer transition-all disabled:opacity-50"
+          >
+            <Save className={`w-4 h-4 text-emerald-400 ${isCloudSaving ? 'animate-pulse' : ''}`} />
+            <span>{isCloudSaving ? 'Saving...' : 'Save to Cloud'}</span>
+          </button>
 
           <button
             onClick={handlePrint}
@@ -455,6 +727,74 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
           </button>
         </div>
       </div>
+
+      {/* Cloud Showroom Status Banner */}
+      {cloudStatusMsg && (
+        <div className={`p-4 rounded-2xl border flex items-center justify-between text-xs animate-fadeIn ${
+          cloudStatusMsg.type === 'success' 
+            ? 'bg-emerald-50 border-emerald-200 text-emerald-900' 
+            : cloudStatusMsg.type === 'error'
+            ? 'bg-rose-50 border-rose-200 text-rose-900'
+            : 'bg-blue-50 border-blue-200 text-blue-900'
+        }`}>
+          <div className="flex items-center space-x-2.5">
+            {cloudStatusMsg.type === 'success' ? (
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+            ) : cloudStatusMsg.type === 'error' ? (
+              <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
+            ) : (
+              <Cloud className="w-4 h-4 text-blue-600 shrink-0" />
+            )}
+            <span className="font-medium">{cloudStatusMsg.text}</span>
+          </div>
+          <button 
+            onClick={() => setCloudStatusMsg(null)}
+            className="text-slate-400 hover:text-slate-700 p-1 cursor-pointer"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      )}
+
+      {/* Room Specification Details (from customer_rooms in Supabase) */}
+      {cloudRoomMeta && (
+        <div className="bg-gradient-to-r from-amber-50/60 to-slate-50 border border-amber-200/80 p-4 rounded-2xl flex flex-wrap items-center justify-between gap-4 text-xs">
+          <div className="flex items-center space-x-3">
+            <div className="w-8 h-8 rounded-xl bg-amber-100 flex items-center justify-center text-amber-800 font-bold">
+              <Cloud className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-slate-900">{cloudRoomMeta.room_name || 'Main Selection Room'}</span>
+                <span className="font-mono text-[10px] px-2 py-0.5 rounded-full bg-white border border-amber-300 text-amber-900 font-bold">
+                  {cloudRoomMeta.room_shape || 'L-Shaped'}
+                </span>
+                <span className="text-[11px] text-slate-500">
+                  {cloudRoomMeta.length_ft}ft × {cloudRoomMeta.width_ft}ft ({cloudRoomMeta.sq_footage || (cloudRoomMeta.length_ft * cloudRoomMeta.width_ft)} sq ft)
+                </span>
+              </div>
+              {cloudRoomMeta.notes && (
+                <p className="text-[11px] text-slate-600 italic mt-0.5">
+                  "{cloudRoomMeta.notes}"
+                </p>
+              )}
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 text-[11px] font-mono">
+            <div className="px-3 py-1 bg-white rounded-lg border border-slate-200 text-slate-700">
+              <span className="text-slate-400">Max Casket Bays: </span>
+              <span className="font-bold text-slate-900">{cloudRoomMeta.max_casket_bays || 10}</span>
+            </div>
+            {cloudRoomMeta.ceiling_height_ft && (
+              <div className="px-3 py-1 bg-white rounded-lg border border-slate-200 text-slate-700">
+                <span className="text-slate-400">Ceiling: </span>
+                <span className="font-bold text-slate-900">{cloudRoomMeta.ceiling_height_ft}ft</span>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Showroom Summary Bar */}
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 text-xs">
@@ -564,7 +904,7 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
               <div className="flex items-center space-x-1.5">
                 <Compass className="w-4 h-4 text-amber-600" />
                 <span className="font-semibold text-slate-600 uppercase tracking-wider">
-                  {roomShape.toUpperCase()} SHOWROOM • {roomCapacity.toUpperCase()} CAPACITY ({slots.length} TOTAL SLOTS)
+                  {roomShape.toUpperCase()} SHOWROOM • {casketBays.length} CASKET BAYS • {slots.filter(s => s.type === 'urn').length} URN SHELVES
                 </span>
               </div>
               <div className="flex items-center space-x-3">
@@ -586,21 +926,160 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
               
               {/* Casket Bays Section */}
               <div className="mb-6">
-                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-1.5">
-                  <Box className="w-3.5 h-3.5 text-amber-600" />
-                  <span>Casket Floor Bays ({slots.filter(s => s.type === 'casket').length})</span>
+                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 flex items-center justify-between">
+                  <div className="flex items-center gap-1.5">
+                    <Box className="w-3.5 h-3.5 text-amber-600" />
+                    <span>Casket Floor Bays ({casketBays.length} Bays • {slots.filter(s => s.type === 'casket').length} Models)</span>
+                  </div>
+                  <span className="text-[10px] font-normal text-slate-400">
+                    Click any bay or tier to inspect
+                  </span>
                 </div>
 
                 <div className={`grid gap-3 ${
                   roomShape === 'oval' 
-                    ? 'grid-cols-2 sm:grid-cols-4 rounded-3xl p-4 bg-slate-50 border border-dashed border-amber-300'
+                    ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 rounded-3xl p-4 bg-slate-50 border border-dashed border-amber-300'
                     : roomShape === 'l-shaped'
-                    ? 'grid-cols-2 sm:grid-cols-3 p-4 bg-slate-50 rounded-2xl border border-slate-200'
-                    : 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4'
+                    ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 p-4 bg-slate-50 rounded-2xl border border-slate-200'
+                    : 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3'
                 }`}>
-                  {slots.filter(s => s.type === 'casket').map(slot => {
+                  {casketBays.map(([bayNumber, baySlots]) => {
+                    const isDouble = baySlots.length > 1 || baySlots.some(s => s.isDoubleRack);
+
+                    if (isDouble) {
+                      // Double Rack Bay (renders both Top and Bottom models)
+                      const sorted = [...baySlots].sort((a, b) => (Number(b.levelNumber) || 1) - (Number(a.levelNumber) || 1));
+                      const topSlot = sorted.find(s => s.levelNumber === 2) || sorted[0];
+                      const btmSlot = sorted.find(s => s.levelNumber === 1 && s.id !== topSlot.id) || (sorted.length > 1 ? sorted[1] : null);
+
+                      const isAnySelected = selectedSlotId === topSlot.id || (btmSlot && selectedSlotId === btmSlot.id);
+                      const bayLabel = topSlot.label?.replace(/\s*\((Top|Bottom)\)/i, '') || `Bay ${bayNumber}`;
+
+                      return (
+                        <div
+                          key={`bay-${bayNumber}`}
+                          className={`p-3 rounded-2xl border-2 transition-all relative flex flex-col justify-between ${
+                            isAnySelected
+                              ? 'border-amber-500 bg-amber-50/40 shadow-md ring-2 ring-amber-400/20'
+                              : 'border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50'
+                          }`}
+                        >
+                          {/* Bay Header */}
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center gap-1.5 overflow-hidden pr-1">
+                              <span className="text-[11px] font-mono font-bold text-slate-800 truncate">
+                                {bayLabel}
+                              </span>
+                              <span className="shrink-0 flex items-center gap-1 px-1.5 py-0.5 rounded bg-amber-100 text-amber-900 text-[9px] font-bold border border-amber-300" title="2-Tier Double Rack Display">
+                                <Layers className="w-2.5 h-2.5 text-amber-700" />
+                                <span>Double Rack</span>
+                              </span>
+                            </div>
+                            <span className="text-[9px] font-mono text-slate-400">
+                              2 Models
+                            </span>
+                          </div>
+
+                          {/* Top Tier Sub-Card */}
+                          <div
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setSelectedSlotId(topSlot.id);
+                            }}
+                            className={`p-2.5 rounded-xl border transition-all cursor-pointer mb-2 ${
+                              selectedSlotId === topSlot.id
+                                ? 'border-amber-600 bg-amber-100/70 shadow-xs ring-1 ring-amber-400'
+                                : 'border-slate-200 bg-slate-50/70 hover:bg-amber-50/40'
+                            }`}
+                          >
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="text-[9px] font-mono font-bold px-1.5 py-0.2 rounded bg-amber-700 text-white">
+                                TOP TIER
+                              </span>
+                              {topSlot.productCode && (
+                                <span className="text-[9px] font-mono text-slate-600 font-semibold">
+                                  SKU: {topSlot.productCode}
+                                </span>
+                              )}
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <div className="w-10 h-10 rounded-lg bg-white overflow-hidden shrink-0 border border-slate-200 flex items-center justify-center">
+                                {topSlot.imageUrl ? (
+                                  <img src={topSlot.imageUrl} alt={topSlot.productName} className="w-full h-full object-cover" />
+                                ) : (
+                                  <Box className="w-5 h-5 text-amber-700" />
+                                )}
+                              </div>
+                              <div className="min-w-0 flex-1">
+                                <span className="font-serif font-bold text-xs text-slate-900 block truncate" title={topSlot.productName}>
+                                  {topSlot.productName || 'Unassigned'}
+                                </span>
+                                <span className="text-[10px] text-slate-500 block truncate">
+                                  {topSlot.category || 'Burial - Wood'}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Bottom Tier Sub-Card */}
+                          {btmSlot && (
+                            <div
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setSelectedSlotId(btmSlot.id);
+                              }}
+                              className={`p-2.5 rounded-xl border transition-all cursor-pointer ${
+                                selectedSlotId === btmSlot.id
+                                  ? 'border-amber-600 bg-amber-100/70 shadow-xs ring-1 ring-amber-400'
+                                  : 'border-slate-200 bg-slate-50/70 hover:bg-amber-50/40'
+                              }`}
+                            >
+                              <div className="flex items-center justify-between mb-1">
+                                <span className="text-[9px] font-mono font-bold px-1.5 py-0.2 rounded bg-slate-700 text-white">
+                                  BOTTOM TIER
+                                </span>
+                                {btmSlot.productCode && (
+                                  <span className="text-[9px] font-mono text-slate-600 font-semibold">
+                                    SKU: {btmSlot.productCode}
+                                  </span>
+                                )}
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <div className="w-10 h-10 rounded-lg bg-white overflow-hidden shrink-0 border border-slate-200 flex items-center justify-center">
+                                  {btmSlot.imageUrl ? (
+                                    <img src={btmSlot.imageUrl} alt={btmSlot.productName} className="w-full h-full object-cover" />
+                                  ) : (
+                                    <Box className="w-5 h-5 text-slate-600" />
+                                  )}
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <span className="font-serif font-bold text-xs text-slate-900 block truncate" title={btmSlot.productName}>
+                                    {btmSlot.productName || 'Unassigned'}
+                                  </span>
+                                  <span className="text-[10px] text-slate-500 block truncate">
+                                    {btmSlot.category || 'Burial - Metal'}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Footer info */}
+                          <div className="mt-2 pt-2 border-t border-slate-100 flex items-center justify-between text-[10px]">
+                            <span className="text-slate-400">Placement:</span>
+                            <span className="font-mono text-slate-600">
+                              {topSlot.wallZone || 'North Wall'}
+                            </span>
+                          </div>
+                        </div>
+                      );
+                    }
+
+                    // Single Rack Bay
+                    const slot = baySlots[0];
                     const stats = getSlotSalesStats(slot);
                     const isSelected = selectedSlotId === slot.id;
+                    const isUnassigned = !slot.productCode || slot.productName === 'Unassigned Bay';
 
                     return (
                       <div
@@ -609,39 +1088,37 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
                         className={`p-3 rounded-2xl border-2 transition-all cursor-pointer relative flex flex-col justify-between ${
                           isSelected
                             ? 'border-amber-500 bg-amber-50/50 shadow-md ring-2 ring-amber-400/20'
+                            : isUnassigned
+                            ? 'border-dashed border-slate-300 bg-slate-50/50 hover:border-slate-400'
                             : 'border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50'
                         }`}
                       >
                         {/* Status Ribbon Badge */}
                         <div className="flex items-center justify-between mb-2">
-                          <div className="flex items-center gap-1.5 overflow-hidden pr-1">
-                            <span className="text-[10px] font-mono font-bold text-slate-700 truncate">
-                              {slot.label}
+                          <span className="text-[10px] font-mono font-bold text-slate-700 truncate">
+                            {slot.label}
+                          </span>
+                          {isUnassigned ? (
+                            <span className="text-[9px] font-bold text-slate-400 bg-slate-200/60 px-1.5 py-0.5 rounded">
+                              Empty Bay
                             </span>
-                            {slot.isDoubleRack && (
-                              <span className="shrink-0 flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-amber-100 text-amber-900 text-[9px] font-bold border border-amber-200" title={slot.tierLevel || 'Double Rack'}>
-                                <Layers className="w-2.5 h-2.5 text-amber-700" />
-                                <span>{slot.levelNumber === 2 ? 'Top' : 'Btm'}</span>
+                          ) : (
+                            stats.status === 'top' ? (
+                              <span className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-bold shrink-0">
+                                <Flame className="w-3 h-3 text-emerald-600" />
+                                <span>{stats.units}</span>
                               </span>
-                            )}
-                          </div>
-                          {stats.status === 'top' && (
-                            <span className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-bold shrink-0">
-                              <Flame className="w-3 h-3 text-emerald-600" />
-                              <span>{stats.units}</span>
-                            </span>
-                          )}
-                          {stats.status === 'steady' && (
-                            <span className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-blue-100 text-blue-800 text-[10px] font-bold shrink-0">
-                              <Zap className="w-3 h-3 text-blue-600" />
-                              <span>{stats.units}</span>
-                            </span>
-                          )}
-                          {stats.status === 'stagnant' && (
-                            <span className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-rose-100 text-rose-800 text-[10px] font-bold shrink-0">
-                              <Snowflake className="w-3 h-3 text-rose-600" />
-                              <span>0</span>
-                            </span>
+                            ) : stats.status === 'steady' ? (
+                              <span className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-blue-100 text-blue-800 text-[10px] font-bold shrink-0">
+                                <Zap className="w-3 h-3 text-blue-600" />
+                                <span>{stats.units}</span>
+                              </span>
+                            ) : (
+                              <span className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-rose-100 text-rose-800 text-[10px] font-bold shrink-0">
+                                <Snowflake className="w-3 h-3 text-rose-600" />
+                                <span>0</span>
+                              </span>
+                            )
                           )}
                         </div>
 
@@ -650,16 +1127,18 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
                           <div className="w-12 h-12 rounded-lg bg-slate-100 overflow-hidden shrink-0 border border-slate-200 flex items-center justify-center">
                             {slot.imageUrl ? (
                               <img src={slot.imageUrl} alt={slot.productName} className="w-full h-full object-cover" />
+                            ) : isUnassigned ? (
+                              <Plus className="w-5 h-5 text-slate-400" />
                             ) : (
                               <Box className="w-5 h-5 text-slate-400" />
                             )}
                           </div>
                           <div className="min-w-0 flex-1">
                             <span className="font-serif font-bold text-xs text-slate-900 block truncate" title={slot.productName}>
-                              {slot.productName || 'Unassigned'}
+                              {slot.productName || 'Unassigned Bay'}
                             </span>
-                            <span className="font-mono text-[10px] text-amber-700 block">
-                              {slot.productCode}
+                            <span className="font-mono text-[10px] text-amber-700 block truncate">
+                              {slot.productCode || (isUnassigned ? 'Click to assign' : '')}
                             </span>
                           </div>
                         </div>
@@ -668,7 +1147,7 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
                         <div className="mt-2 pt-2 border-t border-slate-100 flex items-center justify-between text-[10px]">
                           <span className="text-slate-400">Cost:</span>
                           <span className="font-mono font-bold text-slate-700">
-                            ${slot.wholesalePrice?.toLocaleString() || '1,200'}
+                            {isUnassigned ? '$0' : `$${slot.wholesalePrice?.toLocaleString() || '1,200'}`}
                           </span>
                         </div>
                       </div>
@@ -679,9 +1158,14 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
 
               {/* Urn Wall & Pedestals Section */}
               <div className="pt-4 border-t border-slate-200">
-                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-                  <span>Urn & Keepsake Wall Shelves / Pedestals ({slots.filter(s => s.type === 'urn').length})</span>
+                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 flex items-center justify-between">
+                  <div className="flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+                    <span>Urn & Keepsake Wall Shelves / Pedestals ({slots.filter(s => s.type === 'urn').length})</span>
+                  </div>
+                  <span className="text-[10px] text-slate-400">
+                    Supports 1 to 5 Shelf Tiers
+                  </span>
                 </div>
 
                 <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
@@ -785,6 +1269,46 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
                 )}
               </div>
 
+              {/* Quick Switcher for Sibling Levels in Double Rack */}
+              {baySiblingSlots.length > 1 && (
+                <div className="p-3 bg-amber-50/80 border border-amber-200 rounded-xl space-y-2">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-1.5 text-amber-900">
+                      <Layers className="w-4 h-4 text-amber-700" />
+                      <span className="text-[11px] font-bold uppercase tracking-wider">Double Rack Bay #{activeSlot.slotNumber}</span>
+                    </div>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-200/60 text-amber-900 font-bold">
+                      {activeSlot.levelNumber === 2 ? 'Inspecting Top Rack' : 'Inspecting Bottom Rack'}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    {baySiblingSlots
+                      .sort((a, b) => (Number(b.levelNumber) || 1) - (Number(a.levelNumber) || 1))
+                      .map(sib => (
+                        <button
+                          key={sib.id}
+                          onClick={() => setSelectedSlotId(sib.id)}
+                          className={`p-2 rounded-lg text-left transition-all cursor-pointer border ${
+                            selectedSlotId === sib.id
+                              ? 'bg-amber-700 text-white border-amber-800 shadow-sm'
+                              : 'bg-white text-slate-800 border-amber-200 hover:bg-amber-100/50'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between text-[10px] font-bold mb-0.5">
+                            <span>{sib.levelNumber === 2 ? 'TOP RACK' : 'BOTTOM RACK'}</span>
+                            <span className={`font-mono text-[9px] ${selectedSlotId === sib.id ? 'text-amber-200' : 'text-slate-500'}`}>
+                              {sib.productCode || 'N/A'}
+                            </span>
+                          </div>
+                          <div className="text-xs font-serif font-bold truncate">
+                            {sib.productName || 'Unassigned'}
+                          </div>
+                        </button>
+                      ))}
+                  </div>
+                </div>
+              )}
+
               {/* Product Preview Card */}
               <div className="space-y-3">
                 <div className="relative w-full h-44 rounded-2xl bg-slate-100 overflow-hidden border border-slate-200 flex items-center justify-center">
@@ -798,17 +1322,22 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
                     <Box className="w-8 h-8 text-slate-400" />
                   )}
                   <div className="absolute top-2 right-2 bg-slate-900/80 backdrop-blur-sm text-white font-mono text-[10px] px-2 py-0.5 rounded">
-                    SKU: {activeSlot.productCode}
+                    SKU: {activeSlot.productCode || 'Unassigned'}
                   </div>
                 </div>
 
                 <div>
                   <h4 className="font-serif text-lg font-bold text-slate-900">
-                    {activeSlot.productName}
+                    {activeSlot.productName || 'Unassigned Model'}
                   </h4>
                   <p className="text-xs text-slate-500 italic mt-0.5">
-                    {activeSlot.category}
+                    {activeSlot.category || 'Selection Room Display'}
                   </p>
+                  {activeSlot.notes && (
+                    <p className="text-[11px] text-amber-800 bg-amber-50 px-2 py-1 rounded border border-amber-200 mt-1 font-mono">
+                      Note: {activeSlot.notes}
+                    </p>
+                  )}
                 </div>
 
                 {/* Sales Figures Ledger */}

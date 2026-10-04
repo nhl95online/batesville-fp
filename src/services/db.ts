@@ -377,22 +377,154 @@ export const FISCAL_MONTH_CODES = [
 ];
 
 /**
+ * Historical and baseline annual quota targets per fiscal year (from 2016-17 to present).
+ * The annual quota changes by year and is always the sum of that year's 12 monthly targets.
+ */
+export const HISTORICAL_ANNUAL_QUOTAS: Record<string, number> = {
+  '2016-17': 4280000,
+  '2017-18': 4490000,
+  '2018-19': 4710000,
+  '2019-20': 4940000,
+  '2020-21': 5180000,
+  '2021-22': 5420000,
+  '2022-23': 5650000,
+  '2023-24': 5820000,
+  '2024-25': 5920915, // Exact spreadsheet baseline
+  '2025-26': 6125000,
+  '2026-27': 6350000,
+};
+
+/**
+ * Normalizes fiscal year strings like "2024-25", "2024", or "2024-2025" into standard "2024-25"
+ */
+export function parseBatesvilleFiscalYear(yearStr: string): { baseYear: number; nextYear: number; standardCode: string } {
+  let baseYear = 2024;
+  if (!yearStr) {
+    return { baseYear: 2024, nextYear: 2025, standardCode: '2024-25' };
+  }
+  const str = String(yearStr).trim();
+  if (str.includes('-')) {
+    const parts = str.split('-');
+    baseYear = parseInt(parts[0], 10);
+    let nYear = parseInt(parts[1], 10);
+    if (nYear < 100) nYear += 2000;
+    return {
+      baseYear,
+      nextYear: nYear,
+      standardCode: `${baseYear}-${String(nYear).slice(-2)}`
+    };
+  }
+  const y = parseInt(str, 10);
+  if (!isNaN(y)) {
+    return {
+      baseYear: y,
+      nextYear: y + 1,
+      standardCode: `${y}-${String(y + 1).slice(-2)}`
+    };
+  }
+  return { baseYear: 2024, nextYear: 2025, standardCode: '2024-25' };
+}
+
+const FISCAL_MONTH_NAME_TO_NUM: Record<string, number> = {
+  'OCT': 1, 'NOV': 2, 'DEC': 3, 'JAN': 4, 'FEB': 5, 'MAR': 6,
+  'APR': 7, 'MAY': 8, 'JUN': 9, 'JUL': 10, 'AUG': 11, 'SEP': 12,
+  'OCTOBER': 1, 'NOVEMBER': 2, 'DECEMBER': 3, 'JANUARY': 4,
+  'FEBRUARY': 5, 'MARCH': 6, 'APRIL': 7, 'JUNE': 9,
+  'JULY': 10, 'AUGUST': 11, 'SEPTEMBER': 12
+};
+
+/**
+ * Determines exact fiscal year and fiscal month (1=Oct ... 12=Sep) for any sale record
+ */
+export function getSaleFiscalYearAndMonth(s: SaleRecord): { fiscalYear: string; fiscalMonth: number } {
+  let fMonth = Number(s.fiscalMonth) || 0;
+  if (fMonth < 1 || fMonth > 12) {
+    const mStr = String(s.month || '').toUpperCase().trim();
+    if (FISCAL_MONTH_NAME_TO_NUM[mStr]) {
+      fMonth = FISCAL_MONTH_NAME_TO_NUM[mStr];
+    } else {
+      const cMonth = Number(s.calMonth) || parseInt(mStr, 10);
+      if (!isNaN(cMonth) && cMonth >= 1 && cMonth <= 12) {
+        fMonth = cMonth >= 10 ? (cMonth - 9) : (cMonth + 3);
+      } else if (s.saleDate && s.saleDate.includes('-')) {
+        const parts = s.saleDate.split('-');
+        const parsedM = parseInt(parts[1], 10);
+        if (!isNaN(parsedM) && parsedM >= 1 && parsedM <= 12) {
+          fMonth = parsedM >= 10 ? (parsedM - 9) : (parsedM + 3);
+        }
+      }
+    }
+  }
+  if (fMonth < 1 || fMonth > 12) fMonth = 1;
+
+  let fy = String(s.year || '').trim();
+  if (fy.includes('-')) {
+    const parts = fy.split('-');
+    const bYear = parseInt(parts[0], 10);
+    let nYear = parseInt(parts[1], 10);
+    if (nYear < 100) nYear += 2000;
+    return { fiscalYear: `${bYear}-${String(nYear).slice(-2)}`, fiscalMonth: fMonth };
+  }
+
+  if (s.saleDate && s.saleDate.includes('-')) {
+    const parts = s.saleDate.split('-');
+    const cYear = parseInt(parts[0], 10);
+    const cMonth = parseInt(parts[1], 10);
+    if (!isNaN(cYear) && !isNaN(cMonth)) {
+      if (cMonth >= 10) {
+        return { fiscalYear: `${cYear}-${String(cYear + 1).slice(-2)}`, fiscalMonth: fMonth };
+      } else {
+        return { fiscalYear: `${cYear - 1}-${String(cYear).slice(-2)}`, fiscalMonth: fMonth };
+      }
+    }
+  }
+
+  const singleYear = parseInt(fy, 10);
+  if (!isNaN(singleYear) && singleYear >= 2000) {
+    if (fMonth <= 3) {
+      return { fiscalYear: `${singleYear}-${String(singleYear + 1).slice(-2)}`, fiscalMonth: fMonth };
+    } else {
+      return { fiscalYear: `${singleYear - 1}-${String(singleYear).slice(-2)}`, fiscalMonth: fMonth };
+    }
+  }
+
+  return { fiscalYear: fy || '2024-25', fiscalMonth: fMonth };
+}
+
+/**
  * Return default 12-month quotas with exact calendar billing days (excluding weekends & holidays)
+ * The annual quota is dynamically calculated per year.
  */
 export function getDefaultFiscalQuotas(year: string): SalesQuotaItem[] {
-  const billingCalendar = getFiscalYearBillingDays(year);
-  return FISCAL_MONTH_CODES.map((m, idx) => {
-    const fMonth = idx + 1;
-    const base = BASELINE_QUOTA_SPREADSHEET[fMonth];
-    const calDays = billingCalendar[idx]?.billingDays || base.workingDays;
-    return {
-      fiscal_year: year,
-      fiscal_month: fMonth,
-      month_name: m,
-      quota_amount: base.quota,
-      working_days: calDays,
-    };
-  });
+  const normYear = parseBatesvilleFiscalYear(year).standardCode;
+
+  // For 2024-25, use the exact spreadsheet baseline numbers
+  if (normYear === '2024-25') {
+    const billingCalendar = getFiscalYearBillingDays(normYear);
+    return FISCAL_MONTH_CODES.map((m, idx) => {
+      const fMonth = idx + 1;
+      const base = BASELINE_QUOTA_SPREADSHEET[fMonth];
+      const calDays = billingCalendar[idx]?.billingDays || base.workingDays;
+      return {
+        fiscal_year: normYear,
+        fiscal_month: fMonth,
+        month_name: m,
+        quota_amount: base.quota,
+        working_days: calDays,
+      };
+    });
+  }
+
+  // Look up or calculate annual target for this specific fiscal year
+  let annualTarget = HISTORICAL_ANNUAL_QUOTAS[normYear];
+  if (!annualTarget) {
+    const baseYear = parseInt(normYear.split('-')[0], 10) || 2025;
+    const yearDiff = baseYear - 2024;
+    annualTarget = Math.round(5920915 * Math.pow(1.035, yearDiff));
+  }
+
+  // Distribute target across 12 months using authentic seasonality weights & calendar days
+  return distributeAnnualQuota(annualTarget, normYear);
 }
 
 const QUOTA_STORAGE_PREFIX = 'batesville_quotas_';
@@ -401,28 +533,35 @@ const QUOTA_STORAGE_PREFIX = 'batesville_quotas_';
  * Load quotas for a fiscal year from local storage, fallback to defaults
  */
 export function getStoredQuotas(year: string): SalesQuotaItem[] {
+  const normYear = parseBatesvilleFiscalYear(year).standardCode;
   try {
-    const raw = localStorage.getItem(`${QUOTA_STORAGE_PREFIX}${year}`);
+    const raw = localStorage.getItem(`${QUOTA_STORAGE_PREFIX}${normYear}`);
     if (raw) {
       const parsed = JSON.parse(raw);
       if (Array.isArray(parsed) && parsed.length === 12) {
+        const sum = parsed.reduce((acc: number, q: any) => acc + (Number(q.quota_amount) || 0), 0);
+        // Invalidate stale cache if an earlier version saved the 5,920,915 placeholder for a different year
+        if (normYear !== '2024-25' && sum === 5920915 && HISTORICAL_ANNUAL_QUOTAS[normYear]) {
+          return getDefaultFiscalQuotas(normYear);
+        }
         return parsed;
       }
     }
   } catch (e) {
     console.error('Failed to read quotas from localStorage', e);
   }
-  return getDefaultFiscalQuotas(year);
+  return getDefaultFiscalQuotas(normYear);
 }
 
 /**
  * Save updated quotas to local storage and dispatch notification
  */
 export function saveStoredQuotas(year: string, quotas: SalesQuotaItem[]): void {
+  const normYear = parseBatesvilleFiscalYear(year).standardCode;
   try {
-    localStorage.setItem(`${QUOTA_STORAGE_PREFIX}${year}`, JSON.stringify(quotas));
+    localStorage.setItem(`${QUOTA_STORAGE_PREFIX}${normYear}`, JSON.stringify(quotas));
     if (typeof window !== 'undefined') {
-      window.dispatchEvent(new CustomEvent('batesville_quotas_updated', { detail: { year } }));
+      window.dispatchEvent(new CustomEvent('batesville_quotas_updated', { detail: { year: normYear } }));
     }
   } catch (e) {
     console.error('Failed to save quotas to localStorage', e);
@@ -434,18 +573,19 @@ export function saveStoredQuotas(year: string, quotas: SalesQuotaItem[]): void {
  * and dynamically calculates billing days for that year excluding weekends & corporate holidays.
  */
 export function distributeAnnualQuota(annualTotal: number, year: string): SalesQuotaItem[] {
+  const normYear = parseBatesvilleFiscalYear(year).standardCode;
   const weights = [
     0.080769, 0.070138, 0.087775, 0.090957, 0.086646, 0.090273,
     0.082576, 0.077197, 0.080040, 0.087166, 0.081841, 0.084622
   ];
-  const billingCalendar = getFiscalYearBillingDays(year);
+  const billingCalendar = getFiscalYearBillingDays(normYear);
 
   let runningSum = 0;
   return FISCAL_MONTH_CODES.map((m, idx) => {
     const fMonth = idx + 1;
     let monthQuota = Math.round(annualTotal * weights[idx]);
     if (fMonth === 12) {
-      // Reconcile rounding difference in the 12th month
+      // Reconcile rounding difference in the 12th month to equal exact annual total
       monthQuota = annualTotal - runningSum;
     } else {
       runningSum += monthQuota;
@@ -454,7 +594,7 @@ export function distributeAnnualQuota(annualTotal: number, year: string): SalesQ
     const calDays = billingCalendar[idx]?.billingDays || 21;
 
     return {
-      fiscal_year: year,
+      fiscal_year: normYear,
       fiscal_month: fMonth,
       month_name: m,
       quota_amount: monthQuota,
@@ -464,7 +604,8 @@ export function distributeAnnualQuota(annualTotal: number, year: string): SalesQ
 }
 
 /**
- * Calculate all 10 rows of the Annual Quota Tracker with exact cumulative pacing and variances
+ * Calculate all 10 rows of the Annual Quota Tracker summing figures for all months
+ * from October through September for the selected fiscal year.
  */
 export function calculateAnnualQuotaMetrics(
   year: string,
@@ -472,13 +613,30 @@ export function calculateAnnualQuotaMetrics(
   customQuotas?: SalesQuotaItem[],
   useBaselineIfNoSales = true
 ): AnnualQuotaTrackerData {
-  const quotas = customQuotas && customQuotas.length === 12 ? customQuotas : getStoredQuotas(year);
-  
-  // Filter sales for this fiscal year
-  const yearSales = sales.filter(s => String(s.year) === String(year));
-  const hasRealSales = yearSales.length > 0;
+  const normYear = parseBatesvilleFiscalYear(year).standardCode;
+  const quotas = (customQuotas && customQuotas.length === 12 && customQuotas[0].fiscal_year === normYear)
+    ? customQuotas
+    : getStoredQuotas(normYear);
 
-  // Total full-year annual quota
+  // Group actual sales by fiscal month (1=Oct through 12=Sep)
+  const monthlyActualSales: Record<number, number> = {
+    1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0,
+    7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0
+  };
+  let matchedSalesCount = 0;
+
+  for (const s of sales) {
+    const { fiscalYear: saleFY, fiscalMonth: saleFM } = getSaleFiscalYearAndMonth(s);
+    if (saleFY === normYear) {
+      const amount = Number(s.cost) || Number(s.totalAmount) || ((Number(s.unitPrice) || 0) * (Number(s.quantity) || 1)) || 0;
+      monthlyActualSales[saleFM] = (monthlyActualSales[saleFM] || 0) + amount;
+      matchedSalesCount++;
+    }
+  }
+
+  const hasRealSales = matchedSalesCount > 0;
+
+  // The Annual Quota is strictly the sum of all 12 quota months in this fiscal year!
   const annualQuota = quotas.reduce((acc, q) => acc + (Number(q.quota_amount) || 0), 0);
 
   let cumulativeQuota = 0;
@@ -486,24 +644,17 @@ export function calculateAnnualQuotaMetrics(
 
   const monthMetrics: FiscalMonthQuotaMetrics[] = quotas.map((q, idx) => {
     const fMonth = idx + 1;
-    const mCode = FISCAL_MONTH_CODES[idx];
     const mName = FISCAL_MONTH_NAMES[idx];
     const quotaVal = Number(q.quota_amount) || 0;
     const wDays = Number(q.working_days) || 21;
 
-    // Actual sales calculation for this fiscal month
     let actualSales = 0;
     if (hasRealSales) {
-      const isMatching = (s: SaleRecord) => {
-        const sm = String(s.month || '').toUpperCase().trim();
-        return sm === mCode || s.fiscalMonth === fMonth;
-      };
-      actualSales = yearSales
-        .filter(isMatching)
-        .reduce((sum, s) => sum + (Number(s.cost) || Number(s.totalAmount) || 0), 0);
+      actualSales = monthlyActualSales[fMonth] || 0;
     } else if (useBaselineIfNoSales) {
-      // Authentic baseline numbers from the spreadsheet
-      actualSales = BASELINE_QUOTA_SPREADSHEET[fMonth]?.fallbackSales || 0;
+      // Baseline fallback scaled to this year's quota
+      const baselineFallback = BASELINE_QUOTA_SPREADSHEET[fMonth]?.fallbackSales || 0;
+      actualSales = Math.round(baselineFallback * (annualQuota / 5920915));
     }
 
     cumulativeQuota += quotaVal;
@@ -539,7 +690,7 @@ export function calculateAnnualQuotaMetrics(
   const totalWorkingDays = quotas.reduce((acc, q) => acc + (Number(q.working_days) || 0), 0);
 
   return {
-    fiscalYear: year,
+    fiscalYear: normYear,
     annualQuota,
     totalActualSales,
     totalVariance,
