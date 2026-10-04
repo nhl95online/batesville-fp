@@ -72,3 +72,23 @@ CREATE POLICY "Allow public write customer_rooms" ON public.customer_rooms FOR A
 
 CREATE POLICY "Allow public read customer_casket_locations" ON public.customer_casket_locations FOR SELECT USING (true);
 CREATE POLICY "Allow public write customer_casket_locations" ON public.customer_casket_locations FOR ALL USING (true);
+
+-- ==============================================================================
+-- 3. Automatic Migration for Existing Tables (Safe to run if table already exists)
+-- ==============================================================================
+ALTER TABLE public.customer_casket_locations
+  ADD COLUMN IF NOT EXISTS is_double_rack BOOLEAN DEFAULT FALSE,
+  ADD COLUMN IF NOT EXISTS rack_type TEXT DEFAULT 'Single Rack',
+  ADD COLUMN IF NOT EXISTS level_number INTEGER DEFAULT 1,
+  ADD COLUMN IF NOT EXISTS shelf_slot_position INTEGER DEFAULT 1;
+
+ALTER TABLE public.customer_casket_locations 
+  DROP CONSTRAINT IF EXISTS uq_customer_bay;
+
+ALTER TABLE public.customer_casket_locations 
+  DROP CONSTRAINT IF EXISTS uq_customer_bay_level;
+
+ALTER TABLE public.customer_casket_locations 
+  ADD CONSTRAINT uq_customer_bay_level 
+  UNIQUE ("account_#", room_name, bay_number, level_number, shelf_slot_position);
+
