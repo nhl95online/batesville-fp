@@ -20,6 +20,9 @@ export interface MonthBillingInfo {
   holidayDays: number;
   billingDays: number;
   holidays: HolidayDetail[];
+  startDate: string;   // YYYY-MM-DD
+  endDate: string;     // YYYY-MM-DD
+  dateRange: string;   // e.g. "10/01 - 10/31"
 }
 
 /**
@@ -209,6 +212,10 @@ export function getFiscalYearBillingDays(fiscalYearStr: string): MonthBillingInf
 
   return fiscalMonthDefs.map((def) => {
     const calc = calculateBillingDaysForMonth(def.calYear, def.calMonth);
+    const startDate = `${def.calYear}-${String(def.calMonth).padStart(2, '0')}-01`;
+    const endDate = `${def.calYear}-${String(def.calMonth).padStart(2, '0')}-${String(calc.totalDays).padStart(2, '0')}`;
+    const dateRange = `${String(def.calMonth).padStart(2, '0')}/01 - ${String(def.calMonth).padStart(2, '0')}/${String(calc.totalDays).padStart(2, '0')}`;
+
     return {
       fiscalMonth: def.fiscalMonth,
       monthCode: def.monthCode,
@@ -220,6 +227,32 @@ export function getFiscalYearBillingDays(fiscalYearStr: string): MonthBillingInf
       holidayDays: calc.holidayDays,
       billingDays: calc.billingDays,
       holidays: calc.holidays,
+      startDate,
+      endDate,
+      dateRange,
     };
   });
+}
+
+/**
+ * Returns the exact start date, end date, and formatted range for a fiscal month.
+ */
+export function getFiscalMonthDateRange(fiscalYearStr: string, fiscalMonth: number): {
+  startDate: string;
+  endDate: string;
+  dateRange: string;
+  calYear: number;
+  calMonth: number;
+  totalDays: number;
+} {
+  const allMonths = getFiscalYearBillingDays(fiscalYearStr);
+  const m = allMonths.find(info => info.fiscalMonth === fiscalMonth) || allMonths[0];
+  return {
+    startDate: m.startDate,
+    endDate: m.endDate,
+    dateRange: m.dateRange,
+    calYear: m.calYear,
+    calMonth: m.calMonth,
+    totalDays: m.totalDays,
+  };
 }

@@ -294,6 +294,10 @@ export interface FiscalMonthQuotaMetrics {
   dailyRequired: number;
   attainmentPercent: number;
   annualPercent: number;
+  startDate?: string;
+  endDate?: string;
+  dateRange?: string;
+  salesCount?: number;
 }
 
 export interface AnnualQuotaTrackerData {

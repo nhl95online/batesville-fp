@@ -490,11 +490,16 @@ export async function syncFromSupabase(): Promise<{
       const cost = Number(s.cost) || 0; // "Invoice $$" in Supabase is the actual extended transaction dollar amount
 
       // Batesville Fiscal Year calculation: Oct 1st to Sep 30th
-      let actualCalYear = 2017;
+      let actualCalYear = 2024;
       if (yr.includes('-')) {
         const parts = yr.split('-');
         const baseYear = parseInt(parts[0], 10);
         actualCalYear = (fiscalMonth <= 3) ? baseYear : (baseYear + 1);
+      } else {
+        const parsedY = parseInt(yr, 10);
+        if (!isNaN(parsedY) && parsedY >= 2000) {
+          actualCalYear = (fiscalMonth <= 3) ? parsedY : (parsedY + 1);
+        }
       }
 
       const saleDate = `${actualCalYear}-${String(calMonth).padStart(2, '0')}-${String(day).padStart(2, '0')}`;

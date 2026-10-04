@@ -461,9 +461,9 @@ ORDER BY fiscal_year, fiscal_month;`;
           <div className="flex items-center space-x-2.5">
             <Check className="w-4 h-4 text-emerald-600 shrink-0" />
             <span>
-              <strong>FY {selectedYear} Official Performance Record:</strong> Finished at <strong className="text-emerald-700 font-bold">{HISTORICAL_PERFORMANCE_CONFIG[selectedYear].attainmentPercent.toFixed(2)}%</strong> Attainment
+              <strong>FY {selectedYear} Performance Record:</strong> Finished at <strong className="text-emerald-700 font-bold">{HISTORICAL_PERFORMANCE_CONFIG[selectedYear].attainmentPercent.toFixed(2)}%</strong> Attainment
               {HISTORICAL_PERFORMANCE_CONFIG[selectedYear].quota > 0 && (
-                <> • Annual Target: <strong>{formatCurrency(HISTORICAL_PERFORMANCE_CONFIG[selectedYear].quota)}</strong> • Total Actual Sales: <strong>{formatCurrency(metrics.totalActualSales)}</strong></>
+                <> • Annual Target: <strong>{formatCurrency(HISTORICAL_PERFORMANCE_CONFIG[selectedYear].quota)}</strong> • Total Actual Sales: <strong>{formatCurrency(metrics.totalActualSales)}</strong> (Summing all sales across matching quota month date ranges)</>
               )}
             </span>
           </div>
@@ -651,13 +651,18 @@ ORDER BY fiscal_year, fiscal_month;`;
                   Metric
                 </th>
                 {metrics.months.map((m) => (
-                  <th key={m.monthName} className="py-3 px-3 text-slate-300 border-r border-slate-800/60 min-w-[85px]">
-                    {m.monthName}
+                  <th key={m.monthName} className="py-2.5 px-2 text-slate-300 border-r border-slate-800/60 min-w-[92px]">
+                    <div className="font-bold text-slate-200">{m.monthName}</div>
+                    {m.dateRange && (
+                      <div className="text-[10px] text-slate-400 font-sans tracking-tight font-normal mt-0.5 whitespace-nowrap">
+                        {m.dateRange}
+                      </div>
+                    )}
                   </th>
                 ))}
-                <th className="py-3 px-4 text-amber-400 bg-slate-950/80 font-bold min-w-[125px]">
+                <th className="py-2.5 px-4 text-amber-400 bg-slate-950/80 font-bold min-w-[130px]">
                   <div>FY Total</div>
-                  <div className="text-[10px] text-slate-400 font-normal font-sans tracking-normal">Sum of 12 Months</div>
+                  <div className="text-[10px] text-slate-400 font-normal font-sans tracking-normal">Oct 01 – Sep 30</div>
                 </th>
               </tr>
             </thead>
@@ -738,14 +743,23 @@ ORDER BY fiscal_year, fiscal_month;`;
               {/* Row 5: Sales (Monthly Actual) */}
               <tr className="hover:bg-slate-800/40 transition-colors">
                 <td className="py-2.5 px-4 text-left font-bold text-slate-200 font-sans sticky left-0 bg-slate-900 border-r border-slate-800">
-                  Sales
+                  <div className="flex items-center space-x-1.5">
+                    <span>Sales</span>
+                    <span className="text-[10px] text-blue-400 font-normal font-sans bg-blue-950/60 px-1 py-0.5 rounded border border-blue-800/50">
+                      Actual
+                    </span>
+                  </div>
                 </td>
                 {metrics.months.map((m) => (
-                  <td key={m.monthName} className="py-2.5 px-3 text-slate-100 border-r border-slate-800/40 font-semibold">
+                  <td 
+                    key={m.monthName} 
+                    className="py-2.5 px-3 text-slate-100 border-r border-slate-800/40 font-semibold"
+                    title={`Sales sum for ${m.startDate || m.monthName} to ${m.endDate || m.monthName}: ${formatCurrency(m.sales)}${m.salesCount ? ` (${m.salesCount} transactions)` : ''}`}
+                  >
                     {formatCurrency(m.sales)}
                   </td>
                 ))}
-                <td className="py-2.5 px-4 font-bold text-blue-300 bg-slate-950/40">
+                <td className="py-2.5 px-4 font-bold text-blue-300 bg-slate-950/40" title="Total Annual Sales (Sum of all 12 quota month date ranges)">
                   {formatCurrency(metrics.totalActualSales)}
                 </td>
               </tr>

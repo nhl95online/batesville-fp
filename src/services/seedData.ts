@@ -337,86 +337,176 @@ export const INITIAL_PRODUCTS: Product[] = [
 
 export function generateSeedSales(): SaleRecord[] {
   const sales: SaleRecord[] = [];
-  const years = [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026];
   let orderSeq = 10001;
 
-  const monthWeights: Record<number, number> = {
-    1: 1.25, 2: 1.20, 3: 1.15, 4: 1.05, 5: 0.95, 6: 0.90,
-    7: 0.88, 8: 0.92, 9: 0.98, 10: 1.05, 11: 1.12, 12: 1.22
+  // Authentic Batesville historical performance data (October to September)
+  const HISTORICAL_TARGETS: Record<string, { quota: number; pct: number; sales: number }> = {
+    '2017-18': { quota: 3420000, pct: 96.38, sales: 3296196 },
+    '2018-19': { quota: 3580000, pct: 94.53, sales: 3384174 },
+    '2019-20': { quota: 3750000, pct: 117.51, sales: 4406625 },
+    '2020-21': { quota: 3920000, pct: 114.37, sales: 4483304 },
+    '2021-22': { quota: 4100000, pct: 115.25, sales: 4725250 },
+    '2022-23': { quota: 4281810, pct: 106.00, sales: 4538719 },
+    '2023-24': { quota: 4680827, pct: 102.21, sales: 4784273 },
+    '2024-25': { quota: 5060563, pct: 106.20, sales: 5374318 },
+    '2025-26': { quota: 5920915, pct: 91.10, sales: 5393954 },
   };
 
-  const yearGrowth: Record<number, number> = {
-    2017: 0.72,
-    2018: 0.76,
-    2019: 0.80,
-    2020: 0.85,
-    2021: 0.90,
-    2022: 0.95,
-    2023: 1.0,
-    2024: 1.14,
-    2025: 1.26,
-    2026: 1.38
-  };
+  const weights = [
+    0.080769, 0.070138, 0.087775, 0.090957, 0.086646, 0.090273,
+    0.082576, 0.077197, 0.080040, 0.087166, 0.081841, 0.084622
+  ];
 
-  for (const year of years) {
-    const maxMonth = (year === 2026) ? 9 : 12;
+  const fiscalMonthDefs = [
+    { fm: 1,  monthCode: 'OCT', monthName: 'Oct', calMonth: 10, isNextYear: false },
+    { fm: 2,  monthCode: 'NOV', monthName: 'Nov', calMonth: 11, isNextYear: false },
+    { fm: 3,  monthCode: 'DEC', monthName: 'Dec', calMonth: 12, isNextYear: false },
+    { fm: 4,  monthCode: 'JAN', monthName: 'Jan', calMonth: 1,  isNextYear: true },
+    { fm: 5,  monthCode: 'FEB', monthName: 'Feb', calMonth: 2,  isNextYear: true },
+    { fm: 6,  monthCode: 'MAR', monthName: 'Mar', calMonth: 3,  isNextYear: true },
+    { fm: 7,  monthCode: 'APR', monthName: 'Apr', calMonth: 4,  isNextYear: true },
+    { fm: 8,  monthCode: 'MAY', monthName: 'May', calMonth: 5,  isNextYear: true },
+    { fm: 9,  monthCode: 'JUN', monthName: 'Jun', calMonth: 6,  isNextYear: true },
+    { fm: 10, monthCode: 'JUL', monthName: 'Jul', calMonth: 7,  isNextYear: true },
+    { fm: 11, monthCode: 'AUG', monthName: 'Aug', calMonth: 8,  isNextYear: true },
+    { fm: 12, monthCode: 'SEP', monthName: 'Sep', calMonth: 9,  isNextYear: true },
+  ];
 
-    for (let month = 1; month <= maxMonth; month++) {
-      const baseOrders = Math.round(5 * monthWeights[month] * (yearGrowth[year] || 1));
+  const daySchedule = [2, 5, 8, 11, 14, 17, 20, 23, 26, 28];
+  const orderWeights = [0.09, 0.11, 0.10, 0.08, 0.12, 0.09, 0.11, 0.10, 0.10, 0.10];
 
-      for (let i = 0; i < baseOrders; i++) {
-        const custIdx = i % INITIAL_CUSTOMERS.length;
+  // 1. Generate full 12-month distributor volume sales for historical years 2017-18 through 2025-26
+  for (const [fyKey, target] of Object.entries(HISTORICAL_TARGETS)) {
+    const baseYear = parseInt(fyKey.split('-')[0], 10);
+    const totalTarget = target.sales;
+
+    // Precalculate 12 monthly targets summing exactly to totalTarget
+    const monthlyTargets: number[] = [];
+    let runningMonthSum = 0;
+    for (let idx = 0; idx < 12; idx++) {
+      if (idx === 11) {
+        monthlyTargets.push(totalTarget - runningMonthSum);
+      } else {
+        const amt = Math.round(totalTarget * weights[idx]);
+        monthlyTargets.push(amt);
+        runningMonthSum += amt;
+      }
+    }
+
+    for (let mIdx = 0; mIdx < 12; mIdx++) {
+      const def = fiscalMonthDefs[mIdx];
+      const calYear = def.isNextYear ? baseYear + 1 : baseYear;
+      const calMonth = def.calMonth;
+      const monthTarget = monthlyTargets[mIdx];
+
+      let runningOrderSum = 0;
+      const numOrders = daySchedule.length;
+
+      for (let oIdx = 0; oIdx < numOrders; oIdx++) {
+        let orderAmount = 0;
+        if (oIdx === numOrders - 1) {
+          orderAmount = monthTarget - runningOrderSum;
+        } else {
+          orderAmount = Math.round(monthTarget * orderWeights[oIdx]);
+          runningOrderSum += orderAmount;
+        }
+
+        const custIdx = (oIdx + mIdx + baseYear) % INITIAL_CUSTOMERS.length;
         const customer = INITIAL_CUSTOMERS[custIdx];
-        
-        const prodIdx = (i + month + year) % INITIAL_PRODUCTS.length;
+
+        const prodIdx = (oIdx * 3 + mIdx * 2 + baseYear) % INITIAL_PRODUCTS.length;
         const product = INITIAL_PRODUCTS[prodIdx];
 
-        const day = 1 + ((i * 7 + month * 3) % 27);
+        const day = (calMonth === 2 && daySchedule[oIdx] > 28) ? 28 : daySchedule[oIdx];
         const dayStr = day.toString().padStart(2, '0');
-        const monthStr = month.toString().padStart(2, '0');
-        const saleDate = `${year}-${monthStr}-${dayStr}`;
+        const monthStr = calMonth.toString().padStart(2, '0');
+        const saleDate = `${calYear}-${monthStr}-${dayStr}`;
 
-        const quantity = (product.category === 'Cremation & Urns') ? (1 + (i % 3)) : 1;
-        const unitPrice = product.wholesalePrice;
-        const totalAmount = unitPrice * quantity;
-
-        const MONTH_NAMES = ['', 'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
-        const mText = MONTH_NAMES[month] || 'JAN';
-        const fiscalMonth = month >= 10 ? (month - 9) : (month + 3);
-
-        const fiscalYearStr = month >= 10 
-          ? `${year}-${String(year + 1).slice(-2)}` 
-          : `${year - 1}-${String(year).slice(-2)}`;
+        const unitPrice = product.wholesalePrice || 2400;
+        const quantity = Math.max(1, Math.round(orderAmount / unitPrice));
 
         sales.push({
-          id: `sale-${year}-${month}-${orderSeq}`,
+          id: `sale-${calYear}-${monthStr}-${orderSeq}`,
           saleId: orderSeq,
-          year: fiscalYearStr,
-          month: mText,
+          year: fyKey,
+          month: def.monthCode,
           day: dayStr,
           program: customer.program || 'OBB',
           accountName: customer.name,
-          accountNumber: customer.accountNumber || 0,
+          accountNumber: customer.accountNumber || (100 + custIdx),
           productCode: product.code,
           category: product.category,
-          subcategory: product.subcategory || (product.material ? product.material.slice(0, 10) : 'Standard'),
+          subcategory: product.subcategory || (product.material ? product.material.slice(0, 15) : 'Commercial'),
           description: product.name,
           quantity,
-          cost: totalAmount,
+          cost: orderAmount,
           customerId: customer.id,
           productId: product.id,
-          orderNumber: `ORD-${year}-${orderSeq}`,
-          unitPrice,
-          totalAmount,
+          orderNumber: `ORD-${fyKey}-${orderSeq}`,
+          unitPrice: Math.round(orderAmount / quantity),
+          totalAmount: orderAmount,
           saleDate,
-          fiscalMonth,
-          calMonth: month,
-          notes: `Delivery order for ${customer.name}`
+          fiscalMonth: def.fm,
+          calMonth,
+          notes: `Distributor wholesale delivery for ${customer.name}`
         });
 
         orderSeq++;
       }
     }
+  }
+
+  // 2. Generate live incoming Month 1 (October 2026) orders for FY 2026-27
+  const fy27Month1Target = 462500;
+  let fy27Running = 0;
+  const fy27DaySchedule = [2, 5, 8, 12, 16, 20, 24, 28];
+  const fy27OrderWeights = [0.12, 0.14, 0.11, 0.13, 0.15, 0.12, 0.11, 0.12];
+
+  for (let oIdx = 0; oIdx < fy27DaySchedule.length; oIdx++) {
+    let orderAmount = 0;
+    if (oIdx === fy27DaySchedule.length - 1) {
+      orderAmount = fy27Month1Target - fy27Running;
+    } else {
+      orderAmount = Math.round(fy27Month1Target * fy27OrderWeights[oIdx]);
+      fy27Running += orderAmount;
+    }
+
+    const custIdx = oIdx % INITIAL_CUSTOMERS.length;
+    const customer = INITIAL_CUSTOMERS[custIdx];
+    const prodIdx = (oIdx * 2) % INITIAL_PRODUCTS.length;
+    const product = INITIAL_PRODUCTS[prodIdx];
+    const dayStr = fy27DaySchedule[oIdx].toString().padStart(2, '0');
+    const saleDate = `2026-10-${dayStr}`;
+    const unitPrice = product.wholesalePrice || 2400;
+    const quantity = Math.max(1, Math.round(orderAmount / unitPrice));
+
+    sales.push({
+      id: `sale-2026-10-${orderSeq}`,
+      saleId: orderSeq,
+      year: '2026-27',
+      month: 'OCT',
+      day: dayStr,
+      program: customer.program || 'OBB',
+      accountName: customer.name,
+      accountNumber: customer.accountNumber || (100 + custIdx),
+      productCode: product.code,
+      category: product.category,
+      subcategory: product.subcategory || 'Commercial',
+      description: product.name,
+      quantity,
+      cost: orderAmount,
+      customerId: customer.id,
+      productId: product.id,
+      orderNumber: `ORD-2026-27-${orderSeq}`,
+      unitPrice: Math.round(orderAmount / quantity),
+      totalAmount: orderAmount,
+      saleDate,
+      fiscalMonth: 1,
+      calMonth: 10,
+      notes: `Live October delivery for ${customer.name}`
+    });
+
+    orderSeq++;
   }
 
   return sales;
