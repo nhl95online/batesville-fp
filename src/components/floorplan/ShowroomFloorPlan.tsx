@@ -36,8 +36,12 @@ import {
   Plus, 
   ExternalLink,
   Sliders,
-  Move
+  Move,
+  Ruler,
+  Settings2,
+  DoorOpen
 } from 'lucide-react';
+import { RoomArchitectureModal, RoomArchConfig } from './RoomArchitectureModal';
 
 interface ShowroomFloorPlanProps {
   customers: Customer[];
@@ -83,6 +87,33 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
   const [customerSales, setCustomerSales] = useState<SaleRecord[]>([]);
   const [allSales, setAllSales] = useState<SaleRecord[]>([]);
   const [isLoadingSales, setIsLoadingSales] = useState(false);
+
+  // Room Architecture & Dimension State
+  const [roomArch, setRoomArch] = useState<RoomArchConfig>({
+    roomName: 'Main Selection Room',
+    shape: initialRoomShape || 'l-shaped',
+    lengthFt: 28.0,
+    widthFt: 19.5,
+    ceilingHeightFt: 11.0,
+    door1Wall: 'South',
+    door1PosFt: 5.0,
+    door1WidthFt: 4.0,
+    hasDoor2: false,
+    door2Wall: 'North',
+    door2PosFt: 8.0,
+    door2WidthFt: 3.5,
+    hasWing: false,
+    wingWall: 'West',
+    wingOffsetFt: 2.0,
+    wingLengthFt: 8.0,
+    wingWidthFt: 6.0,
+    lEastLongestFt: 19.5,
+    lWestLowerFt: 13.5,
+    lWestUpperFt: 6.0,
+    lCutoutXFt: 13.5,
+    notes: 'Urn Wall on the left side of the upside down L-Shaped Room, All caskets are currently on DOUBLE RACKS.'
+  });
+  const [isArchModalOpen, setIsArchModalOpen] = useState(false);
 
   // Room Configuration
   const [roomShape, setRoomShape] = useState<RoomShape>(initialRoomShape || 'l-shaped');
@@ -248,6 +279,19 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
       if (cloudRes.success && (cloudRes.locations.length > 0 || cloudRes.room)) {
         setCloudRoomMeta(cloudRes.room);
 
+        // Parse optional configuration from room notes if available
+        let extraConfig: any = {};
+        if (cloudRes.room?.notes) {
+          const match = cloudRes.room.notes.match(/<!--CONFIG:\s*(\{.*?\})\s*-->/);
+          if (match) {
+            try {
+              extraConfig = JSON.parse(match[1]);
+            } catch (e) {
+              console.warn('Failed to parse room notes config', e);
+            }
+          }
+        }
+
         // Room shape from database
         let loadedShape: RoomShape = 'l-shaped';
         if (cloudRes.room?.room_shape) {
@@ -256,9 +300,40 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
           else if (s.includes('oval')) loadedShape = 'oval';
           else if (s.includes('square')) loadedShape = 'square';
           else if (s.includes('rectangle')) loadedShape = 'rectangle';
-          setRoomShape(loadedShape);
-          onRoomShapeChange?.(loadedShape);
         }
+
+        const lEast = extraConfig.lEastLongestFt || Number(cloudRes.room?.width_ft) || 19.5;
+        const lLower = extraConfig.lWestLowerFt || 13.5;
+        const lUpper = extraConfig.lWestUpperFt || (lEast > lLower ? lEast - lLower : 6.0);
+
+        const parsedArch: RoomArchConfig = {
+          roomName: cloudRes.room?.room_name || 'Main Selection Room',
+          shape: loadedShape,
+          lengthFt: Number(cloudRes.room?.length_ft) || 28.0,
+          widthFt: Number(cloudRes.room?.width_ft) || 19.5,
+          ceilingHeightFt: Number(cloudRes.room?.ceiling_height_ft) || 11.0,
+          door1Wall: (cloudRes.room?.door_wall as any) || 'South',
+          door1PosFt: Number(cloudRes.room?.door_pos_ft) || 5.0,
+          door1WidthFt: Number(cloudRes.room?.door_width_ft) || 4.0,
+          hasDoor2: extraConfig.hasDoor2 ?? false,
+          door2Wall: extraConfig.door2Wall || 'North',
+          door2PosFt: extraConfig.door2PosFt || 8.0,
+          door2WidthFt: extraConfig.door2WidthFt || 3.5,
+          hasWing: extraConfig.hasWing ?? false,
+          wingWall: extraConfig.wingWall || 'West',
+          wingOffsetFt: extraConfig.wingOffsetFt || 2.0,
+          wingLengthFt: extraConfig.wingLengthFt || 8.0,
+          wingWidthFt: extraConfig.wingWidthFt || 6.0,
+          lEastLongestFt: lEast,
+          lWestLowerFt: lLower,
+          lWestUpperFt: lUpper,
+          lCutoutXFt: extraConfig.lCutoutXFt || 13.5,
+          notes: cloudRes.room?.notes?.replace(/<!--CONFIG:.*?-->/g, '').trim() || ''
+        };
+
+        setRoomArch(parsedArch);
+        setRoomShape(loadedShape);
+        onRoomShapeChange?.(loadedShape);
 
         const newSlots: FloorSlot[] = [];
 
@@ -281,6 +356,10 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
             ? `urn-shelf-${bayNum}-lvl-${lvlNum}-${loc.shelf_slot_position || 1}-${loc.product_code || idx}`
             : `casket-bay-${bayNum}-lvl-${lvlNum}`;
 
+          const posX = loc.pos_x_ft !== null && loc.pos_x_ft !== undefined ? Number(loc.pos_x_ft) : undefined;
+          const posY = loc.pos_y_ft !== null && loc.pos_y_ft !== undefined ? Number(loc.pos_y_ft) : undefined;
+          const orientDeg = loc.orientation_deg !== null && loc.orientation_deg !== undefined ? Number(loc.orientation_deg) : undefined;
+
           return {
             id: slotId,
             slotNumber: bayNum,
@@ -292,8 +371,9 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
             tierLevel: loc.tier_level || (isDouble ? (lvlNum === 2 ? 'Double Rack - Top' : 'Double Rack - Bottom') : `Shelf ${lvlNum}`),
             shelfSlotPosition: Number(loc.shelf_slot_position) || 1,
             wallZone: loc.wall_zone || (bayNum <= 3 ? 'North Wall' : 'East Wall'),
-            posX: Number(loc.pos_x_ft) || (bayNum === 1 ? 5.5 : bayNum === 2 ? 14.5 : bayNum === 3 ? 23.5 : bayNum === 4 ? 26.5 : bayNum === 5 ? 26.5 : 14.5),
-            posY: Number(loc.pos_y_ft) || (bayNum <= 3 ? 18.0 : bayNum === 4 ? 6.0 : bayNum === 5 ? 15.5 : 2.0),
+            posX: posX ?? (bayNum === 1 ? 5.5 : bayNum === 2 ? 14.5 : bayNum === 3 ? 23.5 : bayNum === 4 ? 26.5 : bayNum === 5 ? 26.5 : 14.5),
+            posY: posY ?? (bayNum <= 3 ? 18.0 : bayNum === 4 ? 6.0 : bayNum === 5 ? 15.5 : 2.0),
+            orientation_deg: orientDeg ?? (bayNum <= 3 ? 180 : bayNum <= 5 ? 270 : 180),
             notes: loc.notes,
             productId: matchedProd?.id,
             productCode: loc.product_code || matchedProd?.code,
@@ -315,7 +395,7 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
 
         setCloudStatusMsg({
           type: 'success',
-          text: `Loaded from Supabase: ${cloudRes.locations.length} models for ${activeCustomer.name} (${cloudRes.room?.room_shape || 'L-Shaped'} Room: 28ft × 19.5ft)`
+          text: `Loaded from Supabase: ${cloudRes.locations.length} models for ${activeCustomer.name} (${parsedArch.shape.toUpperCase()} Room: ${parsedArch.lengthFt}ft × ${parsedArch.widthFt}ft)`
         });
 
         const plan: CustomerFloorPlan = {
@@ -330,14 +410,42 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
         return;
       }
 
-      // Fallback
+      // Fallback for customer without cloud data yet
+      const defaultArch: RoomArchConfig = {
+        roomName: `${activeCustomer.name} Showroom`,
+        shape: 'rectangle',
+        lengthFt: 28.0,
+        widthFt: 18.0,
+        ceilingHeightFt: 10.0,
+        door1Wall: 'South',
+        door1PosFt: 12.0,
+        door1WidthFt: 4.0,
+        hasDoor2: false,
+        door2Wall: 'North',
+        door2PosFt: 6.0,
+        door2WidthFt: 3.5,
+        hasWing: false,
+        wingWall: 'West',
+        wingOffsetFt: 2.0,
+        wingLengthFt: 8.0,
+        wingWidthFt: 6.0,
+        lEastLongestFt: 18.0,
+        lWestLowerFt: 12.0,
+        lWestUpperFt: 6.0,
+        lCutoutXFt: 12.0,
+        notes: ''
+      };
+      setRoomArch(defaultArch);
+      setRoomShape('rectangle');
+      onRoomShapeChange?.('rectangle');
+
       if (!forceCloud) {
         const storageKey = `batesville_floorplan_${activeCustomer.id}`;
         const saved = localStorage.getItem(storageKey);
         if (saved) {
           try {
             const parsed: CustomerFloorPlan = JSON.parse(saved);
-            setRoomShape(parsed.roomShape || 'l-shaped');
+            setRoomShape(parsed.roomShape || 'rectangle');
             setRoomCapacity(parsed.roomCapacity || 'medium');
             setSlots(parsed.slots || []);
             if (parsed.slots && parsed.slots.length > 0) {
@@ -350,7 +458,7 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
         }
       }
 
-      generateDefaultLayout(roomShape, roomCapacity);
+      generateDefaultLayout('rectangle', roomCapacity);
     } catch (err: any) {
       console.error('Error loading cloud showroom:', err);
       generateDefaultLayout(roomShape, roomCapacity);
@@ -372,6 +480,7 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
   // Handle changing shape or capacity
   const handleConfigChange = (newShape: RoomShape, newCapacity: RoomCapacity) => {
     setRoomShape(newShape);
+    setRoomArch(prev => ({ ...prev, shape: newShape }));
     setRoomCapacity(newCapacity);
     generateDefaultLayout(newShape, newCapacity);
     onRoomShapeChange?.(newShape);
@@ -382,7 +491,7 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
     const plan: CustomerFloorPlan = {
       customerId: activeCustomer.id,
       customerName: activeCustomer.name,
-      roomShape,
+      roomShape: roomArch.shape,
       roomCapacity,
       slots: updatedSlots,
       updatedAt: new Date().toISOString(),
@@ -397,16 +506,41 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
     setCloudStatusMsg(null);
     try {
       const acct = String(activeCustomer.accountNumber || activeCustomer.code || '');
+      const configPayload = {
+        hasDoor2: roomArch.hasDoor2,
+        door2Wall: roomArch.door2Wall,
+        door2PosFt: roomArch.door2PosFt,
+        door2WidthFt: roomArch.door2WidthFt,
+        hasWing: roomArch.hasWing,
+        wingWall: roomArch.wingWall,
+        wingOffsetFt: roomArch.wingOffsetFt,
+        wingLengthFt: roomArch.wingLengthFt,
+        wingWidthFt: roomArch.wingWidthFt,
+        lEastLongestFt: roomArch.lEastLongestFt,
+        lWestLowerFt: roomArch.lWestLowerFt,
+        lWestUpperFt: roomArch.lWestUpperFt,
+        lCutoutXFt: roomArch.lCutoutXFt,
+      };
+      const combinedNotes = `${roomArch.notes || ''} <!--CONFIG: ${JSON.stringify(configPayload)} -->`.trim();
+
+      const shapeLabel = roomArch.shape === 'l-shaped' ? 'L-Shaped' : 
+                         roomArch.shape === 'oval' ? 'Oval' :
+                         roomArch.shape === 'square' ? 'Square' : 'Rectangle';
+
       const res = await saveCustomerShowroomToSupabase(
         acct,
         activeCustomer.name,
         {
-          room_name: cloudRoomMeta?.room_name || 'Main Selection Room',
-          room_shape: 'L-Shaped',
-          length_ft: cloudRoomMeta?.length_ft || 28,
-          width_ft: cloudRoomMeta?.width_ft || 19.5,
-          max_casket_bays: 10,
-          notes: cloudRoomMeta?.notes || 'Urn Wall on the left side of the upside down L-Shaped Room, All caskets are currently on DOUBLE RACKS.'
+          room_name: roomArch.roomName || 'Main Selection Room',
+          room_shape: shapeLabel,
+          length_ft: roomArch.lengthFt,
+          width_ft: roomArch.widthFt,
+          ceiling_height_ft: roomArch.ceilingHeightFt,
+          door_wall: roomArch.door1Wall,
+          door_pos_ft: roomArch.door1PosFt,
+          door_width_ft: roomArch.door1WidthFt,
+          max_casket_bays: slots.filter(s => s.type === 'casket').length || 10,
+          notes: combinedNotes
         },
         slots
       );
@@ -420,6 +554,73 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
       }
     } catch (err: any) {
       setCloudStatusMsg({ type: 'error', text: err.message || 'Failed to save to Supabase.' });
+    } finally {
+      setIsCloudSaving(false);
+    }
+  };
+
+  // Save room architecture from modal
+  const handleSaveRoomArch = async (newArch: RoomArchConfig) => {
+    setRoomArch(newArch);
+    setRoomShape(newArch.shape);
+    setIsArchModalOpen(false);
+
+    if (!activeCustomer) return;
+    setIsCloudSaving(true);
+    setCloudStatusMsg(null);
+    try {
+      const acct = String(activeCustomer.accountNumber || activeCustomer.code || '');
+      const configPayload = {
+        hasDoor2: newArch.hasDoor2,
+        door2Wall: newArch.door2Wall,
+        door2PosFt: newArch.door2PosFt,
+        door2WidthFt: newArch.door2WidthFt,
+        hasWing: newArch.hasWing,
+        wingWall: newArch.wingWall,
+        wingOffsetFt: newArch.wingOffsetFt,
+        wingLengthFt: newArch.wingLengthFt,
+        wingWidthFt: newArch.wingWidthFt,
+        lEastLongestFt: newArch.lEastLongestFt,
+        lWestLowerFt: newArch.lWestLowerFt,
+        lWestUpperFt: newArch.lWestUpperFt,
+        lCutoutXFt: newArch.lCutoutXFt,
+      };
+      const combinedNotes = `${newArch.notes || ''} <!--CONFIG: ${JSON.stringify(configPayload)} -->`.trim();
+
+      const shapeLabel = newArch.shape === 'l-shaped' ? 'L-Shaped' : 
+                         newArch.shape === 'oval' ? 'Oval' :
+                         newArch.shape === 'square' ? 'Square' : 'Rectangle';
+
+      const res = await saveCustomerShowroomToSupabase(
+        acct,
+        activeCustomer.name,
+        {
+          room_name: newArch.roomName || 'Main Selection Room',
+          room_shape: shapeLabel,
+          length_ft: newArch.lengthFt,
+          width_ft: newArch.widthFt,
+          ceiling_height_ft: newArch.ceilingHeightFt,
+          door_wall: newArch.door1Wall,
+          door_pos_ft: newArch.door1PosFt,
+          door_width_ft: newArch.door1WidthFt,
+          max_casket_bays: slots.filter(s => s.type === 'casket').length || 10,
+          notes: combinedNotes
+        },
+        slots
+      );
+
+      if (res.success) {
+        setCloudStatusMsg({ 
+          type: 'success', 
+          text: `Saved architectural layout (${shapeLabel} ${newArch.lengthFt}ft × ${newArch.widthFt}ft) for ${activeCustomer.name} to Supabase!` 
+        });
+        const accounts = await fetchAccountsWithShowroomLocations();
+        setCloudAccounts(accounts);
+      } else {
+        setCloudStatusMsg({ type: 'error', text: res.message });
+      }
+    } catch (err: any) {
+      setCloudStatusMsg({ type: 'error', text: err.message || 'Failed to save room layout.' });
     } finally {
       setIsCloudSaving(false);
     }
@@ -717,24 +918,24 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
         </div>
       )}
 
-      {/* Room Specification Bar with Real Dimensions */}
-      <div className="bg-gradient-to-r from-amber-50/80 via-white to-slate-50 border border-amber-200 p-4 rounded-2xl flex flex-wrap items-center justify-between gap-4 text-xs shadow-xs">
+      {/* Room Specification Bar with Dynamic Dimensions & Architecture Modal Button */}
+      <div className="bg-gradient-to-r from-amber-50/80 via-white to-slate-50 border border-amber-200 p-4 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4 text-xs shadow-xs">
         <div className="flex items-center space-x-3">
-          <div className="w-9 h-9 rounded-xl bg-amber-100 flex items-center justify-center text-amber-800 font-bold shadow-xs">
+          <div className="w-10 h-10 rounded-2xl bg-amber-100 flex items-center justify-center text-amber-800 font-bold shadow-xs shrink-0">
             <Compass className="w-5 h-5" />
           </div>
           <div>
-            <div className="flex items-center gap-2">
-              <span className="font-bold text-slate-900 text-sm">Main Selection Room</span>
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="font-bold text-slate-900 text-sm">{roomArch.roomName}</span>
               <span className="font-mono text-[10px] px-2.5 py-0.5 rounded-full bg-amber-500 text-slate-950 font-bold uppercase tracking-wider">
-                L-Shaped Blueprint
+                {roomArch.shape === 'l-shaped' ? 'L-Shaped Blueprint' : roomArch.shape === 'square' ? 'Square Perimeter' : roomArch.shape === 'oval' ? 'Oval Floor' : 'Rectangular CAD'}
               </span>
               <span className="text-xs font-semibold text-slate-700">
-                28.0 ft (North) × 19.5 ft (East Wall - Longest)
+                {roomArch.lengthFt} ft (Length) × {roomArch.widthFt} ft (Width) • {roomArch.ceilingHeightFt} ft Ceiling
               </span>
             </div>
             <p className="text-[11px] text-slate-600 italic mt-0.5">
-              "Urn Wall on the left side of the upside down L-Shaped Room, All caskets are currently on DOUBLE RACKS."
+              {roomArch.notes || `Scaled architectural floor plan for ${activeCustomer?.name}. Zero peninsulas.`}
             </p>
           </div>
         </div>
@@ -742,24 +943,49 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
         <div className="flex flex-wrap items-center gap-2 text-[11px] font-mono">
           <div className="px-3 py-1 bg-white rounded-lg border border-slate-200 text-slate-700 shadow-2xs">
             <span className="text-slate-400">North Wall: </span>
-            <span className="font-bold text-slate-900">28.0 ft</span>
+            <span className="font-bold text-slate-900">{roomArch.lengthFt} ft</span>
           </div>
           <div className="px-3 py-1 bg-white rounded-lg border border-slate-200 text-slate-700 shadow-2xs">
             <span className="text-slate-400">East Wall: </span>
-            <span className="font-bold text-slate-900">19.5 ft (Longest)</span>
+            <span className="font-bold text-slate-900">{roomArch.lEastLongestFt || roomArch.widthFt} ft {roomArch.shape === 'l-shaped' ? '(Longest)' : ''}</span>
           </div>
+          {roomArch.shape === 'l-shaped' && (
+            <>
+              <div className="px-3 py-1 bg-white rounded-lg border border-slate-200 text-slate-700 shadow-2xs">
+                <span className="text-slate-400">West Wall: </span>
+                <span className="font-bold text-slate-900">{roomArch.lWestLowerFt} ft (Lower)</span>
+              </div>
+              <div className="px-3 py-1 bg-white rounded-lg border border-slate-200 text-slate-700 shadow-2xs">
+                <span className="text-slate-400">Higher Area: </span>
+                <span className="font-bold text-slate-900">{roomArch.lWestUpperFt} ft</span>
+              </div>
+            </>
+          )}
           <div className="px-3 py-1 bg-white rounded-lg border border-slate-200 text-slate-700 shadow-2xs">
-            <span className="text-slate-400">West Wall: </span>
-            <span className="font-bold text-slate-900">13.5 ft (Lower Area)</span>
+            <span className="text-slate-400">Primary Door: </span>
+            <span className="font-bold text-slate-900">{roomArch.door1Wall} Wall ({roomArch.door1WidthFt} ft)</span>
           </div>
-          <div className="px-3 py-1 bg-white rounded-lg border border-slate-200 text-slate-700 shadow-2xs">
-            <span className="text-slate-400">Higher Area: </span>
-            <span className="font-bold text-slate-900">6.0 ft</span>
-          </div>
-          <div className="px-3 py-1 bg-white rounded-lg border border-slate-200 text-slate-700 shadow-2xs">
-            <span className="text-slate-400">Area: </span>
-            <span className="font-bold text-slate-900">546 sq ft</span>
-          </div>
+          {roomArch.hasDoor2 && (
+            <div className="px-3 py-1 bg-white rounded-lg border border-amber-200 text-amber-900 shadow-2xs">
+              <span className="text-amber-600 font-sans">Door 2: </span>
+              <span className="font-bold">{roomArch.door2Wall} Wall</span>
+            </div>
+          )}
+          {roomArch.hasWing && (
+            <div className="px-3 py-1 bg-white rounded-lg border border-indigo-200 text-indigo-900 shadow-2xs">
+              <span className="text-indigo-600 font-sans">Wing: </span>
+              <span className="font-bold">{roomArch.wingWall} ({roomArch.wingLengthFt}×{roomArch.wingWidthFt} ft)</span>
+            </div>
+          )}
+
+          <button
+            type="button"
+            onClick={() => setIsArchModalOpen(true)}
+            className="flex items-center space-x-1.5 px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-amber-300 font-bold text-xs rounded-xl shadow-xs cursor-pointer transition-colors shrink-0 ml-1 font-sans"
+          >
+            <Settings2 className="w-3.5 h-3.5 text-amber-400" />
+            <span>Customize Dimensions</span>
+          </button>
         </div>
       </div>
 
@@ -882,7 +1108,7 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
               <div className="flex items-center space-x-2">
                 <Compass className="w-4 h-4 text-amber-600" />
                 <span className="font-semibold text-slate-700 uppercase tracking-wider">
-                  28.0 FT NORTH × 19.5 FT EAST (546 SQ FT) • 5 DOUBLE RACK BAYS • 14 URNS (BAY 6)
+                  {roomArch.lengthFt.toFixed(1)} FT NORTH × {(roomArch.lEastLongestFt || roomArch.widthFt).toFixed(1)} FT EAST ({Math.round(roomArch.lengthFt * roomArch.widthFt)} SQ FT) • {casketBays.length} DOUBLE RACK BAYS • {urnShelves.totalCount} URNS
                 </span>
               </div>
               <div className="flex items-center space-x-3">
@@ -893,448 +1119,523 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
             </div>
 
             {/* VIEW 1: ARCHITECTURAL 2D SCALED BLUEPRINT CANVAS */}
-            {viewMode === 'blueprint' && (
-              <div className="relative w-full flex-1 flex flex-col items-center justify-center p-2 overflow-auto">
-                <svg
-                  viewBox="0 0 940 680"
-                  className="w-full max-w-[880px] h-auto drop-shadow-sm select-none"
-                  style={{ fontFamily: 'system-ui, sans-serif' }}
-                >
-                  <defs>
-                    {/* Blueprint Grid Pattern */}
-                    <pattern id="cadGrid" width="28" height="28" patternUnits="userSpaceOnUse">
-                      <rect width="28" height="28" fill="#f8fafc" />
-                      <path d="M 28 0 L 0 0 0 28" fill="none" stroke="#e2e8f0" strokeWidth="0.8" />
-                    </pattern>
-                    
-                    {/* Dimension Arrows */}
-                    <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#475569" />
-                    </marker>
-                    
-                    {/* Selected Bay Glow Filter */}
-                    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-                      <feDropShadow dx="0" dy="0" stdDeviation="4" floodColor="#f59e0b" floodOpacity="0.8" />
-                    </filter>
-                  </defs>
+            {viewMode === 'blueprint' && (() => {
+              const roomLength = roomArch.lengthFt || 28.0;
+              const roomWidth = roomArch.widthFt || 19.5;
 
-                  {/* Room Floor Background */}
-                  <rect x="0" y="0" width="940" height="680" fill="#ffffff" />
-                  
-                  {/* Inside Room Floor with CAD Grid */}
-                  <path
-                    d={`
-                      M 80 60
-                      H 864
-                      V 606
-                      H 616
-                      M 504 606
-                      H 416
-                      V 228
-                      H 80
-                      Z
-                    `}
-                    fill="url(#cadGrid)"
-                    stroke="none"
-                  />
+              // Canvas boundary dimensions
+              const svgW = 960;
+              const svgH = 680;
+              const padLeft = 85;
+              const padRight = 85;
+              const padTop = 55;
+              const padBottom = 65;
 
-                  {/* DIMENSION LINES & LABELS */}
-                  {/* 1. North Wall: 28.0 ft */}
-                  <g>
-                    <line x1="80" y1="30" x2="864" y2="30" stroke="#475569" strokeWidth="1.5" markerStart="url(#arrow)" markerEnd="url(#arrow)" />
-                    <rect x="400" y="18" width="144" height="22" rx="4" fill="#0f172a" />
-                    <text x="472" y="33" textAnchor="middle" fill="#f8fafc" fontSize="11" fontWeight="bold" letterSpacing="0.05em">
-                      ← 28.0 FT NORTH WALL →
-                    </text>
-                  </g>
+              const maxDrawW = svgW - padLeft - padRight; // 790
+              const maxDrawH = svgH - padTop - padBottom; // 560
 
-                  {/* 2. East Wall: 19.5 ft (Longest) */}
-                  <g>
-                    <line x1="895" y1="60" x2="895" y2="606" stroke="#475569" strokeWidth="1.5" markerStart="url(#arrow)" markerEnd="url(#arrow)" />
-                    <g transform="translate(900, 333) rotate(90)">
-                      <rect x="-105" y="-12" width="210" height="22" rx="4" fill="#0f172a" />
-                      <text x="0" y="3" textAnchor="middle" fill="#f8fafc" fontSize="11" fontWeight="bold">
-                        ← 19.5 FT EAST WALL (LONGEST) →
+              const scale = Math.min(maxDrawW / roomLength, maxDrawH / roomWidth);
+              const drawW = roomLength * scale;
+              const drawH = roomWidth * scale;
+
+              const originX = padLeft + (maxDrawW - drawW) / 2;
+              const originY = padTop + (maxDrawH - drawH) / 2;
+
+              // Coordinate conversion
+              // In room ft: X: 0 (West) to roomLength (East), Y: 0 (South) to roomWidth (North)
+              const toSvgX = (xFt: number) => originX + (xFt * scale);
+              const toSvgY = (yFt: number) => originY + ((roomWidth - yFt) * scale);
+
+              const x0 = toSvgX(0);
+              const xMax = toSvgX(roomLength);
+              const yTop = toSvgY(roomWidth); // North
+              const yBot = toSvgY(0);         // South
+
+              // Cutout dimensions for L-shape (NO PENINSULAS!)
+              const cutoutX = roomArch.lCutoutXFt || 13.5;
+              const lowerY = roomArch.lWestLowerFt || 13.5;
+              const upperY = roomArch.lWestUpperFt || 6.0;
+              const xCut = toSvgX(cutoutX);
+              const yMid = toSvgY(lowerY);
+
+              // Floor perimeter path
+              let floorPath = '';
+              if (roomArch.shape === 'l-shaped') {
+                floorPath = `M ${x0} ${yTop} H ${xMax} V ${yBot} H ${xCut} V ${yMid} H ${x0} Z`;
+              } else if (roomArch.shape === 'square' || roomArch.shape === 'rectangle') {
+                floorPath = `M ${x0} ${yTop} H ${xMax} V ${yBot} H ${x0} Z`;
+              }
+
+              // Door 1 coordinates
+              const d1Wall = roomArch.door1Wall;
+              const d1Offset = roomArch.door1PosFt || 5.0;
+              const d1Width = roomArch.door1WidthFt || 4.0;
+              const d1WidthPx = d1Width * scale;
+
+              let d1StartPx = { x: 0, y: 0 };
+              let d1EndPx = { x: 0, y: 0 };
+              let d1ArcD = '';
+              let d1LabelPos = { x: 0, y: 0 };
+
+              if (d1Wall === 'South') {
+                const doorStartX = roomArch.shape === 'l-shaped' ? Math.max(cutoutX, roomLength - d1Offset - d1Width) : (roomLength - d1Offset - d1Width);
+                const sx = toSvgX(doorStartX);
+                const ex = sx + d1WidthPx;
+                d1StartPx = { x: sx, y: yBot };
+                d1EndPx = { x: ex, y: yBot };
+                d1ArcD = `M ${ex} ${yBot} A ${d1WidthPx} ${d1WidthPx} 0 0 1 ${sx} ${yBot - d1WidthPx}`;
+                d1LabelPos = { x: (sx + ex) / 2, y: yBot + 24 };
+              } else if (d1Wall === 'North') {
+                const sx = toSvgX(d1Offset);
+                const ex = sx + d1WidthPx;
+                d1StartPx = { x: sx, y: yTop };
+                d1EndPx = { x: ex, y: yTop };
+                d1ArcD = `M ${sx} ${yTop} A ${d1WidthPx} ${d1WidthPx} 0 0 1 ${ex} ${yTop + d1WidthPx}`;
+                d1LabelPos = { x: (sx + ex) / 2, y: yTop - 12 };
+              } else if (d1Wall === 'East') {
+                const sy = toSvgY(d1Offset + d1Width);
+                const ey = toSvgY(d1Offset);
+                d1StartPx = { x: xMax, y: sy };
+                d1EndPx = { x: xMax, y: ey };
+                d1ArcD = `M ${xMax} ${ey} A ${d1WidthPx} ${d1WidthPx} 0 0 1 ${xMax - d1WidthPx} ${sy}`;
+                d1LabelPos = { x: xMax + 24, y: (sy + ey) / 2 };
+              } else {
+                const sy = toSvgY(d1Offset + d1Width);
+                const ey = toSvgY(d1Offset);
+                d1StartPx = { x: x0, y: sy };
+                d1EndPx = { x: x0, y: ey };
+                d1ArcD = `M ${x0} ${sy} A ${d1WidthPx} ${d1WidthPx} 0 0 1 ${x0 + d1WidthPx} ${ey}`;
+                d1LabelPos = { x: x0 - 24, y: (sy + ey) / 2 };
+              }
+
+              // Door 2 (if enabled)
+              let d2StartPx = { x: 0, y: 0 };
+              let d2EndPx = { x: 0, y: 0 };
+              let d2ArcD = '';
+              let d2LabelPos = { x: 0, y: 0 };
+              if (roomArch.hasDoor2) {
+                const d2Wall = roomArch.door2Wall;
+                const d2Offset = roomArch.door2PosFt || 8.0;
+                const d2Width = roomArch.door2WidthFt || 3.5;
+                const d2WidthPx = d2Width * scale;
+
+                if (d2Wall === 'North') {
+                  const sx = toSvgX(d2Offset);
+                  const ex = sx + d2WidthPx;
+                  d2StartPx = { x: sx, y: yTop };
+                  d2EndPx = { x: ex, y: yTop };
+                  d2ArcD = `M ${sx} ${yTop} A ${d2WidthPx} ${d2WidthPx} 0 0 1 ${ex} ${yTop + d2WidthPx}`;
+                  d2LabelPos = { x: (sx + ex) / 2, y: yTop - 12 };
+                } else if (d2Wall === 'West') {
+                  const sy = toSvgY(d2Offset + d2Width);
+                  const ey = toSvgY(d2Offset);
+                  const wx = roomArch.shape === 'l-shaped' && d2Offset < lowerY ? xCut : x0;
+                  d2StartPx = { x: wx, y: sy };
+                  d2EndPx = { x: wx, y: ey };
+                  d2ArcD = `M ${wx} ${sy} A ${d2WidthPx} ${d2WidthPx} 0 0 1 ${wx + d2WidthPx} ${ey}`;
+                  d2LabelPos = { x: wx - 20, y: (sy + ey) / 2 };
+                } else if (d2Wall === 'South') {
+                  const sx = toSvgX(d2Offset);
+                  const ex = sx + d2WidthPx;
+                  d2StartPx = { x: sx, y: yBot };
+                  d2EndPx = { x: ex, y: yBot };
+                  d2ArcD = `M ${ex} ${yBot} A ${d2WidthPx} ${d2WidthPx} 0 0 1 ${sx} ${yBot - d2WidthPx}`;
+                  d2LabelPos = { x: (sx + ex) / 2, y: yBot + 24 };
+                } else {
+                  const sy = toSvgY(d2Offset + d2Width);
+                  const ey = toSvgY(d2Offset);
+                  d2StartPx = { x: xMax, y: sy };
+                  d2EndPx = { x: xMax, y: ey };
+                  d2ArcD = `M ${xMax} ${ey} A ${d2WidthPx} ${d2WidthPx} 0 0 1 ${xMax - d2WidthPx} ${sy}`;
+                  d2LabelPos = { x: xMax + 24, y: (sy + ey) / 2 };
+                }
+              }
+
+              return (
+                <div className="relative w-full flex-1 flex flex-col items-center justify-center p-2 overflow-auto">
+                  <svg
+                    viewBox="0 0 960 680"
+                    className="w-full max-w-[900px] h-auto drop-shadow-sm select-none"
+                    style={{ fontFamily: 'system-ui, sans-serif' }}
+                  >
+                    <defs>
+                      <pattern id="cadGrid" width="28" height="28" patternUnits="userSpaceOnUse">
+                        <rect width="28" height="28" fill="#f8fafc" />
+                        <path d="M 28 0 L 0 0 0 28" fill="none" stroke="#e2e8f0" strokeWidth="0.8" />
+                      </pattern>
+                      
+                      <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                        <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#475569" />
+                      </marker>
+                      
+                      <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                        <feDropShadow dx="0" dy="0" stdDeviation="4" floodColor="#f59e0b" floodOpacity="0.8" />
+                      </filter>
+                    </defs>
+
+                    {/* Room Floor Background */}
+                    <rect x="0" y="0" width="960" height="680" fill="#ffffff" />
+
+                    {/* CAD Floor Interior (NO PENINSULAS!) */}
+                    {roomArch.shape === 'oval' ? (
+                      <ellipse
+                        cx={toSvgX(roomLength / 2)}
+                        cy={toSvgY(roomWidth / 2)}
+                        rx={drawW / 2}
+                        ry={drawH / 2}
+                        fill="url(#cadGrid)"
+                        stroke="none"
+                      />
+                    ) : (
+                      <path
+                        d={floorPath}
+                        fill="url(#cadGrid)"
+                        stroke="none"
+                      />
+                    )}
+
+                    {/* DIMENSION LINES & LABELS */}
+                    {/* North Wall Dimension */}
+                    <g>
+                      <line x1={x0} y1={yTop - 25} x2={xMax} y2={yTop - 25} stroke="#475569" strokeWidth="1.5" markerStart="url(#arrow)" markerEnd="url(#arrow)" />
+                      <rect x={(x0 + xMax) / 2 - 80} y={yTop - 36} width="160" height="22" rx="4" fill="#0f172a" />
+                      <text x={(x0 + xMax) / 2} y={yTop - 21} textAnchor="middle" fill="#f8fafc" fontSize="11" fontWeight="bold" letterSpacing="0.05em">
+                        ← {roomLength.toFixed(1)} FT NORTH WALL →
                       </text>
                     </g>
-                  </g>
 
-                  {/* 3. West Wall (Lower Area): 13.5 ft */}
-                  <g>
-                    <line x1="380" y1="228" x2="380" y2="606" stroke="#475569" strokeWidth="1.5" markerStart="url(#arrow)" markerEnd="url(#arrow)" />
-                    <g transform="translate(375, 417) rotate(-90)">
-                      <rect x="-85" y="-12" width="170" height="22" rx="4" fill="#0f172a" />
-                      <text x="0" y="3" textAnchor="middle" fill="#f8fafc" fontSize="10" fontWeight="bold">
-                        ← 13.5 FT WEST WALL →
+                    {/* East Wall Dimension (Longest) */}
+                    <g>
+                      <line x1={xMax + 30} y1={yTop} x2={xMax + 30} y2={yBot} stroke="#475569" strokeWidth="1.5" markerStart="url(#arrow)" markerEnd="url(#arrow)" />
+                      <g transform={`translate(${xMax + 35}, ${(yTop + yBot) / 2}) rotate(90)`}>
+                        <rect x="-105" y="-11" width="210" height="22" rx="4" fill="#0f172a" />
+                        <text x="0" y="4" textAnchor="middle" fill="#f8fafc" fontSize="11" fontWeight="bold">
+                          ← {(roomArch.lEastLongestFt || roomWidth).toFixed(1)} FT EAST WALL {roomArch.shape === 'l-shaped' ? '(LONGEST) ' : ''}→
+                        </text>
+                      </g>
+                    </g>
+
+                    {/* L-Shape West Wall Dimensions */}
+                    {roomArch.shape === 'l-shaped' && (
+                      <>
+                        {/* Lower West Wall: 13.5 ft */}
+                        <g>
+                          <line x1={xCut - 24} y1={yMid} x2={xCut - 24} y2={yBot} stroke="#475569" strokeWidth="1.5" markerStart="url(#arrow)" markerEnd="url(#arrow)" />
+                          <g transform={`translate(${xCut - 28}, ${(yMid + yBot) / 2}) rotate(-90)`}>
+                            <rect x="-70" y="-10" width="140" height="20" rx="4" fill="#0f172a" />
+                            <text x="0" y="4" textAnchor="middle" fill="#f8fafc" fontSize="9.5" fontWeight="bold">
+                              ← {lowerY.toFixed(1)} FT WEST WALL →
+                            </text>
+                          </g>
+                        </g>
+
+                        {/* Higher Area Step: 6.0 ft */}
+                        <g>
+                          <line x1={x0 - 24} y1={yTop} x2={x0 - 24} y2={yMid} stroke="#475569" strokeWidth="1.5" markerStart="url(#arrow)" markerEnd="url(#arrow)" />
+                          <g transform={`translate(${x0 - 28}, ${(yTop + yMid) / 2}) rotate(-90)`}>
+                            <rect x="-50" y="-10" width="100" height="20" rx="4" fill="#0f172a" />
+                            <text x="0" y="4" textAnchor="middle" fill="#f8fafc" fontSize="9.5" fontWeight="bold">
+                              ← {upperY.toFixed(1)} FT →
+                            </text>
+                          </g>
+                        </g>
+                      </>
+                    )}
+
+                    {/* ARCHITECTURAL OUTER WALLS (NO PENINSULA!) */}
+                    {/* North Wall */}
+                    {d1Wall === 'North' ? (
+                      <>
+                        <line x1={x0} y1={yTop} x2={d1StartPx.x} y2={yTop} stroke="#1e293b" strokeWidth="8" strokeLinecap="round" />
+                        <line x1={d1EndPx.x} y1={yTop} x2={xMax} y2={yTop} stroke="#1e293b" strokeWidth="8" strokeLinecap="round" />
+                      </>
+                    ) : (
+                      <line x1={x0} y1={yTop} x2={xMax} y2={yTop} stroke="#1e293b" strokeWidth="8" strokeLinecap="round" />
+                    )}
+
+                    {/* East Wall */}
+                    {d1Wall === 'East' ? (
+                      <>
+                        <line x1={xMax} y1={yTop} x2={xMax} y2={d1StartPx.y} stroke="#1e293b" strokeWidth="8" strokeLinecap="round" />
+                        <line x1={xMax} y1={d1EndPx.y} x2={xMax} y2={yBot} stroke="#1e293b" strokeWidth="8" strokeLinecap="round" />
+                      </>
+                    ) : (
+                      <line x1={xMax} y1={yTop} x2={xMax} y2={yBot} stroke="#1e293b" strokeWidth="8" strokeLinecap="round" />
+                    )}
+
+                    {/* South Wall */}
+                    {roomArch.shape === 'l-shaped' ? (
+                      d1Wall === 'South' ? (
+                        <>
+                          <line x1={xMax} y1={yBot} x2={d1EndPx.x} y2={yBot} stroke="#1e293b" strokeWidth="8" strokeLinecap="round" />
+                          <line x1={d1StartPx.x} y1={yBot} x2={xCut} y2={yBot} stroke="#1e293b" strokeWidth="8" strokeLinecap="round" />
+                        </>
+                      ) : (
+                        <line x1={xMax} y1={yBot} x2={xCut} y2={yBot} stroke="#1e293b" strokeWidth="8" strokeLinecap="round" />
+                      )
+                    ) : (
+                      d1Wall === 'South' ? (
+                        <>
+                          <line x1={xMax} y1={yBot} x2={d1EndPx.x} y2={yBot} stroke="#1e293b" strokeWidth="8" strokeLinecap="round" />
+                          <line x1={d1StartPx.x} y1={yBot} x2={x0} y2={yBot} stroke="#1e293b" strokeWidth="8" strokeLinecap="round" />
+                        </>
+                      ) : (
+                        <line x1={xMax} y1={yBot} x2={x0} y2={yBot} stroke="#1e293b" strokeWidth="8" strokeLinecap="round" />
+                      )
+                    )}
+
+                    {/* West Wall(s) */}
+                    {roomArch.shape === 'l-shaped' ? (
+                      <>
+                        {/* Lower West Wall */}
+                        <line x1={xCut} y1={yBot} x2={xCut} y2={yMid} stroke="#1e293b" strokeWidth="8" strokeLinecap="round" />
+                        {/* Corner Shelf/Transition Step */}
+                        <line x1={xCut} y1={yMid} x2={x0} y2={yMid} stroke="#1e293b" strokeWidth="8" strokeLinecap="round" />
+                        {/* Higher West Wall */}
+                        <line x1={x0} y1={yMid} x2={x0} y2={yTop} stroke="#1e293b" strokeWidth="8" strokeLinecap="round" />
+                      </>
+                    ) : (
+                      <line x1={x0} y1={yBot} x2={x0} y2={yTop} stroke="#1e293b" strokeWidth="8" strokeLinecap="round" />
+                    )}
+
+                    {/* Optional Wing Alcove (if enabled) */}
+                    {roomArch.hasWing && (() => {
+                      const wx = toSvgX(roomArch.wingOffsetFt);
+                      const wy = toSvgY(lowerY / 2);
+                      const ww = roomArch.wingWidthFt * scale;
+                      const wl = roomArch.wingLengthFt * scale;
+                      return (
+                        <g>
+                          <rect x={wx - ww} y={wy - (wl / 2)} width={ww} height={wl} fill="url(#cadGrid)" stroke="#1e293b" strokeWidth="6" strokeDasharray="6 3" rx="4" />
+                          <text x={wx - (ww / 2)} y={wy} textAnchor="middle" fill="#6366f1" fontSize="9" fontWeight="bold">
+                            ROOM WING
+                          </text>
+                        </g>
+                      );
+                    })()}
+
+                    {/* Primary Entrance Doorway Opening */}
+                    <g>
+                      <path d={d1ArcD} fill="none" stroke="#d97706" strokeWidth="1.5" strokeDasharray="4 3" />
+                      <line x1={d1StartPx.x} y1={d1StartPx.y} x2={d1EndPx.x} y2={d1EndPx.y - d1WidthPx} stroke="#d97706" strokeWidth="3" strokeLinecap="round" />
+                      <text x={d1LabelPos.x} y={d1LabelPos.y} textAnchor="middle" fill="#d97706" fontSize="10" fontWeight="bold" letterSpacing="0.05em">
+                        ▼ MAIN CLIENT ENTRANCE ({d1Width} FT) ▼
                       </text>
                     </g>
-                  </g>
 
-                  {/* 4. Higher Area (Upper Wing): 6.0 ft */}
-                  <g>
-                    <line x1="45" y1="60" x2="45" y2="228" stroke="#475569" strokeWidth="1.5" markerStart="url(#arrow)" markerEnd="url(#arrow)" />
-                    <g transform="translate(40, 144) rotate(-90)">
-                      <rect x="-55" y="-12" width="110" height="22" rx="4" fill="#0f172a" />
-                      <text x="0" y="3" textAnchor="middle" fill="#f8fafc" fontSize="10" fontWeight="bold">
-                        ← 6.0 FT →
-                      </text>
+                    {/* Secondary Doorway (if enabled) */}
+                    {roomArch.hasDoor2 && (
+                      <g>
+                        <path d={d2ArcD} fill="none" stroke="#64748b" strokeWidth="1.5" strokeDasharray="3 3" />
+                        <line x1={d2StartPx.x} y1={d2StartPx.y} x2={d2EndPx.x} y2={d2EndPx.y} stroke="#64748b" strokeWidth="2.5" strokeLinecap="round" />
+                        <text x={d2LabelPos.x} y={d2LabelPos.y} textAnchor="middle" fill="#64748b" fontSize="9" fontWeight="bold">
+                          DOORWAY 2 ({roomArch.door2WidthFt} FT)
+                        </text>
+                      </g>
+                    )}
+
+                    {/* Open Center Room Feature: Consultation Table & Rug */}
+                    <g transform={`translate(${toSvgX(roomLength > 20 ? 21.0 : roomLength / 2)}, ${toSvgY(roomWidth / 2)})`}>
+                      <circle cx="0" cy="0" r="36" fill="#f1f5f9" stroke="#cbd5e1" strokeWidth="1.5" strokeDasharray="4 2" />
+                      <circle cx="0" cy="0" r="20" fill="#ffffff" stroke="#94a3b8" strokeWidth="1.5" />
+                      <text x="0" y="3" textAnchor="middle" fill="#64748b" fontSize="8" fontWeight="bold">CONSULTATION</text>
+                      <text x="0" y="12" textAnchor="middle" fill="#94a3b8" fontSize="7">KIOSK & TABLE</text>
                     </g>
-                  </g>
 
-                  {/* ARCHITECTURAL WALLS (Deep Slate #1e293b, 8px width) */}
-                  {/* North Wall */}
-                  <line x1="80" y1="60" x2="864" y2="60" stroke="#1e293b" strokeWidth="8" strokeLinecap="round" />
-                  
-                  {/* East Wall (19.5 ft) */}
-                  <line x1="864" y1="60" x2="864" y2="606" stroke="#1e293b" strokeWidth="8" strokeLinecap="round" />
-                  
-                  {/* South Wall (East Segment) */}
-                  <line x1="864" y1="606" x2="616" y2="606" stroke="#1e293b" strokeWidth="8" strokeLinecap="round" />
-                  
-                  {/* Main Entrance Doorway Opening (4 ft gap) */}
-                  <path d="M 616 606 A 112 112 0 0 1 504 494" fill="none" stroke="#d97706" strokeWidth="1.5" strokeDasharray="4 3" />
-                  <line x1="616" y1="606" x2="504" y2="494" stroke="#d97706" strokeWidth="3" strokeLinecap="round" />
-                  <text x="560" y="630" textAnchor="middle" fill="#d97706" fontSize="10" fontWeight="bold" letterSpacing="0.05em">
-                    ▼ MAIN CLIENT ENTRANCE (4 FT) ▼
-                  </text>
+                    {/* DYNAMIC CASKET BAYS RENDERED FROM SLOTS */}
+                    {casketBays.map(([bayNumber, baySlots]) => {
+                      const sorted = [...baySlots].sort((a, b) => (Number(b.levelNumber) || 1) - (Number(a.levelNumber) || 1));
+                      const top = sorted.find(s => s.levelNumber === 2) || sorted[0];
+                      const btm = sorted.find(s => s.levelNumber === 1 && s.id !== top.id) || (sorted.length > 1 ? sorted[1] : null);
+                      const isSelected = selectedSlotId === top?.id || (btm && selectedSlotId === btm.id);
 
-                  {/* South Wall (West Segment) */}
-                  <line x1="504" y1="606" x2="416" y2="606" stroke="#1e293b" strokeWidth="8" strokeLinecap="round" />
-                  
-                  {/* Center Divider / Peninsula Wall dropping down from Ceiling */}
-                  <line x1="416" y1="228" x2="416" y2="550" stroke="#1e293b" strokeWidth="8" strokeLinecap="round" />
+                      let posX = top.posX;
+                      let posY = top.posY;
+                      let orient = top.orientation_deg;
 
-                  {/* West Wall of Lower Room (13.5 ft) */}
-                  <line x1="416" y1="606" x2="416" y2="228" stroke="#1e293b" strokeWidth="8" strokeLinecap="round" />
-                  
-                  {/* Horizontal Transition Wall at L-Corner */}
-                  <line x1="416" y1="228" x2="260" y2="228" stroke="#1e293b" strokeWidth="8" strokeLinecap="round" />
-                  
-                  {/* Upper Wing Door Opening */}
-                  <path d="M 260 228 A 70 70 0 0 1 190 158" fill="none" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="3 3" />
-                  <line x1="260" y1="228" x2="190" y2="158" stroke="#94a3b8" strokeWidth="2.5" strokeLinecap="round" />
-                  <line x1="190" y1="228" x2="80" y2="228" stroke="#1e293b" strokeWidth="8" strokeLinecap="round" />
-                  
-                  {/* Far Left Wall of Upper Wing */}
-                  <line x1="80" y1="228" x2="80" y2="60" stroke="#1e293b" strokeWidth="8" strokeLinecap="round" />
+                      // Fallback coordinates if not populated
+                      if (posX === undefined || posY === undefined) {
+                        if (bayNumber <= 3) {
+                          posX = 5.5 + (bayNumber - 1) * 9.0;
+                          posY = roomWidth - 1.5;
+                          orient = 180;
+                        } else if (bayNumber <= 5) {
+                          posX = roomLength - 1.5;
+                          posY = 6.0 + (bayNumber - 4) * 9.5;
+                          orient = 270;
+                        } else {
+                          posX = 14.5;
+                          posY = 2.0;
+                          orient = 0;
+                        }
+                      }
 
-                  {/* Center Room Feature: Family Arrangement Table */}
-                  <g transform="translate(640, 360)">
-                    <circle cx="0" cy="0" r="38" fill="#f1f5f9" stroke="#cbd5e1" strokeWidth="1.5" strokeDasharray="4 2" />
-                    <circle cx="0" cy="0" r="22" fill="#ffffff" stroke="#94a3b8" strokeWidth="1.5" />
-                    <text x="0" y="3" textAnchor="middle" fill="#64748b" fontSize="8" fontWeight="bold">CONSULTATION</text>
-                    <text x="0" y="12" textAnchor="middle" fill="#94a3b8" fontSize="7">KIOSK & TABLE</text>
-                  </g>
+                      const isVertical = orient === 90 || orient === 270 || (top.wallZone?.includes('East'));
+                      const rackW = isVertical ? Math.min(92, Math.max(76, 2.8 * scale)) : Math.min(210, Math.max(160, 7.2 * scale));
+                      const rackH = isVertical ? Math.min(210, Math.max(160, 7.2 * scale)) : Math.min(92, Math.max(76, 2.8 * scale));
 
-                  {/* ============================================================== */}
-                  {/* CASKET DOUBLE RACKS POSITIONED ON WALLS                        */}
-                  {/* ============================================================== */}
+                      const cx = toSvgX(posX);
+                      const cy = toSvgY(posY);
+                      const rx = cx - (rackW / 2);
+                      const ry = cy - (rackH / 2);
 
-                  {/* BAY 1: NORTH WALL (Left) - X: 5.5 ft, Y: 18.0 ft */}
-                  {(() => {
-                    const baySlots = getBaySlots(1);
-                    const top = baySlots.find(s => s.levelNumber === 2);
-                    const btm = baySlots.find(s => s.levelNumber === 1);
-                    const isSelected = selectedSlotId === top?.id || selectedSlotId === btm?.id;
+                      return (
+                        <g
+                          key={`cad-bay-${bayNumber}`}
+                          onClick={() => handleSelectBay(bayNumber)}
+                          className="cursor-pointer group"
+                          filter={isSelected ? "url(#glow)" : undefined}
+                        >
+                          {/* Rack Frame */}
+                          <rect
+                            x={rx} y={ry} width={rackW} height={rackH} rx="8"
+                            fill={isSelected ? "#fffbeb" : "#ffffff"}
+                            stroke={isSelected ? "#f59e0b" : "#cbd5e1"}
+                            strokeWidth={isSelected ? "3" : "1.5"}
+                          />
 
-                    return (
-                      <g 
-                        onClick={() => handleSelectBay(1)}
-                        className="cursor-pointer group"
-                        filter={isSelected ? "url(#glow)" : undefined}
-                      >
-                        {/* Rack Outline */}
-                        <rect 
-                          x="136" y="68" width="196" height="66" rx="8" 
-                          fill={isSelected ? "#fffbeb" : "#ffffff"} 
-                          stroke={isSelected ? "#f59e0b" : "#cbd5e1"} 
-                          strokeWidth={isSelected ? "3" : "1.5"} 
-                        />
-                        {/* Header Badge */}
-                        <rect x="144" y="74" width="180" height="15" rx="3" fill="#fef3c7" />
-                        <text x="148" y="85" fill="#92400e" fontSize="9" fontWeight="bold">
-                          BAY 1 • DOUBLE RACK (NORTH WALL)
-                        </text>
-                        {/* Top Tier (Level 2): FERGUS PC */}
-                        <rect x="144" y="93" width="180" height="17" rx="3" fill="#fafaf9" stroke="#e7e5e4" />
-                        <rect x="146" y="95" width="28" height="13" rx="2" fill="#d97706" />
-                        <text x="160" y="104" textAnchor="middle" fill="#ffffff" fontSize="8" fontWeight="bold">TOP</text>
-                        <text x="180" y="105" fill="#1c1917" fontSize="9" fontWeight="bold">
-                          {top?.productName || 'FERGUS PC'}
-                        </text>
-                        <text x="318" y="105" textAnchor="end" fill="#78716c" fontSize="8" fontFamily="monospace">
-                          {top?.productCode || '52-417-103'}
-                        </text>
-                        {/* Bottom Tier (Level 1): A21 879 DH Neopolitan Blue */}
-                        <rect x="144" y="113" width="180" height="17" rx="3" fill="#f8fafc" stroke="#e2e8f0" />
-                        <rect x="146" y="115" width="28" height="13" rx="2" fill="#334155" />
-                        <text x="160" y="124" textAnchor="middle" fill="#ffffff" fontSize="8" fontWeight="bold">BTM</text>
-                        <text x="180" y="125" fill="#1e293b" fontSize="8.5" fontWeight="bold">
-                          {btm?.productName || 'A21 879 DH Neopolitan'}
-                        </text>
-                        <text x="318" y="125" textAnchor="end" fill="#64748b" fontSize="8" fontFamily="monospace">
-                          {btm?.productCode || '147719'}
-                        </text>
-                      </g>
-                    );
-                  })()}
+                          {/* Horizontal Layout (North / South walls) */}
+                          {!isVertical ? (
+                            <>
+                              {/* Header Badge */}
+                              <rect x={rx + 8} y={ry + 6} width={rackW - 16} height="15" rx="3" fill="#fef3c7" />
+                              <text x={rx + 12} y={ry + 17} fill="#92400e" fontSize="9" fontWeight="bold">
+                                BAY {bayNumber} • DOUBLE RACK ({top.wallZone || 'WALL'})
+                              </text>
 
-                  {/* BAY 2: NORTH WALL (Center-Left) - X: 14.5 ft, Y: 18.0 ft */}
-                  {(() => {
-                    const baySlots = getBaySlots(2);
-                    const top = baySlots.find(s => s.levelNumber === 2);
-                    const btm = baySlots.find(s => s.levelNumber === 1);
-                    const isSelected = selectedSlotId === top?.id || selectedSlotId === btm?.id;
+                              {/* Top Tier */}
+                              <rect x={rx + 8} y={ry + 24} width={rackW - 16} height="18" rx="3" fill="#fafaf9" stroke="#e7e5e4" />
+                              <rect x={rx + 10} y={ry + 26} width="26" height="14" rx="2" fill="#d97706" />
+                              <text x={rx + 23} y={ry + 36} textAnchor="middle" fill="#ffffff" fontSize="8" fontWeight="bold">TOP</text>
+                              <text x={rx + 42} y={ry + 37} fill="#1c1917" fontSize="9" fontWeight="bold">
+                                {top?.productName?.slice(0, 18) || 'Unassigned'}
+                              </text>
+                              <text x={rx + rackW - 14} y={ry + 37} textAnchor="end" fill="#78716c" fontSize="8" fontFamily="monospace">
+                                {top?.productCode || ''}
+                              </text>
 
-                    return (
-                      <g 
-                        onClick={() => handleSelectBay(2)}
-                        className="cursor-pointer group"
-                        filter={isSelected ? "url(#glow)" : undefined}
-                      >
-                        <rect 
-                          x="388" y="68" width="196" height="66" rx="8" 
-                          fill={isSelected ? "#fffbeb" : "#ffffff"} 
-                          stroke={isSelected ? "#f59e0b" : "#cbd5e1"} 
-                          strokeWidth={isSelected ? "3" : "1.5"} 
-                        />
-                        <rect x="396" y="74" width="180" height="15" rx="3" fill="#fef3c7" />
-                        <text x="400" y="85" fill="#92400e" fontSize="9" fontWeight="bold">
-                          BAY 2 • DOUBLE RACK (NORTH WALL)
-                        </text>
-                        {/* Top Tier */}
-                        <rect x="396" y="93" width="180" height="17" rx="3" fill="#fafaf9" stroke="#e7e5e4" />
-                        <rect x="398" y="95" width="28" height="13" rx="2" fill="#d97706" />
-                        <text x="412" y="104" textAnchor="middle" fill="#ffffff" fontSize="8" fontWeight="bold">TOP</text>
-                        <text x="432" y="105" fill="#1c1917" fontSize="9" fontWeight="bold">
-                          {top?.productName || 'DIGBY PC'}
-                        </text>
-                        <text x="570" y="105" textAnchor="end" fill="#78716c" fontSize="8" fontFamily="monospace">
-                          {top?.productCode || '32-62-12'}
-                        </text>
-                        {/* Bottom Tier */}
-                        <rect x="396" y="113" width="180" height="17" rx="3" fill="#f8fafc" stroke="#e2e8f0" />
-                        <rect x="398" y="115" width="28" height="13" rx="2" fill="#334155" />
-                        <text x="412" y="124" textAnchor="middle" fill="#ffffff" fontSize="8" fontWeight="bold">BTM</text>
-                        <text x="432" y="125" fill="#1e293b" fontSize="8.5" fontWeight="bold">
-                          {btm?.productName || 'JF9 825 CDH Golden'}
-                        </text>
-                        <text x="570" y="125" textAnchor="end" fill="#64748b" fontSize="8" fontFamily="monospace">
-                          {btm?.productCode || '185487'}
-                        </text>
-                      </g>
-                    );
-                  })()}
+                              {/* Bottom Tier */}
+                              <rect x={rx + 8} y={ry + 44} width={rackW - 16} height="18" rx="3" fill="#f8fafc" stroke="#e2e8f0" />
+                              <rect x={rx + 10} y={ry + 46} width="26" height="14" rx="2" fill="#334155" />
+                              <text x={rx + 23} y={ry + 56} textAnchor="middle" fill="#ffffff" fontSize="8" fontWeight="bold">BTM</text>
+                              <text x={rx + 42} y={ry + 57} fill="#1e293b" fontSize="8.5" fontWeight="bold">
+                                {btm?.productName?.slice(0, 18) || (top.isDoubleRack ? 'Empty Bottom' : 'Single Tier')}
+                              </text>
+                              <text x={rx + rackW - 14} y={ry + 57} textAnchor="end" fill="#64748b" fontSize="8" fontFamily="monospace">
+                                {btm?.productCode || ''}
+                              </text>
+                            </>
+                          ) : (
+                            /* Vertical Layout (East / West walls) */
+                            <>
+                              {/* Header Badge */}
+                              <rect x={rx + 5} y={ry + 6} width={rackW - 10} height="16" rx="3" fill="#fef3c7" />
+                              <text x={cx} y={ry + 17} textAnchor="middle" fill="#92400e" fontSize="8.5" fontWeight="bold">
+                                BAY {bayNumber} ({top.wallZone?.includes('East') ? 'EAST' : 'WEST'})
+                              </text>
 
-                  {/* BAY 3: NORTH WALL (Center-Right) - X: 23.5 ft, Y: 18.0 ft */}
-                  {(() => {
-                    const baySlots = getBaySlots(3);
-                    const top = baySlots.find(s => s.levelNumber === 2);
-                    const btm = baySlots.find(s => s.levelNumber === 1);
-                    const isSelected = selectedSlotId === top?.id || selectedSlotId === btm?.id;
+                              {/* Top Tier */}
+                              <g transform={`translate(${rx + 5}, ${ry + 26})`}>
+                                <rect width={rackW - 10} height={(rackH - 36) / 2} rx="4" fill="#fafaf9" stroke="#e7e5e4" />
+                                <rect x="4" y="4" width="24" height="12" rx="2" fill="#d97706" />
+                                <text x="16" y="13" textAnchor="middle" fill="#ffffff" fontSize="7.5" fontWeight="bold">TOP</text>
+                                <text x="4" y="30" fill="#1c1917" fontSize="8" fontWeight="bold">
+                                  {top?.productName?.slice(0, 13) || 'Unassigned'}
+                                </text>
+                                <text x="4" y="43" fill="#78716c" fontSize="7.5" fontFamily="monospace">
+                                  {top?.productCode || ''}
+                                </text>
+                              </g>
 
-                    return (
-                      <g 
-                        onClick={() => handleSelectBay(3)}
-                        className="cursor-pointer group"
-                        filter={isSelected ? "url(#glow)" : undefined}
-                      >
-                        <rect 
-                          x="640" y="68" width="196" height="66" rx="8" 
-                          fill={isSelected ? "#fffbeb" : "#ffffff"} 
-                          stroke={isSelected ? "#f59e0b" : "#cbd5e1"} 
-                          strokeWidth={isSelected ? "3" : "1.5"} 
-                        />
-                        <rect x="648" y="74" width="180" height="15" rx="3" fill="#fef3c7" />
-                        <text x="652" y="85" fill="#92400e" fontSize="9" fontWeight="bold">
-                          BAY 3 • DOUBLE RACK (NORTH WALL)
-                        </text>
-                        {/* Top Tier */}
-                        <rect x="648" y="93" width="180" height="17" rx="3" fill="#fafaf9" stroke="#e7e5e4" />
-                        <rect x="650" y="95" width="28" height="13" rx="2" fill="#d97706" />
-                        <text x="664" y="104" textAnchor="middle" fill="#ffffff" fontSize="8" fontWeight="bold">TOP</text>
-                        <text x="684" y="105" fill="#1c1917" fontSize="9" fontWeight="bold">
-                          {top?.productName || 'ASHTON PC'}
-                        </text>
-                        <text x="822" y="105" textAnchor="end" fill="#78716c" fontSize="8" fontFamily="monospace">
-                          {top?.productCode || '32-1062-28'}
-                        </text>
-                        {/* Bottom Tier */}
-                        <rect x="648" y="113" width="180" height="17" rx="3" fill="#f8fafc" stroke="#e2e8f0" />
-                        <rect x="650" y="115" width="28" height="13" rx="2" fill="#334155" />
-                        <text x="664" y="124" textAnchor="middle" fill="#ffffff" fontSize="8" fontWeight="bold">BTM</text>
-                        <text x="684" y="125" fill="#1e293b" fontSize="8.5" fontWeight="bold">
-                          {btm?.productName || 'MONARCH SANDSTONE'}
-                        </text>
-                        <text x="822" y="125" textAnchor="end" fill="#64748b" fontSize="8" fontFamily="monospace">
-                          {btm?.productCode || '71007964'}
-                        </text>
-                      </g>
-                    );
-                  })()}
+                              {/* Bottom Tier */}
+                              <g transform={`translate(${rx + 5}, ${ry + 26 + (rackH - 36) / 2 + 4})`}>
+                                <rect width={rackW - 10} height={(rackH - 36) / 2} rx="4" fill="#f8fafc" stroke="#e2e8f0" />
+                                <rect x="4" y="4" width="24" height="12" rx="2" fill="#334155" />
+                                <text x="16" y="13" textAnchor="middle" fill="#ffffff" fontSize="7.5" fontWeight="bold">BTM</text>
+                                <text x="4" y="30" fill="#1e293b" fontSize="8" fontWeight="bold">
+                                  {btm?.productName?.slice(0, 13) || (top.isDoubleRack ? 'Empty Bottom' : 'Single Tier')}
+                                </text>
+                                <text x="4" y="43" fill="#64748b" fontSize="7.5" fontFamily="monospace">
+                                  {btm?.productCode || ''}
+                                </text>
+                              </g>
+                            </>
+                          )}
+                        </g>
+                      );
+                    })}
 
-                  {/* BAY 5: EAST WALL (Upper Section) - X: 26.5 ft, Y: 15.5 ft */}
-                  {(() => {
-                    const baySlots = getBaySlots(5);
-                    const top = baySlots.find(s => s.levelNumber === 2);
-                    const btm = baySlots.find(s => s.levelNumber === 1);
-                    const isSelected = selectedSlotId === top?.id || selectedSlotId === btm?.id;
+                    {/* DYNAMIC URN WALL DISPLAY UNIT (NO PENINSULA!) */}
+                    {urnShelves.all.length > 0 && (() => {
+                      const firstUrn = urnShelves.all[0];
+                      const urnX = firstUrn.posX !== undefined ? firstUrn.posX : 14.5;
+                      const urnY = firstUrn.posY !== undefined ? firstUrn.posY : 2.0;
+                      const isSelected = slots.some(s => s.type === 'urn' && s.id === selectedSlotId);
 
-                    return (
-                      <g 
-                        onClick={() => handleSelectBay(5)}
-                        className="cursor-pointer group"
-                        filter={isSelected ? "url(#glow)" : undefined}
-                      >
-                        <rect 
-                          x="770" y="152" width="88" height="200" rx="8" 
-                          fill={isSelected ? "#fffbeb" : "#ffffff"} 
-                          stroke={isSelected ? "#f59e0b" : "#cbd5e1"} 
-                          strokeWidth={isSelected ? "3" : "1.5"} 
-                        />
-                        <rect x="775" y="158" width="78" height="16" rx="3" fill="#fef3c7" />
-                        <text x="814" y="169" textAnchor="middle" fill="#92400e" fontSize="8.5" fontWeight="bold">
-                          BAY 5 (EAST)
-                        </text>
-                        {/* Top Tier */}
-                        <g transform="translate(775, 180)">
-                          <rect width="78" height="80" rx="4" fill="#fafaf9" stroke="#e7e5e4" />
-                          <rect x="4" y="4" width="26" height="12" rx="2" fill="#d97706" />
-                          <text x="17" y="13" textAnchor="middle" fill="#ffffff" fontSize="7.5" fontWeight="bold">TOP</text>
-                          <text x="4" y="30" fill="#1c1917" fontSize="8" fontWeight="bold">
-                            {top?.productName?.slice(0, 14) || 'BASIC SHELL'}
+                      const unitW = Math.min(180, Math.max(130, 4.8 * scale));
+                      const unitH = Math.min(100, Math.max(74, 3.0 * scale));
+                      const cx = toSvgX(urnX);
+                      const cy = toSvgY(urnY);
+                      const ux = cx - (unitW / 2);
+                      const uy = cy - (unitH / 2);
+
+                      return (
+                        <g
+                          onClick={() => {
+                            if (firstUrn) setSelectedSlotId(firstUrn.id);
+                          }}
+                          className="cursor-pointer group"
+                          filter={isSelected ? "url(#glow)" : undefined}
+                        >
+                          <rect
+                            x={ux} y={uy} width={unitW} height={unitH} rx="8"
+                            fill="#faf5ff"
+                            stroke={isSelected ? "#a855f7" : "#c084fc"}
+                            strokeWidth={isSelected ? "3" : "1.5"}
+                          />
+                          {/* Header Banner */}
+                          <rect x={ux + 4} y={uy + 4} width={unitW - 8} height="16" rx="3" fill="#7e22ce" />
+                          <text x={cx} y={uy + 15} textAnchor="middle" fill="#ffffff" fontSize="8.5" fontWeight="bold">
+                            ✨ URN GALLERY ({firstUrn.slotNumber ? `BAY ${firstUrn.slotNumber}` : 'WALL'}) • {urnShelves.totalCount} URNS
                           </text>
-                          <text x="4" y="42" fill="#78716c" fontSize="7.5" fontFamily="monospace">
-                            {top?.productCode || '79-5055-01'}
+
+                          {/* Shelf 3 (Top) */}
+                          <rect x={ux + 4} y={uy + 24} width={unitW - 8} height="13" rx="2" fill="#f3e8ff" />
+                          <text x={ux + 8} y={uy + 33} fill="#6b21a8" fontSize="7.5" fontWeight="bold">TIER 3 (TOP):</text>
+                          <text x={ux + unitW - 8} y={uy + 33} textAnchor="end" fill="#7e22ce" fontSize="7.5" fontWeight="bold">
+                            {urnShelves.level3.length || 4} Urns
+                          </text>
+
+                          {/* Shelf 2 (Middle) */}
+                          <rect x={ux + 4} y={uy + 40} width={unitW - 8} height="13" rx="2" fill="#ede9fe" />
+                          <text x={ux + 8} y={uy + 49} fill="#5b21b6" fontSize="7.5" fontWeight="bold">TIER 2 (MID):</text>
+                          <text x={ux + unitW - 8} y={uy + 49} textAnchor="end" fill="#6d28d9" fontSize="7.5" fontWeight="bold">
+                            {urnShelves.level2.length || 5} Urns
+                          </text>
+
+                          {/* Shelf 1 (Bottom) */}
+                          <rect x={ux + 4} y={uy + 56} width={unitW - 8} height="13" rx="2" fill="#ddd6fe" />
+                          <text x={ux + 8} y={uy + 65} fill="#4c1d95" fontSize="7.5" fontWeight="bold">TIER 1 (BTM):</text>
+                          <text x={ux + unitW - 8} y={uy + 65} textAnchor="end" fill="#5b21b6" fontSize="7.5" fontWeight="bold">
+                            {urnShelves.level1.length || 5} Urns
                           </text>
                         </g>
-                        {/* Bottom Tier */}
-                        <g transform="translate(775, 266)">
-                          <rect width="78" height="80" rx="4" fill="#f8fafc" stroke="#e2e8f0" />
-                          <rect x="4" y="4" width="26" height="12" rx="2" fill="#334155" />
-                          <text x="17" y="13" textAnchor="middle" fill="#ffffff" fontSize="7.5" fontWeight="bold">BTM</text>
-                          <text x="4" y="30" fill="#1e293b" fontSize="8" fontWeight="bold">
-                            {btm?.productName?.slice(0, 14) || 'MDF Box'}
-                          </text>
-                          <text x="4" y="42" fill="#64748b" fontSize="7.5" fontFamily="monospace">
-                            {btm?.productCode || '245435'}
-                          </text>
-                        </g>
-                      </g>
-                    );
-                  })()}
+                      );
+                    })()}
 
-                  {/* BAY 4: EAST WALL (Lower Section) - X: 26.5 ft, Y: 6.0 ft */}
-                  {(() => {
-                    const baySlots = getBaySlots(4);
-                    const top = baySlots.find(s => s.levelNumber === 2);
-                    const btm = baySlots.find(s => s.levelNumber === 1);
-                    const isSelected = selectedSlotId === top?.id || selectedSlotId === btm?.id;
+                  </svg>
 
-                    return (
-                      <g 
-                        onClick={() => handleSelectBay(4)}
-                        className="cursor-pointer group"
-                        filter={isSelected ? "url(#glow)" : undefined}
-                      >
-                        <rect 
-                          x="770" y="366" width="88" height="200" rx="8" 
-                          fill={isSelected ? "#fffbeb" : "#ffffff"} 
-                          stroke={isSelected ? "#f59e0b" : "#cbd5e1"} 
-                          strokeWidth={isSelected ? "3" : "1.5"} 
-                        />
-                        <rect x="775" y="372" width="78" height="16" rx="3" fill="#fef3c7" />
-                        <text x="814" y="383" textAnchor="middle" fill="#92400e" fontSize="8.5" fontWeight="bold">
-                          BAY 4 (EAST)
-                        </text>
-                        {/* Top Tier */}
-                        <g transform="translate(775, 394)">
-                          <rect width="78" height="80" rx="4" fill="#fafaf9" stroke="#e7e5e4" />
-                          <rect x="4" y="4" width="26" height="12" rx="2" fill="#d97706" />
-                          <text x="17" y="13" textAnchor="middle" fill="#ffffff" fontSize="7.5" fontWeight="bold">TOP</text>
-                          <text x="4" y="30" fill="#1c1917" fontSize="8" fontWeight="bold">
-                            {top?.productName?.slice(0, 14) || 'HOMEWARD PC'}
-                          </text>
-                          <text x="4" y="42" fill="#78716c" fontSize="7.5" fontFamily="monospace">
-                            {top?.productCode || '52-5410-00'}
-                          </text>
-                        </g>
-                        {/* Bottom Tier */}
-                        <g transform="translate(775, 480)">
-                          <rect width="78" height="80" rx="4" fill="#f8fafc" stroke="#e2e8f0" />
-                          <rect x="4" y="4" width="26" height="12" rx="2" fill="#334155" />
-                          <text x="17" y="13" textAnchor="middle" fill="#ffffff" fontSize="7.5" fontWeight="bold">BTM</text>
-                          <text x="4" y="30" fill="#1e293b" fontSize="8" fontWeight="bold">
-                            {btm?.productName?.slice(0, 14) || 'WINSTON-100'}
-                          </text>
-                          <text x="4" y="42" fill="#64748b" fontSize="7.5" fontFamily="monospace">
-                            {btm?.productCode || '110951'}
-                          </text>
-                        </g>
-                      </g>
-                    );
-                  })()}
-
-                  {/* ============================================================== */}
-                  {/* BAY 6: URN WALL AT CENTER PENINSULA (3 TIERS • 14 URNS)       */}
-                  {/* ============================================================== */}
-                  {(() => {
-                    const isSelected = slots.some(s => s.type === 'urn' && s.id === selectedSlotId);
-
-                    return (
-                      <g 
-                        onClick={() => {
-                          const urn = urnShelves.all[0];
-                          if (urn) setSelectedSlotId(urn.id);
-                        }}
-                        className="cursor-pointer group"
-                        filter={isSelected ? "url(#glow)" : undefined}
-                      >
-                        {/* Peninsula Base Anchor */}
-                        <rect x="360" y="525" width="112" height="76" rx="8" fill="#faf5ff" stroke="#c084fc" strokeWidth={isSelected ? "3" : "1.5"} />
-                        
-                        {/* Header Banner */}
-                        <rect x="365" y="530" width="102" height="16" rx="3" fill="#7e22ce" />
-                        <text x="416" y="541" textAnchor="middle" fill="#ffffff" fontSize="8.5" fontWeight="bold">
-                          ✨ URN WALL (BAY 6)
-                        </text>
-
-                        {/* Shelf 3 (Top) */}
-                        <rect x="365" y="550" width="102" height="13" rx="2" fill="#f3e8ff" />
-                        <text x="370" y="560" fill="#6b21a8" fontSize="7.5" fontWeight="bold">TIER 3 (TOP):</text>
-                        <text x="462" y="560" textAnchor="end" fill="#7e22ce" fontSize="7.5" fontWeight="bold">
-                          {urnShelves.level3.length || 4} Urns
-                        </text>
-
-                        {/* Shelf 2 (Middle) */}
-                        <rect x="365" y="566" width="102" height="13" rx="2" fill="#ede9fe" />
-                        <text x="370" y="576" fill="#5b21b6" fontSize="7.5" fontWeight="bold">TIER 2 (MID):</text>
-                        <text x="462" y="576" textAnchor="end" fill="#6d28d9" fontSize="7.5" fontWeight="bold">
-                          {urnShelves.level2.length || 5} Urns
-                        </text>
-
-                        {/* Shelf 1 (Bottom) */}
-                        <rect x="365" y="582" width="102" height="13" rx="2" fill="#ddd6fe" />
-                        <text x="370" y="592" fill="#4c1d95" fontSize="7.5" fontWeight="bold">TIER 1 (BTM):</text>
-                        <text x="462" y="592" textAnchor="end" fill="#5b21b6" fontSize="7.5" fontWeight="bold">
-                          {urnShelves.level1.length || 5} Urns
-                        </text>
-                      </g>
-                    );
-                  })()}
-
-                </svg>
-
-                {/* Blueprint Instructions Helper */}
-                <div className="mt-3 flex items-center justify-between w-full max-w-[880px] px-2 text-[11px] text-slate-500">
-                  <div className="flex items-center space-x-2">
-                    <span className="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
-                    <span>Click any Double Rack or Urn Wall on the blueprint to inspect model details & sales.</span>
+                  {/* Blueprint Instructions Helper */}
+                  <div className="mt-3 flex items-center justify-between w-full max-w-[900px] px-2 text-[11px] text-slate-500">
+                    <div className="flex items-center space-x-2">
+                      <span className="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
+                      <span>Click any Double Rack or Urn Wall on the blueprint to inspect model details & sales.</span>
+                    </div>
+                    <span className="font-mono text-slate-400">Scale: 1 ft = {Math.round(scale)} px • Dynamic CAD Blueprint</span>
                   </div>
-                  <span className="font-mono text-slate-400">Scale: 1 ft = 28 px • Exact Wall Proportions</span>
                 </div>
-              </div>
-            )}
+              );
+            })()}
 
             {/* VIEW 2: DETAILED BAY CARDS MATRIX GRID */}
             {viewMode === 'cards' && (
@@ -1952,6 +2253,17 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
           </div>
         </div>
       )}
+
+      {/* Room Architecture & Dimensions Modal */}
+      <RoomArchitectureModal
+        isOpen={isArchModalOpen}
+        onClose={() => setIsArchModalOpen(false)}
+        config={roomArch}
+        customerName={activeCustomer?.name || 'Customer'}
+        accountNumber={String(activeCustomer?.accountNumber || activeCustomer?.code || '')}
+        onSave={handleSaveRoomArch}
+        isSaving={isCloudSaving}
+      />
 
     </div>
   );

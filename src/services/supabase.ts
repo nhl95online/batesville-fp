@@ -867,6 +867,11 @@ export async function saveCustomerShowroomToSupabase(
     room_shape?: string;
     length_ft?: number;
     width_ft?: number;
+    ceiling_height_ft?: number;
+    sq_footage?: number;
+    door_wall?: string;
+    door_pos_ft?: number;
+    door_width_ft?: number;
     max_casket_bays?: number;
     notes?: string;
   },
@@ -877,13 +882,22 @@ export async function saveCustomerShowroomToSupabase(
     const acctNum = Number(accountNumber) || accountNumber;
 
     // 1. Upsert customer_rooms
+    const roomLength = Number(roomData.length_ft) || 28;
+    const roomWidth = Number(roomData.width_ft) || 19.5;
+    const sqFt = roomData.sq_footage || Math.round(roomLength * roomWidth);
+
     const roomPayload = {
       'account_#': acctNum,
       account_name: customerName || 'Showroom',
       room_name: roomData.room_name || 'Main Selection Room',
       room_shape: roomData.room_shape || 'L-Shaped',
-      length_ft: roomData.length_ft || 28,
-      width_ft: roomData.width_ft || 19.5,
+      length_ft: roomLength,
+      width_ft: roomWidth,
+      ceiling_height_ft: Number(roomData.ceiling_height_ft) || 11.0,
+      sq_footage: sqFt,
+      door_wall: roomData.door_wall || 'South',
+      door_pos_ft: Number(roomData.door_pos_ft) || 5.0,
+      door_width_ft: Number(roomData.door_width_ft) || 4.0,
       max_casket_bays: roomData.max_casket_bays || slots.filter(s => s.type === 'casket').length || 10,
       notes: roomData.notes || 'Updated via Batesville Interactive Floor Plan'
     };
@@ -893,27 +907,33 @@ export async function saveCustomerShowroomToSupabase(
     // 2. Prepare customer_casket_locations
     const locPayload = slots
       .filter(s => s.productCode || (s.productName && s.productName !== 'Unassigned Bay' && s.productName !== 'Unassigned'))
-      .map(s => ({
-        'account_#': acctNum,
-        room_name: roomData.room_name || 'Main Selection Room',
-        bay_number: s.slotNumber,
-        bay_label: s.label,
-        product_code: s.productCode || '',
-        product_name: s.productName || '',
-        category: s.category || (s.type === 'urn' ? 'Urn' : 'Burial'),
-        display_type: s.type === 'urn' ? 'Urn Pedestal' : 'Full Casket',
-        wall_zone: s.wallZone || 'North Wall',
-        pos_x_ft: s.posX || (s.slotNumber * 2.5),
-        pos_y_ft: s.posY || 10.0,
-        orientation_deg: 0,
-        tier_level: s.tierLevel || (s.isDoubleRack ? (s.levelNumber === 2 ? 'Double Rack - Top' : 'Double Rack - Bottom') : 'Floor'),
-        is_double_rack: Boolean(s.isDoubleRack),
-        rack_type: s.rackType || (s.isDoubleRack ? 'Double Rack' : (s.type === 'urn' ? 'Urn Shelf' : 'Single Rack')),
-        level_number: s.levelNumber || 1,
-        shelf_slot_position: s.shelfSlotPosition || 1,
-        status: 'Active',
-        notes: s.notes || ''
-      }));
+      .map(s => {
+        const wall = s.wallZone || 'North Wall';
+        const defaultDeg = wall.includes('East') ? 270 : wall.includes('West') ? 90 : 180;
+        const orientDeg = s.orientation_deg !== undefined ? s.orientation_deg : defaultDeg;
+
+        return {
+          'account_#': acctNum,
+          room_name: roomData.room_name || 'Main Selection Room',
+          bay_number: s.slotNumber,
+          bay_label: s.label,
+          product_code: s.productCode || '',
+          product_name: s.productName || '',
+          category: s.category || (s.type === 'urn' ? 'Urn' : 'Burial'),
+          display_type: s.type === 'urn' ? 'Urn Wall Unit' : 'Full Casket',
+          wall_zone: wall,
+          pos_x_ft: s.posX !== undefined ? s.posX : (s.slotNumber * 2.5),
+          pos_y_ft: s.posY !== undefined ? s.posY : 10.0,
+          orientation_deg: orientDeg,
+          tier_level: s.tierLevel || (s.isDoubleRack ? (s.levelNumber === 2 ? 'Double Rack - Top' : 'Double Rack - Bottom') : 'Floor'),
+          is_double_rack: Boolean(s.isDoubleRack),
+          rack_type: s.rackType || (s.isDoubleRack ? 'Double Rack' : (s.type === 'urn' ? 'Urn Shelf' : 'Single Rack')),
+          level_number: s.levelNumber || 1,
+          shelf_slot_position: s.shelfSlotPosition || 1,
+          status: 'Active',
+          notes: s.notes || ''
+        };
+      });
 
     if (locPayload.length > 0) {
       await client.from('customer_casket_locations').delete().eq('account_#', acctNum);

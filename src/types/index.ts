@@ -222,6 +222,39 @@ export interface FloorSlot {
   wallZone?: string;
   posX?: number;
   posY?: number;
+  orientation_deg?: number;
+  notes?: string;
+}
+
+export interface CustomerRoom {
+  room_id?: string;
+  'account_#'?: number | string;
+  account_name?: string;
+  room_name?: string;
+  room_shape?: RoomShape | string;
+  length_ft?: number;
+  width_ft?: number;
+  ceiling_height_ft?: number;
+  sq_footage?: number;
+  door_wall?: string;
+  door_pos_ft?: number;
+  door_width_ft?: number;
+  // Multiple doors option
+  has_door_2?: boolean;
+  door_2_wall?: string;
+  door_2_pos_ft?: number;
+  door_2_width_ft?: number;
+  // Room Wing option
+  has_wing?: boolean;
+  wing_wall?: string;
+  wing_offset_ft?: number;
+  wing_length_ft?: number;
+  wing_width_ft?: number;
+  // L-Shape specific layout dimensions
+  l_west_lower_ft?: number;
+  l_west_upper_ft?: number;
+  l_cutout_x_ft?: number;
+  max_casket_bays?: number;
   notes?: string;
 }
 
@@ -231,6 +264,7 @@ export interface CustomerFloorPlan {
   roomShape: RoomShape;
   roomCapacity: RoomCapacity;
   slots: FloorSlot[];
+  roomMeta?: CustomerRoom;
   updatedAt: string;
 }
 
