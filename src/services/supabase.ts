@@ -1,6 +1,7 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { db, invalidateSalesCache } from './db';
-import { Customer, Product, SaleRecord, SupabaseConfig, CasketImageItem, FloorSlot } from '../types';
+import { jsPDF } from 'jspdf';
+import { db, invalidateSalesCache, saveLithoItem } from './db';
+import { Customer, Product, SaleRecord, SupabaseConfig, CasketImageItem, LithoItem, FloorSlot } from '../types';
 import { BATESVILLE_CASKET_CATALOG } from './batesvilleCatalogData';
 
 const STORAGE_KEY = 'batesville_fp_supabase_config';
@@ -153,6 +154,58 @@ export function matchCasketFileToProducts(fileName: string, products: Product[])
           productName: p.name
         };
       }
+    }
+  }
+
+  return { matchedProducts: [] };
+}
+
+/**
+ * Matches a litho / cut sheet file to Batesville casket products.
+ * Handles filenames such as:
+ * - "147959.pdf", "147959.png"
+ * - "147959_litho.pdf", "147959-litho.pdf", "147959 litho.pdf"
+ * - "litho_147959.pdf", "litho-147959.pdf"
+ * - "147959 Woodbridge Pecan Litho.pdf"
+ * - "Woodbridge_Pecan_147959.pdf"
+ * - "20A 880 litho.pdf", "4BH_891.pdf"
+ */
+export function matchLithoFileToProducts(fileName: string, products: Product[]): {
+  matchedProducts: Product[];
+  productCode?: string;
+  productName?: string;
+} {
+  const baseName = fileName.replace(/\.[^/.]+$/, '').trim();
+
+  // 1. Try standard casket matcher first
+  const initialMatch = matchCasketFileToProducts(fileName, products);
+  if (initialMatch.matchedProducts.length > 0 && initialMatch.productCode) {
+    return initialMatch;
+  }
+
+  // 2. Strip common litho / tearsheet words and re-test
+  const cleanBase = baseName
+    .replace(/\b(litho|lithos|lithograph|cutsheet|cut_sheet|cut sheet|tearsheet|tear_sheet|tear sheet|sheet|batesville|casket|urn|catalog)\b/gi, ' ')
+    .trim();
+
+  if (cleanBase) {
+    const cleanMatch = matchCasketFileToProducts(cleanBase, products);
+    if (cleanMatch.matchedProducts.length > 0 && cleanMatch.productCode) {
+      return cleanMatch;
+    }
+  }
+
+  // 3. Scan for any 5 or 6 digit number in filename (canonical Batesville SKU)
+  const skuMatch = baseName.match(/\b(\d{5,6})\b/);
+  if (skuMatch) {
+    const candidateCode = skuMatch[1];
+    const found = products.filter(p => normalizeProductCode(p.code) === candidateCode);
+    if (found.length > 0) {
+      return {
+        matchedProducts: found,
+        productCode: found[0].code,
+        productName: found[0].name
+      };
     }
   }
 
@@ -332,13 +385,13 @@ export async function syncFromSupabase(): Promise<{
     // Seed with authentic Batesville catalog (all 918 casket models with full specs)
     BATESVILLE_CASKET_CATALOG.forEach((p) => {
       productMap.set(p.code, { ...p });
-      distinctYears.add(String(p.catalogYear || '2025'));
+      distinctYears.add(String(p.catalogYear || '2026-27'));
     });
 
     // Also enrich from sales records for historical catalog years
     allSalesRaw.forEach((s: any) => {
       const prodCode = String(s.product_code);
-      const yr = String(s.year || '2025');
+      const yr = String(s.year || '2026-27');
       distinctYears.add(yr);
 
       const compositeKey = `${prodCode}-${yr}`;
@@ -697,6 +750,492 @@ export async function uploadCasketImageToStorage(
   }
 }
 
+/**
+ * Uploads a Batesville Litho cut sheet (PDF or high-res image) to Supabase Storage.
+ * Attempts bucket 'lithos' first. If 'lithos' bucket is not found, attempts bucket 'caskets' under 'lithos/'.
+ */
+export async function uploadLithoToStorage(
+  file: File, 
+  customFileName?: string
+): Promise<{ success: boolean; url?: string; message: string; savedName: string; isRemote: boolean }> {
+  try {
+    const client = getSupabaseClient();
+    
+    // Determine extension
+    let ext = file.name.includes('.') ? file.name.substring(file.name.lastIndexOf('.')) : '';
+    if (!ext) {
+      if (file.type === 'application/pdf') ext = '.pdf';
+      else if (file.type.includes('png')) ext = '.png';
+      else if (file.type.includes('jpeg') || file.type.includes('jpg')) ext = '.jpg';
+      else if (file.type.includes('webp')) ext = '.webp';
+      else ext = '.pdf';
+    }
+
+    let cleanFileName = customFileName || file.name;
+    if (!cleanFileName.toLowerCase().endsWith(ext.toLowerCase())) {
+      cleanFileName += ext;
+    }
+    cleanFileName = cleanFileName.replace(/[^a-zA-Z0-9._-]/g, '_');
+
+    const mimeType = file.type || (ext.toLowerCase() === '.pdf' ? 'application/pdf' : 'image/png');
+
+    // 1. Try 'lithos' bucket
+    let targetBucket = 'lithos';
+    let targetPath = cleanFileName;
+    let uploadRes = await client.storage
+      .from('lithos')
+      .upload(cleanFileName, file, {
+        cacheControl: '3600',
+        upsert: true,
+        contentType: mimeType
+      });
+
+    // 2. If 'lithos' bucket does not exist, fall back to 'caskets' bucket under 'lithos/' prefix
+    if (uploadRes.error && uploadRes.error.message.includes('not found')) {
+      targetBucket = 'caskets';
+      targetPath = `lithos/${cleanFileName}`;
+      uploadRes = await client.storage
+        .from('caskets')
+        .upload(targetPath, file, {
+          cacheControl: '3600',
+          upsert: true,
+          contentType: mimeType
+        });
+    }
+
+    if (uploadRes.error) {
+      return { 
+        success: false, 
+        message: uploadRes.error.message, 
+        savedName: cleanFileName,
+        isRemote: false 
+      };
+    }
+
+    const { data: publicData } = client.storage
+      .from(targetBucket)
+      .getPublicUrl(targetPath);
+
+    return {
+      success: true,
+      url: publicData.publicUrl,
+      savedName: cleanFileName,
+      isRemote: true,
+      message: `Successfully uploaded "${cleanFileName}" to Supabase Storage!`
+    };
+  } catch (err: any) {
+    return { 
+      success: false, 
+      message: err.message || 'Failed to upload Litho to Supabase storage.', 
+      savedName: file.name,
+      isRemote: false
+    };
+  }
+}
+
+/**
+ * Downloads a Litho file directly from a Supabase public URL or data URL to the user's browser.
+ */
+export async function downloadLithoFile(fileUrl: string, fileName: string): Promise<void> {
+  try {
+    const response = await fetch(fileUrl);
+    if (!response.ok) throw new Error('Fetch failed');
+    const blob = await response.blob();
+    const blobUrl = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = blobUrl;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(blobUrl);
+  } catch {
+    const link = document.createElement('a');
+    link.href = fileUrl;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+}
+
+/**
+ * Deletes a litho file from Supabase storage
+ */
+export async function deleteLithoFromStorage(fileName: string): Promise<{ success: boolean; message?: string }> {
+  try {
+    const client = getSupabaseClient();
+    // Try both lithos bucket and caskets/lithos
+    await client.storage.from('lithos').remove([fileName]);
+    await client.storage.from('caskets').remove([`lithos/${fileName}`, fileName]);
+    return { success: true };
+  } catch (e: any) {
+    return { success: false, message: e.message };
+  }
+}
+
+/**
+ * Automatically discovers the public Litho URL for a Batesville product code
+ * from the Supabase Storage 'lithos' bucket. Probes for .png, .jpg, .jpeg, .webp, and .pdf.
+ */
+export async function getLithoPublicUrlForProduct(productCode: string | number): Promise<string | null> {
+  const code = String(productCode || '').trim();
+  if (!code) return null;
+
+  const extensions = ['.png', '.jpg', '.jpeg', '.webp', '.pdf'];
+  const baseUrl = 'https://yrprtpqwojpeskccerec.supabase.co/storage/v1/object/public/lithos/';
+
+  // 1. Try exact code with extensions
+  for (const ext of extensions) {
+    const candidateUrl = `${baseUrl}${code}${ext}`;
+    try {
+      const res = await fetch(candidateUrl, { method: 'HEAD' });
+      if (res.ok) return candidateUrl;
+    } catch {
+      // ignore network errors
+    }
+  }
+
+  // 2. Try normalized code (no spaces, e.g. "20a880.png")
+  const normCode = code.toLowerCase().replace(/[^a-z0-9]/g, '');
+  if (normCode && normCode !== code.toLowerCase()) {
+    for (const ext of extensions) {
+      const candidateUrl = `${baseUrl}${normCode}${ext}`;
+      try {
+        const res = await fetch(candidateUrl, { method: 'HEAD' });
+        if (res.ok) return candidateUrl;
+      } catch {
+        // ignore
+      }
+    }
+  }
+
+  return null;
+}
+
+/**
+ * Converts a Litho image pulled from Supabase Storage into a Letter (8.5" x 11") PDF.
+ * Automatically fits the image to standard letter format with high resolution.
+ */
+export async function generateLithoPdf(
+  imageUrl: string,
+  product: { code?: string | number; name?: string },
+  orientation: 'auto' | 'landscape' | 'portrait' = 'auto'
+): Promise<{ blob: Blob; blobUrl: string; doc: jsPDF }> {
+  const res = await fetch(imageUrl);
+  if (!res.ok) {
+    throw new Error(`Failed to fetch litho image from Supabase (HTTP ${res.status})`);
+  }
+
+  const arrayBuffer = await res.arrayBuffer();
+  const bytes = new Uint8Array(arrayBuffer);
+  let binary = '';
+  for (let i = 0; i < bytes.byteLength; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  const base64 = btoa(binary);
+
+  const contentType = res.headers.get('content-type') || '';
+  const isPng = contentType.includes('png') || imageUrl.toLowerCase().endsWith('.png');
+  const mimePrefix = isPng ? 'data:image/png;base64,' : 'data:image/jpeg;base64,';
+  const imgData = mimePrefix + base64;
+
+  // Determine image dimensions
+  let width = 1185;
+  let height = 866;
+
+  try {
+    if (typeof window !== 'undefined' && typeof window.Image !== 'undefined') {
+      const dims = await new Promise<{ width: number; height: number }>((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve({ width: img.naturalWidth || 1185, height: img.naturalHeight || 866 });
+        img.onerror = () => resolve({ width: 1185, height: 866 });
+        img.src = imgData;
+      });
+      width = dims.width;
+      height = dims.height;
+    }
+  } catch {
+    // fallback dimensions
+  }
+
+  // Choose orientation
+  let chosenOrientation: 'landscape' | 'portrait' = 'landscape';
+  if (orientation === 'portrait') {
+    chosenOrientation = 'portrait';
+  } else if (orientation === 'landscape') {
+    chosenOrientation = 'landscape';
+  } else {
+    // auto: landscape if wider than tall
+    chosenOrientation = width >= height ? 'landscape' : 'portrait';
+  }
+
+  const doc = new jsPDF({
+    orientation: chosenOrientation,
+    unit: 'in',
+    format: 'letter'
+  });
+
+  const pageWidth = chosenOrientation === 'landscape' ? 11.0 : 8.5;
+  const pageHeight = chosenOrientation === 'landscape' ? 8.5 : 11.0;
+  const margin = 0.25; // 0.25 inch margin for maximum image presentation area
+  const maxW = pageWidth - (margin * 2);
+  const maxH = pageHeight - (margin * 2);
+
+  const aspect = width / height;
+  let renderW = maxW;
+  let renderH = renderW / aspect;
+
+  if (renderH > maxH) {
+    renderH = maxH;
+    renderW = renderH * aspect;
+  }
+
+  const posX = (pageWidth - renderW) / 2;
+  const posY = (pageHeight - renderH) / 2;
+
+  doc.addImage(imgData, isPng ? 'PNG' : 'JPEG', posX, posY, renderW, renderH, undefined, 'FAST');
+
+  const pdfBlob = doc.output('blob');
+  const blobUrl = URL.createObjectURL(pdfBlob);
+
+  return { blob: pdfBlob, blobUrl, doc };
+}
+
+/**
+ * Synchronously generates the standard public Supabase Storage URL for a product's Litho cut sheet.
+ */
+export function getLithoPublicUrl(productCode: string | number): string {
+  const code = String(productCode || '').trim();
+  return `https://yrprtpqwojpeskccerec.supabase.co/storage/v1/object/public/lithos/${code}.png`;
+}
+
+/**
+ * Downloads a Litho image converted into an authentic 8.5" x 11" PDF file directly.
+ */
+export async function downloadLithoAsPdf(
+  imageUrl: string,
+  product: { code?: string | number; name?: string },
+  orientation: 'auto' | 'landscape' | 'portrait' = 'auto'
+): Promise<void> {
+  const { doc } = await generateLithoPdf(imageUrl, product, orientation);
+  const fileName = `${product.code || 'casket'}_litho.pdf`;
+  doc.save(fileName);
+}
+
+/**
+ * Prints a Litho cut sheet image directly from Supabase Storage in an isolated print window.
+ * This guarantees the browser prints exactly 1 single sheet of paper (NEVER 198 pages).
+ */
+export function printLithoDirect(
+  imageUrl: string,
+  product: { code?: string | number; name?: string },
+  orientation: 'auto' | 'landscape' | 'portrait' = 'auto'
+): void {
+  const isLandscape = orientation === 'portrait' ? false : true;
+  const printWindow = window.open('', '_blank', 'width=1100,height=850');
+  
+  if (!printWindow) {
+    // Fallback if popup is blocked: convert and download PDF
+    downloadLithoAsPdf(imageUrl, product, orientation);
+    return;
+  }
+
+  const title = `Batesville Litho Cut Sheet - SKU ${product.code || ''} ${product.name || ''}`;
+
+  printWindow.document.write(`<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>${title}</title>
+  <style>
+    @page {
+      size: ${isLandscape ? '11in 8.5in landscape' : '8.5in 11in portrait'};
+      margin: 0.15in;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    img {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      display: block;
+      margin: auto;
+    }
+    @media print {
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+      img {
+        max-width: 100% !important;
+        max-height: 100% !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <img id="litho-img" src="${imageUrl}" alt="${title}" />
+  <script>
+    const img = document.getElementById('litho-img');
+    function doPrint() {
+      setTimeout(() => {
+        window.focus();
+        window.print();
+        setTimeout(() => { try { window.close(); } catch(e){} }, 2000);
+      }, 350);
+    }
+    if (img.complete) {
+      doPrint();
+    } else {
+      img.onload = doPrint;
+      img.onerror = () => {
+        alert('Could not load litho cut sheet image from Supabase bucket.');
+        window.close();
+      };
+    }
+  </script>
+</body>
+</html>`);
+  printWindow.document.close();
+}
+
+/**
+ * Prints an HTML element (such as the 8.5x11 generated tearsheet) in an isolated print window.
+ * Strictly guarantees exactly 1 single printed sheet (never prints the background 198 catalog rows).
+ */
+export function printHtmlElementDirect(elementId: string, title = 'Batesville Litho Cut Sheet'): void {
+  const el = document.getElementById(elementId);
+  if (!el) {
+    window.print();
+    return;
+  }
+  const printWindow = window.open('', '_blank', 'width=950,height=1200');
+  if (!printWindow) {
+    window.print();
+    return;
+  }
+
+  const styles = Array.from(document.querySelectorAll('style, link[rel="stylesheet"]'))
+    .map(s => s.outerHTML)
+    .join('\n');
+
+  printWindow.document.write(`<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>${title}</title>
+  ${styles}
+  <style>
+    @page {
+      size: 8.5in 11in portrait;
+      margin: 0.35in;
+    }
+    html, body {
+      background: white !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      overflow: hidden !important;
+    }
+    #printable-litho {
+      width: 100% !important;
+      max-width: 100% !important;
+      border: none !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+  </style>
+</head>
+<body class="bg-white">
+  <div style="padding: 10px;">
+    ${el.outerHTML}
+  </div>
+  <script>
+    setTimeout(() => {
+      window.focus();
+      window.print();
+      setTimeout(() => { try { window.close(); } catch(e){} }, 2000);
+    }, 450);
+  </script>
+</body>
+</html>`);
+  printWindow.document.close();
+}
+
+/**
+ * Legacy wrapper: calls printLithoDirect
+ */
+export async function printLithoPdf(
+  imageUrl: string,
+  product: { code?: string | number; name?: string },
+  orientation: 'auto' | 'landscape' | 'portrait' = 'auto'
+): Promise<void> {
+  printLithoDirect(imageUrl, product, orientation);
+}
+
+/**
+ * Scans the Supabase 'lithos' bucket for all catalog products and syncs their URLs to IndexedDB.
+ */
+export async function syncAllLithosFromSupabase(products: Product[]): Promise<{
+  matchedCount: number;
+  matchedUrls: Record<string, string>;
+}> {
+  const matchedUrls: Record<string, string> = {};
+  let count = 0;
+
+  const chunkSize = 20;
+  for (let i = 0; i < products.length; i += chunkSize) {
+    const chunk = products.slice(i, i + chunkSize);
+    await Promise.all(chunk.map(async (p) => {
+      const foundUrl = await getLithoPublicUrlForProduct(p.code);
+      if (foundUrl) {
+        matchedUrls[p.code] = foundUrl;
+        count++;
+
+        const allMatches = await db.products.where('code').equals(p.code).toArray();
+        for (const prod of allMatches) {
+          await db.products.update(prod.id, {
+            lithoUrl: foundUrl,
+            lithoFileName: `${p.code}.png`,
+            lithoFileType: 'image'
+          });
+        }
+
+        await saveLithoItem({
+          id: `litho-sb-${p.code}`,
+          fileName: `${p.code}.png`,
+          productCode: p.code,
+          productName: p.name,
+          fileUrl: foundUrl,
+          fileType: 'image',
+          uploadedAt: new Date().toISOString(),
+          isRemote: true
+        });
+      }
+    }));
+  }
+
+  return { matchedCount: count, matchedUrls };
+}
+
 // Push local changes to Supabase
 export async function pushToSupabase(): Promise<{ success: boolean; message: string }> {
   const client = getSupabaseClient();
@@ -967,5 +1506,63 @@ export async function saveCustomerShowroomToSupabase(
   }
 }
 
+/**
+ * Helper to determine if a product is discontinued
+ */
+export function isProductDiscontinued(p: any): boolean {
+  if (!p) return false;
+  if (p.isActive === false) return true;
+  const d = p.discontinued ?? p.discountinued;
+  if (d === true) return true;
+  if (typeof d === 'string') {
+    const lower = d.trim().toLowerCase();
+    return lower === 'true' || lower === 'yes' || lower === '1' || lower === 'discontinued';
+  }
+  return false;
+}
 
+/**
+ * Checks whether a product or item is a casket
+ */
+export function isCasketProduct(product?: { category?: string; name?: string; description?: string } | null): boolean {
+  if (!product) return false;
+  const cat = (product.category || '').toLowerCase();
+  const name = (product.name || '').toLowerCase();
 
+  // Exclude all non-caskets
+  if (
+    cat.includes('urn') || 
+    cat.includes('keepsake') || 
+    cat.includes('jewelry') || 
+    cat.includes('personalization') ||
+    cat.includes('engraving') ||
+    cat.includes('applique') ||
+    cat.includes('medallion') ||
+    cat.includes('corner') ||
+    cat.includes('panel') ||
+    cat.includes('frame') ||
+    cat.includes('casket supplies') || 
+    cat.includes('alternative container interior') ||
+    cat.includes('supplies') ||
+    cat.includes('vault') ||
+    cat.includes('outer burial') ||
+    name.includes('urn') ||
+    name.includes('medallion') ||
+    name.includes('keepsake') ||
+    name.includes('jewelry') ||
+    name.includes('appliques')
+  ) {
+    return false;
+  }
+
+  // True caskets: Metal, Wood, NewPointe, Cloth, AWC, or name/category explicitly containing casket
+  return (
+    cat.includes('metal') ||
+    cat.includes('wood') ||
+    cat.includes('newpointe') ||
+    cat.includes('cloth') ||
+    cat.includes('awc') ||
+    cat.includes('casket') ||
+    name.includes('casket')
+  );
+}

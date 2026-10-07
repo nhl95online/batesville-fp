@@ -99,6 +99,9 @@ export interface Product {
   features: string[];
   imageUrl: string;
   additionalImages?: string[];
+  lithoUrl?: string;
+  lithoFileName?: string;
+  lithoFileType?: string;
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
@@ -197,6 +200,18 @@ export interface CasketImageItem {
   dataUrl: string; // base64 or remote URL
   uploadedAt: string;
   sizeBytes?: number;
+}
+
+export interface LithoItem {
+  id: string;
+  fileName: string;
+  productCode?: string;
+  productName?: string;
+  fileUrl: string; // Supabase storage public URL or data URL
+  fileType: 'pdf' | 'image' | string;
+  sizeBytes?: number;
+  uploadedAt: string;
+  isRemote?: boolean;
 }
 
 export type RoomShape = 'oval' | 'square' | 'rectangle' | 'l-shaped';

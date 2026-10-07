@@ -9,10 +9,13 @@ import { CustomerList } from './components/customers/CustomerList';
 import { ProductCatalog } from './components/products/ProductCatalog';
 import { CatalogYearManager } from './components/catalogs/CatalogYearManager';
 import { CasketImageManagerModal } from './components/catalogs/CasketImageManagerModal';
+import { LithoManagerModal } from './components/catalogs/LithoManagerModal';
 import { DailySalesUploadModal } from './components/sales/DailySalesUploadModal';
 import { PriceListImportModal } from './components/products/PriceListImportModal';
 import { ShowroomFloorPlan } from './components/floorplan/ShowroomFloorPlan';
 import { syncFromSupabase } from './services/supabase';
+import { isAuthenticated, logoutUser } from './services/auth';
+import { LoginModal } from './components/auth/LoginModal';
 import { 
   Home, 
   Tag, 
@@ -23,7 +26,8 @@ import {
   Image as ImageIcon, 
   Loader2, 
   LayoutGrid,
-  ChevronDown
+  ChevronDown,
+  Lock
 } from 'lucide-react';
 
 interface SubpageItem {
@@ -35,7 +39,12 @@ interface SubpageItem {
 }
 
 export function App() {
-  const [activeTab, setActiveTab] = useState<'home' | 'catalogs' | 'cards' | 'sales' | 'customers' | 'products' | 'floorplans'>('home');
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => isAuthenticated());
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [loginModalMode, setLoginModalMode] = useState<'login' | 'changePassword'>('login');
+  const [activeTab, setActiveTab] = useState<'home' | 'catalogs' | 'cards' | 'sales' | 'customers' | 'products' | 'floorplans'>(() => {
+    return isAuthenticated() ? 'home' : 'catalogs';
+  });
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [counts, setCounts] = useState<{ customers: number; products: number; sales: number }>({
@@ -69,6 +78,19 @@ export function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  // Sync auth state changes across windows/tabs
+  useEffect(() => {
+    const handleAuthChange = () => {
+      const authState = isAuthenticated();
+      setIsLoggedIn(authState);
+      if (!authState) {
+        setActiveTab('catalogs');
+      }
+    };
+    window.addEventListener('portal_auth_changed', handleAuthChange);
+    return () => window.removeEventListener('portal_auth_changed', handleAuthChange);
+  }, []);
+
   // Pre-selected IDs when transitioning into PriceCardStudio or ShowroomFloorPlan
   const [targetCustomerId, setTargetCustomerId] = useState<string | undefined>(undefined);
   const [targetProductId, setTargetProductId] = useState<string | undefined>(undefined);
@@ -76,6 +98,7 @@ export function App() {
 
   // Modals
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [isLithoModalOpen, setIsLithoModalOpen] = useState(false);
   const [isSalesUploadModalOpen, setIsSalesUploadModalOpen] = useState(false);
   const [isPriceListImportOpen, setIsPriceListImportOpen] = useState(false);
 
@@ -150,7 +173,7 @@ export function App() {
 
   // Distinct Catalog Years dynamically computed from products + standard editions
   const catalogYears = useMemo(() => {
-    const baseYears = ['2025-26', '2024-25', '2023-24', '2022-23', '2021-22', '2020-21', '2016-17'];
+    const baseYears = ['2026-27', '2025-26', '2024-25', '2023-24', '2022-23', '2021-22', '2020-21', '2016-17'];
     const productYears = Array.from(new Set(products.map(p => String(p.catalogYear || '')).filter(Boolean)));
     return Array.from(new Set([...productYears, ...baseYears])).sort().reverse();
   }, [products]);
@@ -162,6 +185,8 @@ export function App() {
       if (pYr === yr) return true;
       if (yr.includes('-') && pYr.length === 4 && yr.startsWith(pYr)) return true;
       if (pYr.includes('-') && yr.length === 4 && pYr.startsWith(yr)) return true;
+      if (yr === '2026-27' && (pYr === '2026' || pYr === '2025' || pYr === '2025-26')) return true;
+      if (yr === '2025-26' && (pYr === '2025' || pYr === '2026-27')) return true;
       return false;
     }).length;
   };
@@ -179,11 +204,11 @@ export function App() {
 
   const productSubpages: SubpageItem[] = useMemo(() => [
     { id: 'all', label: 'All Products', badge: products.length, description: 'Complete Batesville product catalog' },
-    { id: 'metal', label: 'Metal Caskets', description: '18g, 20g, Bronze & Stainless' },
-    { id: 'wood', label: 'Hardwood Caskets', description: 'Cherry, Oak, Pecan, Mahogany & Maple' },
-    { id: 'cloth', label: 'Cloth & NewPointe', description: 'NewPointe and cloth-covered caskets' },
-    { id: 'urns', label: 'Urns & Cremation', description: 'Full size urns, vaults, cremation containers' },
-    { id: 'keepsakes', label: 'Keepsakes & Jewelry', description: 'Remembrance keepsakes & jewelry' },
+    { id: 'Caskets & Containers - Metal', label: 'Metal Caskets', badge: products.filter(p => p.category === 'Caskets & Containers - Metal').length, description: '18g, 20g, Bronze & Stainless' },
+    { id: 'Caskets & Containers - Wood', label: 'Hardwood Caskets', badge: products.filter(p => p.category === 'Caskets & Containers - Wood').length, description: 'Cherry, Oak, Pecan, Mahogany & Maple' },
+    { id: 'Caskets & Containers - NewPointe', label: 'NewPointe Caskets', badge: products.filter(p => p.category === 'Caskets & Containers - NewPointe').length, description: 'NewPointe collection caskets' },
+    { id: 'Urns & Keepsakes - Full Size Urns', label: 'Full Size Urns', badge: products.filter(p => p.category === 'Urns & Keepsakes - Full Size Urns').length, description: 'Full size urns and cremation memorials' },
+    { id: 'Urns & Keepsakes - Remembrance Keepsakes', label: 'Remembrance Keepsakes', badge: products.filter(p => p.category === 'Urns & Keepsakes - Remembrance Keepsakes').length, description: 'Keepsakes and remembrance items' },
   ], [products]);
 
   const customerSubpages: SubpageItem[] = useMemo(() => [
@@ -247,6 +272,11 @@ interface NavTabItem {
 
   // Unified Navigation Handler supporting Tab + Subpage
   const handleNavigate = (tab: typeof activeTab, subpageId?: string) => {
+    if (!isLoggedIn && tab !== 'catalogs' && tab !== 'products') {
+      setLoginModalMode('login');
+      setIsLoginModalOpen(true);
+      return;
+    }
     setActiveTab(tab);
     setOpenDropdown(null);
     if (!subpageId) return;
@@ -275,16 +305,31 @@ interface NavTabItem {
   };
 
   const handleSelectProductForCard = (productId: string) => {
+    if (!isLoggedIn) {
+      setLoginModalMode('login');
+      setIsLoginModalOpen(true);
+      return;
+    }
     setTargetProductId(productId);
     setActiveTab('cards');
   };
 
   const handleSelectCustomerForCard = (customerId: string) => {
+    if (!isLoggedIn) {
+      setLoginModalMode('login');
+      setIsLoginModalOpen(true);
+      return;
+    }
     setTargetCustomerId(customerId);
     setActiveTab('cards');
   };
 
   const handleOpenFloorPlan = (customerId: string) => {
+    if (!isLoggedIn) {
+      setLoginModalMode('login');
+      setIsLoginModalOpen(true);
+      return;
+    }
     setTargetFloorPlanCustomerId(customerId);
     setActiveTab('floorplans');
   };
@@ -302,14 +347,20 @@ interface NavTabItem {
     }
   };
 
+  // Only show Catalogs and Products to unauthenticated visitors
+  const visibleNavTabs = useMemo(() => {
+    if (isLoggedIn) return navTabs;
+    return navTabs.filter(t => t.id === 'catalogs' || t.id === 'products');
+  }, [isLoggedIn, navTabs]);
+
   if (loading) {
     return (
       <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center text-slate-800">
         <Loader2 className="w-10 h-10 text-amber-600 animate-spin mb-4" />
         <h2 className="font-serif text-2xl font-bold text-slate-900 tracking-wide">
-          BATESVILLE<span className="text-amber-600">-FP</span>
+          CATALOG<span className="text-amber-600"> PORTAL</span>
         </h2>
-        <p className="text-xs sm:text-sm text-slate-500 mt-1">Connecting to Batesville Cloud Database...</p>
+        <p className="text-xs sm:text-sm text-slate-500 mt-1">Connecting to Cloud Database...</p>
       </div>
     );
   }
@@ -320,9 +371,36 @@ interface NavTabItem {
       {/* Top Navigation */}
       <Navbar
         isAutoSyncing={isAutoSyncing}
-        onOpenSalesUpload={() => setIsSalesUploadModalOpen(true)}
-        onOpenPriceListImport={() => setIsPriceListImportOpen(true)}
-        onGoHome={() => handleNavigate('home')}
+        isLoggedIn={isLoggedIn}
+        onOpenLogin={() => {
+          setLoginModalMode('login');
+          setIsLoginModalOpen(true);
+        }}
+        onLogout={() => {
+          logoutUser();
+          setActiveTab('catalogs');
+        }}
+        onChangePassword={() => {
+          setLoginModalMode('changePassword');
+          setIsLoginModalOpen(true);
+        }}
+        onOpenSalesUpload={() => {
+          if (!isLoggedIn) {
+            setLoginModalMode('login');
+            setIsLoginModalOpen(true);
+          } else {
+            setIsSalesUploadModalOpen(true);
+          }
+        }}
+        onOpenPriceListImport={() => {
+          if (!isLoggedIn) {
+            setLoginModalMode('login');
+            setIsLoginModalOpen(true);
+          } else {
+            setIsPriceListImportOpen(true);
+          }
+        }}
+        onGoHome={() => handleNavigate(isLoggedIn ? 'home' : 'catalogs')}
       />
 
       {/* Main Tab Navigation Bar & Dropdown Menus */}
@@ -330,7 +408,7 @@ interface NavTabItem {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between py-1">
           
           <div className="flex items-center space-x-1 sm:space-x-1.5 overflow-x-auto scrollbar-none py-0.5">
-            {navTabs.map((tab) => {
+            {visibleNavTabs.map((tab) => {
               const isActive = activeTab === tab.id;
               const isDropdownOpen = openDropdown === tab.id;
 
@@ -423,23 +501,26 @@ interface NavTabItem {
             })}
           </div>
 
-          {/* Quick Action: Casket Images Studio */}
-          <div className="pl-3 shrink-0">
-            <button
-              onClick={() => setIsImageModalOpen(true)}
-              className="flex items-center space-x-1.5 bg-slate-50 hover:bg-slate-100 text-slate-700 hover:text-amber-700 border border-slate-200 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer shadow-xs"
-            >
-              <ImageIcon className="w-3.5 h-3.5 text-amber-600" />
-              <span>Casket Images</span>
-            </button>
-          </div>
+          {/* Quick Action: Casket Images Studio (Only visible to logged in staff) */}
+          {isLoggedIn && (
+            <div className="pl-3 shrink-0">
+              <button
+                onClick={() => setIsImageModalOpen(true)}
+                className="flex items-center space-x-1.5 bg-slate-50 hover:bg-slate-100 text-slate-700 hover:text-amber-700 border border-slate-200 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer shadow-xs"
+              >
+                <ImageIcon className="w-3.5 h-3.5 text-amber-600" />
+                <span>Casket Images</span>
+              </button>
+            </div>
+          )}
 
         </div>
       </div>
 
       {/* Main Content Area */}
       <main className={`flex-1 w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 ${activeTab === 'cards' ? 'max-w-[1720px]' : 'max-w-7xl'}`}>
-        {activeTab === 'home' && (
+        {/* If user is logged in, they can view the Home executive dashboard */}
+        {activeTab === 'home' && isLoggedIn && (
           <LandingPage
             customers={customers}
             products={products}
@@ -452,19 +533,59 @@ interface NavTabItem {
           />
         )}
 
+        {/* Unauthenticated fallback if guest tries to view a protected tab */}
+        {!isLoggedIn && activeTab !== 'catalogs' && activeTab !== 'products' && (
+          <CatalogYearManager
+            products={products}
+            onSelectProductForCard={handleSelectProductForCard}
+            onDataChanged={loadData}
+            onOpenImageManager={() => { setLoginModalMode('login'); setIsLoginModalOpen(true); }}
+            onOpenLithoManager={() => { setLoginModalMode('login'); setIsLoginModalOpen(true); }}
+            onOpenPriceListImport={() => { setLoginModalMode('login'); setIsLoginModalOpen(true); }}
+            selectedYear={catalogSubpage}
+            onYearChange={(yr) => setCatalogSubpage(yr)}
+            isLoggedIn={isLoggedIn}
+            onRequireLogin={() => { setLoginModalMode('login'); setIsLoginModalOpen(true); }}
+          />
+        )}
+
         {activeTab === 'catalogs' && (
           <CatalogYearManager
             products={products}
             onSelectProductForCard={handleSelectProductForCard}
             onDataChanged={loadData}
-            onOpenImageManager={() => setIsImageModalOpen(true)}
-            onOpenPriceListImport={() => setIsPriceListImportOpen(true)}
+            onOpenImageManager={() => {
+              if (!isLoggedIn) {
+                setLoginModalMode('login');
+                setIsLoginModalOpen(true);
+              } else {
+                setIsImageModalOpen(true);
+              }
+            }}
+            onOpenLithoManager={() => {
+              if (!isLoggedIn) {
+                setLoginModalMode('login');
+                setIsLoginModalOpen(true);
+              } else {
+                setIsLithoModalOpen(true);
+              }
+            }}
+            onOpenPriceListImport={() => {
+              if (!isLoggedIn) {
+                setLoginModalMode('login');
+                setIsLoginModalOpen(true);
+              } else {
+                setIsPriceListImportOpen(true);
+              }
+            }}
             selectedYear={catalogSubpage}
             onYearChange={(yr) => setCatalogSubpage(yr)}
+            isLoggedIn={isLoggedIn}
+            onRequireLogin={() => { setLoginModalMode('login'); setIsLoginModalOpen(true); }}
           />
         )}
 
-        {activeTab === 'cards' && (
+        {activeTab === 'cards' && isLoggedIn && (
           <PriceCardStudio
             customers={customers}
             products={products}
@@ -475,7 +596,7 @@ interface NavTabItem {
           />
         )}
 
-        {activeTab === 'sales' && (
+        {activeTab === 'sales' && isLoggedIn && (
           <SalesDashboard
             customers={customers}
             products={products}
@@ -485,7 +606,7 @@ interface NavTabItem {
           />
         )}
 
-        {activeTab === 'customers' && (
+        {activeTab === 'customers' && isLoggedIn && (
           <CustomerList
             customers={customers}
             onSelectCustomerForCard={handleSelectCustomerForCard}
@@ -499,14 +620,39 @@ interface NavTabItem {
           <ProductCatalog
             products={products}
             onSelectProductForCard={handleSelectProductForCard}
-            onOpenImageManager={() => setIsImageModalOpen(true)}
-            onOpenPriceListImport={() => setIsPriceListImportOpen(true)}
+            onOpenImageManager={() => {
+              if (!isLoggedIn) {
+                setLoginModalMode('login');
+                setIsLoginModalOpen(true);
+              } else {
+                setIsImageModalOpen(true);
+              }
+            }}
+            onOpenLithoManager={() => {
+              if (!isLoggedIn) {
+                setLoginModalMode('login');
+                setIsLoginModalOpen(true);
+              } else {
+                setIsLithoModalOpen(true);
+              }
+            }}
+            onOpenPriceListImport={() => {
+              if (!isLoggedIn) {
+                setLoginModalMode('login');
+                setIsLoginModalOpen(true);
+              } else {
+                setIsPriceListImportOpen(true);
+              }
+            }}
             selectedCategory={productSubpage}
             onCategoryChange={(cat) => setProductSubpage(cat)}
+            onProductUpdated={loadData}
+            isLoggedIn={isLoggedIn}
+            onRequireLogin={() => { setLoginModalMode('login'); setIsLoginModalOpen(true); }}
           />
         )}
 
-        {activeTab === 'floorplans' && (
+        {activeTab === 'floorplans' && isLoggedIn && (
           <ShowroomFloorPlan
             customers={customers}
             products={products}
@@ -528,6 +674,14 @@ interface NavTabItem {
         onClose={() => setIsImageModalOpen(false)}
         products={products}
         onImagesUpdated={loadData}
+      />
+
+      {/* Batesville Litho Cut Sheets Manager Modal */}
+      <LithoManagerModal
+        isOpen={isLithoModalOpen}
+        onClose={() => setIsLithoModalOpen(false)}
+        products={products}
+        onLithosUpdated={loadData}
       />
 
       {/* Daily Sales PDF Upload Modal */}
@@ -553,6 +707,16 @@ interface NavTabItem {
           }}
         />
       )}
+
+      {/* Private Staff Access Login & Password Modal */}
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        initialMode={loginModalMode}
+        onClose={() => setIsLoginModalOpen(false)}
+        onSuccess={() => {
+          setIsLoggedIn(true);
+        }}
+      />
 
     </div>
   );

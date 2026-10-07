@@ -1,5 +1,5 @@
 import Dexie, { type EntityTable } from 'dexie';
-import { Customer, Product, SaleRecord, SalesYoYMetrics, CasketImageItem, SalesQuotaItem, FiscalMonthQuotaMetrics, AnnualQuotaTrackerData } from '../types';
+import { Customer, Product, SaleRecord, SalesYoYMetrics, CasketImageItem, LithoItem, SalesQuotaItem, FiscalMonthQuotaMetrics, AnnualQuotaTrackerData } from '../types';
 import { BATESVILLE_CASKET_CATALOG } from './batesvilleCatalogData';
 import { getFiscalYearBillingDays, MonthBillingInfo } from './billingCalendar';
 import { generateSeedSales } from './seedData';
@@ -10,6 +10,7 @@ export class BatesvilleDatabase extends Dexie {
   products!: EntityTable<Product, 'id'>;
   sales!: EntityTable<SaleRecord, 'id'>;
   images!: EntityTable<CasketImageItem, 'id'>;
+  lithos!: EntityTable<LithoItem, 'id'>;
 
   constructor() {
     super('BatesvilleFP_DB');
@@ -18,6 +19,13 @@ export class BatesvilleDatabase extends Dexie {
       products: 'id, code, name, category, catalogYear, material, wholesalePrice, msrp, isActive',
       sales: 'id, orderNumber, customerId, productId, productCode, saleDate, year, month, totalAmount',
       images: 'id, fileName, productCode, uploadedAt',
+    });
+    this.version(3).stores({
+      customers: 'id, code, name, tier, city, state, program',
+      products: 'id, code, name, category, catalogYear, material, wholesalePrice, msrp, isActive, lithoUrl',
+      sales: 'id, orderNumber, customerId, productId, productCode, saleDate, year, month, totalAmount',
+      images: 'id, fileName, productCode, uploadedAt',
+      lithos: 'id, fileName, productCode, fileType, uploadedAt',
     });
   }
 }
@@ -31,10 +39,19 @@ export async function initializeDatabase(): Promise<void> {
     console.log('[DB] Loading authentic Batesville casket catalog with full names...');
     await db.products.bulkAdd(BATESVILLE_CASKET_CATALOG);
   } else {
-    // Check if cached products need full-name upgrade
+    // Check if cached products need full-name, 2026-27 edition, discontinued attributes, or urn cap cleanup upgrade
     const sampleProd = await db.products.toCollection().first();
-    if (sampleProd && sampleProd.description && sampleProd.name !== sampleProd.description) {
-      console.log('[DB] Refreshing catalog with full product names...');
+    const sampleUrn = await db.products.where('category').equals('Urns & Keepsakes - Full Size Urns').first();
+    const needsCatalogRefresh = !sampleProd || 
+      (sampleProd.description && sampleProd.name !== sampleProd.description) ||
+      sampleProd.catalogYear === '2025' || 
+      sampleProd.year === '2025' ||
+      sampleProd.discontinued === undefined ||
+      sampleProd.catalogYear !== '2026-27' ||
+      (sampleUrn && Boolean(sampleUrn.top));
+
+    if (needsCatalogRefresh) {
+      console.log('[DB] Refreshing catalog with 2026-27 Batesville product edition, clean cap construction & discontinued status...');
       await db.products.clear();
       await db.products.bulkAdd(BATESVILLE_CASKET_CATALOG);
     }
@@ -60,6 +77,81 @@ export async function initializeDatabase(): Promise<void> {
     await db.sales.bulkAdd(seedSales);
     invalidateSalesCache();
   }
+}
+
+/**
+ * Helper to determine if a product is discontinued
+ */
+export function isProductDiscontinued(p: any): boolean {
+  if (!p) return false;
+  if (p.isActive === false) return true;
+  const d = p.discontinued ?? p.discountinued;
+  if (d === true) return true;
+  if (typeof d === 'string') {
+    const lower = d.trim().toLowerCase();
+    return lower === 'true' || lower === 'yes' || lower === '1' || lower === 'discontinued';
+  }
+  return false;
+}
+
+/**
+ * Toggles or sets a product's discontinued status in IndexedDB
+ */
+export async function toggleProductDiscontinued(productId: string, isDiscontinued?: boolean): Promise<Product | null> {
+  const prod = await db.products.get(productId);
+  if (!prod) return null;
+  const nextStatus = isDiscontinued !== undefined ? isDiscontinued : !isProductDiscontinued(prod);
+  prod.discontinued = nextStatus;
+  prod.discountinued = nextStatus ? 'TRUE' : 'FALSE';
+  prod.isActive = !nextStatus;
+  await db.products.put(prod);
+  return prod;
+}
+
+/**
+ * Checks whether a product or item is a casket
+ */
+export function isCasketProduct(product?: { category?: string; name?: string; description?: string } | null): boolean {
+  if (!product) return false;
+  const cat = (product.category || '').toLowerCase();
+  const name = (product.name || '').toLowerCase();
+
+  // Exclude all non-caskets
+  if (
+    cat.includes('urn') || 
+    cat.includes('keepsake') || 
+    cat.includes('jewelry') || 
+    cat.includes('personalization') ||
+    cat.includes('engraving') ||
+    cat.includes('applique') ||
+    cat.includes('medallion') ||
+    cat.includes('corner') ||
+    cat.includes('panel') ||
+    cat.includes('frame') ||
+    cat.includes('casket supplies') || 
+    cat.includes('alternative container interior') ||
+    cat.includes('supplies') ||
+    cat.includes('vault') ||
+    cat.includes('outer burial') ||
+    name.includes('urn') ||
+    name.includes('medallion') ||
+    name.includes('keepsake') ||
+    name.includes('jewelry') ||
+    name.includes('appliques')
+  ) {
+    return false;
+  }
+
+  // True caskets: Metal, Wood, NewPointe, Cloth, AWC, or name/category explicitly containing casket
+  return (
+    cat.includes('metal') ||
+    cat.includes('wood') ||
+    cat.includes('newpointe') ||
+    cat.includes('cloth') ||
+    cat.includes('awc') ||
+    cat.includes('casket') ||
+    name.includes('casket')
+  );
 }
 
 // In-Memory Sales Cache for Sub-millisecond Loading & Queries
@@ -294,22 +386,101 @@ export async function deleteCasketImage(id: string): Promise<void> {
   await db.images.delete(id);
 }
 
+// Litho Cut Sheet Storage helpers
+export async function saveLithoItem(lithoItem: LithoItem): Promise<void> {
+  await db.lithos.put(lithoItem);
+  
+  // If product code matched, update ALL products sharing this code across every catalog year
+  if (lithoItem.productCode) {
+    const matched = await db.products.where('code').equals(lithoItem.productCode).toArray();
+    for (const prod of matched) {
+      await db.products.update(prod.id, { 
+        lithoUrl: lithoItem.fileUrl,
+        lithoFileName: lithoItem.fileName,
+        lithoFileType: lithoItem.fileType
+      });
+    }
+  }
+}
+
+export async function getAllLithos(): Promise<LithoItem[]> {
+  return await db.lithos.toArray();
+}
+
+export async function getLithoByProductCode(productCode: string): Promise<LithoItem | undefined> {
+  return await db.lithos.where('productCode').equals(productCode).first();
+}
+
+export async function deleteLithoItem(id: string): Promise<void> {
+  const item = await db.lithos.get(id);
+  if (item && item.productCode) {
+    const others = await db.lithos.where('productCode').equals(item.productCode).toArray();
+    if (others.length <= 1) {
+      const matched = await db.products.where('code').equals(item.productCode).toArray();
+      for (const prod of matched) {
+        await db.products.update(prod.id, { 
+          lithoUrl: undefined,
+          lithoFileName: undefined,
+          lithoFileType: undefined
+        });
+      }
+    }
+  }
+  await db.lithos.delete(id);
+}
+
+export async function assignLithoToProduct(lithoId: string, productCode: string, productName?: string): Promise<void> {
+  const item = await db.lithos.get(lithoId);
+  if (!item) return;
+
+  // Clean old product code if changing
+  if (item.productCode && item.productCode !== productCode) {
+    const oldMatches = await db.lithos.where('productCode').equals(item.productCode).toArray();
+    if (oldMatches.length <= 1) {
+      const oldProds = await db.products.where('code').equals(item.productCode).toArray();
+      for (const prod of oldProds) {
+        await db.products.update(prod.id, { 
+          lithoUrl: undefined,
+          lithoFileName: undefined,
+          lithoFileType: undefined
+        });
+      }
+    }
+  }
+
+  item.productCode = productCode;
+  if (productName) item.productName = productName;
+  await db.lithos.put(item);
+
+  // Update target products across all catalog years
+  const matched = await db.products.where('code').equals(productCode).toArray();
+  for (const prod of matched) {
+    await db.products.update(prod.id, { 
+      lithoUrl: item.fileUrl,
+      lithoFileName: item.fileName,
+      lithoFileType: item.fileType
+    });
+  }
+}
+
 // Export database as JSON string
 export async function exportDatabaseToJson(): Promise<string> {
   const customers = await db.customers.toArray();
   const products = await db.products.toArray();
   const sales = await db.sales.toArray();
   const images = await db.images.toArray();
+  const lithos = await db.lithos.toArray();
 
   const exportData = {
     appName: 'Batesville-FP Portable DB',
-    version: '2.0',
+    version: '3.0',
     exportedAt: new Date().toISOString(),
     data: {
       customers,
       products,
       sales,
-      images
+      images,
+      lithos
     }
   };
 
@@ -324,11 +495,12 @@ export async function importDatabaseFromJson(jsonContent: string): Promise<{ suc
       throw new Error('Invalid Batesville-FP database file format.');
     }
 
-    await db.transaction('rw', [db.customers, db.products, db.sales, db.images], async () => {
+    await db.transaction('rw', [db.customers, db.products, db.sales, db.images, db.lithos], async () => {
       await db.customers.clear();
       await db.products.clear();
       await db.sales.clear();
       await db.images.clear();
+      await db.lithos.clear();
 
       await db.customers.bulkAdd(parsed.data.customers);
       await db.products.bulkAdd(parsed.data.products);
@@ -337,6 +509,9 @@ export async function importDatabaseFromJson(jsonContent: string): Promise<{ suc
       }
       if (Array.isArray(parsed.data.images)) {
         await db.images.bulkAdd(parsed.data.images);
+      }
+      if (Array.isArray(parsed.data.lithos)) {
+        await db.lithos.bulkAdd(parsed.data.lithos);
       }
     });
 
@@ -351,11 +526,12 @@ export async function importDatabaseFromJson(jsonContent: string): Promise<{ suc
 
 // Reset database to authentic Batesville catalog
 export async function resetDatabaseToSeed(): Promise<void> {
-  await db.transaction('rw', [db.customers, db.products, db.sales, db.images], async () => {
+  await db.transaction('rw', [db.customers, db.products, db.sales, db.images, db.lithos], async () => {
     await db.customers.clear();
     await db.products.clear();
     await db.sales.clear();
     await db.images.clear();
+    await db.lithos.clear();
 
     await db.products.bulkAdd(BATESVILLE_CASKET_CATALOG);
   });

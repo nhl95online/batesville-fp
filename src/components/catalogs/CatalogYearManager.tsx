@@ -14,7 +14,9 @@ import {
   CheckCircle2, 
   AlertCircle,
   FileSpreadsheet,
-  Plus
+  Plus,
+  FileText,
+  Lock
 } from 'lucide-react';
 
 interface CatalogYearManagerProps {
@@ -22,9 +24,12 @@ interface CatalogYearManagerProps {
   onSelectProductForCard: (productId: string) => void;
   onDataChanged: () => void;
   onOpenImageManager: () => void;
+  onOpenLithoManager?: () => void;
   onOpenPriceListImport?: () => void;
   selectedYear?: string;
   onYearChange?: (year: string) => void;
+  isLoggedIn?: boolean;
+  onRequireLogin?: () => void;
 }
 
 export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
@@ -32,9 +37,12 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
   onSelectProductForCard,
   onDataChanged,
   onOpenImageManager,
+  onOpenLithoManager,
   onOpenPriceListImport,
   selectedYear: selectedYearProp,
   onYearChange,
+  isLoggedIn = false,
+  onRequireLogin,
 }) => {
   const [selectedYear, setSelectedYear] = useState<string>(selectedYearProp || 'all');
   const [selectedFeature, setSelectedFeature] = useState<'all' | 'lifesymbols' | 'lifestories' | 'dual' | 'oversize'>('all');
@@ -55,10 +63,10 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
   };
 
   // Group products by Catalog Year (including standard Batesville catalog editions)
-  const baseYears = ['2025-26', '2024-25', '2023-24', '2022-23', '2021-22', '2020-21', '2016-17'];
+  const baseYears = ['2026-27', '2025-26', '2024-25', '2023-24', '2022-23', '2021-22', '2020-21', '2016-17'];
   const productYears = Array.from(new Set(products.map(p => String(p.catalogYear || '')).filter(Boolean)));
   const distinctYears = Array.from(new Set([...productYears, ...baseYears])).sort().reverse();
-  const activeYear = selectedYear === 'all' ? (distinctYears[0] || '2025') : selectedYear;
+  const activeYear = selectedYear === 'all' ? (distinctYears[0] || '2026-27') : selectedYear;
 
   const matchesYear = (productYear: string | number | undefined, filterYear: string) => {
     if (filterYear === 'all') return true;
@@ -67,6 +75,8 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
     if (pYr === fYr) return true;
     if (fYr.includes('-') && pYr.length === 4 && fYr.startsWith(pYr)) return true;
     if (pYr.includes('-') && fYr.length === 4 && pYr.startsWith(fYr)) return true;
+    if (fYr === '2026-27' && (pYr === '2026' || pYr === '2025' || pYr === '2025-26')) return true;
+    if (fYr === '2025-26' && (pYr === '2025' || pYr === '2026-27')) return true;
     return false;
   };
 
@@ -179,62 +189,76 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
                 Catalogs by Year & Product Editions
               </h1>
               <p className="text-xs sm:text-sm text-slate-500">
-                Organize, import, and compare Batesville casket catalogs, pricing, and specs across years.
+                Organize, compare, and browse catalog models, dimensions, specifications, and editions.
               </p>
             </div>
           </div>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex flex-wrap items-center gap-3">
-          {/* Import Price List Button */}
-          {onOpenPriceListImport && (
+        {/* Action Buttons (Admin Tools) */}
+        {isLoggedIn && (
+          <div className="flex flex-wrap items-center gap-3">
+            {/* Import Price List Button */}
+            {onOpenPriceListImport && (
+              <button
+                onClick={onOpenPriceListImport}
+                className="flex items-center space-x-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold px-4 py-2.5 rounded-xl shadow-md shadow-amber-500/20 transition-all cursor-pointer text-xs"
+                title="Import PDF / Text Product Reference Guide into Products Table"
+              >
+                <FileSpreadsheet className="w-4 h-4" />
+                <span>Import Price Guide (PDF / Text)</span>
+              </button>
+            )}
+
+            {/* Supabase Ingest Button */}
             <button
-              onClick={onOpenPriceListImport}
-              className="flex items-center space-x-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold px-4 py-2.5 rounded-xl shadow-md shadow-amber-500/20 transition-all cursor-pointer text-xs"
-              title="Import PDF / Text Product Reference Guide into Products Table"
+              onClick={handleSyncFromSupabase}
+              disabled={isSyncing}
+              className="flex items-center space-x-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 disabled:opacity-50 text-slate-950 font-bold px-4 py-2.5 rounded-xl shadow-md shadow-amber-500/20 transition-all cursor-pointer text-xs"
             >
-              <FileSpreadsheet className="w-4 h-4" />
-              <span>Import Price Guide (PDF / Text)</span>
+              <RefreshCw className={`w-4 h-4 ${isSyncing ? 'animate-spin' : ''}`} />
+              <span>{isSyncing ? 'Syncing Supabase...' : 'Sync Catalogs from Supabase'}</span>
             </button>
-          )}
 
-          {/* Supabase Ingest Button */}
-          <button
-            onClick={handleSyncFromSupabase}
-            disabled={isSyncing}
-            className="flex items-center space-x-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 disabled:opacity-50 text-slate-950 font-bold px-4 py-2.5 rounded-xl shadow-md shadow-amber-500/20 transition-all cursor-pointer text-xs"
-          >
-            <RefreshCw className={`w-4 h-4 ${isSyncing ? 'animate-spin' : ''}`} />
-            <span>{isSyncing ? 'Syncing Supabase...' : 'Sync Catalogs from Supabase'}</span>
-          </button>
+            {/* Manage Images Shortcut */}
+            <button
+              onClick={onOpenImageManager}
+              className="flex items-center space-x-2 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 font-semibold px-4 py-2.5 rounded-xl transition-colors cursor-pointer text-xs shadow-sm"
+            >
+              <Layers className="w-4 h-4 text-amber-600" />
+              <span>Casket Images</span>
+            </button>
 
-          {/* Manage Images Shortcut */}
-          <button
-            onClick={onOpenImageManager}
-            className="flex items-center space-x-2 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 font-semibold px-4 py-2.5 rounded-xl transition-colors cursor-pointer text-xs shadow-sm"
-          >
-            <Layers className="w-4 h-4 text-amber-600" />
-            <span>Casket Images</span>
-          </button>
+            {/* Manage Lithos Shortcut */}
+            {onOpenLithoManager && (
+              <button
+                onClick={onOpenLithoManager}
+                className="flex items-center space-x-2 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 font-semibold px-4 py-2.5 rounded-xl transition-colors cursor-pointer text-xs shadow-sm"
+                title="Manage and upload authentic Batesville Litho cut sheets"
+              >
+                <FileText className="w-4 h-4 text-amber-600" />
+                <span>Litho Cut Sheets</span>
+              </button>
+            )}
 
-          {/* CSV Import */}
-          <input
-            type="file"
-            ref={fileInputRef}
-            onChange={handleCsvImport}
-            accept=".csv"
-            className="hidden"
-          />
-          <button
-            onClick={() => fileInputRef.current?.click()}
-            className="flex items-center space-x-2 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 font-semibold px-4 py-2.5 rounded-xl transition-colors cursor-pointer text-xs shadow-sm"
-            title="Import a catalog year spreadsheet"
-          >
-            <Upload className="w-4 h-4 text-emerald-600" />
-            <span>Import Catalog CSV</span>
-          </button>
-        </div>
+            {/* CSV Import */}
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleCsvImport}
+              accept=".csv"
+              className="hidden"
+            />
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              className="flex items-center space-x-2 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 font-semibold px-4 py-2.5 rounded-xl transition-colors cursor-pointer text-xs shadow-sm"
+              title="Import a catalog year spreadsheet"
+            >
+              <Upload className="w-4 h-4 text-emerald-600" />
+              <span>Import Catalog CSV</span>
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Sync Status Banner */}
@@ -474,11 +498,13 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
                   </td>
                   <td className="py-2.5 px-4 text-right">
                     <button
-                      onClick={() => onSelectProductForCard(prod.id)}
+                      onClick={() => isLoggedIn ? onSelectProductForCard(prod.id) : (onRequireLogin ? onRequireLogin() : onSelectProductForCard(prod.id))}
                       className="inline-flex items-center space-x-1 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 px-2.5 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer shadow-sm"
+                      title={isLoggedIn ? "Create Showroom Price Card" : "Staff sign in required to generate price cards"}
                     >
                       <Tag className="w-3 h-3 text-amber-600" />
                       <span>Price Card</span>
+                      {!isLoggedIn && <Lock className="w-2.5 h-2.5 ml-0.5 text-amber-600" />}
                     </button>
                   </td>
                 </tr>
