@@ -39,19 +39,18 @@ export async function initializeDatabase(): Promise<void> {
     console.log('[DB] Loading authentic Batesville casket catalog with full names...');
     await db.products.bulkAdd(BATESVILLE_CASKET_CATALOG);
   } else {
-    // Check if cached products need full-name, 2026-27 edition, discontinued attributes, or urn cap cleanup upgrade
+    // Check if cached products need 2025-26 edition, full-name, discontinued attributes, or urn cap cleanup upgrade
     const sampleProd = await db.products.toCollection().first();
     const sampleUrn = await db.products.where('category').equals('Urns & Keepsakes - Full Size Urns').first();
     const needsCatalogRefresh = !sampleProd || 
       (sampleProd.description && sampleProd.name !== sampleProd.description) ||
-      sampleProd.catalogYear === '2025' || 
-      sampleProd.year === '2025' ||
+      sampleProd.catalogYear !== '2025-26' ||
+      sampleProd.year !== '2025-26' ||
       sampleProd.discontinued === undefined ||
-      sampleProd.catalogYear !== '2026-27' ||
       (sampleUrn && Boolean(sampleUrn.top));
 
     if (needsCatalogRefresh) {
-      console.log('[DB] Refreshing catalog with 2026-27 Batesville product edition, clean cap construction & discontinued status...');
+      console.log('[DB] Refreshing catalog with 2025-26 Batesville product edition, clean cap construction & discontinued status...');
       await db.products.clear();
       await db.products.bulkAdd(BATESVILLE_CASKET_CATALOG);
     }

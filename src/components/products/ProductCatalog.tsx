@@ -113,9 +113,8 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
     onCategoryChange?.(cat);
   };
 
-  // Distinct categories & standard Batesville 2-year editions
+  // Distinct categories & standard Batesville 2-year editions (Defaulting to 2025-26)
   const baseCatalogYears = [
-    '2026-27', 
     '2025-26', 
     '2024-25', 
     '2023-24', 
@@ -134,31 +133,19 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
     return Array.from(new Set([...baseCatalogYears, ...rawYears])).sort().reverse();
   }, [localProducts]);
 
-  // Default automatically to 2026-27 (the current active Batesville catalog edition)
-  const [selectedYear, setSelectedYear] = useState<string>('2026-27');
+  // Default strictly to 2025-26 (the active Batesville catalog edition)
+  const [selectedYear, setSelectedYear] = useState<string>('2025-26');
 
+  // Strict year matcher: if not the selected year, do not include it unless 'all' is selected
   const matchesYear = (p: Product, filterYear: string) => {
     if (filterYear === 'all') return true;
     const pYr = String(p.catalogYear || p.year || '').trim();
     const fYr = filterYear.trim();
+    if (!pYr) return false;
     if (pYr === fYr) return true;
+    // Allow matching 4-digit prefix e.g. "2025" matching "2025-26"
     if (fYr.includes('-') && pYr.length === 4 && fYr.startsWith(pYr)) return true;
     if (pYr.includes('-') && fYr.length === 4 && pYr.startsWith(fYr)) return true;
-    
-    // Core ongoing catalog models are active across Batesville editions
-    // If selecting an older edition like 2025-26, 2024-25, 2023-24, include existing catalog products
-    if (fYr === '2026-27') {
-      return pYr === '2026-27' || pYr === '2026' || pYr === '2025' || pYr === '2025-26' || !pYr;
-    }
-    if (fYr === '2025-26') {
-      return pYr === '2025-26' || pYr === '2025' || pYr === '2026-27' || pYr === '2024-25';
-    }
-    if (fYr === '2024-25') {
-      return pYr === '2024-25' || pYr === '2024' || pYr === '2025-26' || pYr === '2026-27';
-    }
-    if (fYr === '2023-24') {
-      return pYr === '2023-24' || pYr === '2023' || pYr === '2024-25' || pYr === '2026-27';
-    }
     return false;
   };
 
@@ -198,26 +185,31 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
     return pCat.includes(f);
   };
 
-  // Status counts
-  const activeCount = useMemo(() => localProducts.filter(p => !isProductDiscontinued(p)).length, [localProducts]);
-  const discontinuedCount = useMemo(() => localProducts.filter(p => isProductDiscontinued(p)).length, [localProducts]);
+  // Products scoped strictly to the selected year & category
+  const yearScopedProducts = useMemo(() => {
+    return localProducts.filter(p => matchesYear(p, selectedYear) && checkCategoryMatch(p, selectedCategory));
+  }, [localProducts, selectedYear, selectedCategory]);
+
+  // Status counts strictly for the selected year
+  const activeCount = useMemo(() => yearScopedProducts.filter(p => !isProductDiscontinued(p)).length, [yearScopedProducts]);
+  const discontinuedCount = useMemo(() => yearScopedProducts.filter(p => isProductDiscontinued(p)).length, [yearScopedProducts]);
 
   const filteredProducts = useMemo(() => {
-    const term = searchTerm.toLowerCase();
+    const term = searchTerm.toLowerCase().trim();
     return localProducts.filter((p) => {
-      // Status filter
-      if (statusFilter === 'active' && isProductDiscontinued(p)) return false;
-      if (statusFilter === 'discontinued' && !isProductDiscontinued(p)) return false;
-
-      // Category filter
-      const matchesCategory = checkCategoryMatch(p, selectedCategory);
-      if (!matchesCategory) return false;
-
-      // Year filter
+      // 1. Year filter: strictly only include items for the selected year (unless 'all' is selected)
       const matchYear = matchesYear(p, selectedYear);
       if (!matchYear) return false;
 
-      // Search term match
+      // 2. Status filter: discontinued items are only for that selected year
+      if (statusFilter === 'active' && isProductDiscontinued(p)) return false;
+      if (statusFilter === 'discontinued' && !isProductDiscontinued(p)) return false;
+
+      // 3. Category filter
+      const matchesCategory = checkCategoryMatch(p, selectedCategory);
+      if (!matchesCategory) return false;
+
+      // 4. Search term match
       const matchesSearch = 
         !term ||
         (p.name && p.name.toLowerCase().includes(term)) ||
@@ -428,7 +420,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                 : 'text-slate-600 hover:text-slate-900'
             }`}
           >
-            All Items ({localProducts.length})
+            All Items ({yearScopedProducts.length})
           </button>
           <button
             onClick={() => setStatusFilter('active')}

@@ -385,13 +385,13 @@ export async function syncFromSupabase(): Promise<{
     // Seed with authentic Batesville catalog (all 918 casket models with full specs)
     BATESVILLE_CASKET_CATALOG.forEach((p) => {
       productMap.set(p.code, { ...p });
-      distinctYears.add(String(p.catalogYear || '2026-27'));
+      distinctYears.add(String(p.catalogYear || '2025-26'));
     });
 
     // Also enrich from sales records for historical catalog years
     allSalesRaw.forEach((s: any) => {
       const prodCode = String(s.product_code);
-      const yr = String(s.year || '2026-27');
+      const yr = String(s.year || '2025-26');
       distinctYears.add(yr);
 
       const compositeKey = `${prodCode}-${yr}`;

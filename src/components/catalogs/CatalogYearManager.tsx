@@ -63,20 +63,19 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
   };
 
   // Group products by Catalog Year (including standard Batesville catalog editions)
-  const baseYears = ['2026-27', '2025-26', '2024-25', '2023-24', '2022-23', '2021-22', '2020-21', '2016-17'];
+  const baseYears = ['2025-26', '2024-25', '2023-24', '2022-23', '2021-22', '2020-21', '2016-17'];
   const productYears = Array.from(new Set(products.map(p => String(p.catalogYear || '')).filter(Boolean)));
   const distinctYears = Array.from(new Set([...productYears, ...baseYears])).sort().reverse();
-  const activeYear = selectedYear === 'all' ? (distinctYears[0] || '2026-27') : selectedYear;
+  const activeYear = selectedYear === 'all' ? (distinctYears[0] || '2025-26') : selectedYear;
 
   const matchesYear = (productYear: string | number | undefined, filterYear: string) => {
     if (filterYear === 'all') return true;
     const pYr = String(productYear || '').trim();
     const fYr = filterYear.trim();
+    if (!pYr) return false;
     if (pYr === fYr) return true;
     if (fYr.includes('-') && pYr.length === 4 && fYr.startsWith(pYr)) return true;
     if (pYr.includes('-') && fYr.length === 4 && pYr.startsWith(fYr)) return true;
-    if (fYr === '2026-27' && (pYr === '2026' || pYr === '2025' || pYr === '2025-26')) return true;
-    if (fYr === '2025-26' && (pYr === '2025' || pYr === '2026-27')) return true;
     return false;
   };
 

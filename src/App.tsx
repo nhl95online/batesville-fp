@@ -171,9 +171,9 @@ export function App() {
     return () => clearInterval(autoSyncInterval);
   }, []);
 
-  // Distinct Catalog Years dynamically computed from products + standard editions
+  // Distinct Catalog Years dynamically computed from products + standard editions (Defaulting to 2025-26)
   const catalogYears = useMemo(() => {
-    const baseYears = ['2026-27', '2025-26', '2024-25', '2023-24', '2022-23', '2021-22', '2020-21', '2016-17'];
+    const baseYears = ['2025-26', '2024-25', '2023-24', '2022-23', '2021-22', '2020-21', '2016-17'];
     const productYears = Array.from(new Set(products.map(p => String(p.catalogYear || '')).filter(Boolean)));
     return Array.from(new Set([...productYears, ...baseYears])).sort().reverse();
   }, [products]);
@@ -182,11 +182,10 @@ export function App() {
     if (yr === 'all') return products.length;
     return products.filter(p => {
       const pYr = String(p.catalogYear || '').trim();
+      if (!pYr) return false;
       if (pYr === yr) return true;
       if (yr.includes('-') && pYr.length === 4 && yr.startsWith(pYr)) return true;
       if (pYr.includes('-') && yr.length === 4 && pYr.startsWith(yr)) return true;
-      if (yr === '2026-27' && (pYr === '2026' || pYr === '2025' || pYr === '2025-26')) return true;
-      if (yr === '2025-26' && (pYr === '2025' || pYr === '2026-27')) return true;
       return false;
     }).length;
   };
