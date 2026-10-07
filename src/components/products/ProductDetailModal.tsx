@@ -168,7 +168,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   Discontinued Model / Extended Delivery
                 </span>
                 <p className="text-rose-700 mt-0.5 leading-relaxed">
-                  This product is tagged as discontinued or extended delivery in the Batesville catalog edition ({product.catalogYear || product.year || '2025-26'}). Confirm current regional warehouse inventory prior to quoting or assigning to a showroom floor plan.
+                  This product is tagged as discontinued or extended delivery in the Batesville catalog edition ({product.catalogYear || product.year || '2026-27'}). Confirm current regional warehouse inventory prior to quoting or assigning to a showroom floor plan.
                 </p>
               </div>
             </div>

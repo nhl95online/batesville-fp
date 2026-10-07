@@ -63,10 +63,10 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
   };
 
   // Group products by Catalog Year (including standard Batesville catalog editions)
-  const baseYears = ['2025-26', '2024-25', '2023-24', '2022-23', '2021-22', '2020-21', '2016-17'];
-  const productYears = Array.from(new Set(products.map(p => String(p.catalogYear || '')).filter(Boolean)));
-  const distinctYears = Array.from(new Set([...productYears, ...baseYears])).sort().reverse();
-  const activeYear = selectedYear === 'all' ? (distinctYears[0] || '2025-26') : selectedYear;
+  const baseYears = ['2026-27', '2025-26', '2024-25', '2023-24', '2022-23', '2021-22', '2020-21', '2016-17'];
+  const productYears = Array.from(new Set(products.map(p => String(p.catalogYear || p.year || '')).filter(Boolean)));
+  const distinctYears = Array.from(new Set([...baseYears, ...productYears])).sort((a, b) => b.localeCompare(a));
+  const activeYear = selectedYear === 'all' ? (distinctYears[0] || '2026-27') : selectedYear;
 
   const matchesYear = (productYear: string | number | undefined, filterYear: string) => {
     if (filterYear === 'all') return true;
@@ -80,7 +80,7 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
   };
 
   const filteredProducts = products.filter(p => {
-    const matchYear = matchesYear(p.catalogYear, selectedYear);
+    const matchYear = matchesYear(p.catalogYear || p.year, selectedYear);
     const matchesFeature = 
       selectedFeature === 'all' ? true :
       selectedFeature === 'lifesymbols' ? Boolean(p.lifesymbols) :
@@ -133,7 +133,7 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
 
           const code = row['code'] || row['product_code'] || row['sku'] || `BV-${i}`;
           const name = row['name'] || row['description'] || `Casket ${code}`;
-          const yr = row['year'] || row['catalog_year'] || '2026';
+          const yr = row['year'] || row['catalog_year'] || '2026-27';
           const cat = row['category'] || 'Burial Solutions - Wood';
           const cost = Number(row['cost'] || row['wholesale'] || row['price']) || 1500;
           const msrp = Number(row['msrp'] || row['retail']) || Math.round(cost * 2.2);
@@ -286,7 +286,7 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
         </button>
 
         {distinctYears.map((yr) => {
-          const count = products.filter(p => matchesYear(p.catalogYear, yr)).length;
+          const count = products.filter(p => matchesYear(p.catalogYear || p.year, yr)).length;
           const isSelected = selectedYear === yr || (selectedYear !== 'all' && matchesYear(yr, selectedYear));
           return (
             <button

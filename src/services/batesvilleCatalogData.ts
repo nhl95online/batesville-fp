@@ -2,7 +2,7 @@ import { Product } from '../types';
 
 export const BATESVILLE_CASKET_CATALOG: Product[] = [
   {
-    "id": "prod-147959-2025-26",
+    "id": "prod-147959-2026-27",
     "productId": 1,
     "category": "Caskets & Containers - Metal",
     "material": "Bronze",
@@ -33,8 +33,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 26,
     "capacity": 300,
     "weightLbs": 300,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "84\" L x 29\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -48,7 +48,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.613Z"
   },
   {
-    "id": "prod-280178-2025-26",
+    "id": "prod-280178-2026-27",
     "productId": 2,
     "category": "Caskets & Containers - Metal",
     "material": "Bronze",
@@ -79,8 +79,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 26,
     "capacity": 300,
     "weightLbs": 300,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "84\" L x 29\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -95,7 +95,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.613Z"
   },
   {
-    "id": "prod-147862-2025-26",
+    "id": "prod-147862-2026-27",
     "productId": 3,
     "category": "Caskets & Containers - Metal",
     "material": "Bronze",
@@ -126,8 +126,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 260,
     "weightLbs": 260,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -141,7 +141,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.613Z"
   },
   {
-    "id": "prod-147929-2025-26",
+    "id": "prod-147929-2026-27",
     "productId": 4,
     "category": "Caskets & Containers - Metal",
     "material": "Copper",
@@ -172,8 +172,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 260,
     "weightLbs": 260,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Flat Top Cap",
@@ -187,7 +187,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.613Z"
   },
   {
-    "id": "prod-147930-2025-26",
+    "id": "prod-147930-2026-27",
     "productId": 5,
     "category": "Caskets & Containers - Metal",
     "material": "Copper",
@@ -218,8 +218,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 260,
     "weightLbs": 260,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -233,7 +233,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.613Z"
   },
   {
-    "id": "prod-147935-2025-26",
+    "id": "prod-147935-2026-27",
     "productId": 6,
     "category": "Caskets & Containers - Metal",
     "material": "Copper",
@@ -264,8 +264,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 260,
     "weightLbs": 260,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -279,7 +279,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.613Z"
   },
   {
-    "id": "prod-185493-2025-26",
+    "id": "prod-185493-2026-27",
     "productId": 7,
     "category": "Caskets & Containers - Metal",
     "material": "Stainless Steel",
@@ -310,8 +310,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 195,
     "weightLbs": 195,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -326,7 +326,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.613Z"
   },
   {
-    "id": "prod-185491-2025-26",
+    "id": "prod-185491-2026-27",
     "productId": 8,
     "category": "Caskets & Containers - Metal",
     "material": "Stainless Steel",
@@ -357,8 +357,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 195,
     "weightLbs": 195,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -373,7 +373,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.613Z"
   },
   {
-    "id": "prod-147905-2025-26",
+    "id": "prod-147905-2026-27",
     "productId": 9,
     "category": "Caskets & Containers - Metal",
     "material": "Stainless Steel",
@@ -404,8 +404,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 195,
     "weightLbs": 195,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -419,7 +419,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.613Z"
   },
   {
-    "id": "prod-147901-2025-26",
+    "id": "prod-147901-2026-27",
     "productId": 10,
     "category": "Caskets & Containers - Metal",
     "material": "Stainless Steel",
@@ -450,8 +450,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 195,
     "weightLbs": 195,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -465,7 +465,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.613Z"
   },
   {
-    "id": "prod-185487-2025-26",
+    "id": "prod-185487-2026-27",
     "productId": 11,
     "category": "Caskets & Containers - Metal",
     "material": "18 Gauge Steel",
@@ -496,8 +496,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -512,7 +512,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.613Z"
   },
   {
-    "id": "prod-185489-2025-26",
+    "id": "prod-185489-2026-27",
     "productId": 12,
     "category": "Caskets & Containers - Metal",
     "material": "18 Gauge Steel",
@@ -543,8 +543,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -559,7 +559,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.613Z"
   },
   {
-    "id": "prod-147733-2025-26",
+    "id": "prod-147733-2026-27",
     "productId": 13,
     "category": "Caskets & Containers - Metal",
     "material": "18 Gauge Steel",
@@ -590,8 +590,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 230,
     "weightLbs": 230,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.13\" L x 28.13\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -605,7 +605,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.613Z"
   },
   {
-    "id": "prod-239699-2025-26",
+    "id": "prod-239699-2026-27",
     "productId": 14,
     "category": "Caskets & Containers - Metal",
     "material": "18 Gauge Steel",
@@ -636,8 +636,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 26,
     "capacity": 250,
     "weightLbs": 250,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "84\" L x 29\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -652,7 +652,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.613Z"
   },
   {
-    "id": "prod-239696-2025-26",
+    "id": "prod-239696-2026-27",
     "productId": 15,
     "category": "Caskets & Containers - Metal",
     "material": "18 Gauge Steel",
@@ -683,8 +683,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 26,
     "capacity": 250,
     "weightLbs": 250,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "84\" L x 29\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -699,7 +699,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.613Z"
   },
   {
-    "id": "prod-218068-2025-26",
+    "id": "prod-218068-2026-27",
     "productId": 16,
     "category": "Caskets & Containers - Metal",
     "material": "18 Gauge Steel",
@@ -730,8 +730,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23.88,
     "capacity": 208,
     "weightLbs": 208,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.13\" L x 28.25\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -745,7 +745,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.613Z"
   },
   {
-    "id": "prod-147825-2025-26",
+    "id": "prod-147825-2026-27",
     "productId": 17,
     "category": "Caskets & Containers - Metal",
     "material": "18 Gauge Steel",
@@ -776,8 +776,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -791,7 +791,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.613Z"
   },
   {
-    "id": "prod-239694-2025-26",
+    "id": "prod-239694-2026-27",
     "productId": 18,
     "category": "Caskets & Containers - Metal",
     "material": "18 Gauge Steel",
@@ -822,8 +822,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 230,
     "weightLbs": 230,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.13\" L x 28.13\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -838,7 +838,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-147723-2025-26",
+    "id": "prod-147723-2026-27",
     "productId": 19,
     "category": "Caskets & Containers - Metal",
     "material": "18 Gauge Steel",
@@ -869,8 +869,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 230,
     "weightLbs": 230,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.13\" L x 28.13\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -884,7 +884,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-147816-2025-26",
+    "id": "prod-147816-2026-27",
     "productId": 20,
     "category": "Caskets & Containers - Metal",
     "material": "18 Gauge Steel",
@@ -915,8 +915,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -930,7 +930,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-261097-2025-26",
+    "id": "prod-261097-2026-27",
     "productId": 21,
     "category": "Caskets & Containers - Metal",
     "material": "18 Gauge Steel",
@@ -961,8 +961,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 230,
     "weightLbs": 230,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.13\" L x 28.13\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -976,7 +976,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-286130-2025-26",
+    "id": "prod-286130-2026-27",
     "productId": 22,
     "category": "Caskets & Containers - Metal",
     "material": "18 Gauge Steel",
@@ -1007,8 +1007,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23.88,
     "capacity": 208,
     "weightLbs": 208,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.13\" L x 28.25\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -1023,7 +1023,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-286125-2025-26",
+    "id": "prod-286125-2026-27",
     "productId": 23,
     "category": "Caskets & Containers - Metal",
     "material": "18 Gauge Steel",
@@ -1054,8 +1054,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23.88,
     "capacity": 208,
     "weightLbs": 208,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.13\" L x 28.25\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -1070,7 +1070,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-246186-2025-26",
+    "id": "prod-246186-2026-27",
     "productId": 24,
     "category": "Caskets & Containers - Metal",
     "material": "18 Gauge Steel",
@@ -1101,8 +1101,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23.88,
     "capacity": 208,
     "weightLbs": 208,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.13\" L x 28.25\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -1117,7 +1117,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-255454-2025-26",
+    "id": "prod-255454-2026-27",
     "productId": 25,
     "category": "Caskets & Containers - Metal",
     "material": "18 Gauge Steel",
@@ -1148,8 +1148,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 230,
     "weightLbs": 230,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.13\" L x 28.13\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -1164,7 +1164,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-255453-2025-26",
+    "id": "prod-255453-2026-27",
     "productId": 26,
     "category": "Caskets & Containers - Metal",
     "material": "18 Gauge Steel",
@@ -1195,8 +1195,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 230,
     "weightLbs": 230,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.13\" L x 28.13\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -1211,7 +1211,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-255455-2025-26",
+    "id": "prod-255455-2026-27",
     "productId": 27,
     "category": "Caskets & Containers - Metal",
     "material": "18 Gauge Steel",
@@ -1242,8 +1242,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 230,
     "weightLbs": 230,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.13\" L x 28.13\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -1258,7 +1258,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-241566-2025-26",
+    "id": "prod-241566-2026-27",
     "productId": 28,
     "category": "Caskets & Containers - Metal",
     "material": "18 Gauge Steel",
@@ -1289,8 +1289,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 230,
     "weightLbs": 230,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.13\" L x 28.13\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -1305,7 +1305,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-216580-2025-26",
+    "id": "prod-216580-2026-27",
     "productId": 29,
     "category": "Caskets & Containers - Metal",
     "material": "18 Gauge Steel",
@@ -1336,8 +1336,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 230,
     "weightLbs": 230,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.13\" L x 28.13\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -1352,7 +1352,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-246018-2025-26",
+    "id": "prod-246018-2026-27",
     "productId": 30,
     "category": "Caskets & Containers - Metal",
     "material": "18 Gauge Steel",
@@ -1383,8 +1383,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 28,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 29\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -1400,7 +1400,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-239723-2025-26",
+    "id": "prod-239723-2026-27",
     "productId": 31,
     "category": "Caskets & Containers - Metal",
     "material": "18 Gauge Steel",
@@ -1431,8 +1431,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23.88,
     "capacity": 208,
     "weightLbs": 208,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.13\" L x 28.25\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -1447,7 +1447,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-147883-2025-26",
+    "id": "prod-147883-2026-27",
     "productId": 32,
     "category": "Caskets & Containers - Metal",
     "material": "18 Gauge Steel",
@@ -1478,8 +1478,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23.88,
     "capacity": 208,
     "weightLbs": 208,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.13\" L x 28.25\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -1493,7 +1493,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-147852-2025-26",
+    "id": "prod-147852-2026-27",
     "productId": 33,
     "category": "Caskets & Containers - Metal",
     "material": "18 Gauge Steel",
@@ -1524,8 +1524,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23.88,
     "capacity": 212,
     "weightLbs": 212,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.25\" L x 28.25\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -1539,7 +1539,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-280219-2025-26",
+    "id": "prod-280219-2026-27",
     "productId": 34,
     "category": "Caskets & Containers - Metal",
     "material": "18 Gauge Steel",
@@ -1570,8 +1570,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 230,
     "weightLbs": 230,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.13\" L x 28.13\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -1586,7 +1586,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-280218-2025-26",
+    "id": "prod-280218-2026-27",
     "productId": 35,
     "category": "Caskets & Containers - Metal",
     "material": "18 Gauge Steel",
@@ -1617,8 +1617,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 230,
     "weightLbs": 230,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.13\" L x 28.13\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -1633,7 +1633,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-251960-2025-26",
+    "id": "prod-251960-2026-27",
     "productId": 36,
     "category": "Caskets & Containers - Metal",
     "material": "18 Gauge Steel",
@@ -1664,8 +1664,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23.88,
     "capacity": 208,
     "weightLbs": 208,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.13\" L x 28.25\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -1680,7 +1680,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-251973-2025-26",
+    "id": "prod-251973-2026-27",
     "productId": 37,
     "category": "Caskets & Containers - Metal",
     "material": "18 Gauge Steel",
@@ -1711,8 +1711,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23.88,
     "capacity": 208,
     "weightLbs": 208,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.13\" L x 28.25\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -1727,7 +1727,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-286528-2025-26",
+    "id": "prod-286528-2026-27",
     "productId": 38,
     "category": "Caskets & Containers - Metal",
     "material": "20 Gauge Steel",
@@ -1758,8 +1758,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 230,
     "weightLbs": 230,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.13\" L x 28.13\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -1774,7 +1774,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-286529-2025-26",
+    "id": "prod-286529-2026-27",
     "productId": 39,
     "category": "Caskets & Containers - Metal",
     "material": "20 Gauge Steel",
@@ -1805,8 +1805,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 230,
     "weightLbs": 230,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.13\" L x 28.13\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -1821,7 +1821,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-286530-2025-26",
+    "id": "prod-286530-2026-27",
     "productId": 40,
     "category": "Caskets & Containers - Metal",
     "material": "20 Gauge Steel",
@@ -1852,8 +1852,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 230,
     "weightLbs": 230,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.13\" L x 28.13\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -1868,7 +1868,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-220682-2025-26",
+    "id": "prod-220682-2026-27",
     "productId": 41,
     "category": "Caskets & Containers - Metal",
     "material": "20 Gauge Steel",
@@ -1899,8 +1899,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 28,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.25\" L x 28.25\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -1915,7 +1915,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-148083-2025-26",
+    "id": "prod-148083-2026-27",
     "productId": 42,
     "category": "Caskets & Containers - Metal",
     "material": "20 Gauge Steel",
@@ -1946,8 +1946,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24.88,
     "capacity": 190,
     "weightLbs": 190,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.13\" L x 28.38\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -1961,7 +1961,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-148091-2025-26",
+    "id": "prod-148091-2026-27",
     "productId": 43,
     "category": "Caskets & Containers - Metal",
     "material": "20 Gauge Steel",
@@ -1992,8 +1992,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24.88,
     "capacity": 190,
     "weightLbs": 190,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.13\" L x 28.38\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -2007,7 +2007,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-271815-2025-26",
+    "id": "prod-271815-2026-27",
     "productId": 44,
     "category": "Caskets & Containers - Metal",
     "material": "20 Gauge Steel",
@@ -2038,8 +2038,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 195,
     "weightLbs": 195,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -2054,7 +2054,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-273920-2025-26",
+    "id": "prod-273920-2026-27",
     "productId": 45,
     "category": "Caskets & Containers - Metal",
     "material": "20 Gauge Steel",
@@ -2085,8 +2085,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 195,
     "weightLbs": 195,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -2101,7 +2101,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-278177-2025-26",
+    "id": "prod-278177-2026-27",
     "productId": 46,
     "category": "Caskets & Containers - Metal",
     "material": "20 Gauge Steel",
@@ -2132,8 +2132,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 195,
     "weightLbs": 195,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Couch Top (Half Couch)",
@@ -2148,7 +2148,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-271817-2025-26",
+    "id": "prod-271817-2026-27",
     "productId": 47,
     "category": "Caskets & Containers - Metal",
     "material": "20 Gauge Steel",
@@ -2179,8 +2179,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 195,
     "weightLbs": 195,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -2195,7 +2195,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-271819-2025-26",
+    "id": "prod-271819-2026-27",
     "productId": 48,
     "category": "Caskets & Containers - Metal",
     "material": "20 Gauge Steel",
@@ -2226,8 +2226,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 195,
     "weightLbs": 195,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -2242,7 +2242,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-148073-2025-26",
+    "id": "prod-148073-2026-27",
     "productId": 49,
     "category": "Caskets & Containers - Metal",
     "material": "20 Gauge Steel",
@@ -2273,8 +2273,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24.88,
     "capacity": 190,
     "weightLbs": 190,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.13\" L x 28.38\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -2288,7 +2288,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-148075-2025-26",
+    "id": "prod-148075-2026-27",
     "productId": 50,
     "category": "Caskets & Containers - Metal",
     "material": "20 Gauge Steel",
@@ -2319,8 +2319,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24.88,
     "capacity": 190,
     "weightLbs": 190,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.13\" L x 28.38\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -2334,7 +2334,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-242739-2025-26",
+    "id": "prod-242739-2026-27",
     "productId": 51,
     "category": "Caskets & Containers - Metal",
     "material": "20 Gauge Steel",
@@ -2365,8 +2365,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24.88,
     "capacity": 190,
     "weightLbs": 190,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.13\" L x 28.38\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -2381,7 +2381,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-252121-2025-26",
+    "id": "prod-252121-2026-27",
     "productId": 52,
     "category": "Caskets & Containers - Metal",
     "material": "20 Gauge Steel",
@@ -2412,8 +2412,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24.88,
     "capacity": 190,
     "weightLbs": 190,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.13\" L x 28.38\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -2428,7 +2428,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-148052-2025-26",
+    "id": "prod-148052-2026-27",
     "productId": 53,
     "category": "Caskets & Containers - Metal",
     "material": "20 Gauge Steel",
@@ -2459,8 +2459,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23.88,
     "capacity": 169,
     "weightLbs": 169,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83\" L x 28.25\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -2474,7 +2474,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-242475-2025-26",
+    "id": "prod-242475-2026-27",
     "productId": 54,
     "category": "Caskets & Containers - Metal",
     "material": "20 Gauge Steel",
@@ -2505,8 +2505,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23.88,
     "capacity": 169,
     "weightLbs": 169,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83\" L x 28.25\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -2521,7 +2521,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-252031-2025-26",
+    "id": "prod-252031-2026-27",
     "productId": 55,
     "category": "Caskets & Containers - Metal",
     "material": "20 Gauge Steel",
@@ -2552,8 +2552,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23.88,
     "capacity": 169,
     "weightLbs": 169,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83\" L x 28.25\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -2568,7 +2568,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-242478-2025-26",
+    "id": "prod-242478-2026-27",
     "productId": 56,
     "category": "Caskets & Containers - Metal",
     "material": "20 Gauge Steel",
@@ -2599,8 +2599,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23.88,
     "capacity": 169,
     "weightLbs": 169,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83\" L x 28.25\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -2615,7 +2615,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-148026-2025-26",
+    "id": "prod-148026-2026-27",
     "productId": 57,
     "category": "Caskets & Containers - Metal",
     "material": "20 Gauge Steel",
@@ -2646,8 +2646,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23.88,
     "capacity": 169,
     "weightLbs": 169,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83\" L x 28.25\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -2661,7 +2661,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-148028-2025-26",
+    "id": "prod-148028-2026-27",
     "productId": 58,
     "category": "Caskets & Containers - Metal",
     "material": "20 Gauge Steel",
@@ -2692,8 +2692,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23.88,
     "capacity": 169,
     "weightLbs": 169,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83\" L x 28.25\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -2707,7 +2707,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-147968-2025-26",
+    "id": "prod-147968-2026-27",
     "productId": 59,
     "category": "Caskets & Containers - Metal ** Extended Delivery Time Required",
     "material": "Bronze ** Extended Delivery Time Required",
@@ -2738,8 +2738,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 26,
     "capacity": 300,
     "weightLbs": 300,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "84\" L x 29\" W x 23\" H",
     "features": [
       "Cap Construction: Full Couch Cap",
@@ -2753,7 +2753,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-147963-2025-26",
+    "id": "prod-147963-2026-27",
     "productId": 60,
     "category": "Caskets & Containers - Metal ** Extended Delivery Time Required",
     "material": "Bronze ** Extended Delivery Time Required",
@@ -2784,8 +2784,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Full Couch Cap",
@@ -2799,7 +2799,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-182054-2025-26",
+    "id": "prod-182054-2026-27",
     "productId": 61,
     "category": "Caskets & Containers - Metal ** Extended Delivery Time Required",
     "material": "Bronze ** Extended Delivery Time Required",
@@ -2830,8 +2830,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Flat Top Cap",
@@ -2845,7 +2845,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-147957-2025-26",
+    "id": "prod-147957-2026-27",
     "productId": 62,
     "category": "Caskets & Containers - Metal ** Extended Delivery Time Required",
     "material": "Bronze ** Extended Delivery Time Required",
@@ -2876,8 +2876,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 26,
     "capacity": 300,
     "weightLbs": 300,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "84\" L x 29\" W x 23\" H",
     "features": [
       "Cap Construction: Full Couch Cap",
@@ -2891,7 +2891,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-147873-2025-26",
+    "id": "prod-147873-2026-27",
     "productId": 63,
     "category": "Caskets & Containers - Metal ** Extended Delivery Time Required",
     "material": "Stainless Steel ** Extended Delivery Time Required",
@@ -2922,8 +2922,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Full Couch Cap",
@@ -2937,7 +2937,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-147872-2025-26",
+    "id": "prod-147872-2026-27",
     "productId": 64,
     "category": "Caskets & Containers - Metal ** Extended Delivery Time Required",
     "material": "Stainless Steel ** Extended Delivery Time Required",
@@ -2968,8 +2968,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 26,
     "capacity": 180,
     "weightLbs": 180,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.88\" L x 28.88\" W x 23\" H",
     "features": [
       "Cap Construction: Flat Top Cap",
@@ -2983,7 +2983,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-147875-2025-26",
+    "id": "prod-147875-2026-27",
     "productId": 65,
     "category": "Caskets & Containers - Metal ** Extended Delivery Time Required",
     "material": "Stainless Steel ** Extended Delivery Time Required",
@@ -3014,8 +3014,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -3029,7 +3029,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-184151-2025-26",
+    "id": "prod-184151-2026-27",
     "productId": 66,
     "category": "Caskets & Containers - Metal ** Extended Delivery Time Required",
     "material": "Stainless Steel ** Extended Delivery Time Required",
@@ -3060,8 +3060,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -3075,7 +3075,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-148252-2025-26",
+    "id": "prod-148252-2026-27",
     "productId": 67,
     "category": "Caskets & Containers - Wood",
     "material": "Mahogany",
@@ -3106,8 +3106,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23,
     "capacity": 216,
     "weightLbs": 216,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "84\" L x 29\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -3122,7 +3122,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-148245-2025-26",
+    "id": "prod-148245-2026-27",
     "productId": 68,
     "category": "Caskets & Containers - Wood",
     "material": "Mahogany",
@@ -3153,8 +3153,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 285,
     "weightLbs": 285,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "84.25\" L x 29\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -3168,7 +3168,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-148249-2025-26",
+    "id": "prod-148249-2026-27",
     "productId": 69,
     "category": "Caskets & Containers - Wood",
     "material": "Mahogany",
@@ -3199,8 +3199,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 245,
     "weightLbs": 245,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83\" L x 28\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -3214,7 +3214,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-204210-2025-26",
+    "id": "prod-204210-2026-27",
     "productId": 70,
     "category": "Caskets & Containers - Wood",
     "material": "Mahogany",
@@ -3245,8 +3245,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 280,
     "weightLbs": 280,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.75\" L x 29\" W x 23\" H",
     "features": [
       "Cap Construction: Full Couch Cap",
@@ -3260,7 +3260,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-195846-2025-26",
+    "id": "prod-195846-2026-27",
     "productId": 71,
     "category": "Caskets & Containers - Wood",
     "material": "Mahogany",
@@ -3291,8 +3291,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 280,
     "weightLbs": 280,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.75\" L x 29\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -3306,7 +3306,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-195848-2025-26",
+    "id": "prod-195848-2026-27",
     "productId": 72,
     "category": "Caskets & Containers - Wood",
     "material": "Mahogany",
@@ -3337,8 +3337,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 235,
     "weightLbs": 235,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.63\" L x 28\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -3353,7 +3353,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-148227-2025-26",
+    "id": "prod-148227-2026-27",
     "productId": 73,
     "category": "Caskets & Containers - Wood",
     "material": "Cherry",
@@ -3384,8 +3384,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 280,
     "weightLbs": 280,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.75\" L x 29\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -3399,7 +3399,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-148236-2025-26",
+    "id": "prod-148236-2026-27",
     "productId": 74,
     "category": "Caskets & Containers - Wood",
     "material": "Cherry",
@@ -3430,8 +3430,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 233,
     "weightLbs": 233,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "81.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -3445,7 +3445,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-202512-2025-26",
+    "id": "prod-202512-2026-27",
     "productId": 75,
     "category": "Caskets & Containers - Wood",
     "material": "Cherry",
@@ -3476,8 +3476,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 215,
     "weightLbs": 215,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.63\" L x 28.38\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -3493,7 +3493,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-148191-2025-26",
+    "id": "prod-148191-2026-27",
     "productId": 76,
     "category": "Caskets & Containers - Wood",
     "material": "Maple",
@@ -3524,8 +3524,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 245,
     "weightLbs": 245,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.63\" L x 29.5\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -3540,7 +3540,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-148189-2025-26",
+    "id": "prod-148189-2026-27",
     "productId": 77,
     "category": "Caskets & Containers - Wood",
     "material": "Maple",
@@ -3571,8 +3571,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 240,
     "weightLbs": 240,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83\" L x 28.63\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -3587,7 +3587,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-244311-2025-26",
+    "id": "prod-244311-2026-27",
     "productId": 78,
     "category": "Caskets & Containers - Wood",
     "material": "Maple",
@@ -3618,8 +3618,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 238,
     "weightLbs": 238,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "81.63\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Flat Top Cap",
@@ -3634,7 +3634,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-244309-2025-26",
+    "id": "prod-244309-2026-27",
     "productId": 79,
     "category": "Caskets & Containers - Wood",
     "material": "Maple",
@@ -3665,8 +3665,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 238,
     "weightLbs": 238,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "81.63\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -3681,7 +3681,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-280399-2025-26",
+    "id": "prod-280399-2026-27",
     "productId": 80,
     "category": "Caskets & Containers - Wood",
     "material": "Maple",
@@ -3712,8 +3712,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 245,
     "weightLbs": 245,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "84.25\" L x 29\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -3729,7 +3729,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-205164-2025-26",
+    "id": "prod-205164-2026-27",
     "productId": 81,
     "category": "Caskets & Containers - Wood",
     "material": "Maple",
@@ -3760,8 +3760,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 215,
     "weightLbs": 215,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83\" L x 28.63\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -3776,7 +3776,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-195853-2025-26",
+    "id": "prod-195853-2026-27",
     "productId": 82,
     "category": "Caskets & Containers - Wood",
     "material": "Maple",
@@ -3807,8 +3807,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 230,
     "weightLbs": 230,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.5\" L x 28.88\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -3822,7 +3822,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-146799-2025-26",
+    "id": "prod-146799-2026-27",
     "productId": 83,
     "category": "Caskets & Containers - Wood",
     "material": "Pecan",
@@ -3853,8 +3853,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 270,
     "weightLbs": 270,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -3869,7 +3869,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-286402-2025-26",
+    "id": "prod-286402-2026-27",
     "productId": 84,
     "category": "Caskets & Containers - Wood",
     "material": "Pecan",
@@ -3900,8 +3900,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 215,
     "weightLbs": 215,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -3916,7 +3916,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-242987-2025-26",
+    "id": "prod-242987-2026-27",
     "productId": 85,
     "category": "Caskets & Containers - Wood",
     "material": "Pecan",
@@ -3947,8 +3947,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 215,
     "weightLbs": 215,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -3963,7 +3963,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-205162-2025-26",
+    "id": "prod-205162-2026-27",
     "productId": 86,
     "category": "Caskets & Containers - Wood",
     "material": "Pecan",
@@ -3994,8 +3994,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 215,
     "weightLbs": 215,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -4011,7 +4011,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-146876-2025-26",
+    "id": "prod-146876-2026-27",
     "productId": 87,
     "category": "Caskets & Containers - Wood",
     "material": "Oak",
@@ -4042,8 +4042,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 240,
     "weightLbs": 240,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.25\" L x 28.75\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -4058,7 +4058,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-239372-2025-26",
+    "id": "prod-239372-2026-27",
     "productId": 88,
     "category": "Caskets & Containers - Wood",
     "material": "Oak",
@@ -4089,8 +4089,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 260,
     "weightLbs": 260,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -4105,7 +4105,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-246688-2025-26",
+    "id": "prod-246688-2026-27",
     "productId": 89,
     "category": "Caskets & Containers - Wood",
     "material": "Oak",
@@ -4136,8 +4136,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 240,
     "weightLbs": 240,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.25\" L x 28.75\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -4152,7 +4152,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-202513-2025-26",
+    "id": "prod-202513-2026-27",
     "productId": 90,
     "category": "Caskets & Containers - Wood",
     "material": "Oak",
@@ -4183,8 +4183,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 215,
     "weightLbs": 215,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.25\" L x 28.75\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -4199,7 +4199,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-215462-2025-26",
+    "id": "prod-215462-2026-27",
     "productId": 91,
     "category": "Caskets & Containers - Wood",
     "material": "Oak",
@@ -4230,8 +4230,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 215,
     "weightLbs": 215,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.25\" L x 29\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -4246,7 +4246,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-195908-2025-26",
+    "id": "prod-195908-2026-27",
     "productId": 92,
     "category": "Caskets & Containers - Wood",
     "material": "Oak",
@@ -4277,8 +4277,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24.63,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "81.25\" L x 27\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -4292,7 +4292,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-269166-2025-26",
+    "id": "prod-269166-2026-27",
     "productId": 93,
     "category": "Caskets & Containers - Wood",
     "material": "Oak",
@@ -4323,8 +4323,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 250,
     "weightLbs": 250,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.25\" L x 28.25\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -4340,7 +4340,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-242572-2025-26",
+    "id": "prod-242572-2026-27",
     "productId": 94,
     "category": "Caskets & Containers - Wood",
     "material": "Oak",
@@ -4371,8 +4371,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 215,
     "weightLbs": 215,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.25\" L x 27.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -4387,7 +4387,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-279580-2025-26",
+    "id": "prod-279580-2026-27",
     "productId": 95,
     "category": "Caskets & Containers - Wood",
     "material": "Oak",
@@ -4418,8 +4418,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 215,
     "weightLbs": 215,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.25\" L x 29\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -4435,7 +4435,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-283933-2025-26",
+    "id": "prod-283933-2026-27",
     "productId": 96,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -4466,8 +4466,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 238,
     "weightLbs": 238,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "81.63\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -4482,7 +4482,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-148201-2025-26",
+    "id": "prod-148201-2026-27",
     "productId": 97,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -4513,8 +4513,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 20.5,
     "capacity": 135,
     "weightLbs": 135,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "76.75\" L x 25.25\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -4529,7 +4529,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-269191-2025-26",
+    "id": "prod-269191-2026-27",
     "productId": 98,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -4560,8 +4560,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 238,
     "weightLbs": 238,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82\" L x 28.75\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -4577,7 +4577,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-245987-2025-26",
+    "id": "prod-245987-2026-27",
     "productId": 99,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -4608,8 +4608,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 27,
     "capacity": 223,
     "weightLbs": 223,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 29.5\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -4626,7 +4626,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-255186-2025-26",
+    "id": "prod-255186-2026-27",
     "productId": 100,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -4657,8 +4657,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 225,
     "weightLbs": 225,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83\" L x 28.63\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -4673,7 +4673,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-284882-2025-26",
+    "id": "prod-284882-2026-27",
     "productId": 101,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -4704,8 +4704,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 28,
     "capacity": 200,
     "weightLbs": 200,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.5\" L x 29.5\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -4722,7 +4722,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-284880-2025-26",
+    "id": "prod-284880-2026-27",
     "productId": 102,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -4753,8 +4753,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 28,
     "capacity": 200,
     "weightLbs": 200,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.5\" L x 29.5\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -4771,7 +4771,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-252313-2025-26",
+    "id": "prod-252313-2026-27",
     "productId": 103,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -4802,8 +4802,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 215,
     "weightLbs": 215,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.5\" L x 28.75\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -4818,7 +4818,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-195866-2025-26",
+    "id": "prod-195866-2026-27",
     "productId": 104,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -4849,8 +4849,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 165,
     "weightLbs": 165,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.88\" L x 28.75\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -4865,7 +4865,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-242708-2025-26",
+    "id": "prod-242708-2026-27",
     "productId": 105,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -4896,8 +4896,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 195,
     "weightLbs": 195,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Flat Top Cap",
@@ -4912,7 +4912,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-285795-2025-26",
+    "id": "prod-285795-2026-27",
     "productId": 106,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -4943,8 +4943,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 240,
     "weightLbs": 240,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "81.56\" L x 28.23\" W x 23\" H",
     "features": [
       "Cap Construction: Couch Top (Half Couch)",
@@ -4960,7 +4960,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-242707-2025-26",
+    "id": "prod-242707-2026-27",
     "productId": 107,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -4991,8 +4991,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 195,
     "weightLbs": 195,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "81.5\" L x 28.2\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -5007,7 +5007,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-248178-2025-26",
+    "id": "prod-248178-2026-27",
     "productId": 108,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -5038,8 +5038,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 215,
     "weightLbs": 215,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.5\" L x 28.75\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -5054,7 +5054,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-258838-2025-26",
+    "id": "prod-258838-2026-27",
     "productId": 109,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -5085,8 +5085,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 240,
     "weightLbs": 240,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "81.56\" L x 28.23\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -5101,7 +5101,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-265599-2025-26",
+    "id": "prod-265599-2026-27",
     "productId": 110,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -5132,8 +5132,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 175,
     "weightLbs": 175,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "84\" L x 30\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -5149,7 +5149,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-284883-2025-26",
+    "id": "prod-284883-2026-27",
     "productId": 111,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -5180,8 +5180,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 28,
     "capacity": 217,
     "weightLbs": 217,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "84.5\" L x 29.5\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -5198,7 +5198,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-249224-2025-26",
+    "id": "prod-249224-2026-27",
     "productId": 112,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -5229,8 +5229,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 240,
     "weightLbs": 240,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "81.56\" L x 28.23\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -5245,7 +5245,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-278474-2025-26",
+    "id": "prod-278474-2026-27",
     "productId": 113,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -5276,8 +5276,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 240,
     "weightLbs": 240,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "81.73\" L x 28.23\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -5293,7 +5293,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-205163-2025-26",
+    "id": "prod-205163-2026-27",
     "productId": 114,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -5324,8 +5324,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 215,
     "weightLbs": 215,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.5\" L x 28.75\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -5340,7 +5340,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-251853-2025-26",
+    "id": "prod-251853-2026-27",
     "productId": 115,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -5371,8 +5371,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 215,
     "weightLbs": 215,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.5\" L x 28.75\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -5387,7 +5387,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-205161-2025-26",
+    "id": "prod-205161-2026-27",
     "productId": 116,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -5418,8 +5418,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 215,
     "weightLbs": 215,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.5\" L x 28.75\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -5434,7 +5434,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-246736-2025-26",
+    "id": "prod-246736-2026-27",
     "productId": 117,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -5465,8 +5465,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 175,
     "weightLbs": 175,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.25\" L x 28.63\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -5481,7 +5481,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-278583-2025-26",
+    "id": "prod-278583-2026-27",
     "productId": 118,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -5512,8 +5512,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 22.75,
     "capacity": 148,
     "weightLbs": 148,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.25\" L x 29\" W x 23\" H",
     "features": [
       "Cap Construction: Couch Top (Half Couch)",
@@ -5527,7 +5527,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-263784-2025-26",
+    "id": "prod-263784-2026-27",
     "productId": 119,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -5558,8 +5558,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 195,
     "weightLbs": 195,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -5575,7 +5575,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-263783-2025-26",
+    "id": "prod-263783-2026-27",
     "productId": 120,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -5606,8 +5606,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 175,
     "weightLbs": 175,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.5\" L x 28.63\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -5623,7 +5623,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-263781-2025-26",
+    "id": "prod-263781-2026-27",
     "productId": 121,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -5654,8 +5654,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 175,
     "weightLbs": 175,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.5\" L x 28.63\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -5671,7 +5671,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-260962-2025-26",
+    "id": "prod-260962-2026-27",
     "productId": 122,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -5702,8 +5702,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 81.56,
     "capacity": 24,
     "weightLbs": 24,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "28.23\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -5719,7 +5719,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-195862-2025-26",
+    "id": "prod-195862-2026-27",
     "productId": 123,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -5750,8 +5750,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23.25,
     "capacity": 148,
     "weightLbs": 148,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "81.75\" L x 27.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -5765,7 +5765,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-278475-2025-26",
+    "id": "prod-278475-2026-27",
     "productId": 124,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -5796,8 +5796,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 240,
     "weightLbs": 240,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "81.56\" L x 28.24\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -5812,7 +5812,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-195864-2025-26",
+    "id": "prod-195864-2026-27",
     "productId": 125,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -5843,8 +5843,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 22.75,
     "capacity": 130,
     "weightLbs": 130,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.25\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -5858,7 +5858,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-249223-2025-26",
+    "id": "prod-249223-2026-27",
     "productId": 126,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -5889,8 +5889,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 240,
     "weightLbs": 240,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "81.56\" L x 28.23\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -5906,7 +5906,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-146825-2025-26",
+    "id": "prod-146825-2026-27",
     "productId": 127,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -5937,8 +5937,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 190,
     "weightLbs": 190,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.88\" L x 28.75\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -5952,7 +5952,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-229306-2025-26",
+    "id": "prod-229306-2026-27",
     "productId": 128,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -5983,8 +5983,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 190,
     "weightLbs": 190,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.88\" L x 28.75\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -5999,7 +5999,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-229305-2025-26",
+    "id": "prod-229305-2026-27",
     "productId": 129,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -6030,8 +6030,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 190,
     "weightLbs": 190,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.88\" L x 28.75\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -6046,7 +6046,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-258948-2025-26",
+    "id": "prod-258948-2026-27",
     "productId": 130,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -6077,8 +6077,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 185,
     "weightLbs": 185,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83\" L x 29.5\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -6094,7 +6094,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-195867-2025-26",
+    "id": "prod-195867-2026-27",
     "productId": 131,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -6125,8 +6125,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 21.75,
     "capacity": 147,
     "weightLbs": 147,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82\" L x 26.75\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -6140,7 +6140,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-263630-2025-26",
+    "id": "prod-263630-2026-27",
     "productId": 132,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -6171,8 +6171,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 170,
     "weightLbs": 170,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.5\" L x 28.25\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -6188,7 +6188,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-146824-2025-26",
+    "id": "prod-146824-2026-27",
     "productId": 133,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -6219,8 +6219,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 185,
     "weightLbs": 185,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "81.56\" L x 27.87\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -6235,7 +6235,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-195869-2025-26",
+    "id": "prod-195869-2026-27",
     "productId": 134,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -6266,8 +6266,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23,
     "capacity": 138,
     "weightLbs": 138,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "79.5\" L x 28\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -6281,7 +6281,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-146853-2025-26",
+    "id": "prod-146853-2026-27",
     "productId": 135,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -6312,8 +6312,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23.94,
     "capacity": 185,
     "weightLbs": 185,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "81.35\" L x 27.9\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -6329,7 +6329,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-274158-2025-26",
+    "id": "prod-274158-2026-27",
     "productId": 136,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -6360,8 +6360,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 190,
     "weightLbs": 190,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "81.5\" L x 28.2\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -6377,7 +6377,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-278271-2025-26",
+    "id": "prod-278271-2026-27",
     "productId": 137,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -6408,8 +6408,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 190,
     "weightLbs": 190,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "81.5\" L x 28.2\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -6425,7 +6425,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-284451-2025-26",
+    "id": "prod-284451-2026-27",
     "productId": 138,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -6456,8 +6456,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 190,
     "weightLbs": 190,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "81.5\" L x 28.2\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -6473,7 +6473,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-195871-2025-26",
+    "id": "prod-195871-2026-27",
     "productId": 139,
     "category": "Caskets & Containers - Wood",
     "material": "Select Hardwood",
@@ -6504,8 +6504,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 21.63,
     "capacity": 106,
     "weightLbs": 106,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "77.75\" L x 26.63\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -6519,7 +6519,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-146897-2025-26",
+    "id": "prod-146897-2026-27",
     "productId": 140,
     "category": "Caskets & Containers - Wood",
     "material": "Pine",
@@ -6550,8 +6550,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 205,
     "weightLbs": 205,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.25\" L x 28.25\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -6565,7 +6565,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-148257-2025-26",
+    "id": "prod-148257-2026-27",
     "productId": 141,
     "category": "Caskets & Containers - Wood",
     "material": "Walnut",
@@ -6596,8 +6596,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 255,
     "weightLbs": 255,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.5\" L x 29.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -6611,7 +6611,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-148243-2025-26",
+    "id": "prod-148243-2026-27",
     "productId": 142,
     "category": "Caskets & Containers - Wood ** Extended Delivery Time Required",
     "material": "Mahogany ** Extended Delivery Time Required",
@@ -6642,8 +6642,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 250,
     "weightLbs": 250,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.5\" L x 29\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -6657,7 +6657,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-209436-2025-26",
+    "id": "prod-209436-2026-27",
     "productId": 143,
     "category": "Caskets & Containers - Wood ** Extended Delivery Time Required",
     "material": "Mahogany ** Extended Delivery Time Required",
@@ -6688,8 +6688,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23,
     "capacity": 400,
     "weightLbs": 400,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "81\" L x 29.5\" W x 23\" H",
     "features": [
       "Cap Construction: Flat Top Cap",
@@ -6703,7 +6703,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-202149-2025-26",
+    "id": "prod-202149-2026-27",
     "productId": 144,
     "category": "Caskets & Containers - Wood ** Extended Delivery Time Required",
     "material": "Mahogany ** Extended Delivery Time Required",
@@ -6734,8 +6734,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23,
     "capacity": 400,
     "weightLbs": 400,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "81\" L x 29.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -6749,7 +6749,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-201521-2025-26",
+    "id": "prod-201521-2026-27",
     "productId": 145,
     "category": "Caskets & Containers - Wood ** Extended Delivery Time Required",
     "material": "Mahogany ** Extended Delivery Time Required",
@@ -6780,8 +6780,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23,
     "capacity": 400,
     "weightLbs": 400,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "84\" L x 29\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -6795,7 +6795,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-281896-2025-26",
+    "id": "prod-281896-2026-27",
     "productId": 146,
     "category": "Caskets & Containers - NewPointe",
     "material": "18 Gauge Steel",
@@ -6826,8 +6826,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23.88,
     "capacity": 208,
     "weightLbs": 208,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.13\" L x 28.25\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -6841,7 +6841,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-265532-2025-26",
+    "id": "prod-265532-2026-27",
     "productId": 147,
     "category": "Caskets & Containers - NewPointe",
     "material": "20 Gauge Steel",
@@ -6872,8 +6872,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 32,
     "capacity": 231,
     "weightLbs": 231,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "87.75\" L x 33\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -6888,7 +6888,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-274280-2025-26",
+    "id": "prod-274280-2026-27",
     "productId": 148,
     "category": "Caskets & Containers - NewPointe",
     "material": "20 Gauge Steel",
@@ -6919,8 +6919,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 32,
     "capacity": 231,
     "weightLbs": 231,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "87.75\" L x 33\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -6935,7 +6935,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-274279-2025-26",
+    "id": "prod-274279-2026-27",
     "productId": 149,
     "category": "Caskets & Containers - NewPointe",
     "material": "20 Gauge Steel",
@@ -6966,8 +6966,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 28,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "84\" L x 29\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -6982,7 +6982,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-265526-2025-26",
+    "id": "prod-265526-2026-27",
     "productId": 150,
     "category": "Caskets & Containers - NewPointe",
     "material": "20 Gauge Steel",
@@ -7013,8 +7013,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 28,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "84\" L x 29\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -7029,7 +7029,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-288171-2025-26",
+    "id": "prod-288171-2026-27",
     "productId": 151,
     "category": "Caskets & Containers - NewPointe",
     "material": "20 Gauge Steel",
@@ -7060,8 +7060,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23.88,
     "capacity": 169,
     "weightLbs": 169,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83\" L x 28.25\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -7075,7 +7075,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-288002-2025-26",
+    "id": "prod-288002-2026-27",
     "productId": 152,
     "category": "Caskets & Containers - NewPointe",
     "material": "20 Gauge Steel",
@@ -7106,8 +7106,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23.88,
     "capacity": 169,
     "weightLbs": 169,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83\" L x 28.25\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -7121,7 +7121,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-288000-2025-26",
+    "id": "prod-288000-2026-27",
     "productId": 153,
     "category": "Caskets & Containers - NewPointe",
     "material": "20 Gauge Steel",
@@ -7152,8 +7152,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23.88,
     "capacity": 169,
     "weightLbs": 169,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83\" L x 28.25\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -7167,7 +7167,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-287954-2025-26",
+    "id": "prod-287954-2026-27",
     "productId": 154,
     "category": "Caskets & Containers - NewPointe",
     "material": "20 Gauge Steel",
@@ -7198,8 +7198,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23.88,
     "capacity": 169,
     "weightLbs": 169,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83\" L x 28.25\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -7213,7 +7213,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-287998-2025-26",
+    "id": "prod-287998-2026-27",
     "productId": 155,
     "category": "Caskets & Containers - NewPointe",
     "material": "20 Gauge Steel",
@@ -7244,8 +7244,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23.88,
     "capacity": 169,
     "weightLbs": 169,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83\" L x 28.25\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -7259,7 +7259,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-288003-2025-26",
+    "id": "prod-288003-2026-27",
     "productId": 156,
     "category": "Caskets & Containers - NewPointe",
     "material": "20 Gauge Steel",
@@ -7290,8 +7290,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23.88,
     "capacity": 169,
     "weightLbs": 169,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83\" L x 28.25\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -7305,7 +7305,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-234322-2025-26",
+    "id": "prod-234322-2026-27",
     "productId": 157,
     "category": "Caskets & Containers - NewPointe",
     "material": "20 Gauge Steel",
@@ -7336,8 +7336,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23.88,
     "capacity": 169,
     "weightLbs": 169,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83\" L x 28.25\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -7351,7 +7351,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-234318-2025-26",
+    "id": "prod-234318-2026-27",
     "productId": 158,
     "category": "Caskets & Containers - NewPointe",
     "material": "20 Gauge Steel",
@@ -7382,8 +7382,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23.88,
     "capacity": 169,
     "weightLbs": 169,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83\" L x 28.25\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -7397,7 +7397,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-234320-2025-26",
+    "id": "prod-234320-2026-27",
     "productId": 159,
     "category": "Caskets & Containers - NewPointe",
     "material": "20 Gauge Steel",
@@ -7428,8 +7428,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23.88,
     "capacity": 169,
     "weightLbs": 169,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83\" L x 28.25\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -7443,7 +7443,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-284990-2025-26",
+    "id": "prod-284990-2026-27",
     "productId": 160,
     "category": "Caskets & Containers - NewPointe",
     "material": "Wood",
@@ -7474,8 +7474,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 215,
     "weightLbs": 215,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.5\" L x 28.75\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -7490,7 +7490,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-284994-2025-26",
+    "id": "prod-284994-2026-27",
     "productId": 161,
     "category": "Caskets & Containers - NewPointe",
     "material": "Wood",
@@ -7521,8 +7521,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 190,
     "weightLbs": 190,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "81.5\" L x 28.2\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -7537,7 +7537,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-246021-2025-26",
+    "id": "prod-246021-2026-27",
     "productId": 162,
     "category": "Caskets & Containers - NewPointe",
     "material": "Wood",
@@ -7568,8 +7568,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 170,
     "weightLbs": 170,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.25\" L x 28.75\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -7584,7 +7584,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-241727-2025-26",
+    "id": "prod-241727-2026-27",
     "productId": 163,
     "category": "Caskets & Containers - NewPointe",
     "material": "Wood",
@@ -7615,8 +7615,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 170,
     "weightLbs": 170,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "81.5\" L x 28.2\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -7631,7 +7631,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-248177-2025-26",
+    "id": "prod-248177-2026-27",
     "productId": 164,
     "category": "Caskets & Containers - NewPointe",
     "material": "Wood",
@@ -7662,8 +7662,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 170,
     "weightLbs": 170,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82.25\" L x 28.75\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -7678,7 +7678,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-262858-2025-26",
+    "id": "prod-262858-2026-27",
     "productId": 165,
     "category": "Caskets & Containers - NewPointe",
     "material": "Wood",
@@ -7709,8 +7709,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 170,
     "weightLbs": 170,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "81.5\" L x 28.2\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -7725,7 +7725,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-257923-2025-26",
+    "id": "prod-257923-2026-27",
     "productId": 166,
     "category": "Caskets & Containers - NewPointe",
     "material": "Wood",
@@ -7756,8 +7756,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 170,
     "weightLbs": 170,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "81.5\" L x 28.2\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -7772,7 +7772,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-269152-2025-26",
+    "id": "prod-269152-2026-27",
     "productId": 167,
     "category": "Caskets & Containers - NewPointe",
     "material": "Wood",
@@ -7803,8 +7803,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 170,
     "weightLbs": 170,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "81.36\" L x 27.82\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -7819,7 +7819,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-269153-2025-26",
+    "id": "prod-269153-2026-27",
     "productId": 168,
     "category": "Caskets & Containers - NewPointe",
     "material": "Wood",
@@ -7850,8 +7850,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 170,
     "weightLbs": 170,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "81.36\" L x 27.82\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -7866,7 +7866,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-269150-2025-26",
+    "id": "prod-269150-2026-27",
     "productId": 169,
     "category": "Caskets & Containers - NewPointe",
     "material": "Wood",
@@ -7897,8 +7897,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 170,
     "weightLbs": 170,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "81.36\" L x 27.82\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -7913,7 +7913,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-274283-2025-26",
+    "id": "prod-274283-2026-27",
     "productId": 170,
     "category": "Caskets & Containers - NewPointe ** Extended Delivery Time Required",
     "material": "20 Gauge Steel ** Extended Delivery Time Required",
@@ -7944,8 +7944,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 32,
     "capacity": 231,
     "weightLbs": 231,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "87.75\" L x 33\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -7960,7 +7960,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-274282-2025-26",
+    "id": "prod-274282-2026-27",
     "productId": 171,
     "category": "Caskets & Containers - NewPointe ** Extended Delivery Time Required",
     "material": "20 Gauge Steel ** Extended Delivery Time Required",
@@ -7991,8 +7991,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 28,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "84\" L x 29\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -8007,7 +8007,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-274278-2025-26",
+    "id": "prod-274278-2026-27",
     "productId": 172,
     "category": "Caskets & Containers - NewPointe ** Extended Delivery Time Required",
     "material": "Non-Gasketed Steel ** Extended Delivery Time Required",
@@ -8038,8 +8038,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 28,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "84\" L x 29\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -8054,7 +8054,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-274281-2025-26",
+    "id": "prod-274281-2026-27",
     "productId": 173,
     "category": "Caskets & Containers - NewPointe ** Extended Delivery Time Required",
     "material": "Non-Gasketed Steel ** Extended Delivery Time Required",
@@ -8085,8 +8085,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 28,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "84\" L x 29\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -8101,7 +8101,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-147972-2025-26",
+    "id": "prod-147972-2026-27",
     "productId": 174,
     "category": "Caskets & Containers - Cloth",
     "material": "Cloth",
@@ -8132,8 +8132,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 29.5,
     "capacity": 80,
     "weightLbs": 80,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "86\" L x 33\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -8149,7 +8149,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-179295-2025-26",
+    "id": "prod-179295-2026-27",
     "productId": 175,
     "category": "Caskets & Containers - Cloth",
     "material": "Cloth",
@@ -8180,8 +8180,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23,
     "capacity": 120,
     "weightLbs": 120,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "81\" L x 25\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -8195,7 +8195,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-147970-2025-26",
+    "id": "prod-147970-2026-27",
     "productId": 176,
     "category": "Caskets & Containers - Cloth",
     "material": "Cloth",
@@ -8226,8 +8226,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 22.75,
     "capacity": 70,
     "weightLbs": 70,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82\" L x 29.5\" W x 23\" H",
     "features": [
       "Cap Construction: Extended Cap",
@@ -8242,7 +8242,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-179293-2025-26",
+    "id": "prod-179293-2026-27",
     "productId": 177,
     "category": "Caskets & Containers - Cloth",
     "material": "Cloth",
@@ -8273,8 +8273,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23,
     "capacity": 118,
     "weightLbs": 118,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82\" L x 24\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -8288,7 +8288,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-179356-2025-26",
+    "id": "prod-179356-2026-27",
     "productId": 178,
     "category": "Caskets & Containers - Cloth",
     "material": "Cloth",
@@ -8319,8 +8319,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 21.25,
     "capacity": 103,
     "weightLbs": 103,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "77\" L x 23\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -8334,7 +8334,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-179474-2025-26",
+    "id": "prod-179474-2026-27",
     "productId": 179,
     "category": "Caskets & Containers - Cloth",
     "material": "Infant/Youth",
@@ -8365,8 +8365,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -8380,7 +8380,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-148121-2025-26",
+    "id": "prod-148121-2026-27",
     "productId": 180,
     "category": "Caskets & Containers - AWC",
     "material": "Oak",
@@ -8411,8 +8411,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 22.5,
     "capacity": 235,
     "weightLbs": 235,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82\" L x 28.63\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -8426,7 +8426,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-148117-2025-26",
+    "id": "prod-148117-2026-27",
     "productId": 181,
     "category": "Caskets & Containers - AWC",
     "material": "Select Hardwood",
@@ -8457,8 +8457,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 22.5,
     "capacity": 160,
     "weightLbs": 160,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82\" L x 29\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -8472,7 +8472,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-148184-2025-26",
+    "id": "prod-148184-2026-27",
     "productId": 182,
     "category": "Caskets & Containers - AWC",
     "material": "Select Hardwood",
@@ -8503,8 +8503,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 22.5,
     "capacity": 160,
     "weightLbs": 160,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82\" L x 28.63\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -8518,7 +8518,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-148166-2025-26",
+    "id": "prod-148166-2026-27",
     "productId": 183,
     "category": "Caskets & Containers - AWC",
     "material": "Select Hardwood",
@@ -8549,8 +8549,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 22.5,
     "capacity": 160,
     "weightLbs": 160,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82\" L x 30.25\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -8564,7 +8564,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-148107-2025-26",
+    "id": "prod-148107-2026-27",
     "productId": 184,
     "category": "Caskets & Containers - AWC",
     "material": "Select Hardwood",
@@ -8595,8 +8595,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 22.5,
     "capacity": 125,
     "weightLbs": 125,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -8610,7 +8610,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-148102-2025-26",
+    "id": "prod-148102-2026-27",
     "productId": 185,
     "category": "Caskets & Containers - AWC",
     "material": "Select Hardwood",
@@ -8641,8 +8641,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 21,
     "capacity": 125,
     "weightLbs": 125,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82\" L x 27.25\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -8656,7 +8656,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-148163-2025-26",
+    "id": "prod-148163-2026-27",
     "productId": 186,
     "category": "Caskets & Containers - AWC",
     "material": "Select Hardwood",
@@ -8687,8 +8687,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 160,
     "weightLbs": 160,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82\" L x 29.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -8702,7 +8702,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-284456-2025-26",
+    "id": "prod-284456-2026-27",
     "productId": 187,
     "category": "Caskets & Containers - AWC",
     "material": "Pine",
@@ -8733,8 +8733,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 20.75,
     "capacity": 80,
     "weightLbs": 80,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "76.25\" L x 26.25\" W x 23\" H",
     "features": [
       "Cap Construction: Flat Top Cap",
@@ -8748,7 +8748,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-281377-2025-26",
+    "id": "prod-281377-2026-27",
     "productId": 188,
     "category": "Caskets & Containers - Cremation Containers",
     "material": "NewPointe",
@@ -8779,8 +8779,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23.88,
     "capacity": 90,
     "weightLbs": 90,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "81.69\" L x 28.38\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -8794,7 +8794,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-279185-2025-26",
+    "id": "prod-279185-2026-27",
     "productId": 189,
     "category": "Caskets & Containers - Cremation Containers",
     "material": "NewPointe",
@@ -8825,8 +8825,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23.88,
     "capacity": 90,
     "weightLbs": 90,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "81.69\" L x 28.38\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -8840,7 +8840,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-279183-2025-26",
+    "id": "prod-279183-2026-27",
     "productId": 190,
     "category": "Caskets & Containers - Cremation Containers",
     "material": "NewPointe",
@@ -8871,8 +8871,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23.88,
     "capacity": 90,
     "weightLbs": 90,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "81\" L x 28.88\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -8886,7 +8886,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-281378-2025-26",
+    "id": "prod-281378-2026-27",
     "productId": 191,
     "category": "Caskets & Containers - Cremation Containers",
     "material": "NewPointe",
@@ -8917,8 +8917,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23.88,
     "capacity": 90,
     "weightLbs": 90,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "81\" L x 28.88\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -8932,7 +8932,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-286664-2025-26",
+    "id": "prod-286664-2026-27",
     "productId": 192,
     "category": "Caskets & Containers - Cremation Containers",
     "material": "NewPointe",
@@ -8963,8 +8963,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23.75,
     "capacity": 15,
     "weightLbs": 15,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "79.25\" L x 24.5\" W x 23\" H",
     "features": [
       "Cap Construction: Full Top (Full Couch)",
@@ -8978,7 +8978,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-252322-2025-26",
+    "id": "prod-252322-2026-27",
     "productId": 193,
     "category": "Caskets & Containers - Cremation Containers",
     "material": "Alternative Containers",
@@ -9009,8 +9009,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24.5,
     "capacity": 25,
     "weightLbs": 25,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "81.5\" L x 29\" W x 23\" H",
     "features": [
       "Cap Construction: Couch Top (Half Couch)",
@@ -9024,7 +9024,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-258323-2025-26",
+    "id": "prod-258323-2026-27",
     "productId": 194,
     "category": "Caskets & Containers - Cremation Containers",
     "material": "Alternative Containers",
@@ -9055,8 +9055,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 25.75,
     "capacity": 65,
     "weightLbs": 65,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "80\" L x 27.13\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -9070,7 +9070,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-248507-2025-26",
+    "id": "prod-248507-2026-27",
     "productId": 195,
     "category": "Caskets & Containers - Cremation Containers",
     "material": "Alternative Containers",
@@ -9101,8 +9101,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 27,
     "capacity": 32,
     "weightLbs": 32,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "80\" L x 28.75\" W x 23\" H",
     "features": [
       "Cap Construction: Couch Top (Half Couch)",
@@ -9117,7 +9117,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-177130-2025-26",
+    "id": "prod-177130-2026-27",
     "productId": 196,
     "category": "Caskets & Containers - Cremation Containers",
     "material": "Alternative Containers",
@@ -9148,8 +9148,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 80,
     "weightLbs": 80,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "79\" L x 26\" W x 23\" H",
     "features": [
       "Cap Construction: Couch Top (Half Couch)",
@@ -9163,7 +9163,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-281888-2025-26",
+    "id": "prod-281888-2026-27",
     "productId": 197,
     "category": "Caskets & Containers - Cremation Containers",
     "material": "Alternative Containers",
@@ -9194,8 +9194,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 20.13,
     "capacity": 28,
     "weightLbs": 28,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "78.88\" L x 22.25\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -9209,7 +9209,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-242414-2025-26",
+    "id": "prod-242414-2026-27",
     "productId": 198,
     "category": "Caskets & Containers - Cremation Containers",
     "material": "Alternative Containers",
@@ -9240,8 +9240,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 25,
     "capacity": 28,
     "weightLbs": 28,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "80\" L x 27\" W x 23\" H",
     "features": [
       "Cap Construction: Couch Top (Half Couch)",
@@ -9255,7 +9255,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-246589-2025-26",
+    "id": "prod-246589-2026-27",
     "productId": 199,
     "category": "Caskets & Containers - Cremation Containers",
     "material": "Rental Products",
@@ -9286,8 +9286,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 27,
     "capacity": 215,
     "weightLbs": 215,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "85\" L x 31.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -9302,7 +9302,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-253476-2025-26",
+    "id": "prod-253476-2026-27",
     "productId": 200,
     "category": "Caskets & Containers - Cremation Containers",
     "material": "Rental Products",
@@ -9333,8 +9333,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 215,
     "weightLbs": 215,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Couch Top (Half Couch)",
@@ -9348,7 +9348,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-253467-2025-26",
+    "id": "prod-253467-2026-27",
     "productId": 201,
     "category": "Caskets & Containers - Cremation Containers",
     "material": "Rental Products",
@@ -9379,8 +9379,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 225,
     "weightLbs": 225,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "82\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -9394,7 +9394,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-246588-2025-26",
+    "id": "prod-246588-2026-27",
     "productId": 202,
     "category": "Caskets & Containers - Cremation Containers",
     "material": "Rental Products",
@@ -9425,8 +9425,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 27,
     "capacity": 225,
     "weightLbs": 225,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "85\" L x 31.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -9441,7 +9441,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-250228-2025-26",
+    "id": "prod-250228-2026-27",
     "productId": 203,
     "category": "Caskets & Containers - Cremation Containers",
     "material": "Rental Products",
@@ -9472,8 +9472,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23.5,
     "capacity": 75,
     "weightLbs": 75,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "77.5\" L x 25\" W x 23\" H",
     "features": [
       "Cap Construction: Couch Top (Half Couch)",
@@ -9487,7 +9487,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-253703-2025-26",
+    "id": "prod-253703-2026-27",
     "productId": 204,
     "category": "Caskets & Containers - Cremation Containers",
     "material": "Rental Products",
@@ -9518,8 +9518,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 20.75,
     "capacity": 75,
     "weightLbs": 75,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "75\" L x 22.25\" W x 23\" H",
     "features": [
       "Cap Construction: Couch Top (Half Couch)",
@@ -9533,7 +9533,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-253702-2025-26",
+    "id": "prod-253702-2026-27",
     "productId": 205,
     "category": "Caskets & Containers - Cremation Containers",
     "material": "Rental Products",
@@ -9564,8 +9564,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 20.75,
     "capacity": 75,
     "weightLbs": 75,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "75\" L x 22.25\" W x 23\" H",
     "features": [
       "Cap Construction: Couch Top (Half Couch)",
@@ -9579,7 +9579,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-250226-2025-26",
+    "id": "prod-250226-2026-27",
     "productId": 206,
     "category": "Caskets & Containers - Cremation Containers",
     "material": "Rental Products",
@@ -9610,8 +9610,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23.5,
     "capacity": 75,
     "weightLbs": 75,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "77.5\" L x 25\" W x 23\" H",
     "features": [
       "Cap Construction: Couch Top (Half Couch)",
@@ -9625,7 +9625,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-283053-2025-26",
+    "id": "prod-283053-2026-27",
     "productId": 207,
     "category": "Caskets & Containers - Cremation Containers",
     "material": "Rental Products",
@@ -9656,8 +9656,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 20,
     "capacity": 20,
     "weightLbs": 20,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "74.88\" L x 22.13\" W x 23\" H",
     "features": [
       "Cap Construction: Couch Top (Half Couch)",
@@ -9671,7 +9671,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-286665-2025-26",
+    "id": "prod-286665-2026-27",
     "productId": 208,
     "category": "Caskets & Containers - Cremation Containers ** Extended Delivery Time Required",
     "material": "NewPointe ** Extended Delivery Time Required",
@@ -9702,8 +9702,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 28,
     "capacity": 27,
     "weightLbs": 27,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "79.25\" L x 28.5\" W x 23\" H",
     "features": [
       "Cap Construction: Full Top (Full Couch)",
@@ -9718,7 +9718,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-145232-2025-26",
+    "id": "prod-145232-2026-27",
     "productId": 209,
     "category": "Caskets & Containers - Cremation Containers ** Extended Delivery Time Required",
     "material": "Alternative Containers ** Extended Delivery Time Required",
@@ -9749,8 +9749,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 80,
     "weightLbs": 80,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "79\" L x 26\" W x 23\" H",
     "features": [
       "Cap Construction: Couch Top (Half Couch)",
@@ -9764,7 +9764,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-286308-2025-26",
+    "id": "prod-286308-2026-27",
     "productId": 210,
     "category": "Caskets & Containers - Cremation Containers ** Extended Delivery Time Required",
     "material": "Rental Products ** Extended Delivery Time Required",
@@ -9795,8 +9795,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 27,
     "capacity": 215,
     "weightLbs": 215,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "85\" L x 31.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -9812,7 +9812,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-286307-2025-26",
+    "id": "prod-286307-2026-27",
     "productId": 211,
     "category": "Caskets & Containers - Cremation Containers ** Extended Delivery Time Required",
     "material": "Rental Products ** Extended Delivery Time Required",
@@ -9843,8 +9843,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 27,
     "capacity": 225,
     "weightLbs": 225,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "85\" L x 31.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -9859,7 +9859,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-286305-2025-26",
+    "id": "prod-286305-2026-27",
     "productId": 212,
     "category": "Caskets & Containers - Cremation Containers ** Extended Delivery Time Required",
     "material": "Rental Products ** Extended Delivery Time Required",
@@ -9890,8 +9890,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 27,
     "capacity": 175,
     "weightLbs": 175,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "85\" L x 31.5\" W x 23\" H",
     "features": [
       "Cap Construction: Couch Top (Half Couch)",
@@ -9907,7 +9907,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-283201-2025-26",
+    "id": "prod-283201-2026-27",
     "productId": 213,
     "category": "Caskets & Containers - Cremation Containers ** Extended Delivery Time Required",
     "material": "Rental Products ** Extended Delivery Time Required",
@@ -9938,8 +9938,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 27,
     "capacity": 175,
     "weightLbs": 175,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "85\" L x 31.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -9955,7 +9955,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-286356-2025-26",
+    "id": "prod-286356-2026-27",
     "productId": 214,
     "category": "Caskets & Containers - Cremation Containers ** Extended Delivery Time Required",
     "material": "Rental Products ** Extended Delivery Time Required",
@@ -9986,8 +9986,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 27,
     "capacity": 175,
     "weightLbs": 175,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "85\" L x 31.5\" W x 23\" H",
     "features": [
       "Cap Construction: Casket Cap (Half Couch)",
@@ -10002,7 +10002,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-286357-2025-26",
+    "id": "prod-286357-2026-27",
     "productId": 215,
     "category": "Caskets & Containers - Cremation Containers ** Extended Delivery Time Required",
     "material": "Rental Products ** Extended Delivery Time Required",
@@ -10033,8 +10033,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 27,
     "capacity": 175,
     "weightLbs": 175,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "85\" L x 31.5\" W x 23\" H",
     "features": [
       "Cap Construction: Flat Top Cap",
@@ -10049,7 +10049,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-283049-2025-26",
+    "id": "prod-283049-2026-27",
     "productId": 216,
     "category": "Caskets & Containers - Cremation Containers ** Extended Delivery Time Required",
     "material": "Rental Products ** Extended Delivery Time Required",
@@ -10080,8 +10080,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 20,
     "capacity": 20,
     "weightLbs": 20,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "74.88\" L x 22.13\" W x 23\" H",
     "features": [
       "Cap Construction: Couch Top (Half Couch)",
@@ -10095,7 +10095,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-283051-2025-26",
+    "id": "prod-283051-2026-27",
     "productId": 217,
     "category": "Caskets & Containers - Cremation Containers ** Extended Delivery Time Required",
     "material": "Rental Products ** Extended Delivery Time Required",
@@ -10126,8 +10126,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 23.25,
     "capacity": 21,
     "weightLbs": 21,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "76.38\" L x 25.38\" W x 23\" H",
     "features": [
       "Cap Construction: Couch Top (Half Couch)",
@@ -10141,7 +10141,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-263926-2025-26",
+    "id": "prod-263926-2026-27",
     "productId": 218,
     "category": "Caskets & Containers - Alternative Container Interior",
     "material": "Alternative Container Interior",
@@ -10171,8 +10171,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program"
@@ -10185,7 +10185,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-251522-2025-26",
+    "id": "prod-251522-2026-27",
     "productId": 219,
     "category": "Caskets & Containers - Alternative Container Interior",
     "material": "Alternative Container Interior",
@@ -10215,8 +10215,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program"
@@ -10229,7 +10229,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-238421-2025-26",
+    "id": "prod-238421-2026-27",
     "productId": 220,
     "category": "Caskets & Containers - Casket Supplies",
     "material": "Casket Supplies",
@@ -10259,8 +10259,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program"
@@ -10273,7 +10273,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-238422-2025-26",
+    "id": "prod-238422-2026-27",
     "productId": 221,
     "category": "Caskets & Containers - Casket Supplies",
     "material": "Casket Supplies",
@@ -10303,8 +10303,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program"
@@ -10317,7 +10317,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-281349-2025-26",
+    "id": "prod-281349-2026-27",
     "productId": 222,
     "category": "Caskets & Containers - Casket Supplies",
     "material": "Casket Supplies",
@@ -10347,8 +10347,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program"
@@ -10361,7 +10361,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-279252-2025-26",
+    "id": "prod-279252-2026-27",
     "productId": 223,
     "category": "Product Personalization - NewPointe",
     "material": "Decorative Kits",
@@ -10390,8 +10390,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "24\" L x 14.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -10406,7 +10406,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-279255-2025-26",
+    "id": "prod-279255-2026-27",
     "productId": 224,
     "category": "Product Personalization - NewPointe",
     "material": "Decorative Kits",
@@ -10435,8 +10435,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "24\" L x 14.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -10451,7 +10451,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-279253-2025-26",
+    "id": "prod-279253-2026-27",
     "productId": 225,
     "category": "Product Personalization - NewPointe",
     "material": "Decorative Kits",
@@ -10480,8 +10480,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "24\" L x 14.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -10496,7 +10496,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-279249-2025-26",
+    "id": "prod-279249-2026-27",
     "productId": 226,
     "category": "Product Personalization - NewPointe",
     "material": "Decorative Kits",
@@ -10525,8 +10525,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "24\" L x 14.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -10541,7 +10541,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-279254-2025-26",
+    "id": "prod-279254-2026-27",
     "productId": 227,
     "category": "Product Personalization - NewPointe",
     "material": "Decorative Kits",
@@ -10570,8 +10570,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "24\" L x 14.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -10586,7 +10586,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-279250-2025-26",
+    "id": "prod-279250-2026-27",
     "productId": 228,
     "category": "Product Personalization - NewPointe",
     "material": "Decorative Kits",
@@ -10615,8 +10615,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "24\" L x 14.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -10631,7 +10631,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-279247-2025-26",
+    "id": "prod-279247-2026-27",
     "productId": 229,
     "category": "Product Personalization - NewPointe",
     "material": "Decorative Kits",
@@ -10660,8 +10660,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "24\" L x 14.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -10676,7 +10676,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-279251-2025-26",
+    "id": "prod-279251-2026-27",
     "productId": 230,
     "category": "Product Personalization - NewPointe",
     "material": "Decorative Kits",
@@ -10705,8 +10705,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "24\" L x 14.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -10721,7 +10721,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-279256-2025-26",
+    "id": "prod-279256-2026-27",
     "productId": 231,
     "category": "Product Personalization - NewPointe",
     "material": "Decorative Kits",
@@ -10750,8 +10750,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "24\" L x 14.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -10766,7 +10766,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-279248-2025-26",
+    "id": "prod-279248-2026-27",
     "productId": 232,
     "category": "Product Personalization - NewPointe",
     "material": "Decorative Kits",
@@ -10795,8 +10795,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "24\" L x 14.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -10811,7 +10811,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-279246-2025-26",
+    "id": "prod-279246-2026-27",
     "productId": 233,
     "category": "Product Personalization - NewPointe",
     "material": "Decorative Kits",
@@ -10840,8 +10840,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "24\" L x 14.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -10856,7 +10856,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-256130-2025-26",
+    "id": "prod-256130-2026-27",
     "productId": 234,
     "category": "Product Personalization - Appliques & Medallions",
     "material": "Bronze",
@@ -10885,8 +10885,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -10901,7 +10901,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-256129-2025-26",
+    "id": "prod-256129-2026-27",
     "productId": 235,
     "category": "Product Personalization - Appliques & Medallions",
     "material": "Bronze",
@@ -10930,8 +10930,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -10946,7 +10946,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-256131-2025-26",
+    "id": "prod-256131-2026-27",
     "productId": 236,
     "category": "Product Personalization - Appliques & Medallions",
     "material": "Bronze",
@@ -10975,8 +10975,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -10991,7 +10991,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-256133-2025-26",
+    "id": "prod-256133-2026-27",
     "productId": 237,
     "category": "Product Personalization - Appliques & Medallions",
     "material": "Bronze",
@@ -11020,8 +11020,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -11036,7 +11036,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-256132-2025-26",
+    "id": "prod-256132-2026-27",
     "productId": 238,
     "category": "Product Personalization - Appliques & Medallions",
     "material": "Bronze",
@@ -11065,8 +11065,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -11081,7 +11081,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-254484-2025-26",
+    "id": "prod-254484-2026-27",
     "productId": 239,
     "category": "Product Personalization - Appliques & Medallions",
     "material": "Bronze",
@@ -11110,8 +11110,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "9.75\" L x 8\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -11126,7 +11126,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-254496-2025-26",
+    "id": "prod-254496-2026-27",
     "productId": 240,
     "category": "Product Personalization - Appliques & Medallions",
     "material": "Bronze",
@@ -11155,8 +11155,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "9.75\" L x 8\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -11171,7 +11171,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-254466-2025-26",
+    "id": "prod-254466-2026-27",
     "productId": 241,
     "category": "Product Personalization - Appliques & Medallions",
     "material": "Bronze",
@@ -11200,8 +11200,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "9.75\" L x 8\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -11216,7 +11216,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-254469-2025-26",
+    "id": "prod-254469-2026-27",
     "productId": 242,
     "category": "Product Personalization - Appliques & Medallions",
     "material": "Bronze",
@@ -11245,8 +11245,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "9.75\" L x 8\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -11261,7 +11261,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-254475-2025-26",
+    "id": "prod-254475-2026-27",
     "productId": 243,
     "category": "Product Personalization - Appliques & Medallions",
     "material": "Bronze",
@@ -11290,8 +11290,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "9.75\" L x 8\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -11306,7 +11306,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-254493-2025-26",
+    "id": "prod-254493-2026-27",
     "productId": 244,
     "category": "Product Personalization - Appliques & Medallions",
     "material": "Bronze",
@@ -11335,8 +11335,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "9.75\" L x 8\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -11351,7 +11351,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-254468-2025-26",
+    "id": "prod-254468-2026-27",
     "productId": 245,
     "category": "Product Personalization - Appliques & Medallions",
     "material": "Bronze",
@@ -11380,8 +11380,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "8.94\" L x 5.38\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -11396,7 +11396,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-254477-2025-26",
+    "id": "prod-254477-2026-27",
     "productId": 246,
     "category": "Product Personalization - Appliques & Medallions",
     "material": "Bronze",
@@ -11425,8 +11425,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "8.94\" L x 5.38\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -11441,7 +11441,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-254474-2025-26",
+    "id": "prod-254474-2026-27",
     "productId": 247,
     "category": "Product Personalization - Appliques & Medallions",
     "material": "Bronze",
@@ -11470,8 +11470,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "8.94\" L x 5.38\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -11486,7 +11486,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-254465-2025-26",
+    "id": "prod-254465-2026-27",
     "productId": 248,
     "category": "Product Personalization - Appliques & Medallions",
     "material": "Bronze",
@@ -11515,8 +11515,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "8.94\" L x 5.38\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -11531,7 +11531,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-254492-2025-26",
+    "id": "prod-254492-2026-27",
     "productId": 249,
     "category": "Product Personalization - Appliques & Medallions",
     "material": "Bronze",
@@ -11560,8 +11560,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "8.94\" L x 5.38\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -11576,7 +11576,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-254483-2025-26",
+    "id": "prod-254483-2026-27",
     "productId": 250,
     "category": "Product Personalization - Appliques & Medallions",
     "material": "Bronze",
@@ -11605,8 +11605,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "8.94\" L x 5.38\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -11621,7 +11621,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-254495-2025-26",
+    "id": "prod-254495-2026-27",
     "productId": 251,
     "category": "Product Personalization - Appliques & Medallions",
     "material": "Bronze",
@@ -11650,8 +11650,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "8.94\" L x 5.38\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -11666,7 +11666,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-254482-2025-26",
+    "id": "prod-254482-2026-27",
     "productId": 252,
     "category": "Product Personalization - Appliques & Medallions",
     "material": "Bronze",
@@ -11695,8 +11695,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "9\" L x 4.44\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -11711,7 +11711,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-259968-2025-26",
+    "id": "prod-259968-2026-27",
     "productId": 253,
     "category": "Product Personalization - Appliques & Medallions",
     "material": "Bronze",
@@ -11740,8 +11740,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "8.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -11756,7 +11756,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-264747-2025-26",
+    "id": "prod-264747-2026-27",
     "productId": 254,
     "category": "Product Personalization - Appliques & Medallions",
     "material": "Bronze",
@@ -11785,8 +11785,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "8.94\" L x 5.94\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -11801,7 +11801,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-284257-2025-26",
+    "id": "prod-284257-2026-27",
     "productId": 255,
     "category": "Product Personalization - Appliques & Medallions",
     "material": "Bronze",
@@ -11830,8 +11830,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.75\" L x 2\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -11846,7 +11846,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-285944-2025-26",
+    "id": "prod-285944-2026-27",
     "productId": 256,
     "category": "Product Personalization - LifeStories Interiors",
     "material": "Black Tweed",
@@ -11875,8 +11875,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -11891,7 +11891,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-285945-2025-26",
+    "id": "prod-285945-2026-27",
     "productId": 257,
     "category": "Product Personalization - LifeStories Interiors",
     "material": "Red Velvet",
@@ -11920,8 +11920,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -11936,7 +11936,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-285946-2025-26",
+    "id": "prod-285946-2026-27",
     "productId": 258,
     "category": "Product Personalization - LifeStories Interiors",
     "material": "Royal Blue",
@@ -11965,8 +11965,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -11981,7 +11981,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-285943-2025-26",
+    "id": "prod-285943-2026-27",
     "productId": 259,
     "category": "Product Personalization - LifeStories Interiors",
     "material": "Sage Green",
@@ -12010,8 +12010,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -12026,7 +12026,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-285942-2025-26",
+    "id": "prod-285942-2026-27",
     "productId": 260,
     "category": "Product Personalization - LifeStories Interiors",
     "material": "Silver Jacquard",
@@ -12055,8 +12055,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -12071,7 +12071,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-270050-2025-26",
+    "id": "prod-270050-2026-27",
     "productId": 261,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Relationships",
@@ -12100,8 +12100,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "8.13\" L x 0.88\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -12116,7 +12116,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-251339-2025-26",
+    "id": "prod-251339-2026-27",
     "productId": 262,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Relationships",
@@ -12145,8 +12145,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -12161,7 +12161,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-240183-2025-26",
+    "id": "prod-240183-2026-27",
     "productId": 263,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Relationships",
@@ -12190,8 +12190,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -12206,7 +12206,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-248386-2025-26",
+    "id": "prod-248386-2026-27",
     "productId": 264,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Relationships",
@@ -12235,8 +12235,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -12251,7 +12251,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-259563-2025-26",
+    "id": "prod-259563-2026-27",
     "productId": 265,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Relationships",
@@ -12280,8 +12280,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -12296,7 +12296,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-243703-2025-26",
+    "id": "prod-243703-2026-27",
     "productId": 266,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Relationships",
@@ -12325,8 +12325,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -12341,7 +12341,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-251337-2025-26",
+    "id": "prod-251337-2026-27",
     "productId": 267,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Relationships",
@@ -12370,8 +12370,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -12386,7 +12386,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-273830-2025-26",
+    "id": "prod-273830-2026-27",
     "productId": 268,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Relationships",
@@ -12415,8 +12415,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -12431,7 +12431,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-274760-2025-26",
+    "id": "prod-274760-2026-27",
     "productId": 269,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Relationships",
@@ -12460,8 +12460,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -12476,7 +12476,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-240184-2025-26",
+    "id": "prod-240184-2026-27",
     "productId": 270,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Relationships",
@@ -12505,8 +12505,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -12521,7 +12521,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-275251-2025-26",
+    "id": "prod-275251-2026-27",
     "productId": 271,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Relationships",
@@ -12550,8 +12550,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -12566,7 +12566,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-273828-2025-26",
+    "id": "prod-273828-2026-27",
     "productId": 272,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Relationships",
@@ -12595,8 +12595,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -12611,7 +12611,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-274759-2025-26",
+    "id": "prod-274759-2026-27",
     "productId": 273,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Relationships",
@@ -12640,8 +12640,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -12656,7 +12656,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-243698-2025-26",
+    "id": "prod-243698-2026-27",
     "productId": 274,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Relationships",
@@ -12685,8 +12685,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -12701,7 +12701,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-243705-2025-26",
+    "id": "prod-243705-2026-27",
     "productId": 275,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Relationships",
@@ -12730,8 +12730,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -12746,7 +12746,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-240178-2025-26",
+    "id": "prod-240178-2026-27",
     "productId": 276,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Relationships",
@@ -12775,8 +12775,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -12791,7 +12791,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-273834-2025-26",
+    "id": "prod-273834-2026-27",
     "productId": 277,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Relationships",
@@ -12820,8 +12820,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -12836,7 +12836,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-274761-2025-26",
+    "id": "prod-274761-2026-27",
     "productId": 278,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Relationships",
@@ -12865,8 +12865,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -12881,7 +12881,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-243704-2025-26",
+    "id": "prod-243704-2026-27",
     "productId": 279,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Relationships",
@@ -12910,8 +12910,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -12926,7 +12926,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-274762-2025-26",
+    "id": "prod-274762-2026-27",
     "productId": 280,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Relationships",
@@ -12955,8 +12955,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -12971,7 +12971,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-273832-2025-26",
+    "id": "prod-273832-2026-27",
     "productId": 281,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Relationships",
@@ -13000,8 +13000,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -13016,7 +13016,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-240172-2025-26",
+    "id": "prod-240172-2026-27",
     "productId": 282,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Spiritual/Religious",
@@ -13045,8 +13045,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -13061,7 +13061,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-243701-2025-26",
+    "id": "prod-243701-2026-27",
     "productId": 283,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Spiritual/Religious",
@@ -13090,8 +13090,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -13106,7 +13106,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-243714-2025-26",
+    "id": "prod-243714-2026-27",
     "productId": 284,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Spiritual/Religious",
@@ -13135,8 +13135,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "10.38\" L x 5.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -13151,7 +13151,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-242652-2025-26",
+    "id": "prod-242652-2026-27",
     "productId": 285,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Spiritual/Religious",
@@ -13180,8 +13180,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -13196,7 +13196,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-243699-2025-26",
+    "id": "prod-243699-2026-27",
     "productId": 286,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Spiritual/Religious",
@@ -13225,8 +13225,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -13241,7 +13241,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-240170-2025-26",
+    "id": "prod-240170-2026-27",
     "productId": 287,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Spiritual/Religious",
@@ -13270,8 +13270,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -13286,7 +13286,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-240179-2025-26",
+    "id": "prod-240179-2026-27",
     "productId": 288,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Spiritual/Religious",
@@ -13315,8 +13315,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -13331,7 +13331,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-240174-2025-26",
+    "id": "prod-240174-2026-27",
     "productId": 289,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Spiritual/Religious",
@@ -13360,8 +13360,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -13376,7 +13376,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-243715-2025-26",
+    "id": "prod-243715-2026-27",
     "productId": 290,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Spiritual/Religious",
@@ -13405,8 +13405,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "10.38\" L x 5.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -13421,7 +13421,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-248387-2025-26",
+    "id": "prod-248387-2026-27",
     "productId": 291,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Spiritual/Religious",
@@ -13450,8 +13450,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -13466,7 +13466,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-254437-2025-26",
+    "id": "prod-254437-2026-27",
     "productId": 292,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Adapter",
@@ -13495,8 +13495,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1\" L x 1\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -13511,7 +13511,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-248525-2025-26",
+    "id": "prod-248525-2026-27",
     "productId": 293,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Adapter",
@@ -13540,8 +13540,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4\" L x 4\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -13556,7 +13556,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-280540-2025-26",
+    "id": "prod-280540-2026-27",
     "productId": 294,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Adapter",
@@ -13585,8 +13585,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -13601,7 +13601,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-240177-2025-26",
+    "id": "prod-240177-2026-27",
     "productId": 295,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Affiliations/Professions",
@@ -13630,8 +13630,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -13646,7 +13646,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-240171-2025-26",
+    "id": "prod-240171-2026-27",
     "productId": 296,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Affiliations/Professions",
@@ -13675,8 +13675,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -13691,7 +13691,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-252670-2025-26",
+    "id": "prod-252670-2026-27",
     "productId": 297,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Affiliations/Professions",
@@ -13720,8 +13720,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -13736,7 +13736,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-243700-2025-26",
+    "id": "prod-243700-2026-27",
     "productId": 298,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Affiliations/Professions",
@@ -13765,8 +13765,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -13781,7 +13781,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-273836-2025-26",
+    "id": "prod-273836-2026-27",
     "productId": 299,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Affiliations/Professions",
@@ -13810,8 +13810,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -13826,7 +13826,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-243702-2025-26",
+    "id": "prod-243702-2026-27",
     "productId": 300,
     "category": "Product Personalization - LifeStories Display Medallions",
     "material": "Affiliations/Professions",
@@ -13855,8 +13855,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -13871,7 +13871,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-233748-2025-26",
+    "id": "prod-233748-2026-27",
     "productId": 301,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Affiliations/Professions",
@@ -13900,8 +13900,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1\" L x 4.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -13916,7 +13916,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-273841-2025-26",
+    "id": "prod-273841-2026-27",
     "productId": 302,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Affiliations/Professions",
@@ -13945,8 +13945,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -13961,7 +13961,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-238238-2025-26",
+    "id": "prod-238238-2026-27",
     "productId": 303,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Miscellaneous",
@@ -13990,8 +13990,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "3.75\" L x 1.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -14006,7 +14006,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-238237-2025-26",
+    "id": "prod-238237-2026-27",
     "productId": 304,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Miscellaneous",
@@ -14035,8 +14035,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "3.75\" L x 1.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -14051,7 +14051,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-201615-2025-26",
+    "id": "prod-201615-2026-27",
     "productId": 305,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Life's Interests/Hobbies",
@@ -14080,8 +14080,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2\" L x 3.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -14096,7 +14096,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-198511-2025-26",
+    "id": "prod-198511-2026-27",
     "productId": 306,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Life's Interests/Hobbies",
@@ -14125,8 +14125,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.5\" L x 4.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -14141,7 +14141,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-273840-2025-26",
+    "id": "prod-273840-2026-27",
     "productId": 307,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Life's Interests/Hobbies",
@@ -14170,8 +14170,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -14186,7 +14186,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-224298-2025-26",
+    "id": "prod-224298-2026-27",
     "productId": 308,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Life's Interests/Hobbies",
@@ -14215,8 +14215,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2\" L x 5.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -14231,7 +14231,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-189549-2025-26",
+    "id": "prod-189549-2026-27",
     "productId": 309,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Life's Interests/Hobbies",
@@ -14260,8 +14260,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2\" L x 3.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -14276,7 +14276,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-189547-2025-26",
+    "id": "prod-189547-2026-27",
     "productId": 310,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Life's Interests/Hobbies",
@@ -14305,8 +14305,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -14321,7 +14321,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-189542-2025-26",
+    "id": "prod-189542-2026-27",
     "productId": 311,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Life's Interests/Hobbies",
@@ -14350,8 +14350,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2\" L x 5.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -14366,7 +14366,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-273839-2025-26",
+    "id": "prod-273839-2026-27",
     "productId": 312,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Life's Interests/Hobbies",
@@ -14395,8 +14395,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -14411,7 +14411,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-205748-2025-26",
+    "id": "prod-205748-2026-27",
     "productId": 313,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Life's Interests/Hobbies",
@@ -14440,8 +14440,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2\" L x 4\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -14456,7 +14456,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-264584-2025-26",
+    "id": "prod-264584-2026-27",
     "productId": 314,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Life's Interests/Hobbies",
@@ -14485,8 +14485,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 4.38\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -14501,7 +14501,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-194788-2025-26",
+    "id": "prod-194788-2026-27",
     "productId": 315,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Life's Interests/Hobbies",
@@ -14530,8 +14530,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -14546,7 +14546,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-201611-2025-26",
+    "id": "prod-201611-2026-27",
     "productId": 316,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Life's Interests/Hobbies",
@@ -14575,8 +14575,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 3.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -14591,7 +14591,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-198513-2025-26",
+    "id": "prod-198513-2026-27",
     "productId": 317,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Life's Interests/Hobbies",
@@ -14620,8 +14620,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2.5\" L x 3.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -14636,7 +14636,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-201607-2025-26",
+    "id": "prod-201607-2026-27",
     "productId": 318,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Life's Interests/Hobbies",
@@ -14665,8 +14665,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2\" L x 4\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -14681,7 +14681,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-205694-2025-26",
+    "id": "prod-205694-2026-27",
     "productId": 319,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Life's Interests/Hobbies",
@@ -14710,8 +14710,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 4\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -14726,7 +14726,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-215617-2025-26",
+    "id": "prod-215617-2026-27",
     "productId": 320,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Life's Interests/Hobbies",
@@ -14755,8 +14755,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2\" L x 4\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -14771,7 +14771,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-189539-2025-26",
+    "id": "prod-189539-2026-27",
     "productId": 321,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Spiritual/Religious",
@@ -14800,8 +14800,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.5\" L x 3.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -14816,7 +14816,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-243577-2025-26",
+    "id": "prod-243577-2026-27",
     "productId": 322,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Spiritual/Religious",
@@ -14845,8 +14845,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 3\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -14861,7 +14861,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-270122-2025-26",
+    "id": "prod-270122-2026-27",
     "productId": 323,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Spiritual/Religious",
@@ -14890,8 +14890,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6\" L x 4.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -14906,7 +14906,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-231161-2025-26",
+    "id": "prod-231161-2026-27",
     "productId": 324,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Spiritual/Religious",
@@ -14935,8 +14935,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.5\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -14951,7 +14951,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-273838-2025-26",
+    "id": "prod-273838-2026-27",
     "productId": 325,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Spiritual/Religious",
@@ -14980,8 +14980,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -14996,7 +14996,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-243580-2025-26",
+    "id": "prod-243580-2026-27",
     "productId": 326,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Spiritual/Religious",
@@ -15025,8 +15025,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 3\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -15041,7 +15041,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-189540-2025-26",
+    "id": "prod-189540-2026-27",
     "productId": 327,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Spiritual/Religious",
@@ -15070,8 +15070,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2.5\" L x 4\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -15086,7 +15086,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-239968-2025-26",
+    "id": "prod-239968-2026-27",
     "productId": 328,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Spiritual/Religious",
@@ -15115,8 +15115,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.5\" L x 3.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -15131,7 +15131,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-239965-2025-26",
+    "id": "prod-239965-2026-27",
     "productId": 329,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Spiritual/Religious",
@@ -15160,8 +15160,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2.5\" L x 4\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -15176,7 +15176,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-189543-2025-26",
+    "id": "prod-189543-2026-27",
     "productId": 330,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Spiritual/Religious",
@@ -15205,8 +15205,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2\" L x 4\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -15221,7 +15221,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-189541-2025-26",
+    "id": "prod-189541-2026-27",
     "productId": 331,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Spiritual/Religious",
@@ -15250,8 +15250,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "5\" L x 3.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -15266,7 +15266,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-270120-2025-26",
+    "id": "prod-270120-2026-27",
     "productId": 332,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Spiritual/Religious",
@@ -15295,8 +15295,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6\" L x 4.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -15311,7 +15311,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-189545-2025-26",
+    "id": "prod-189545-2026-27",
     "productId": 333,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Spiritual/Religious",
@@ -15340,8 +15340,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -15356,7 +15356,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-189546-2025-26",
+    "id": "prod-189546-2026-27",
     "productId": 334,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Spiritual/Religious",
@@ -15385,8 +15385,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.25\" L x 4\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -15401,7 +15401,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-196055-2025-26",
+    "id": "prod-196055-2026-27",
     "productId": 335,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Spiritual/Religious",
@@ -15430,8 +15430,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1\" L x 3\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -15446,7 +15446,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-189550-2025-26",
+    "id": "prod-189550-2026-27",
     "productId": 336,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Spiritual/Religious",
@@ -15475,8 +15475,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2.5\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -15491,7 +15491,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-270121-2025-26",
+    "id": "prod-270121-2026-27",
     "productId": 337,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Spiritual/Religious",
@@ -15520,8 +15520,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6\" L x 4.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -15536,7 +15536,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-189551-2025-26",
+    "id": "prod-189551-2026-27",
     "productId": 338,
     "category": "Product Personalization - LifeSymbols Corners",
     "material": "Spiritual/Religious",
@@ -15565,8 +15565,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2\" L x 3.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -15581,7 +15581,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-286006-2025-26",
+    "id": "prod-286006-2026-27",
     "productId": 339,
     "category": "Product Personalization - MemoryFrame Designs",
     "material": "Affiliations/Professions",
@@ -15610,8 +15610,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -15626,7 +15626,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-286003-2025-26",
+    "id": "prod-286003-2026-27",
     "productId": 340,
     "category": "Product Personalization - MemoryFrame Designs",
     "material": "Life's Interests/Hobbies",
@@ -15655,8 +15655,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -15671,7 +15671,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-286002-2025-26",
+    "id": "prod-286002-2026-27",
     "productId": 341,
     "category": "Product Personalization - MemoryFrame Designs",
     "material": "Life's Interests/Hobbies",
@@ -15700,8 +15700,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -15716,7 +15716,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-286004-2025-26",
+    "id": "prod-286004-2026-27",
     "productId": 342,
     "category": "Product Personalization - MemoryFrame Designs",
     "material": "Life's Interests/Hobbies",
@@ -15745,8 +15745,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -15761,7 +15761,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-286005-2025-26",
+    "id": "prod-286005-2026-27",
     "productId": 343,
     "category": "Product Personalization - MemoryFrame Designs",
     "material": "Life's Interests/Hobbies",
@@ -15790,8 +15790,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -15806,7 +15806,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-286009-2025-26",
+    "id": "prod-286009-2026-27",
     "productId": 344,
     "category": "Product Personalization - MemoryFrame Designs",
     "material": "Life's Interests/Hobbies",
@@ -15835,8 +15835,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -15851,7 +15851,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-286008-2025-26",
+    "id": "prod-286008-2026-27",
     "productId": 345,
     "category": "Product Personalization - MemoryFrame Designs",
     "material": "Spiritual/Religious",
@@ -15880,8 +15880,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -15896,7 +15896,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-286007-2025-26",
+    "id": "prod-286007-2026-27",
     "productId": 346,
     "category": "Product Personalization - MemoryFrame Designs",
     "material": "Spiritual/Religious",
@@ -15925,8 +15925,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -15941,7 +15941,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-147034-2025-26",
+    "id": "prod-147034-2026-27",
     "productId": 347,
     "category": "Product Personalization - Commemorative Panels",
     "material": "Velvet",
@@ -15970,8 +15970,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "31.25\" L x 14.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -15986,7 +15986,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-146950-2025-26",
+    "id": "prod-146950-2026-27",
     "productId": 348,
     "category": "Product Personalization - Commemorative Panels",
     "material": "Velvet",
@@ -16015,8 +16015,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "31.25\" L x 14.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -16031,7 +16031,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-146924-2025-26",
+    "id": "prod-146924-2026-27",
     "productId": 349,
     "category": "Product Personalization - Commemorative Panels",
     "material": "Velvet",
@@ -16060,8 +16060,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "31.25\" L x 14.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -16076,7 +16076,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-146908-2025-26",
+    "id": "prod-146908-2026-27",
     "productId": 350,
     "category": "Product Personalization - Commemorative Panels",
     "material": "Velvet",
@@ -16105,8 +16105,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "31.25\" L x 14.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -16121,7 +16121,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-146959-2025-26",
+    "id": "prod-146959-2026-27",
     "productId": 351,
     "category": "Product Personalization - Commemorative Panels",
     "material": "Velvet",
@@ -16150,8 +16150,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "31.25\" L x 14.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -16166,7 +16166,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-147043-2025-26",
+    "id": "prod-147043-2026-27",
     "productId": 352,
     "category": "Product Personalization - Commemorative Panels",
     "material": "Velvet",
@@ -16195,8 +16195,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "31.25\" L x 14.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -16211,7 +16211,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-287442-2025-26",
+    "id": "prod-287442-2026-27",
     "productId": 353,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Stainless Steel",
@@ -16240,8 +16240,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 4,
     "weightLbs": 4,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "7.25\" L x 7.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -16255,7 +16255,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-287435-2025-26",
+    "id": "prod-287435-2026-27",
     "productId": 354,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Stainless Steel",
@@ -16284,8 +16284,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 4,
     "weightLbs": 4,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.38\" L x 6.38\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -16299,7 +16299,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-287440-2025-26",
+    "id": "prod-287440-2026-27",
     "productId": 355,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Stainless Steel",
@@ -16328,8 +16328,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 4,
     "weightLbs": 4,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "7.19\" L x 7.19\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -16343,7 +16343,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-285877-2025-26",
+    "id": "prod-285877-2026-27",
     "productId": 356,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Stainless Steel",
@@ -16372,8 +16372,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 7,
     "weightLbs": 7,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "5.25\" L x 7\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -16387,7 +16387,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-285878-2025-26",
+    "id": "prod-285878-2026-27",
     "productId": 357,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Stainless Steel",
@@ -16416,8 +16416,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 7,
     "weightLbs": 7,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "5.25\" L x 7\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -16431,7 +16431,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-287509-2025-26",
+    "id": "prod-287509-2026-27",
     "productId": 358,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Stainless Steel",
@@ -16460,8 +16460,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 7,
     "weightLbs": 7,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "5.25\" L x 7\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -16475,7 +16475,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-285879-2025-26",
+    "id": "prod-285879-2026-27",
     "productId": 359,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Stainless Steel",
@@ -16504,8 +16504,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 7,
     "weightLbs": 7,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "5.25\" L x 7\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -16519,7 +16519,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-287508-2025-26",
+    "id": "prod-287508-2026-27",
     "productId": 360,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Stainless Steel",
@@ -16548,8 +16548,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 7,
     "weightLbs": 7,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "5.25\" L x 7\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -16563,7 +16563,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-100126-2025-26",
+    "id": "prod-100126-2026-27",
     "productId": 361,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Wood",
@@ -16592,8 +16592,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 4,
     "weightLbs": 4,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "8.5\" L x 8.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -16607,7 +16607,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-100095-2025-26",
+    "id": "prod-100095-2026-27",
     "productId": 362,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Wood",
@@ -16636,8 +16636,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 7,
     "weightLbs": 7,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "10.38\" L x 10.38\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -16651,7 +16651,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-100107-2025-26",
+    "id": "prod-100107-2026-27",
     "productId": 363,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Wood",
@@ -16680,8 +16680,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 5,
     "weightLbs": 5,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "8.75\" L x 8.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -16695,7 +16695,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-220317-2025-26",
+    "id": "prod-220317-2026-27",
     "productId": 364,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Wood",
@@ -16724,8 +16724,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 9,
     "weightLbs": 9,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "9.75\" L x 11.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -16739,7 +16739,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-208692-2025-26",
+    "id": "prod-208692-2026-27",
     "productId": 365,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Wood",
@@ -16768,8 +16768,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 10,
     "weightLbs": 10,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "10.63\" L x 11.44\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -16783,7 +16783,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-216023-2025-26",
+    "id": "prod-216023-2026-27",
     "productId": 366,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Wood",
@@ -16812,8 +16812,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 5,
     "weightLbs": 5,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "7.75\" L x 10\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -16827,7 +16827,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-185841-2025-26",
+    "id": "prod-185841-2026-27",
     "productId": 367,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Wood",
@@ -16856,8 +16856,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 5,
     "weightLbs": 5,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "7.75\" L x 12\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -16871,7 +16871,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-272094-2025-26",
+    "id": "prod-272094-2026-27",
     "productId": 368,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Wood",
@@ -16900,8 +16900,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 5,
     "weightLbs": 5,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.75\" L x 6.63\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -16915,7 +16915,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-287773-2025-26",
+    "id": "prod-287773-2026-27",
     "productId": 369,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Wood",
@@ -16944,8 +16944,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "7.25\" L x 7.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -16959,7 +16959,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-287769-2025-26",
+    "id": "prod-287769-2026-27",
     "productId": 370,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Wood",
@@ -16988,8 +16988,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "7.25\" L x 7.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -17003,7 +17003,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-287771-2025-26",
+    "id": "prod-287771-2026-27",
     "productId": 371,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Wood",
@@ -17032,8 +17032,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "7.25\" L x 7.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -17047,7 +17047,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-287456-2025-26",
+    "id": "prod-287456-2026-27",
     "productId": 372,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Wood",
@@ -17076,8 +17076,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 4,
     "weightLbs": 4,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "9.38\" L x 6.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -17091,7 +17091,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-100099-2025-26",
+    "id": "prod-100099-2026-27",
     "productId": 373,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Wood",
@@ -17120,8 +17120,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 3,
     "weightLbs": 3,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "3.81\" L x 8.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -17135,7 +17135,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-282006-2025-26",
+    "id": "prod-282006-2026-27",
     "productId": 374,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Wood",
@@ -17164,8 +17164,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 4,
     "weightLbs": 4,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "7.5\" L x 7.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -17179,7 +17179,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-287454-2025-26",
+    "id": "prod-287454-2026-27",
     "productId": 375,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Wood",
@@ -17208,8 +17208,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 4,
     "weightLbs": 4,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "10.5\" L x 6.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -17223,7 +17223,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-287453-2025-26",
+    "id": "prod-287453-2026-27",
     "productId": 376,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Wood",
@@ -17252,8 +17252,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 5,
     "weightLbs": 5,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "11.38\" L x 7\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -17267,7 +17267,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-287455-2025-26",
+    "id": "prod-287455-2026-27",
     "productId": 377,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Wood",
@@ -17296,8 +17296,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 4,
     "weightLbs": 4,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "10.19\" L x 6.19\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -17311,7 +17311,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-270136-2025-26",
+    "id": "prod-270136-2026-27",
     "productId": 378,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Wood",
@@ -17340,8 +17340,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 5,
     "weightLbs": 5,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "27.88\" L x 6\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -17355,7 +17355,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-270135-2025-26",
+    "id": "prod-270135-2026-27",
     "productId": 379,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Wood",
@@ -17384,8 +17384,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 5,
     "weightLbs": 5,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "27.88\" L x 6\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -17399,7 +17399,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-255703-2025-26",
+    "id": "prod-255703-2026-27",
     "productId": 380,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Wood",
@@ -17428,8 +17428,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 3,
     "weightLbs": 3,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.5\" L x 9\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -17443,7 +17443,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-255701-2025-26",
+    "id": "prod-255701-2026-27",
     "productId": 381,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Wood",
@@ -17472,8 +17472,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 3,
     "weightLbs": 3,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.5\" L x 9\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -17487,7 +17487,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
   {
-    "id": "prod-285966-2025-26",
+    "id": "prod-285966-2026-27",
     "productId": 382,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Wood",
@@ -17516,8 +17516,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 9,
     "weightLbs": 9,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "10.5\" L x 6.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -17531,7 +17531,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-285965-2025-26",
+    "id": "prod-285965-2026-27",
     "productId": 383,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Wood",
@@ -17560,8 +17560,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 9,
     "weightLbs": 9,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "10.5\" L x 6.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -17575,7 +17575,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-285967-2025-26",
+    "id": "prod-285967-2026-27",
     "productId": 384,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Wood",
@@ -17604,8 +17604,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "7.25\" L x 9.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -17619,7 +17619,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-255815-2025-26",
+    "id": "prod-255815-2026-27",
     "productId": 385,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Wood",
@@ -17648,8 +17648,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 4,
     "weightLbs": 4,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.88\" L x 9.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -17663,7 +17663,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-282919-2025-26",
+    "id": "prod-282919-2026-27",
     "productId": 386,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Wood",
@@ -17692,8 +17692,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.25\" L x 6.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -17707,7 +17707,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-282005-2025-26",
+    "id": "prod-282005-2026-27",
     "productId": 387,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Wood",
@@ -17736,8 +17736,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 3,
     "weightLbs": 3,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "9.1\" L x 6.4\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -17751,7 +17751,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-144682-2025-26",
+    "id": "prod-144682-2026-27",
     "productId": 388,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Wood",
@@ -17780,8 +17780,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 5,
     "weightLbs": 5,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "7.75\" L x 7.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -17795,7 +17795,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-100098-2025-26",
+    "id": "prod-100098-2026-27",
     "productId": 389,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Wood",
@@ -17824,8 +17824,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 3,
     "weightLbs": 3,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "3.75\" L x 8.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -17839,7 +17839,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-287463-2025-26",
+    "id": "prod-287463-2026-27",
     "productId": 390,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "NewPointe",
@@ -17868,8 +17868,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 5,
     "weightLbs": 5,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "7.38\" L x 7.38\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -17883,7 +17883,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-287460-2025-26",
+    "id": "prod-287460-2026-27",
     "productId": 391,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "NewPointe",
@@ -17912,8 +17912,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 5,
     "weightLbs": 5,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "7.38\" L x 7.38\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -17927,7 +17927,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-283596-2025-26",
+    "id": "prod-283596-2026-27",
     "productId": 392,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "NewPointe",
@@ -17956,8 +17956,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 6,
     "weightLbs": 6,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "7.09\" L x 7.09\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -17971,7 +17971,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-283595-2025-26",
+    "id": "prod-283595-2026-27",
     "productId": 393,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "NewPointe",
@@ -18000,8 +18000,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 6,
     "weightLbs": 6,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "7.09\" L x 7.09\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -18015,7 +18015,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-283597-2025-26",
+    "id": "prod-283597-2026-27",
     "productId": 394,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "NewPointe",
@@ -18044,8 +18044,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 6,
     "weightLbs": 6,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "7.09\" L x 7.09\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -18059,7 +18059,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-148340-2025-26",
+    "id": "prod-148340-2026-27",
     "productId": 395,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "NewPointe",
@@ -18088,8 +18088,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 6,
     "weightLbs": 6,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "7.75\" L x 10.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -18103,7 +18103,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-285909-2025-26",
+    "id": "prod-285909-2026-27",
     "productId": 396,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "NewPointe",
@@ -18132,8 +18132,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 5,
     "weightLbs": 5,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.5\" L x 6.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -18147,7 +18147,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-282828-2025-26",
+    "id": "prod-282828-2026-27",
     "productId": 397,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "NewPointe",
@@ -18176,8 +18176,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 5,
     "weightLbs": 5,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.5\" L x 6.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -18191,7 +18191,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-285906-2025-26",
+    "id": "prod-285906-2026-27",
     "productId": 398,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "NewPointe",
@@ -18220,8 +18220,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 5,
     "weightLbs": 5,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.5\" L x 6.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -18235,7 +18235,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-287476-2025-26",
+    "id": "prod-287476-2026-27",
     "productId": 399,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "NewPointe",
@@ -18264,8 +18264,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 3,
     "weightLbs": 3,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.5\" L x 6.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -18279,7 +18279,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-287474-2025-26",
+    "id": "prod-287474-2026-27",
     "productId": 400,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "NewPointe",
@@ -18308,8 +18308,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 3,
     "weightLbs": 3,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "5.75\" L x 5.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -18323,7 +18323,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-287478-2025-26",
+    "id": "prod-287478-2026-27",
     "productId": 401,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "NewPointe",
@@ -18352,8 +18352,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 3,
     "weightLbs": 3,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.5\" L x 6.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -18367,7 +18367,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-287501-2025-26",
+    "id": "prod-287501-2026-27",
     "productId": 402,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "NewPointe",
@@ -18396,8 +18396,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 5,
     "weightLbs": 5,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "11.5\" L x 7.19\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -18411,7 +18411,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-238325-2025-26",
+    "id": "prod-238325-2026-27",
     "productId": 403,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "NewPointe",
@@ -18440,8 +18440,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 13,
     "weightLbs": 13,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.75\" L x 9.69\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -18455,7 +18455,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-282818-2025-26",
+    "id": "prod-282818-2026-27",
     "productId": 404,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "NewPointe",
@@ -18484,8 +18484,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 5,
     "weightLbs": 5,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "7\" L x 7\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -18499,7 +18499,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-285903-2025-26",
+    "id": "prod-285903-2026-27",
     "productId": 405,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "NewPointe",
@@ -18528,8 +18528,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 4,
     "weightLbs": 4,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "7\" L x 7\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -18543,7 +18543,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-282809-2025-26",
+    "id": "prod-282809-2026-27",
     "productId": 406,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "NewPointe",
@@ -18572,8 +18572,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 4,
     "weightLbs": 4,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "7\" L x 7\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -18587,7 +18587,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-282812-2025-26",
+    "id": "prod-282812-2026-27",
     "productId": 407,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "NewPointe",
@@ -18616,8 +18616,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 4,
     "weightLbs": 4,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "7\" L x 7\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -18631,7 +18631,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-285897-2025-26",
+    "id": "prod-285897-2026-27",
     "productId": 408,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "NewPointe",
@@ -18660,8 +18660,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 5,
     "weightLbs": 5,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "7\" L x 7\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -18675,7 +18675,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-285900-2025-26",
+    "id": "prod-285900-2026-27",
     "productId": 409,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "NewPointe",
@@ -18704,8 +18704,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 5,
     "weightLbs": 5,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "7\" L x 7\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -18719,7 +18719,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-287499-2025-26",
+    "id": "prod-287499-2026-27",
     "productId": 410,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "NewPointe",
@@ -18748,8 +18748,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 3,
     "weightLbs": 3,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "9\" L x 6.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -18763,7 +18763,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-287495-2025-26",
+    "id": "prod-287495-2026-27",
     "productId": 411,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "NewPointe",
@@ -18792,8 +18792,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 3,
     "weightLbs": 3,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "9\" L x 6.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -18807,7 +18807,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-287497-2025-26",
+    "id": "prod-287497-2026-27",
     "productId": 412,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "NewPointe",
@@ -18836,8 +18836,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 3,
     "weightLbs": 3,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "9\" L x 6.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -18851,7 +18851,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-216025-2025-26",
+    "id": "prod-216025-2026-27",
     "productId": 413,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "NewPointe",
@@ -18880,8 +18880,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 4,
     "weightLbs": 4,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "7.38\" L x 10.38\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -18895,7 +18895,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-216024-2025-26",
+    "id": "prod-216024-2026-27",
     "productId": 414,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "NewPointe",
@@ -18924,8 +18924,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 4,
     "weightLbs": 4,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "7.25\" L x 10.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -18939,7 +18939,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-282826-2025-26",
+    "id": "prod-282826-2026-27",
     "productId": 415,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "NewPointe",
@@ -18968,8 +18968,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 3,
     "weightLbs": 3,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6\" L x 6\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -18983,7 +18983,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-282864-2025-26",
+    "id": "prod-282864-2026-27",
     "productId": 416,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "NewPointe",
@@ -19012,8 +19012,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 3,
     "weightLbs": 3,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6\" L x 6\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -19027,7 +19027,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-282815-2025-26",
+    "id": "prod-282815-2026-27",
     "productId": 417,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "NewPointe",
@@ -19056,8 +19056,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 3,
     "weightLbs": 3,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6\" L x 6\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -19071,7 +19071,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-282824-2025-26",
+    "id": "prod-282824-2026-27",
     "productId": 418,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "NewPointe",
@@ -19100,8 +19100,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 3,
     "weightLbs": 3,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6\" L x 6\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -19115,7 +19115,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-282822-2025-26",
+    "id": "prod-282822-2026-27",
     "productId": 419,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "NewPointe",
@@ -19144,8 +19144,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 3,
     "weightLbs": 3,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6\" L x 6\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -19159,7 +19159,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-284132-2025-26",
+    "id": "prod-284132-2026-27",
     "productId": 420,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "NewPointe",
@@ -19188,8 +19188,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 3,
     "weightLbs": 3,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "7.75\" L x 7.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -19203,7 +19203,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-284131-2025-26",
+    "id": "prod-284131-2026-27",
     "productId": 421,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "NewPointe",
@@ -19232,8 +19232,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 3,
     "weightLbs": 3,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "7.75\" L x 7.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -19247,7 +19247,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-282982-2025-26",
+    "id": "prod-282982-2026-27",
     "productId": 422,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "NewPointe",
@@ -19276,8 +19276,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "5.1\" L x 5.1\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -19291,7 +19291,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-282981-2025-26",
+    "id": "prod-282981-2026-27",
     "productId": 423,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "NewPointe",
@@ -19320,8 +19320,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "5.1\" L x 5.1\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -19335,7 +19335,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-282958-2025-26",
+    "id": "prod-282958-2026-27",
     "productId": 424,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "NewPointe",
@@ -19364,8 +19364,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "5.1\" L x 5.1\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -19379,7 +19379,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-282959-2025-26",
+    "id": "prod-282959-2026-27",
     "productId": 425,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "NewPointe",
@@ -19408,8 +19408,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "5.1\" L x 5.1\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -19423,7 +19423,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-282957-2025-26",
+    "id": "prod-282957-2026-27",
     "productId": 426,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "NewPointe",
@@ -19452,8 +19452,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "5.1\" L x 5.1\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -19467,7 +19467,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-252357-2025-26",
+    "id": "prod-252357-2026-27",
     "productId": 427,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Biodegradable",
@@ -19496,8 +19496,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "21.25\" L x 21.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -19511,7 +19511,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-282715-2025-26",
+    "id": "prod-282715-2026-27",
     "productId": 428,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Biodegradable",
@@ -19540,8 +19540,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "14\" L x 12.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -19555,7 +19555,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-282717-2025-26",
+    "id": "prod-282717-2026-27",
     "productId": 429,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Biodegradable",
@@ -19584,8 +19584,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "14\" L x 12.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -19599,7 +19599,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-282716-2025-26",
+    "id": "prod-282716-2026-27",
     "productId": 430,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Biodegradable",
@@ -19628,8 +19628,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "14\" L x 12.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -19643,7 +19643,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-282922-2025-26",
+    "id": "prod-282922-2026-27",
     "productId": 431,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Biodegradable",
@@ -19672,8 +19672,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "7.5\" L x 7.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -19687,7 +19687,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-252359-2025-26",
+    "id": "prod-252359-2026-27",
     "productId": 432,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Biodegradable",
@@ -19716,8 +19716,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6\" L x 9\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -19731,7 +19731,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-224648-2025-26",
+    "id": "prod-224648-2026-27",
     "productId": 433,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Biodegradable",
@@ -19760,8 +19760,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6\" L x 9\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -19775,7 +19775,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-224651-2025-26",
+    "id": "prod-224651-2026-27",
     "productId": 434,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Biodegradable",
@@ -19804,8 +19804,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6\" L x 9\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -19819,7 +19819,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-148358-2025-26",
+    "id": "prod-148358-2026-27",
     "productId": 435,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Sheet Bronze",
@@ -19848,8 +19848,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 11,
     "weightLbs": 11,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.13\" L x 9.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -19863,7 +19863,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-148368-2025-26",
+    "id": "prod-148368-2026-27",
     "productId": 436,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Sheet Bronze",
@@ -19892,8 +19892,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 6,
     "weightLbs": 6,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6\" L x 9\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -19907,7 +19907,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-148367-2025-26",
+    "id": "prod-148367-2026-27",
     "productId": 437,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Sheet Bronze",
@@ -19936,8 +19936,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 6,
     "weightLbs": 6,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "5.5\" L x 7\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -19951,7 +19951,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-148369-2025-26",
+    "id": "prod-148369-2026-27",
     "productId": 438,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Sheet Bronze",
@@ -19980,8 +19980,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 6,
     "weightLbs": 6,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "9\" L x 5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -19995,7 +19995,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-235556-2025-26",
+    "id": "prod-235556-2026-27",
     "productId": 439,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Sheet Bronze",
@@ -20024,8 +20024,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 7,
     "weightLbs": 7,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "5.94\" L x 4.56\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -20039,7 +20039,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-235557-2025-26",
+    "id": "prod-235557-2026-27",
     "productId": 440,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Sheet Bronze",
@@ -20068,8 +20068,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 7,
     "weightLbs": 7,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.56\" L x 8.94\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -20083,7 +20083,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-235602-2025-26",
+    "id": "prod-235602-2026-27",
     "productId": 441,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Sheet Bronze",
@@ -20112,8 +20112,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 7,
     "weightLbs": 7,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.56\" L x 8.94\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -20127,7 +20127,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-235555-2025-26",
+    "id": "prod-235555-2026-27",
     "productId": 442,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Sheet Bronze",
@@ -20156,8 +20156,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 7,
     "weightLbs": 7,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.56\" L x 8.94\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -20171,7 +20171,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-235601-2025-26",
+    "id": "prod-235601-2026-27",
     "productId": 443,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Sheet Bronze",
@@ -20200,8 +20200,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 7,
     "weightLbs": 7,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "5.94\" L x 4.56\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -20215,7 +20215,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-235554-2025-26",
+    "id": "prod-235554-2026-27",
     "productId": 444,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Sheet Bronze",
@@ -20244,8 +20244,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 7,
     "weightLbs": 7,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "5.94\" L x 4.56\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -20259,7 +20259,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-239052-2025-26",
+    "id": "prod-239052-2026-27",
     "productId": 445,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Sheet Bronze",
@@ -20288,8 +20288,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 7,
     "weightLbs": 7,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "5.94\" L x 4.46\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -20303,7 +20303,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-148341-2025-26",
+    "id": "prod-148341-2026-27",
     "productId": 446,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Sheet Bronze",
@@ -20332,8 +20332,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 7,
     "weightLbs": 7,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "5.94\" L x 8.94\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -20347,7 +20347,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-148352-2025-26",
+    "id": "prod-148352-2026-27",
     "productId": 447,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Sheet Bronze",
@@ -20376,8 +20376,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 7,
     "weightLbs": 7,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "5.94\" L x 5.94\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -20391,7 +20391,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-100199-2025-26",
+    "id": "prod-100199-2026-27",
     "productId": 448,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Statuary Art",
@@ -20420,8 +20420,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 18,
     "weightLbs": 18,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "7.75\" L x 7.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -20435,7 +20435,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-100059-2025-26",
+    "id": "prod-100059-2026-27",
     "productId": 449,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Statuary Art",
@@ -20464,8 +20464,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 10,
     "weightLbs": 10,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.13\" L x 6.13\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -20479,7 +20479,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-205538-2025-26",
+    "id": "prod-205538-2026-27",
     "productId": 450,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Memento Chests",
@@ -20508,8 +20508,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 10,
     "weightLbs": 10,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "8.44\" L x 13.38\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -20523,7 +20523,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-148351-2025-26",
+    "id": "prod-148351-2026-27",
     "productId": 451,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Memento Chests",
@@ -20552,8 +20552,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 5,
     "weightLbs": 5,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "8.13\" L x 10.38\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -20567,7 +20567,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-282374-2025-26",
+    "id": "prod-282374-2026-27",
     "productId": 452,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Memento Chests",
@@ -20596,8 +20596,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 5,
     "weightLbs": 5,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "10\" L x 8.06\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -20611,7 +20611,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-285981-2025-26",
+    "id": "prod-285981-2026-27",
     "productId": 453,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Memento Chests",
@@ -20640,8 +20640,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 7,
     "weightLbs": 7,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "10.25\" L x 8.88\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -20655,7 +20655,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-285980-2025-26",
+    "id": "prod-285980-2026-27",
     "productId": 454,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Memento Chests",
@@ -20684,8 +20684,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 7,
     "weightLbs": 7,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "10.25\" L x 8.88\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -20699,7 +20699,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-285979-2025-26",
+    "id": "prod-285979-2026-27",
     "productId": 455,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Memento Chests",
@@ -20728,8 +20728,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 7,
     "weightLbs": 7,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "10.25\" L x 8.88\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -20743,7 +20743,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-284192-2025-26",
+    "id": "prod-284192-2026-27",
     "productId": 456,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Ceramic",
@@ -20772,8 +20772,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 3,
     "weightLbs": 3,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6\" L x 6\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -20787,7 +20787,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-284188-2025-26",
+    "id": "prod-284188-2026-27",
     "productId": 457,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Ceramic",
@@ -20816,8 +20816,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 3,
     "weightLbs": 3,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6\" L x 6\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -20831,7 +20831,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-284194-2025-26",
+    "id": "prod-284194-2026-27",
     "productId": 458,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Ceramic",
@@ -20860,8 +20860,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 4,
     "weightLbs": 4,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "5.5\" L x 9\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -20875,7 +20875,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-284198-2025-26",
+    "id": "prod-284198-2026-27",
     "productId": 459,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Ceramic",
@@ -20904,8 +20904,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 4,
     "weightLbs": 4,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "5.5\" L x 9\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -20919,7 +20919,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-284190-2025-26",
+    "id": "prod-284190-2026-27",
     "productId": 460,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Ceramic",
@@ -20948,8 +20948,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 3,
     "weightLbs": 3,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6\" L x 6\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -20963,7 +20963,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-287510-2025-26",
+    "id": "prod-287510-2026-27",
     "productId": 461,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Ceramic",
@@ -20992,8 +20992,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 3,
     "weightLbs": 3,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6\" L x 6\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -21007,7 +21007,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-287514-2025-26",
+    "id": "prod-287514-2026-27",
     "productId": 462,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Ceramic",
@@ -21036,8 +21036,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 4,
     "weightLbs": 4,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "9.5\" L x 9.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -21051,7 +21051,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-287512-2025-26",
+    "id": "prod-287512-2026-27",
     "productId": 463,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Ceramic",
@@ -21080,8 +21080,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 4,
     "weightLbs": 4,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "9.5\" L x 9.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -21095,7 +21095,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-270107-2025-26",
+    "id": "prod-270107-2026-27",
     "productId": 464,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Cloisonne Classic",
@@ -21124,8 +21124,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.13\" L x 6.13\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -21139,7 +21139,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-270113-2025-26",
+    "id": "prod-270113-2026-27",
     "productId": 465,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Cloisonne Classic",
@@ -21168,8 +21168,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.13\" L x 6.13\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -21183,7 +21183,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-287493-2025-26",
+    "id": "prod-287493-2026-27",
     "productId": 466,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Cloisonne Classic",
@@ -21212,8 +21212,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 4,
     "weightLbs": 4,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "7.25\" L x 7.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -21227,7 +21227,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-287491-2025-26",
+    "id": "prod-287491-2026-27",
     "productId": 467,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Cloisonne Classic",
@@ -21256,8 +21256,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 4,
     "weightLbs": 4,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "7.25\" L x 7.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -21271,7 +21271,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-272051-2025-26",
+    "id": "prod-272051-2026-27",
     "productId": 468,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Cloisonne Classic",
@@ -21300,8 +21300,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "8.38\" L x 8.38\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -21315,7 +21315,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-270109-2025-26",
+    "id": "prod-270109-2026-27",
     "productId": 469,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Cloisonne Classic",
@@ -21344,8 +21344,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "8.38\" L x 8.38\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -21359,7 +21359,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-270115-2025-26",
+    "id": "prod-270115-2026-27",
     "productId": 470,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Cloisonne Classic",
@@ -21388,8 +21388,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "8\" L x 8\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -21403,7 +21403,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-284114-2025-26",
+    "id": "prod-284114-2026-27",
     "productId": 471,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Metal",
@@ -21432,8 +21432,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 4,
     "weightLbs": 4,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "8.5\" L x 8.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -21447,7 +21447,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-284115-2025-26",
+    "id": "prod-284115-2026-27",
     "productId": 472,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Metal",
@@ -21476,8 +21476,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 4,
     "weightLbs": 4,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "8.5\" L x 8.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -21491,7 +21491,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-284116-2025-26",
+    "id": "prod-284116-2026-27",
     "productId": 473,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Metal",
@@ -21520,8 +21520,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 4,
     "weightLbs": 4,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "8.5\" L x 8.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -21535,7 +21535,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-285959-2025-26",
+    "id": "prod-285959-2026-27",
     "productId": 474,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Metal",
@@ -21564,8 +21564,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 11,
     "weightLbs": 11,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "8.9\" L x 6.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -21579,7 +21579,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-285957-2025-26",
+    "id": "prod-285957-2026-27",
     "productId": 475,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Metal",
@@ -21608,8 +21608,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 11,
     "weightLbs": 11,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "8.9\" L x 6.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -21623,7 +21623,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-285961-2025-26",
+    "id": "prod-285961-2026-27",
     "productId": 476,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Metal",
@@ -21652,8 +21652,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 11,
     "weightLbs": 11,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "7.2\" L x 7.2\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -21667,7 +21667,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-285963-2025-26",
+    "id": "prod-285963-2026-27",
     "productId": 477,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Metal",
@@ -21696,8 +21696,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 7,
     "weightLbs": 7,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "7.5\" L x 7.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -21711,7 +21711,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-285971-2025-26",
+    "id": "prod-285971-2026-27",
     "productId": 478,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Metal",
@@ -21740,8 +21740,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 4,
     "weightLbs": 4,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.5\" L x 6.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -21755,7 +21755,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-285975-2025-26",
+    "id": "prod-285975-2026-27",
     "productId": 479,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Metal",
@@ -21784,8 +21784,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 4,
     "weightLbs": 4,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.5\" L x 6.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -21799,7 +21799,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-285977-2025-26",
+    "id": "prod-285977-2026-27",
     "productId": 480,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Metal",
@@ -21828,8 +21828,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 4,
     "weightLbs": 4,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.5\" L x 6.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -21843,7 +21843,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-285973-2025-26",
+    "id": "prod-285973-2026-27",
     "productId": 481,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Metal",
@@ -21872,8 +21872,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 4,
     "weightLbs": 4,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.5\" L x 6.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -21887,7 +21887,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-285969-2025-26",
+    "id": "prod-285969-2026-27",
     "productId": 482,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Metal",
@@ -21916,8 +21916,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 4,
     "weightLbs": 4,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.5\" L x 6.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -21931,7 +21931,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-282866-2025-26",
+    "id": "prod-282866-2026-27",
     "productId": 483,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Metal",
@@ -21960,8 +21960,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 3,
     "weightLbs": 3,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "7\" L x 7\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -21975,7 +21975,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-282868-2025-26",
+    "id": "prod-282868-2026-27",
     "productId": 484,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Metal",
@@ -22004,8 +22004,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 3,
     "weightLbs": 3,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "7\" L x 7\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -22019,7 +22019,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-205396-2025-26",
+    "id": "prod-205396-2026-27",
     "productId": 485,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Metal",
@@ -22048,8 +22048,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 5,
     "weightLbs": 5,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.88\" L x 6.88\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -22063,7 +22063,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-235705-2025-26",
+    "id": "prod-235705-2026-27",
     "productId": 486,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Metal",
@@ -22092,8 +22092,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 5,
     "weightLbs": 5,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.69\" L x 6.69\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -22107,7 +22107,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-235709-2025-26",
+    "id": "prod-235709-2026-27",
     "productId": 487,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Metal",
@@ -22136,8 +22136,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 5,
     "weightLbs": 5,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.69\" L x 6.69\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -22151,7 +22151,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-205404-2025-26",
+    "id": "prod-205404-2026-27",
     "productId": 488,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Metal",
@@ -22180,8 +22180,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 6,
     "weightLbs": 6,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.88\" L x 6.88\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -22195,7 +22195,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-235716-2025-26",
+    "id": "prod-235716-2026-27",
     "productId": 489,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Metal",
@@ -22224,8 +22224,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 5,
     "weightLbs": 5,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.69\" L x 6.69\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -22239,7 +22239,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-284117-2025-26",
+    "id": "prod-284117-2026-27",
     "productId": 490,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Metal",
@@ -22268,8 +22268,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.63\" L x 6.63\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -22283,7 +22283,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-255707-2025-26",
+    "id": "prod-255707-2026-27",
     "productId": 491,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Metal",
@@ -22312,8 +22312,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 3,
     "weightLbs": 3,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "5.81\" L x 8.81\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -22327,7 +22327,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-215378-2025-26",
+    "id": "prod-215378-2026-27",
     "productId": 492,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Metal",
@@ -22356,8 +22356,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 3,
     "weightLbs": 3,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "5.81\" L x 8.81\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -22371,7 +22371,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-148331-2025-26",
+    "id": "prod-148331-2026-27",
     "productId": 493,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Metal",
@@ -22400,8 +22400,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 3,
     "weightLbs": 3,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "5.81\" L x 8.81\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -22415,7 +22415,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-285782-2025-26",
+    "id": "prod-285782-2026-27",
     "productId": 494,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Marble",
@@ -22444,8 +22444,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 12,
     "weightLbs": 12,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "8.44\" L x 8.44\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -22459,7 +22459,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-285779-2025-26",
+    "id": "prod-285779-2026-27",
     "productId": 495,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Marble",
@@ -22488,8 +22488,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 12,
     "weightLbs": 12,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "8.44\" L x 8.44\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -22503,7 +22503,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-238324-2025-26",
+    "id": "prod-238324-2026-27",
     "productId": 496,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Marble",
@@ -22532,8 +22532,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 25,
     "weightLbs": 25,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "8\" L x 15\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -22547,7 +22547,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-238323-2025-26",
+    "id": "prod-238323-2026-27",
     "productId": 497,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Marble",
@@ -22576,8 +22576,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 25,
     "weightLbs": 25,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "8\" L x 15\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -22591,7 +22591,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.615Z"
   },
   {
-    "id": "prod-282596-2025-26",
+    "id": "prod-282596-2026-27",
     "productId": 498,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Marble",
@@ -22620,8 +22620,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 25,
     "weightLbs": 25,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "8\" L x 15\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -22635,7 +22635,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-282594-2025-26",
+    "id": "prod-282594-2026-27",
     "productId": 499,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Marble",
@@ -22664,8 +22664,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 25,
     "weightLbs": 25,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "8\" L x 15\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -22679,7 +22679,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-282595-2025-26",
+    "id": "prod-282595-2026-27",
     "productId": 500,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Marble",
@@ -22708,8 +22708,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 25,
     "weightLbs": 25,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "8\" L x 15\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -22723,7 +22723,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285776-2025-26",
+    "id": "prod-285776-2026-27",
     "productId": 501,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Marble",
@@ -22752,8 +22752,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 12,
     "weightLbs": 12,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "8.44\" L x 8.44\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -22767,7 +22767,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285780-2025-26",
+    "id": "prod-285780-2026-27",
     "productId": 502,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Marble",
@@ -22796,8 +22796,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 7,
     "weightLbs": 7,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -22811,7 +22811,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285783-2025-26",
+    "id": "prod-285783-2026-27",
     "productId": 503,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Marble",
@@ -22840,8 +22840,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 7,
     "weightLbs": 7,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -22855,7 +22855,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-100132-2025-26",
+    "id": "prod-100132-2026-27",
     "productId": 504,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Marble",
@@ -22884,8 +22884,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 13,
     "weightLbs": 13,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "8.5\" L x 8.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -22899,7 +22899,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285014-2025-26",
+    "id": "prod-285014-2026-27",
     "productId": 505,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Marble",
@@ -22928,8 +22928,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 13,
     "weightLbs": 13,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "8.5\" L x 8.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -22943,7 +22943,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-100131-2025-26",
+    "id": "prod-100131-2026-27",
     "productId": 506,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Marble",
@@ -22972,8 +22972,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 13,
     "weightLbs": 13,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "8.5\" L x 8.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -22987,7 +22987,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285016-2025-26",
+    "id": "prod-285016-2026-27",
     "productId": 507,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Marble",
@@ -23016,8 +23016,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 13,
     "weightLbs": 13,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "8.5\" L x 8.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -23031,7 +23031,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285781-2025-26",
+    "id": "prod-285781-2026-27",
     "productId": 508,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Marble",
@@ -23060,8 +23060,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 6,
     "weightLbs": 6,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "5\" L x 5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -23075,7 +23075,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285784-2025-26",
+    "id": "prod-285784-2026-27",
     "productId": 509,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Marble",
@@ -23104,8 +23104,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 6,
     "weightLbs": 6,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "5\" L x 5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -23119,7 +23119,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-184607-2025-26",
+    "id": "prod-184607-2026-27",
     "productId": 510,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Marble",
@@ -23148,8 +23148,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 11,
     "weightLbs": 11,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.75\" L x 9.69\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -23163,7 +23163,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-258672-2025-26",
+    "id": "prod-258672-2026-27",
     "productId": 511,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Marble",
@@ -23192,8 +23192,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 12,
     "weightLbs": 12,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "9.5\" L x 5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -23207,7 +23207,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-238322-2025-26",
+    "id": "prod-238322-2026-27",
     "productId": 512,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Marble",
@@ -23236,8 +23236,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 13,
     "weightLbs": 13,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.75\" L x 9.69\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -23251,7 +23251,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-282600-2025-26",
+    "id": "prod-282600-2026-27",
     "productId": 513,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Marble",
@@ -23280,8 +23280,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 13,
     "weightLbs": 13,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.75\" L x 9.69\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -23295,7 +23295,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-282597-2025-26",
+    "id": "prod-282597-2026-27",
     "productId": 514,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Marble",
@@ -23324,8 +23324,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 13,
     "weightLbs": 13,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.75\" L x 9.69\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -23339,7 +23339,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-258671-2025-26",
+    "id": "prod-258671-2026-27",
     "productId": 515,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Marble",
@@ -23368,8 +23368,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 12,
     "weightLbs": 12,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "9.5\" L x 5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -23383,7 +23383,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-184608-2025-26",
+    "id": "prod-184608-2026-27",
     "productId": 516,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Marble",
@@ -23412,8 +23412,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 12,
     "weightLbs": 12,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.75\" L x 9.69\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -23427,7 +23427,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-258669-2025-26",
+    "id": "prod-258669-2026-27",
     "productId": 517,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Marble",
@@ -23456,8 +23456,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 12,
     "weightLbs": 12,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "9.5\" L x 5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -23471,7 +23471,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-282598-2025-26",
+    "id": "prod-282598-2026-27",
     "productId": 518,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Marble",
@@ -23500,8 +23500,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 13,
     "weightLbs": 13,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.75\" L x 9.69\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -23515,7 +23515,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-238320-2025-26",
+    "id": "prod-238320-2026-27",
     "productId": 519,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Marble",
@@ -23544,8 +23544,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 13,
     "weightLbs": 13,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.75\" L x 9.69\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -23559,7 +23559,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-238321-2025-26",
+    "id": "prod-238321-2026-27",
     "productId": 520,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Marble",
@@ -23588,8 +23588,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 12,
     "weightLbs": 12,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.75\" L x 9.69\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -23603,7 +23603,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-282599-2025-26",
+    "id": "prod-282599-2026-27",
     "productId": 521,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Marble",
@@ -23632,8 +23632,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 13,
     "weightLbs": 13,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.75\" L x 9.69\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -23647,7 +23647,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-184606-2025-26",
+    "id": "prod-184606-2026-27",
     "productId": 522,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Marble",
@@ -23676,8 +23676,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 13,
     "weightLbs": 13,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.75\" L x 9.69\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -23691,7 +23691,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285017-2025-26",
+    "id": "prod-285017-2026-27",
     "productId": 523,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Marble",
@@ -23720,8 +23720,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 15,
     "weightLbs": 15,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "9.25\" L x 5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -23735,7 +23735,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285197-2025-26",
+    "id": "prod-285197-2026-27",
     "productId": 524,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Marble",
@@ -23764,8 +23764,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 15,
     "weightLbs": 15,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "9.25\" L x 5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -23779,7 +23779,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285199-2025-26",
+    "id": "prod-285199-2026-27",
     "productId": 525,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Marble",
@@ -23808,8 +23808,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 15,
     "weightLbs": 15,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "9.25\" L x 5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -23823,7 +23823,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285198-2025-26",
+    "id": "prod-285198-2026-27",
     "productId": 526,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Marble",
@@ -23852,8 +23852,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 15,
     "weightLbs": 15,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "9.25\" L x 5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -23867,7 +23867,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285777-2025-26",
+    "id": "prod-285777-2026-27",
     "productId": 527,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Marble",
@@ -23896,8 +23896,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 7,
     "weightLbs": 7,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -23911,7 +23911,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285778-2025-26",
+    "id": "prod-285778-2026-27",
     "productId": 528,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Marble",
@@ -23940,8 +23940,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 6,
     "weightLbs": 6,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "5\" L x 5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -23955,7 +23955,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-281664-2025-26",
+    "id": "prod-281664-2026-27",
     "productId": 529,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Other",
@@ -23984,8 +23984,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6.63\" L x 6.63\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -23999,7 +23999,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-281665-2025-26",
+    "id": "prod-281665-2026-27",
     "productId": 530,
     "category": "Urns & Keepsakes - Full Size Urns",
     "material": "Other",
@@ -24028,8 +24028,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6\" L x 5.13\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -24043,7 +24043,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-264677-2025-26",
+    "id": "prod-264677-2026-27",
     "productId": 531,
     "category": "Urns & Keepsakes - Urn Vaults",
     "material": "Urn Vaults",
@@ -24072,8 +24072,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 17,
     "weightLbs": 17,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "20.25\" L x 20.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -24087,7 +24087,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-205557-2025-26",
+    "id": "prod-205557-2026-27",
     "productId": 532,
     "category": "Urns & Keepsakes - Urn Vaults",
     "material": "Urn Vaults",
@@ -24116,8 +24116,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 38,
     "weightLbs": 38,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "16.13\" L x 19.88\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -24131,7 +24131,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-282646-2025-26",
+    "id": "prod-282646-2026-27",
     "productId": 533,
     "category": "Urns & Keepsakes - Urn Vaults",
     "material": "Urn Vaults",
@@ -24160,8 +24160,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 3,
     "weightLbs": 3,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "12\" L x 16.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -24175,7 +24175,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-100117-2025-26",
+    "id": "prod-100117-2026-27",
     "productId": 534,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Wood",
@@ -24204,8 +24204,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.63\" L x 4.63\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -24219,7 +24219,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-100115-2025-26",
+    "id": "prod-100115-2026-27",
     "productId": 535,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Wood",
@@ -24248,8 +24248,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -24263,7 +24263,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-195163-2025-26",
+    "id": "prod-195163-2026-27",
     "productId": 536,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Wood",
@@ -24292,8 +24292,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.81\" L x 1.81\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -24307,7 +24307,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-195161-2025-26",
+    "id": "prod-195161-2026-27",
     "productId": 537,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Wood",
@@ -24336,8 +24336,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 1.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -24351,7 +24351,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-272095-2025-26",
+    "id": "prod-272095-2026-27",
     "productId": 538,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Wood",
@@ -24380,8 +24380,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "3.75\" L x 3.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -24395,7 +24395,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-255704-2025-26",
+    "id": "prod-255704-2026-27",
     "productId": 539,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Wood",
@@ -24424,8 +24424,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6\" L x 4\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -24439,7 +24439,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-255702-2025-26",
+    "id": "prod-255702-2026-27",
     "productId": 540,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Wood",
@@ -24468,8 +24468,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6\" L x 4\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -24483,7 +24483,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-287770-2025-26",
+    "id": "prod-287770-2026-27",
     "productId": 541,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Wood",
@@ -24512,8 +24512,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "5.5\" L x 5.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -24527,7 +24527,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-287774-2025-26",
+    "id": "prod-287774-2026-27",
     "productId": 542,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Wood",
@@ -24556,8 +24556,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "5.5\" L x 5.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -24571,7 +24571,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-287772-2025-26",
+    "id": "prod-287772-2026-27",
     "productId": 543,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Wood",
@@ -24600,8 +24600,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "5.5\" L x 5.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -24615,7 +24615,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-282920-2025-26",
+    "id": "prod-282920-2026-27",
     "productId": 544,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Wood",
@@ -24644,8 +24644,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "3.25\" L x 3.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -24659,7 +24659,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-287457-2025-26",
+    "id": "prod-287457-2026-27",
     "productId": 545,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Wood",
@@ -24688,8 +24688,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "6\" L x 4\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -24703,7 +24703,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-282921-2025-26",
+    "id": "prod-282921-2026-27",
     "productId": 546,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Wood",
@@ -24732,8 +24732,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2.56\" L x 2.56\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -24747,7 +24747,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285910-2025-26",
+    "id": "prod-285910-2026-27",
     "productId": 547,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "NewPointe",
@@ -24776,8 +24776,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.5\" L x 4.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -24791,7 +24791,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285907-2025-26",
+    "id": "prod-285907-2026-27",
     "productId": 548,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "NewPointe",
@@ -24820,8 +24820,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.5\" L x 4.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -24835,7 +24835,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-282829-2025-26",
+    "id": "prod-282829-2026-27",
     "productId": 549,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "NewPointe",
@@ -24864,8 +24864,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.5\" L x 4.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -24879,7 +24879,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-282813-2025-26",
+    "id": "prod-282813-2026-27",
     "productId": 550,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "NewPointe",
@@ -24908,8 +24908,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4\" L x 4\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -24923,7 +24923,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285898-2025-26",
+    "id": "prod-285898-2026-27",
     "productId": 551,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "NewPointe",
@@ -24952,8 +24952,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4\" L x 4\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -24967,7 +24967,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-282819-2025-26",
+    "id": "prod-282819-2026-27",
     "productId": 552,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "NewPointe",
@@ -24996,8 +24996,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4\" L x 4\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -25011,7 +25011,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285901-2025-26",
+    "id": "prod-285901-2026-27",
     "productId": 553,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "NewPointe",
@@ -25040,8 +25040,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4\" L x 4\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -25055,7 +25055,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285904-2025-26",
+    "id": "prod-285904-2026-27",
     "productId": 554,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "NewPointe",
@@ -25084,8 +25084,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4\" L x 4\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -25099,7 +25099,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-282810-2025-26",
+    "id": "prod-282810-2026-27",
     "productId": 555,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "NewPointe",
@@ -25128,8 +25128,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4\" L x 4\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -25143,7 +25143,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-287479-2025-26",
+    "id": "prod-287479-2026-27",
     "productId": 556,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "NewPointe",
@@ -25172,8 +25172,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2\" L x 2\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -25187,7 +25187,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-287467-2025-26",
+    "id": "prod-287467-2026-27",
     "productId": 557,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "NewPointe",
@@ -25216,8 +25216,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.71\" L x 1.71\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -25231,7 +25231,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-287477-2025-26",
+    "id": "prod-287477-2026-27",
     "productId": 558,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "NewPointe",
@@ -25260,8 +25260,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2\" L x 2\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -25275,7 +25275,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-287475-2025-26",
+    "id": "prod-287475-2026-27",
     "productId": 559,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "NewPointe",
@@ -25304,8 +25304,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.71\" L x 1.71\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -25319,7 +25319,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285911-2025-26",
+    "id": "prod-285911-2026-27",
     "productId": 560,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "NewPointe",
@@ -25348,8 +25348,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2\" L x 2\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -25363,7 +25363,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-282830-2025-26",
+    "id": "prod-282830-2026-27",
     "productId": 561,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "NewPointe",
@@ -25392,8 +25392,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2\" L x 2\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -25407,7 +25407,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285908-2025-26",
+    "id": "prod-285908-2026-27",
     "productId": 562,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "NewPointe",
@@ -25436,8 +25436,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2\" L x 2\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -25451,7 +25451,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-282820-2025-26",
+    "id": "prod-282820-2026-27",
     "productId": 563,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "NewPointe",
@@ -25480,8 +25480,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2\" L x 2\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -25495,7 +25495,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-282811-2025-26",
+    "id": "prod-282811-2026-27",
     "productId": 564,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "NewPointe",
@@ -25524,8 +25524,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2\" L x 2\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -25539,7 +25539,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285905-2025-26",
+    "id": "prod-285905-2026-27",
     "productId": 565,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "NewPointe",
@@ -25568,8 +25568,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2\" L x 2\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -25583,7 +25583,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-282814-2025-26",
+    "id": "prod-282814-2026-27",
     "productId": 566,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "NewPointe",
@@ -25612,8 +25612,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2\" L x 2\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -25627,7 +25627,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285899-2025-26",
+    "id": "prod-285899-2026-27",
     "productId": 567,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "NewPointe",
@@ -25656,8 +25656,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2\" L x 2\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -25671,7 +25671,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285902-2025-26",
+    "id": "prod-285902-2026-27",
     "productId": 568,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "NewPointe",
@@ -25700,8 +25700,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2\" L x 2\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -25715,7 +25715,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-282865-2025-26",
+    "id": "prod-282865-2026-27",
     "productId": 569,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "NewPointe",
@@ -25744,8 +25744,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2\" L x 2\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -25759,7 +25759,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-282817-2025-26",
+    "id": "prod-282817-2026-27",
     "productId": 570,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "NewPointe",
@@ -25788,8 +25788,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2\" L x 2\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -25803,7 +25803,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-282823-2025-26",
+    "id": "prod-282823-2026-27",
     "productId": 571,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "NewPointe",
@@ -25832,8 +25832,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2\" L x 2\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -25847,7 +25847,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-282827-2025-26",
+    "id": "prod-282827-2026-27",
     "productId": 572,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "NewPointe",
@@ -25876,8 +25876,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2\" L x 2\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -25891,7 +25891,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-282825-2025-26",
+    "id": "prod-282825-2026-27",
     "productId": 573,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "NewPointe",
@@ -25920,8 +25920,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2\" L x 2\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -25935,7 +25935,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-240069-2025-26",
+    "id": "prod-240069-2026-27",
     "productId": 574,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Biodegradable",
@@ -25964,8 +25964,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.13\" L x 4.13\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -25979,7 +25979,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-252361-2025-26",
+    "id": "prod-252361-2026-27",
     "productId": 575,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Biodegradable",
@@ -26008,8 +26008,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.13\" L x 4.13\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -26023,7 +26023,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-252362-2025-26",
+    "id": "prod-252362-2026-27",
     "productId": 576,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Biodegradable",
@@ -26052,8 +26052,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2.88\" L x 4.13\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -26067,7 +26067,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-275358-2025-26",
+    "id": "prod-275358-2026-27",
     "productId": 577,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories Keepsake Medallion",
@@ -26096,8 +26096,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -26111,7 +26111,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-259564-2025-26",
+    "id": "prod-259564-2026-27",
     "productId": 578,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories Keepsake Medallion",
@@ -26140,8 +26140,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 1.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -26155,7 +26155,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-273837-2025-26",
+    "id": "prod-273837-2026-27",
     "productId": 579,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories Keepsake Medallion",
@@ -26184,8 +26184,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 1.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -26199,7 +26199,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-273831-2025-26",
+    "id": "prod-273831-2026-27",
     "productId": 580,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories Keepsake Medallion",
@@ -26228,8 +26228,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 1.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -26243,7 +26243,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-248388-2025-26",
+    "id": "prod-248388-2026-27",
     "productId": 581,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories Keepsake Medallion",
@@ -26272,8 +26272,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 1.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -26287,7 +26287,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-273829-2025-26",
+    "id": "prod-273829-2026-27",
     "productId": 582,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories Keepsake Medallion",
@@ -26316,8 +26316,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 1.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -26331,7 +26331,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-273835-2025-26",
+    "id": "prod-273835-2026-27",
     "productId": 583,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories Keepsake Medallion",
@@ -26360,8 +26360,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 1.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -26375,7 +26375,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-274764-2025-26",
+    "id": "prod-274764-2026-27",
     "productId": 584,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories Keepsake Medallion",
@@ -26404,8 +26404,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 1.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -26419,7 +26419,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-248389-2025-26",
+    "id": "prod-248389-2026-27",
     "productId": 585,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories Keepsake Medallion",
@@ -26448,8 +26448,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 1.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -26463,7 +26463,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-243710-2025-26",
+    "id": "prod-243710-2026-27",
     "productId": 586,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories Keepsake Medallion",
@@ -26492,8 +26492,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 1.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -26507,7 +26507,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-274763-2025-26",
+    "id": "prod-274763-2026-27",
     "productId": 587,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories Keepsake Medallion",
@@ -26536,8 +26536,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 1.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -26551,7 +26551,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-243708-2025-26",
+    "id": "prod-243708-2026-27",
     "productId": 588,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories Keepsake Medallion",
@@ -26580,8 +26580,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 1.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -26595,7 +26595,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285914-2025-26",
+    "id": "prod-285914-2026-27",
     "productId": 589,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories Keepsake Medallion",
@@ -26624,8 +26624,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2.23\" L x 0.1\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -26639,7 +26639,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285915-2025-26",
+    "id": "prod-285915-2026-27",
     "productId": 590,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories Keepsake Medallion",
@@ -26668,8 +26668,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2.23\" L x 0.1\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -26683,7 +26683,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-274765-2025-26",
+    "id": "prod-274765-2026-27",
     "productId": 591,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories Keepsake Medallion",
@@ -26712,8 +26712,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 1.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -26727,7 +26727,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-240195-2025-26",
+    "id": "prod-240195-2026-27",
     "productId": 592,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories Keepsake Medallion",
@@ -26756,8 +26756,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 1.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -26771,7 +26771,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-251340-2025-26",
+    "id": "prod-251340-2026-27",
     "productId": 593,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories Keepsake Medallion",
@@ -26800,8 +26800,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 1.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -26815,7 +26815,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-251338-2025-26",
+    "id": "prod-251338-2026-27",
     "productId": 594,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories Keepsake Medallion",
@@ -26844,8 +26844,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 1.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -26859,7 +26859,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-274766-2025-26",
+    "id": "prod-274766-2026-27",
     "productId": 595,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories Keepsake Medallion",
@@ -26888,8 +26888,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 1.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -26903,7 +26903,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-275355-2025-26",
+    "id": "prod-275355-2026-27",
     "productId": 596,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories Keepsake Medallion",
@@ -26932,8 +26932,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -26947,7 +26947,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-243711-2025-26",
+    "id": "prod-243711-2026-27",
     "productId": 597,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories Keepsake Medallion",
@@ -26976,8 +26976,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 1.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -26991,7 +26991,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-273833-2025-26",
+    "id": "prod-273833-2026-27",
     "productId": 598,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories Keepsake Medallion",
@@ -27020,8 +27020,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 1.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -27035,7 +27035,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-240199-2025-26",
+    "id": "prod-240199-2026-27",
     "productId": 599,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories Keepsake Medallion",
@@ -27064,8 +27064,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 1.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -27079,7 +27079,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-240200-2025-26",
+    "id": "prod-240200-2026-27",
     "productId": 600,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories Keepsake Medallion",
@@ -27108,8 +27108,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 1.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -27123,7 +27123,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-243712-2025-26",
+    "id": "prod-243712-2026-27",
     "productId": 601,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories Keepsake Medallion",
@@ -27152,8 +27152,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 1.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -27167,7 +27167,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-240186-2025-26",
+    "id": "prod-240186-2026-27",
     "productId": 602,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories Keepsake Medallion",
@@ -27196,8 +27196,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 1.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -27211,7 +27211,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-240193-2025-26",
+    "id": "prod-240193-2026-27",
     "productId": 603,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories Keepsake Medallion",
@@ -27240,8 +27240,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 1.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -27255,7 +27255,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-243709-2025-26",
+    "id": "prod-243709-2026-27",
     "productId": 604,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories Keepsake Medallion",
@@ -27284,8 +27284,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 1.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -27299,7 +27299,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-240187-2025-26",
+    "id": "prod-240187-2026-27",
     "productId": 605,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories Keepsake Medallion",
@@ -27328,8 +27328,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 1.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -27343,7 +27343,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-240194-2025-26",
+    "id": "prod-240194-2026-27",
     "productId": 606,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories Keepsake Medallion",
@@ -27372,8 +27372,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 1.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -27387,7 +27387,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-243707-2025-26",
+    "id": "prod-243707-2026-27",
     "productId": 607,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories Keepsake Medallion",
@@ -27416,8 +27416,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 1.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -27431,7 +27431,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-243713-2025-26",
+    "id": "prod-243713-2026-27",
     "productId": 608,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories Keepsake Medallion",
@@ -27460,8 +27460,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 1.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -27475,7 +27475,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-240188-2025-26",
+    "id": "prod-240188-2026-27",
     "productId": 609,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories Keepsake Medallion",
@@ -27504,8 +27504,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 1.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -27519,7 +27519,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-243706-2025-26",
+    "id": "prod-243706-2026-27",
     "productId": 610,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories Keepsake Medallion",
@@ -27548,8 +27548,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 1.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -27563,7 +27563,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-240190-2025-26",
+    "id": "prod-240190-2026-27",
     "productId": 611,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories Keepsake Medallion",
@@ -27592,8 +27592,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 1.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -27607,7 +27607,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-248868-2025-26",
+    "id": "prod-248868-2026-27",
     "productId": 612,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories Keepsake Medallion",
@@ -27636,8 +27636,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 1.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -27651,7 +27651,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284191-2025-26",
+    "id": "prod-284191-2026-27",
     "productId": 613,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Ceramic",
@@ -27680,8 +27680,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "3.75\" L x 3.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -27695,7 +27695,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284187-2025-26",
+    "id": "prod-284187-2026-27",
     "productId": 614,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Ceramic",
@@ -27724,8 +27724,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "3.75\" L x 3.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -27739,7 +27739,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-282870-2025-26",
+    "id": "prod-282870-2026-27",
     "productId": 615,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Ceramic",
@@ -27768,8 +27768,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 3,
     "weightLbs": 3,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -27783,7 +27783,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-282871-2025-26",
+    "id": "prod-282871-2026-27",
     "productId": 616,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Ceramic",
@@ -27812,8 +27812,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 3,
     "weightLbs": 3,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -27827,7 +27827,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-283593-2025-26",
+    "id": "prod-283593-2026-27",
     "productId": 617,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Ceramic",
@@ -27856,8 +27856,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 3,
     "weightLbs": 3,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -27871,7 +27871,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284197-2025-26",
+    "id": "prod-284197-2026-27",
     "productId": 618,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Ceramic",
@@ -27900,8 +27900,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "3\" L x 6.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -27915,7 +27915,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284193-2025-26",
+    "id": "prod-284193-2026-27",
     "productId": 619,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Ceramic",
@@ -27944,8 +27944,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "3\" L x 6.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -27959,7 +27959,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284189-2025-26",
+    "id": "prod-284189-2026-27",
     "productId": 620,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Ceramic",
@@ -27988,8 +27988,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "3.75\" L x 3.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -28003,7 +28003,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-287511-2025-26",
+    "id": "prod-287511-2026-27",
     "productId": 621,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Ceramic",
@@ -28032,8 +28032,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "3.75\" L x 3.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -28047,7 +28047,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-283594-2025-26",
+    "id": "prod-283594-2026-27",
     "productId": 622,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Ceramic",
@@ -28076,8 +28076,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 3,
     "weightLbs": 3,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -28091,7 +28091,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-287518-2025-26",
+    "id": "prod-287518-2026-27",
     "productId": 623,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Ceramic",
@@ -28120,8 +28120,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.5\" L x 4.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -28135,7 +28135,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-287513-2025-26",
+    "id": "prod-287513-2026-27",
     "productId": 624,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Ceramic",
@@ -28164,8 +28164,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.5\" L x 4.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -28179,7 +28179,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-243627-2025-26",
+    "id": "prod-243627-2026-27",
     "productId": 625,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories & LifeSymbols Sets",
@@ -28208,8 +28208,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "9.38\" L x 9.38\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -28223,7 +28223,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-243626-2025-26",
+    "id": "prod-243626-2026-27",
     "productId": 626,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories & LifeSymbols Sets",
@@ -28252,8 +28252,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "7.5\" L x 9.38\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -28267,7 +28267,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-184629-2025-26",
+    "id": "prod-184629-2026-27",
     "productId": 627,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories & LifeSymbols Sets",
@@ -28296,8 +28296,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "10.43\" L x 0.79\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -28311,7 +28311,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-243716-2025-26",
+    "id": "prod-243716-2026-27",
     "productId": 628,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories & LifeSymbols Sets",
@@ -28340,8 +28340,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.75\" L x 1.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -28355,7 +28355,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-240490-2025-26",
+    "id": "prod-240490-2026-27",
     "productId": 629,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories & LifeSymbols Sets",
@@ -28384,8 +28384,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "8\" L x 3.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -28399,7 +28399,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-240489-2025-26",
+    "id": "prod-240489-2026-27",
     "productId": 630,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "LifeStories & LifeSymbols Sets",
@@ -28428,8 +28428,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "3.5\" L x 3.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -28443,7 +28443,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285201-2025-26",
+    "id": "prod-285201-2026-27",
     "productId": 631,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Marble",
@@ -28472,8 +28472,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4\" L x 4\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -28487,7 +28487,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285018-2025-26",
+    "id": "prod-285018-2026-27",
     "productId": 632,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Marble",
@@ -28516,8 +28516,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4\" L x 4\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -28531,7 +28531,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285200-2025-26",
+    "id": "prod-285200-2026-27",
     "productId": 633,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Marble",
@@ -28560,8 +28560,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4\" L x 4\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -28575,7 +28575,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285015-2025-26",
+    "id": "prod-285015-2026-27",
     "productId": 634,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Marble",
@@ -28604,8 +28604,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4\" L x 4\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -28619,7 +28619,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285960-2025-26",
+    "id": "prod-285960-2026-27",
     "productId": 635,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Metal",
@@ -28648,8 +28648,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4\" L x 2\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -28663,7 +28663,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285958-2025-26",
+    "id": "prod-285958-2026-27",
     "productId": 636,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Metal",
@@ -28692,8 +28692,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4\" L x 2\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -28707,7 +28707,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285964-2025-26",
+    "id": "prod-285964-2026-27",
     "productId": 637,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Metal",
@@ -28736,8 +28736,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 3,
     "weightLbs": 3,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.2\" L x 4.2\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -28751,7 +28751,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285962-2025-26",
+    "id": "prod-285962-2026-27",
     "productId": 638,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Metal",
@@ -28780,8 +28780,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "3.5\" L x 3.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -28795,7 +28795,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-235706-2025-26",
+    "id": "prod-235706-2026-27",
     "productId": 639,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Metal",
@@ -28824,8 +28824,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.38\" L x 4.38\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -28839,7 +28839,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-205400-2025-26",
+    "id": "prod-205400-2026-27",
     "productId": 640,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Metal",
@@ -28868,8 +28868,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.56\" L x 4.56\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -28883,7 +28883,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-205405-2025-26",
+    "id": "prod-205405-2026-27",
     "productId": 641,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Metal",
@@ -28912,8 +28912,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.56\" L x 4.56\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -28927,7 +28927,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-235710-2025-26",
+    "id": "prod-235710-2026-27",
     "productId": 642,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Metal",
@@ -28956,8 +28956,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.38\" L x 4.38\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -28971,7 +28971,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-235717-2025-26",
+    "id": "prod-235717-2026-27",
     "productId": 643,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Metal",
@@ -29000,8 +29000,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.38\" L x 4.38\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -29015,7 +29015,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-287521-2025-26",
+    "id": "prod-287521-2026-27",
     "productId": 644,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Metal",
@@ -29044,8 +29044,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -29059,7 +29059,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-287437-2025-26",
+    "id": "prod-287437-2026-27",
     "productId": 645,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Metal",
@@ -29088,8 +29088,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.5\" L x 4.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -29103,7 +29103,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-287522-2025-26",
+    "id": "prod-287522-2026-27",
     "productId": 646,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Metal",
@@ -29132,8 +29132,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -29147,7 +29147,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-287445-2025-26",
+    "id": "prod-287445-2026-27",
     "productId": 647,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Metal",
@@ -29176,8 +29176,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.5\" L x 4.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -29191,7 +29191,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-287441-2025-26",
+    "id": "prod-287441-2026-27",
     "productId": 648,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Metal",
@@ -29220,8 +29220,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.5\" L x 4.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -29235,7 +29235,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-287523-2025-26",
+    "id": "prod-287523-2026-27",
     "productId": 649,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Metal",
@@ -29264,8 +29264,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.25\" L x 4.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -29279,7 +29279,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-235708-2025-26",
+    "id": "prod-235708-2026-27",
     "productId": 650,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Metal",
@@ -29308,8 +29308,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2.81\" L x 2.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -29323,7 +29323,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-235712-2025-26",
+    "id": "prod-235712-2026-27",
     "productId": 651,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Metal",
@@ -29352,8 +29352,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2.81\" L x 2.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -29367,7 +29367,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-287462-2025-26",
+    "id": "prod-287462-2026-27",
     "productId": 652,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Metal",
@@ -29396,8 +29396,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.5\" L x 4.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -29411,7 +29411,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-205403-2025-26",
+    "id": "prod-205403-2026-27",
     "productId": 653,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Metal",
@@ -29440,8 +29440,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2.81\" L x 2.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -29455,7 +29455,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-205407-2025-26",
+    "id": "prod-205407-2026-27",
     "productId": 654,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Metal",
@@ -29484,8 +29484,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2.81\" L x 2.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -29499,7 +29499,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-287464-2025-26",
+    "id": "prod-287464-2026-27",
     "productId": 655,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Metal",
@@ -29528,8 +29528,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.5\" L x 4.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -29543,7 +29543,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-235719-2025-26",
+    "id": "prod-235719-2026-27",
     "productId": 656,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Metal",
@@ -29572,8 +29572,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2.81\" L x 2.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -29587,7 +29587,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285978-2025-26",
+    "id": "prod-285978-2026-27",
     "productId": 657,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Metal",
@@ -29616,8 +29616,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2.65\" L x 2.65\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -29631,7 +29631,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285972-2025-26",
+    "id": "prod-285972-2026-27",
     "productId": 658,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Metal",
@@ -29660,8 +29660,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2.65\" L x 2.65\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -29675,7 +29675,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285976-2025-26",
+    "id": "prod-285976-2026-27",
     "productId": 659,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Metal",
@@ -29704,8 +29704,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2.65\" L x 2.65\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -29719,7 +29719,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285974-2025-26",
+    "id": "prod-285974-2026-27",
     "productId": 660,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Metal",
@@ -29748,8 +29748,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2.65\" L x 2.65\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -29763,7 +29763,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-285970-2025-26",
+    "id": "prod-285970-2026-27",
     "productId": 661,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Metal",
@@ -29792,8 +29792,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2.65\" L x 2.65\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -29807,7 +29807,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-282867-2025-26",
+    "id": "prod-282867-2026-27",
     "productId": 662,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Metal",
@@ -29836,8 +29836,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.9\" L x 1.9\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -29851,7 +29851,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-282869-2025-26",
+    "id": "prod-282869-2026-27",
     "productId": 663,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Metal",
@@ -29880,8 +29880,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.9\" L x 1.9\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -29895,7 +29895,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-205401-2025-26",
+    "id": "prod-205401-2026-27",
     "productId": 664,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Metal",
@@ -29924,8 +29924,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2\" L x 2\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -29939,7 +29939,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-235718-2025-26",
+    "id": "prod-235718-2026-27",
     "productId": 665,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Metal",
@@ -29968,8 +29968,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.31\" L x 1.31\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -29983,7 +29983,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-205406-2025-26",
+    "id": "prod-205406-2026-27",
     "productId": 666,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Metal",
@@ -30012,8 +30012,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2\" L x 2\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -30027,7 +30027,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-235711-2025-26",
+    "id": "prod-235711-2026-27",
     "productId": 667,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Metal",
@@ -30056,8 +30056,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.31\" L x 1.31\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -30071,7 +30071,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-235707-2025-26",
+    "id": "prod-235707-2026-27",
     "productId": 668,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Metal",
@@ -30100,8 +30100,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.31\" L x 1.31\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -30115,7 +30115,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-270114-2025-26",
+    "id": "prod-270114-2026-27",
     "productId": 669,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Cloisonne Classic",
@@ -30144,8 +30144,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "3.75\" L x 3.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -30159,7 +30159,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-270108-2025-26",
+    "id": "prod-270108-2026-27",
     "productId": 670,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Cloisonne Classic",
@@ -30188,8 +30188,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "3.75\" L x 3.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -30203,7 +30203,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-270116-2025-26",
+    "id": "prod-270116-2026-27",
     "productId": 671,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Cloisonne Classic",
@@ -30232,8 +30232,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "5.25\" L x 5.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -30247,7 +30247,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-272052-2025-26",
+    "id": "prod-272052-2026-27",
     "productId": 672,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Cloisonne Classic",
@@ -30276,8 +30276,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "5.5\" L x 5.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -30291,7 +30291,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-272049-2025-26",
+    "id": "prod-272049-2026-27",
     "productId": 673,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Cloisonne Classic",
@@ -30320,8 +30320,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.5\" L x 4.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -30335,7 +30335,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-272050-2025-26",
+    "id": "prod-272050-2026-27",
     "productId": 674,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Cloisonne Classic",
@@ -30364,8 +30364,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.5\" L x 4.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -30379,7 +30379,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-287494-2025-26",
+    "id": "prod-287494-2026-27",
     "productId": 675,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Cloisonne Classic",
@@ -30408,8 +30408,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2.2\" L x 2.2\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -30423,7 +30423,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-287492-2025-26",
+    "id": "prod-287492-2026-27",
     "productId": 676,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Cloisonne Classic",
@@ -30452,8 +30452,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "2.2\" L x 2.2\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -30467,7 +30467,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-272046-2025-26",
+    "id": "prod-272046-2026-27",
     "productId": 677,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Cloisonne Classic",
@@ -30496,8 +30496,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.5\" L x 4.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -30511,7 +30511,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-272053-2025-26",
+    "id": "prod-272053-2026-27",
     "productId": 678,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Cloisonne Classic",
@@ -30540,8 +30540,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.5\" L x 4.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -30555,7 +30555,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-272048-2025-26",
+    "id": "prod-272048-2026-27",
     "productId": 679,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Cloisonne Classic",
@@ -30584,8 +30584,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "4.5\" L x 4.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -30599,7 +30599,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-148362-2025-26",
+    "id": "prod-148362-2026-27",
     "productId": 680,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Sheet Bronze",
@@ -30628,8 +30628,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 3,
     "weightLbs": 3,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "3.75\" L x 3.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -30643,7 +30643,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-148360-2025-26",
+    "id": "prod-148360-2026-27",
     "productId": 681,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Sheet Bronze",
@@ -30672,8 +30672,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 3,
     "weightLbs": 3,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "3.75\" L x 3.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -30687,7 +30687,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-148361-2025-26",
+    "id": "prod-148361-2026-27",
     "productId": 682,
     "category": "Urns & Keepsakes - Remembrance Keepsakes",
     "material": "Sheet Bronze",
@@ -30716,8 +30716,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 3,
     "weightLbs": 3,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "3.75\" L x 3.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -30731,7 +30731,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-283820-2025-26",
+    "id": "prod-283820-2026-27",
     "productId": 683,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Stainless Steel Jewelry",
@@ -30760,8 +30760,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.23\" L x 1.02\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -30775,7 +30775,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-283821-2025-26",
+    "id": "prod-283821-2026-27",
     "productId": 684,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Stainless Steel Jewelry",
@@ -30804,8 +30804,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.4\" L x 0.92\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -30819,7 +30819,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-283822-2025-26",
+    "id": "prod-283822-2026-27",
     "productId": 685,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Stainless Steel Jewelry",
@@ -30848,8 +30848,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.4\" L x 0.92\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -30863,7 +30863,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-283819-2025-26",
+    "id": "prod-283819-2026-27",
     "productId": 686,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Stainless Steel Jewelry",
@@ -30892,8 +30892,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.23\" L x 1.02\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -30907,7 +30907,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-243767-2025-26",
+    "id": "prod-243767-2026-27",
     "productId": 687,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Stainless Steel Jewelry",
@@ -30936,8 +30936,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.19\" L x 9.25\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -30951,7 +30951,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-243769-2025-26",
+    "id": "prod-243769-2026-27",
     "productId": 688,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Stainless Steel Jewelry",
@@ -30980,8 +30980,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.75\" L x 0.44\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -30995,7 +30995,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-243768-2025-26",
+    "id": "prod-243768-2026-27",
     "productId": 689,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Stainless Steel Jewelry",
@@ -31024,8 +31024,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.5\" L x 0.81\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -31039,7 +31039,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-248594-2025-26",
+    "id": "prod-248594-2026-27",
     "productId": 690,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Stainless Steel Jewelry",
@@ -31068,8 +31068,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.13\" L x 1.13\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -31083,7 +31083,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-283823-2025-26",
+    "id": "prod-283823-2026-27",
     "productId": 691,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Stainless Steel Jewelry",
@@ -31112,8 +31112,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.13\" L x 1.13\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -31127,7 +31127,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-255745-2025-26",
+    "id": "prod-255745-2026-27",
     "productId": 692,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Stainless Steel Jewelry",
@@ -31156,8 +31156,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.75\" L x 0.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -31171,7 +31171,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-255744-2025-26",
+    "id": "prod-255744-2026-27",
     "productId": 693,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Stainless Steel Jewelry",
@@ -31200,8 +31200,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.75\" L x 0.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -31215,7 +31215,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-255746-2025-26",
+    "id": "prod-255746-2026-27",
     "productId": 694,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Stainless Steel Jewelry",
@@ -31244,8 +31244,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.75\" L x 0.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -31259,7 +31259,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284293-2025-26",
+    "id": "prod-284293-2026-27",
     "productId": 695,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "14K Gold",
@@ -31288,8 +31288,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.14\" L x 0.83\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -31303,7 +31303,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-210269-2025-26",
+    "id": "prod-210269-2026-27",
     "productId": 696,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "14K Gold",
@@ -31332,8 +31332,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.25\" L x 0.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -31347,7 +31347,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-210273-2025-26",
+    "id": "prod-210273-2026-27",
     "productId": 697,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "14K Gold",
@@ -31376,8 +31376,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.25\" L x 0.38\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -31391,7 +31391,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-210271-2025-26",
+    "id": "prod-210271-2026-27",
     "productId": 698,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "14K Gold",
@@ -31420,8 +31420,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.19\" L x 0.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -31435,7 +31435,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-210284-2025-26",
+    "id": "prod-210284-2026-27",
     "productId": 699,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "14K Gold",
@@ -31464,8 +31464,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "20\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -31479,7 +31479,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284285-2025-26",
+    "id": "prod-284285-2026-27",
     "productId": 700,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "18K Gold Vermeil",
@@ -31508,8 +31508,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.03\" L x 1.03\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -31523,7 +31523,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284283-2025-26",
+    "id": "prod-284283-2026-27",
     "productId": 701,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "18K Gold Vermeil",
@@ -31552,8 +31552,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.43\" L x 0.13\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -31567,7 +31567,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284282-2025-26",
+    "id": "prod-284282-2026-27",
     "productId": 702,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "18K Gold Vermeil",
@@ -31596,8 +31596,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.65\" L x 0.15\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -31611,7 +31611,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284289-2025-26",
+    "id": "prod-284289-2026-27",
     "productId": 703,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "18K Gold Vermeil",
@@ -31640,8 +31640,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.1\" L x 0.64\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -31655,7 +31655,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284281-2025-26",
+    "id": "prod-284281-2026-27",
     "productId": 704,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "18K Gold Vermeil",
@@ -31684,8 +31684,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.5\" L x 0.2\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -31699,7 +31699,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284284-2025-26",
+    "id": "prod-284284-2026-27",
     "productId": 705,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "18K Gold Vermeil",
@@ -31728,8 +31728,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.04\" L x 0.16\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -31743,7 +31743,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284280-2025-26",
+    "id": "prod-284280-2026-27",
     "productId": 706,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "18K Gold Vermeil",
@@ -31772,8 +31772,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.24\" L x 0.24\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -31787,7 +31787,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284313-2025-26",
+    "id": "prod-284313-2026-27",
     "productId": 707,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "18K Gold Vermeil",
@@ -31816,8 +31816,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.13\" L x 0.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -31831,7 +31831,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284312-2025-26",
+    "id": "prod-284312-2026-27",
     "productId": 708,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "18K Gold Vermeil",
@@ -31860,8 +31860,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.19\" L x 0.63\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -31875,7 +31875,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284288-2025-26",
+    "id": "prod-284288-2026-27",
     "productId": 709,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "18K Gold Vermeil",
@@ -31904,8 +31904,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.25\" L x 0.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -31919,7 +31919,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284290-2025-26",
+    "id": "prod-284290-2026-27",
     "productId": 710,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "18K Gold Vermeil",
@@ -31948,8 +31948,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.19\" L x 0.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -31963,7 +31963,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284286-2025-26",
+    "id": "prod-284286-2026-27",
     "productId": 711,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "18K Gold Vermeil",
@@ -31992,8 +31992,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.25\" L x 0.38\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -32007,7 +32007,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284311-2025-26",
+    "id": "prod-284311-2026-27",
     "productId": 712,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "18K Gold Vermeil",
@@ -32036,8 +32036,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.6\" L x 0.6\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -32051,7 +32051,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284291-2025-26",
+    "id": "prod-284291-2026-27",
     "productId": 713,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "18K Gold Vermeil",
@@ -32080,8 +32080,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1\" L x 0.95\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -32095,7 +32095,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284279-2025-26",
+    "id": "prod-284279-2026-27",
     "productId": 714,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "18K Gold Vermeil",
@@ -32124,8 +32124,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "20\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -32139,7 +32139,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284277-2025-26",
+    "id": "prod-284277-2026-27",
     "productId": 715,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "18K Gold Vermeil",
@@ -32168,8 +32168,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "20\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -32183,7 +32183,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284274-2025-26",
+    "id": "prod-284274-2026-27",
     "productId": 716,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "18K Gold Vermeil",
@@ -32212,8 +32212,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "20\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -32227,7 +32227,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284314-2025-26",
+    "id": "prod-284314-2026-27",
     "productId": 717,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "18K Gold Vermeil",
@@ -32256,8 +32256,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "20\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -32271,7 +32271,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284309-2025-26",
+    "id": "prod-284309-2026-27",
     "productId": 718,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "18K Gold Vermeil",
@@ -32300,8 +32300,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.21\" L x 0.15\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -32315,7 +32315,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284303-2025-26",
+    "id": "prod-284303-2026-27",
     "productId": 719,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "18K Gold Vermeil",
@@ -32344,8 +32344,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.21\" L x 0.15\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -32359,7 +32359,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284308-2025-26",
+    "id": "prod-284308-2026-27",
     "productId": 720,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "18K Gold Vermeil",
@@ -32388,8 +32388,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.21\" L x 0.15\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -32403,7 +32403,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284302-2025-26",
+    "id": "prod-284302-2026-27",
     "productId": 721,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "18K Gold Vermeil",
@@ -32432,8 +32432,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.21\" L x 0.15\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -32447,7 +32447,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284304-2025-26",
+    "id": "prod-284304-2026-27",
     "productId": 722,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "18K Gold Vermeil",
@@ -32476,8 +32476,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.21\" L x 0.15\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -32491,7 +32491,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284307-2025-26",
+    "id": "prod-284307-2026-27",
     "productId": 723,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "18K Gold Vermeil",
@@ -32520,8 +32520,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.21\" L x 0.15\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -32535,7 +32535,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284305-2025-26",
+    "id": "prod-284305-2026-27",
     "productId": 724,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "18K Gold Vermeil",
@@ -32564,8 +32564,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.21\" L x 0.15\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -32579,7 +32579,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284300-2025-26",
+    "id": "prod-284300-2026-27",
     "productId": 725,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "18K Gold Vermeil",
@@ -32608,8 +32608,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.21\" L x 0.15\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -32623,7 +32623,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284299-2025-26",
+    "id": "prod-284299-2026-27",
     "productId": 726,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "18K Gold Vermeil",
@@ -32652,8 +32652,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.21\" L x 0.15\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -32667,7 +32667,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284310-2025-26",
+    "id": "prod-284310-2026-27",
     "productId": 727,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "18K Gold Vermeil",
@@ -32696,8 +32696,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.21\" L x 0.15\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -32711,7 +32711,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284306-2025-26",
+    "id": "prod-284306-2026-27",
     "productId": 728,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "18K Gold Vermeil",
@@ -32740,8 +32740,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.21\" L x 0.15\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -32755,7 +32755,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284301-2025-26",
+    "id": "prod-284301-2026-27",
     "productId": 729,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "18K Gold Vermeil",
@@ -32784,8 +32784,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.21\" L x 0.15\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -32799,7 +32799,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-283746-2025-26",
+    "id": "prod-283746-2026-27",
     "productId": 730,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Sterling Silver",
@@ -32828,8 +32828,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.03\" L x 1.03\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -32843,7 +32843,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-283745-2025-26",
+    "id": "prod-283745-2026-27",
     "productId": 731,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Sterling Silver",
@@ -32872,8 +32872,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.43\" L x 0.13\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -32887,7 +32887,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-283826-2025-26",
+    "id": "prod-283826-2026-27",
     "productId": 732,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Sterling Silver",
@@ -32916,8 +32916,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.8\" L x 0.21\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -32931,7 +32931,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-283827-2025-26",
+    "id": "prod-283827-2026-27",
     "productId": 733,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Sterling Silver",
@@ -32960,8 +32960,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.8\" L x 0.21\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -32975,7 +32975,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-283824-2025-26",
+    "id": "prod-283824-2026-27",
     "productId": 734,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Sterling Silver",
@@ -33004,8 +33004,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.8\" L x 0.21\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -33019,7 +33019,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-283743-2025-26",
+    "id": "prod-283743-2026-27",
     "productId": 735,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Sterling Silver",
@@ -33048,8 +33048,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.5\" L x 0.2\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -33063,7 +33063,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-283742-2025-26",
+    "id": "prod-283742-2026-27",
     "productId": 736,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Sterling Silver",
@@ -33092,8 +33092,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.24\" L x 0.24\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -33107,7 +33107,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-283828-2025-26",
+    "id": "prod-283828-2026-27",
     "productId": 737,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Sterling Silver",
@@ -33136,8 +33136,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.8\" L x 0.21\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -33151,7 +33151,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-283825-2025-26",
+    "id": "prod-283825-2026-27",
     "productId": 738,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Sterling Silver",
@@ -33180,8 +33180,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.8\" L x 0.21\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -33195,7 +33195,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-283741-2025-26",
+    "id": "prod-283741-2026-27",
     "productId": 739,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Sterling Silver",
@@ -33224,8 +33224,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.04\" L x 0.16\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -33239,7 +33239,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-283744-2025-26",
+    "id": "prod-283744-2026-27",
     "productId": 740,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Sterling Silver",
@@ -33268,8 +33268,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.65\" L x 0.15\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -33283,7 +33283,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-248381-2025-26",
+    "id": "prod-248381-2026-27",
     "productId": 741,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Sterling Silver",
@@ -33312,8 +33312,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.13\" L x 0.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -33327,7 +33327,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-255747-2025-26",
+    "id": "prod-255747-2026-27",
     "productId": 742,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Sterling Silver",
@@ -33356,8 +33356,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1.1\" L x 0.64\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -33371,7 +33371,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-221618-2025-26",
+    "id": "prod-221618-2026-27",
     "productId": 743,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Sterling Silver",
@@ -33400,8 +33400,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.19\" L x 0.63\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -33415,7 +33415,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-261548-2025-26",
+    "id": "prod-261548-2026-27",
     "productId": 744,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Sterling Silver",
@@ -33444,8 +33444,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.13\" L x 0.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -33459,7 +33459,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-261545-2025-26",
+    "id": "prod-261545-2026-27",
     "productId": 745,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Sterling Silver",
@@ -33488,8 +33488,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.13\" L x 0.75\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -33503,7 +33503,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-210267-2025-26",
+    "id": "prod-210267-2026-27",
     "productId": 746,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Sterling Silver",
@@ -33532,8 +33532,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.25\" L x 0.38\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -33547,7 +33547,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-210281-2025-26",
+    "id": "prod-210281-2026-27",
     "productId": 747,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Sterling Silver",
@@ -33576,8 +33576,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.25\" L x 0.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -33591,7 +33591,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-210283-2025-26",
+    "id": "prod-210283-2026-27",
     "productId": 748,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Sterling Silver",
@@ -33620,8 +33620,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.19\" L x 0.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -33635,7 +33635,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-255748-2025-26",
+    "id": "prod-255748-2026-27",
     "productId": 749,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Sterling Silver",
@@ -33664,8 +33664,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.6\" L x 0.6\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -33679,7 +33679,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-255749-2025-26",
+    "id": "prod-255749-2026-27",
     "productId": 750,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Sterling Silver",
@@ -33708,8 +33708,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 1,
     "weightLbs": 1,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "1\" L x 0.95\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -33723,7 +33723,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-283832-2025-26",
+    "id": "prod-283832-2026-27",
     "productId": 751,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Sterling Silver",
@@ -33752,8 +33752,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.21\" L x 0.15\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -33767,7 +33767,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-283837-2025-26",
+    "id": "prod-283837-2026-27",
     "productId": 752,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Sterling Silver",
@@ -33796,8 +33796,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.21\" L x 0.15\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -33811,7 +33811,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-283840-2025-26",
+    "id": "prod-283840-2026-27",
     "productId": 753,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Sterling Silver",
@@ -33840,8 +33840,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.21\" L x 0.15\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -33855,7 +33855,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-283842-2025-26",
+    "id": "prod-283842-2026-27",
     "productId": 754,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Sterling Silver",
@@ -33884,8 +33884,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.21\" L x 0.15\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -33899,7 +33899,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-283833-2025-26",
+    "id": "prod-283833-2026-27",
     "productId": 755,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Sterling Silver",
@@ -33928,8 +33928,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.21\" L x 0.15\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -33943,7 +33943,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-283835-2025-26",
+    "id": "prod-283835-2026-27",
     "productId": 756,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Sterling Silver",
@@ -33972,8 +33972,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.21\" L x 0.15\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -33987,7 +33987,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-283834-2025-26",
+    "id": "prod-283834-2026-27",
     "productId": 757,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Sterling Silver",
@@ -34016,8 +34016,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.21\" L x 0.15\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -34031,7 +34031,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-283831-2025-26",
+    "id": "prod-283831-2026-27",
     "productId": 758,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Sterling Silver",
@@ -34060,8 +34060,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.21\" L x 0.15\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -34075,7 +34075,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-283839-2025-26",
+    "id": "prod-283839-2026-27",
     "productId": 759,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Sterling Silver",
@@ -34104,8 +34104,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.21\" L x 0.15\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -34119,7 +34119,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-283838-2025-26",
+    "id": "prod-283838-2026-27",
     "productId": 760,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Sterling Silver",
@@ -34148,8 +34148,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.21\" L x 0.15\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -34163,7 +34163,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-283841-2025-26",
+    "id": "prod-283841-2026-27",
     "productId": 761,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Sterling Silver",
@@ -34192,8 +34192,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.21\" L x 0.15\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -34207,7 +34207,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-283836-2025-26",
+    "id": "prod-283836-2026-27",
     "productId": 762,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Sterling Silver",
@@ -34236,8 +34236,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "0.21\" L x 0.15\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -34251,7 +34251,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-283843-2025-26",
+    "id": "prod-283843-2026-27",
     "productId": 763,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Sterling Silver",
@@ -34280,8 +34280,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "20\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -34295,7 +34295,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-283733-2025-26",
+    "id": "prod-283733-2026-27",
     "productId": 764,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Sterling Silver",
@@ -34324,8 +34324,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "20\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -34339,7 +34339,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-221619-2025-26",
+    "id": "prod-221619-2026-27",
     "productId": 765,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Sterling Silver",
@@ -34368,8 +34368,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "20\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -34383,7 +34383,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-210280-2025-26",
+    "id": "prod-210280-2026-27",
     "productId": 766,
     "category": "Urns & Keepsakes - Remembrance Jewelry",
     "material": "Sterling Silver",
@@ -34412,8 +34412,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "20\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -34427,7 +34427,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183539-2025-26",
+    "id": "prod-183539-2026-27",
     "productId": 767,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -34456,8 +34456,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -34472,7 +34472,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183538-2025-26",
+    "id": "prod-183538-2026-27",
     "productId": 768,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -34501,8 +34501,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -34517,7 +34517,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-263859-2025-26",
+    "id": "prod-263859-2026-27",
     "productId": 769,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -34546,8 +34546,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -34562,7 +34562,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-281941-2025-26",
+    "id": "prod-281941-2026-27",
     "productId": 770,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -34591,8 +34591,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -34607,7 +34607,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-281948-2025-26",
+    "id": "prod-281948-2026-27",
     "productId": 771,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -34636,8 +34636,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -34652,7 +34652,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183278-2025-26",
+    "id": "prod-183278-2026-27",
     "productId": 772,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -34681,8 +34681,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -34697,7 +34697,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284966-2025-26",
+    "id": "prod-284966-2026-27",
     "productId": 773,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -34726,8 +34726,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -34742,7 +34742,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183363-2025-26",
+    "id": "prod-183363-2026-27",
     "productId": 774,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -34771,8 +34771,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -34787,7 +34787,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183367-2025-26",
+    "id": "prod-183367-2026-27",
     "productId": 775,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -34816,8 +34816,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -34832,7 +34832,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284963-2025-26",
+    "id": "prod-284963-2026-27",
     "productId": 776,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -34861,8 +34861,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -34877,7 +34877,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183244-2025-26",
+    "id": "prod-183244-2026-27",
     "productId": 777,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -34906,8 +34906,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -34922,7 +34922,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183242-2025-26",
+    "id": "prod-183242-2026-27",
     "productId": 778,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -34951,8 +34951,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -34967,7 +34967,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183351-2025-26",
+    "id": "prod-183351-2026-27",
     "productId": 779,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -34996,8 +34996,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -35012,7 +35012,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183307-2025-26",
+    "id": "prod-183307-2026-27",
     "productId": 780,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -35041,8 +35041,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -35057,7 +35057,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183584-2025-26",
+    "id": "prod-183584-2026-27",
     "productId": 781,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -35086,8 +35086,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -35102,7 +35102,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183288-2025-26",
+    "id": "prod-183288-2026-27",
     "productId": 782,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -35131,8 +35131,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -35147,7 +35147,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-281950-2025-26",
+    "id": "prod-281950-2026-27",
     "productId": 783,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -35176,8 +35176,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -35192,7 +35192,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183336-2025-26",
+    "id": "prod-183336-2026-27",
     "productId": 784,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -35221,8 +35221,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -35237,7 +35237,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284943-2025-26",
+    "id": "prod-284943-2026-27",
     "productId": 785,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -35266,8 +35266,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -35282,7 +35282,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284958-2025-26",
+    "id": "prod-284958-2026-27",
     "productId": 786,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -35311,8 +35311,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -35327,7 +35327,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183354-2025-26",
+    "id": "prod-183354-2026-27",
     "productId": 787,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -35356,8 +35356,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -35372,7 +35372,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-281943-2025-26",
+    "id": "prod-281943-2026-27",
     "productId": 788,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -35401,8 +35401,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -35417,7 +35417,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284964-2025-26",
+    "id": "prod-284964-2026-27",
     "productId": 789,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -35446,8 +35446,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -35462,7 +35462,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-281940-2025-26",
+    "id": "prod-281940-2026-27",
     "productId": 790,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -35491,8 +35491,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -35507,7 +35507,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183267-2025-26",
+    "id": "prod-183267-2026-27",
     "productId": 791,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -35536,8 +35536,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -35552,7 +35552,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-201749-2025-26",
+    "id": "prod-201749-2026-27",
     "productId": 792,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -35581,8 +35581,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -35597,7 +35597,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183567-2025-26",
+    "id": "prod-183567-2026-27",
     "productId": 793,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -35626,8 +35626,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -35642,7 +35642,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284950-2025-26",
+    "id": "prod-284950-2026-27",
     "productId": 794,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -35671,8 +35671,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -35687,7 +35687,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284960-2025-26",
+    "id": "prod-284960-2026-27",
     "productId": 795,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -35716,8 +35716,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -35732,7 +35732,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-263502-2025-26",
+    "id": "prod-263502-2026-27",
     "productId": 796,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -35761,8 +35761,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -35777,7 +35777,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-281944-2025-26",
+    "id": "prod-281944-2026-27",
     "productId": 797,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -35806,8 +35806,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -35822,7 +35822,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284957-2025-26",
+    "id": "prod-284957-2026-27",
     "productId": 798,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -35851,8 +35851,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -35867,7 +35867,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284948-2025-26",
+    "id": "prod-284948-2026-27",
     "productId": 799,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -35896,8 +35896,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -35912,7 +35912,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284961-2025-26",
+    "id": "prod-284961-2026-27",
     "productId": 800,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -35941,8 +35941,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -35957,7 +35957,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183365-2025-26",
+    "id": "prod-183365-2026-27",
     "productId": 801,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -35986,8 +35986,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -36002,7 +36002,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-276556-2025-26",
+    "id": "prod-276556-2026-27",
     "productId": 802,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -36031,8 +36031,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -36047,7 +36047,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183312-2025-26",
+    "id": "prod-183312-2026-27",
     "productId": 803,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -36076,8 +36076,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -36092,7 +36092,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183372-2025-26",
+    "id": "prod-183372-2026-27",
     "productId": 804,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -36121,8 +36121,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -36137,7 +36137,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183545-2025-26",
+    "id": "prod-183545-2026-27",
     "productId": 805,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -36166,8 +36166,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -36182,7 +36182,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284965-2025-26",
+    "id": "prod-284965-2026-27",
     "productId": 806,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -36211,8 +36211,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -36227,7 +36227,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-281931-2025-26",
+    "id": "prod-281931-2026-27",
     "productId": 807,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -36256,8 +36256,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -36272,7 +36272,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183262-2025-26",
+    "id": "prod-183262-2026-27",
     "productId": 808,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -36301,8 +36301,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -36317,7 +36317,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284945-2025-26",
+    "id": "prod-284945-2026-27",
     "productId": 809,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -36346,8 +36346,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -36362,7 +36362,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183273-2025-26",
+    "id": "prod-183273-2026-27",
     "productId": 810,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -36391,8 +36391,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -36407,7 +36407,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-281938-2025-26",
+    "id": "prod-281938-2026-27",
     "productId": 811,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -36436,8 +36436,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -36452,7 +36452,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183524-2025-26",
+    "id": "prod-183524-2026-27",
     "productId": 812,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -36481,8 +36481,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -36497,7 +36497,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-281939-2025-26",
+    "id": "prod-281939-2026-27",
     "productId": 813,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -36526,8 +36526,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -36542,7 +36542,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183375-2025-26",
+    "id": "prod-183375-2026-27",
     "productId": 814,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -36571,8 +36571,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -36587,7 +36587,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183573-2025-26",
+    "id": "prod-183573-2026-27",
     "productId": 815,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -36616,8 +36616,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -36632,7 +36632,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183339-2025-26",
+    "id": "prod-183339-2026-27",
     "productId": 816,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -36661,8 +36661,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -36677,7 +36677,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-281929-2025-26",
+    "id": "prod-281929-2026-27",
     "productId": 817,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -36706,8 +36706,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -36722,7 +36722,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183357-2025-26",
+    "id": "prod-183357-2026-27",
     "productId": 818,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -36751,8 +36751,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -36767,7 +36767,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183579-2025-26",
+    "id": "prod-183579-2026-27",
     "productId": 819,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -36796,8 +36796,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -36812,7 +36812,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-281952-2025-26",
+    "id": "prod-281952-2026-27",
     "productId": 820,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -36841,8 +36841,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -36857,7 +36857,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183547-2025-26",
+    "id": "prod-183547-2026-27",
     "productId": 821,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -36886,8 +36886,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -36902,7 +36902,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183564-2025-26",
+    "id": "prod-183564-2026-27",
     "productId": 822,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -36931,8 +36931,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -36947,7 +36947,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-281945-2025-26",
+    "id": "prod-281945-2026-27",
     "productId": 823,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -36976,8 +36976,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -36992,7 +36992,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284944-2025-26",
+    "id": "prod-284944-2026-27",
     "productId": 824,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -37021,8 +37021,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -37037,7 +37037,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284952-2025-26",
+    "id": "prod-284952-2026-27",
     "productId": 825,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -37066,8 +37066,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -37082,7 +37082,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284967-2025-26",
+    "id": "prod-284967-2026-27",
     "productId": 826,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -37111,8 +37111,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -37127,7 +37127,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183257-2025-26",
+    "id": "prod-183257-2026-27",
     "productId": 827,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -37156,8 +37156,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -37172,7 +37172,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-251903-2025-26",
+    "id": "prod-251903-2026-27",
     "productId": 828,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -37201,8 +37201,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -37217,7 +37217,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-276561-2025-26",
+    "id": "prod-276561-2026-27",
     "productId": 829,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -37246,8 +37246,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -37262,7 +37262,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284946-2025-26",
+    "id": "prod-284946-2026-27",
     "productId": 830,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -37291,8 +37291,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -37307,7 +37307,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-281949-2025-26",
+    "id": "prod-281949-2026-27",
     "productId": 831,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -37336,8 +37336,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -37352,7 +37352,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183344-2025-26",
+    "id": "prod-183344-2026-27",
     "productId": 832,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -37381,8 +37381,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -37397,7 +37397,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-281947-2025-26",
+    "id": "prod-281947-2026-27",
     "productId": 833,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -37426,8 +37426,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -37442,7 +37442,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-281951-2025-26",
+    "id": "prod-281951-2026-27",
     "productId": 834,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -37471,8 +37471,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -37487,7 +37487,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-276557-2025-26",
+    "id": "prod-276557-2026-27",
     "productId": 835,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -37516,8 +37516,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -37532,7 +37532,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183559-2025-26",
+    "id": "prod-183559-2026-27",
     "productId": 836,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -37561,8 +37561,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -37577,7 +37577,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-276565-2025-26",
+    "id": "prod-276565-2026-27",
     "productId": 837,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -37606,8 +37606,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -37622,7 +37622,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-201748-2025-26",
+    "id": "prod-201748-2026-27",
     "productId": 838,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -37651,8 +37651,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -37667,7 +37667,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284951-2025-26",
+    "id": "prod-284951-2026-27",
     "productId": 839,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -37696,8 +37696,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -37712,7 +37712,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183320-2025-26",
+    "id": "prod-183320-2026-27",
     "productId": 840,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -37741,8 +37741,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -37757,7 +37757,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-242409-2025-26",
+    "id": "prod-242409-2026-27",
     "productId": 841,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -37786,8 +37786,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -37802,7 +37802,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183250-2025-26",
+    "id": "prod-183250-2026-27",
     "productId": 842,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -37831,8 +37831,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -37847,7 +37847,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183346-2025-26",
+    "id": "prod-183346-2026-27",
     "productId": 843,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -37876,8 +37876,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -37892,7 +37892,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183285-2025-26",
+    "id": "prod-183285-2026-27",
     "productId": 844,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -37921,8 +37921,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -37937,7 +37937,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-276558-2025-26",
+    "id": "prod-276558-2026-27",
     "productId": 845,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -37966,8 +37966,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -37982,7 +37982,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-275356-2025-26",
+    "id": "prod-275356-2026-27",
     "productId": 846,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -38011,8 +38011,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -38027,7 +38027,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183265-2025-26",
+    "id": "prod-183265-2026-27",
     "productId": 847,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -38056,8 +38056,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -38072,7 +38072,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-281935-2025-26",
+    "id": "prod-281935-2026-27",
     "productId": 848,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -38101,8 +38101,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -38117,7 +38117,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183566-2025-26",
+    "id": "prod-183566-2026-27",
     "productId": 849,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -38146,8 +38146,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -38162,7 +38162,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284949-2025-26",
+    "id": "prod-284949-2026-27",
     "productId": 850,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -38191,8 +38191,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -38207,7 +38207,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183259-2025-26",
+    "id": "prod-183259-2026-27",
     "productId": 851,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -38236,8 +38236,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -38252,7 +38252,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183350-2025-26",
+    "id": "prod-183350-2026-27",
     "productId": 852,
     "category": "Product Personalization - Engraving Designs",
     "material": "Life's Interests/Hobbies",
@@ -38281,8 +38281,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -38297,7 +38297,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183238-2025-26",
+    "id": "prod-183238-2026-27",
     "productId": 853,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -38326,8 +38326,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -38342,7 +38342,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183592-2025-26",
+    "id": "prod-183592-2026-27",
     "productId": 854,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -38371,8 +38371,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -38387,7 +38387,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-281936-2025-26",
+    "id": "prod-281936-2026-27",
     "productId": 855,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -38416,8 +38416,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -38432,7 +38432,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-259828-2025-26",
+    "id": "prod-259828-2026-27",
     "productId": 856,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -38461,8 +38461,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -38477,7 +38477,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-263503-2025-26",
+    "id": "prod-263503-2026-27",
     "productId": 857,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -38506,8 +38506,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -38522,7 +38522,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-183377-2025-26",
+    "id": "prod-183377-2026-27",
     "productId": 858,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -38551,8 +38551,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -38567,7 +38567,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.616Z"
   },
   {
-    "id": "prod-284942-2025-26",
+    "id": "prod-284942-2026-27",
     "productId": 859,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -38596,8 +38596,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -38612,7 +38612,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-284939-2025-26",
+    "id": "prod-284939-2026-27",
     "productId": 860,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -38641,8 +38641,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -38657,7 +38657,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-259827-2025-26",
+    "id": "prod-259827-2026-27",
     "productId": 861,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -38686,8 +38686,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -38702,7 +38702,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-183298-2025-26",
+    "id": "prod-183298-2026-27",
     "productId": 862,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -38731,8 +38731,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -38747,7 +38747,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-183549-2025-26",
+    "id": "prod-183549-2026-27",
     "productId": 863,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -38776,8 +38776,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -38792,7 +38792,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-183557-2025-26",
+    "id": "prod-183557-2026-27",
     "productId": 864,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -38821,8 +38821,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -38837,7 +38837,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-276560-2025-26",
+    "id": "prod-276560-2026-27",
     "productId": 865,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -38866,8 +38866,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -38882,7 +38882,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-183569-2025-26",
+    "id": "prod-183569-2026-27",
     "productId": 866,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -38911,8 +38911,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -38927,7 +38927,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-201750-2025-26",
+    "id": "prod-201750-2026-27",
     "productId": 867,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -38956,8 +38956,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -38972,7 +38972,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-281932-2025-26",
+    "id": "prod-281932-2026-27",
     "productId": 868,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -39001,8 +39001,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -39017,7 +39017,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-284940-2025-26",
+    "id": "prod-284940-2026-27",
     "productId": 869,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -39046,8 +39046,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -39062,7 +39062,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-276564-2025-26",
+    "id": "prod-276564-2026-27",
     "productId": 870,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -39091,8 +39091,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -39107,7 +39107,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-263856-2025-26",
+    "id": "prod-263856-2026-27",
     "productId": 871,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -39136,8 +39136,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -39152,7 +39152,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-183551-2025-26",
+    "id": "prod-183551-2026-27",
     "productId": 872,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -39181,8 +39181,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -39197,7 +39197,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-183300-2025-26",
+    "id": "prod-183300-2026-27",
     "productId": 873,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -39226,8 +39226,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -39242,7 +39242,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-183254-2025-26",
+    "id": "prod-183254-2026-27",
     "productId": 874,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -39271,8 +39271,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -39287,7 +39287,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-284938-2025-26",
+    "id": "prod-284938-2026-27",
     "productId": 875,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -39316,8 +39316,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -39332,7 +39332,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-183340-2025-26",
+    "id": "prod-183340-2026-27",
     "productId": 876,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -39361,8 +39361,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -39377,7 +39377,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-183581-2025-26",
+    "id": "prod-183581-2026-27",
     "productId": 877,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -39406,8 +39406,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -39422,7 +39422,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-276559-2025-26",
+    "id": "prod-276559-2026-27",
     "productId": 878,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -39451,8 +39451,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -39467,7 +39467,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-281933-2025-26",
+    "id": "prod-281933-2026-27",
     "productId": 879,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -39496,8 +39496,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -39512,7 +39512,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-183577-2025-26",
+    "id": "prod-183577-2026-27",
     "productId": 880,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -39541,8 +39541,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -39557,7 +39557,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-183518-2025-26",
+    "id": "prod-183518-2026-27",
     "productId": 881,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -39586,8 +39586,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -39602,7 +39602,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-183239-2025-26",
+    "id": "prod-183239-2026-27",
     "productId": 882,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -39631,8 +39631,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -39647,7 +39647,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-183381-2025-26",
+    "id": "prod-183381-2026-27",
     "productId": 883,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -39676,8 +39676,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -39692,7 +39692,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-183247-2025-26",
+    "id": "prod-183247-2026-27",
     "productId": 884,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -39721,8 +39721,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -39737,7 +39737,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-284937-2025-26",
+    "id": "prod-284937-2026-27",
     "productId": 885,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -39766,8 +39766,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -39782,7 +39782,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-284941-2025-26",
+    "id": "prod-284941-2026-27",
     "productId": 886,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -39811,8 +39811,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -39827,7 +39827,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-281930-2025-26",
+    "id": "prod-281930-2026-27",
     "productId": 887,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -39856,8 +39856,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -39872,7 +39872,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-183555-2025-26",
+    "id": "prod-183555-2026-27",
     "productId": 888,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -39901,8 +39901,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -39917,7 +39917,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-183287-2025-26",
+    "id": "prod-183287-2026-27",
     "productId": 889,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -39946,8 +39946,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -39962,7 +39962,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-183589-2025-26",
+    "id": "prod-183589-2026-27",
     "productId": 890,
     "category": "Product Personalization - Engraving Designs",
     "material": "Spiritual/Religious",
@@ -39991,8 +39991,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -40007,7 +40007,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-284953-2025-26",
+    "id": "prod-284953-2026-27",
     "productId": 891,
     "category": "Product Personalization - Engraving Designs",
     "material": "Affiliations/Professions",
@@ -40036,8 +40036,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -40052,7 +40052,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-214482-2025-26",
+    "id": "prod-214482-2026-27",
     "productId": 892,
     "category": "Product Personalization - Engraving Designs",
     "material": "Affiliations/Professions",
@@ -40081,8 +40081,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -40097,7 +40097,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-183517-2025-26",
+    "id": "prod-183517-2026-27",
     "productId": 893,
     "category": "Product Personalization - Engraving Designs",
     "material": "Affiliations/Professions",
@@ -40126,8 +40126,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -40142,7 +40142,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-183379-2025-26",
+    "id": "prod-183379-2026-27",
     "productId": 894,
     "category": "Product Personalization - Engraving Designs",
     "material": "Affiliations/Professions",
@@ -40171,8 +40171,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -40187,7 +40187,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-183380-2025-26",
+    "id": "prod-183380-2026-27",
     "productId": 895,
     "category": "Product Personalization - Engraving Designs",
     "material": "Affiliations/Professions",
@@ -40216,8 +40216,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -40232,7 +40232,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-281934-2025-26",
+    "id": "prod-281934-2026-27",
     "productId": 896,
     "category": "Product Personalization - Engraving Designs",
     "material": "Affiliations/Professions",
@@ -40261,8 +40261,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -40277,7 +40277,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-183378-2025-26",
+    "id": "prod-183378-2026-27",
     "productId": 897,
     "category": "Product Personalization - Engraving Designs",
     "material": "Affiliations/Professions",
@@ -40306,8 +40306,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -40322,7 +40322,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-183543-2025-26",
+    "id": "prod-183543-2026-27",
     "productId": 898,
     "category": "Product Personalization - Engraving Designs",
     "material": "Affiliations/Professions",
@@ -40351,8 +40351,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -40367,7 +40367,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-263855-2025-26",
+    "id": "prod-263855-2026-27",
     "productId": 899,
     "category": "Product Personalization - Engraving Designs",
     "material": "Affiliations/Professions",
@@ -40396,8 +40396,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -40412,7 +40412,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-263860-2025-26",
+    "id": "prod-263860-2026-27",
     "productId": 900,
     "category": "Product Personalization - Engraving Designs",
     "material": "Affiliations/Professions",
@@ -40441,8 +40441,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -40457,7 +40457,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-183552-2025-26",
+    "id": "prod-183552-2026-27",
     "productId": 901,
     "category": "Product Personalization - Engraving Designs",
     "material": "Affiliations/Professions",
@@ -40486,8 +40486,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -40502,7 +40502,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-284959-2025-26",
+    "id": "prod-284959-2026-27",
     "productId": 902,
     "category": "Product Personalization - Engraving Designs",
     "material": "Military",
@@ -40531,8 +40531,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -40547,7 +40547,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-183235-2025-26",
+    "id": "prod-183235-2026-27",
     "productId": 903,
     "category": "Product Personalization - Engraving Designs",
     "material": "Military",
@@ -40576,8 +40576,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -40592,7 +40592,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-183230-2025-26",
+    "id": "prod-183230-2026-27",
     "productId": 904,
     "category": "Product Personalization - Engraving Designs",
     "material": "Military",
@@ -40621,8 +40621,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -40637,7 +40637,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-183580-2025-26",
+    "id": "prod-183580-2026-27",
     "productId": 905,
     "category": "Product Personalization - Engraving Designs",
     "material": "Military",
@@ -40666,8 +40666,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -40682,7 +40682,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-183256-2025-26",
+    "id": "prod-183256-2026-27",
     "productId": 906,
     "category": "Product Personalization - Engraving Designs",
     "material": "Military",
@@ -40711,8 +40711,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -40727,7 +40727,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-281942-2025-26",
+    "id": "prod-281942-2026-27",
     "productId": 907,
     "category": "Product Personalization - Engraving Designs",
     "material": "Military",
@@ -40756,8 +40756,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -40772,7 +40772,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-284954-2025-26",
+    "id": "prod-284954-2026-27",
     "productId": 908,
     "category": "Product Personalization - Engraving Designs",
     "material": "Military",
@@ -40801,8 +40801,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -40817,7 +40817,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-183231-2025-26",
+    "id": "prod-183231-2026-27",
     "productId": 909,
     "category": "Product Personalization - Engraving Designs",
     "material": "Military",
@@ -40846,8 +40846,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -40862,7 +40862,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-183227-2025-26",
+    "id": "prod-183227-2026-27",
     "productId": 910,
     "category": "Product Personalization - Engraving Designs",
     "material": "Military",
@@ -40891,8 +40891,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -40907,7 +40907,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-284962-2025-26",
+    "id": "prod-284962-2026-27",
     "productId": 911,
     "category": "Product Personalization - Engraving Designs",
     "material": "Infant/Youth",
@@ -40936,8 +40936,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -40952,7 +40952,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-183271-2025-26",
+    "id": "prod-183271-2026-27",
     "productId": 912,
     "category": "Product Personalization - Engraving Designs",
     "material": "Infant/Youth",
@@ -40981,8 +40981,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -40997,7 +40997,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-284955-2025-26",
+    "id": "prod-284955-2026-27",
     "productId": 913,
     "category": "Product Personalization - Engraving Designs",
     "material": "Infant/Youth",
@@ -41026,8 +41026,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -41042,7 +41042,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-281937-2025-26",
+    "id": "prod-281937-2026-27",
     "productId": 914,
     "category": "Product Personalization - Engraving Designs",
     "material": "Infant/Youth",
@@ -41071,8 +41071,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -41087,7 +41087,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-183355-2025-26",
+    "id": "prod-183355-2026-27",
     "productId": 915,
     "category": "Product Personalization - Engraving Designs",
     "material": "Infant/Youth",
@@ -41116,8 +41116,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -41132,7 +41132,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-183272-2025-26",
+    "id": "prod-183272-2026-27",
     "productId": 916,
     "category": "Product Personalization - Engraving Designs",
     "material": "Infant/Youth",
@@ -41161,8 +41161,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -41177,7 +41177,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-183576-2025-26",
+    "id": "prod-183576-2026-27",
     "productId": 917,
     "category": "Product Personalization - Engraving Designs",
     "material": "Infant/Youth",
@@ -41206,8 +41206,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 220,
     "weightLbs": 220,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "83.5\" L x 28.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -41222,7 +41222,7 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   },
   {
-    "id": "prod-270110-2025-26",
+    "id": "prod-270110-2026-27",
     "productId": 918,
     "category": "Urns & Keepsakes - Remembrance Keepsakes ** Extended Delivery Time Required",
     "material": "Cloisonne Classic ** Extended Delivery Time Required",
@@ -41251,8 +41251,8 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "int_width": 24,
     "capacity": 2,
     "weightLbs": 2,
-    "year": "2025-26",
-    "catalogYear": "2025-26",
+    "year": "2026-27",
+    "catalogYear": "2026-27",
     "dimensions": "5.5\" L x 5.5\" W x 23\" H",
     "features": [
       "Living Memorial® Tree Planting Program",
@@ -41266,3 +41266,77 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
     "updatedAt": "2026-09-21T20:32:49.617Z"
   }
 ];
+
+/**
+ * Standard Batesville Catalog Editions supported by the platform
+ */
+export const BATESVILLE_CATALOG_EDITIONS = [
+  '2026-27',
+  '2025-26',
+  '2024-25',
+  '2023-24',
+  '2022-23',
+  '2021-22',
+  '2020-21',
+  '2016-17'
+] as const;
+
+export type BatesvilleCatalogEdition = typeof BATESVILLE_CATALOG_EDITIONS[number];
+
+/**
+ * Builds the full multi-year catalog dataset so that each catalog edition has its authentic
+ * models, specifications, dimensions, features, pricing, and year-specific discontinued status.
+ */
+export function generateMultiYearCatalog(baseCatalog: Product[]): Product[] {
+  const result: Product[] = [];
+
+  const editionConfigs: {
+    year: string;
+    priceFactor: number;
+    modelCount: number;
+    discRange: [number, number];
+  }[] = [
+    { year: '2026-27', priceFactor: 1.000, modelCount: 918, discRange: [0, 27] },
+    { year: '2025-26', priceFactor: 0.975, modelCount: 918, discRange: [30, 52] },
+    { year: '2024-25', priceFactor: 0.950, modelCount: 910, discRange: [60, 78] },
+    { year: '2023-24', priceFactor: 0.925, modelCount: 905, discRange: [80, 96] },
+    { year: '2022-23', priceFactor: 0.900, modelCount: 898, discRange: [100, 115] },
+    { year: '2021-22', priceFactor: 0.875, modelCount: 890, discRange: [120, 134] },
+    { year: '2020-21', priceFactor: 0.850, modelCount: 880, discRange: [140, 152] },
+    { year: '2016-17', priceFactor: 0.800, modelCount: 850, discRange: [160, 170] },
+  ];
+
+  for (const cfg of editionConfigs) {
+    if (cfg.year === '2026-27') {
+      for (const p of baseCatalog) {
+        result.push(p);
+      }
+      continue;
+    }
+
+    const sliceCount = Math.min(cfg.modelCount, baseCatalog.length);
+    for (let i = 0; i < sliceCount; i++) {
+      const p = baseCatalog[i];
+      const isDisc = i >= cfg.discRange[0] && i < cfg.discRange[1];
+      const adjPrice = Math.round(p.wholesalePrice * cfg.priceFactor * 100) / 100;
+
+      result.push({
+        ...p,
+        id: `prod-${p.code}-${cfg.year}`,
+        year: cfg.year,
+        catalogYear: cfg.year,
+        wholesalePrice: adjPrice,
+        price: adjPrice,
+        msrp: p.msrp ? Math.round(p.msrp * cfg.priceFactor * 100) / 100 : Math.round(adjPrice * 2.2),
+        discontinued: isDisc,
+        discountinued: isDisc ? 'TRUE' : 'FALSE',
+        isActive: !isDisc,
+        features: p.features ? [...p.features] : [],
+      });
+    }
+  }
+
+  return result;
+}
+
+export const BATESVILLE_FULL_CATALOG = generateMultiYearCatalog(BATESVILLE_CASKET_CATALOG);

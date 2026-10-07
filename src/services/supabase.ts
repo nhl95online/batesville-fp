@@ -2,7 +2,7 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { jsPDF } from 'jspdf';
 import { db, invalidateSalesCache, saveLithoItem } from './db';
 import { Customer, Product, SaleRecord, SupabaseConfig, CasketImageItem, LithoItem, FloorSlot } from '../types';
-import { BATESVILLE_CASKET_CATALOG } from './batesvilleCatalogData';
+import { BATESVILLE_CASKET_CATALOG, BATESVILLE_FULL_CATALOG } from './batesvilleCatalogData';
 
 const STORAGE_KEY = 'batesville_fp_supabase_config';
 
@@ -382,21 +382,21 @@ export async function syncFromSupabase(): Promise<{
     const productMap = new Map<string, Product>();
     const distinctYears = new Set<string>();
 
-    // Seed with authentic Batesville catalog (all 918 casket models with full specs)
-    BATESVILLE_CASKET_CATALOG.forEach((p) => {
-      productMap.set(p.code, { ...p });
-      distinctYears.add(String(p.catalogYear || '2025-26'));
+    // Seed with authentic Batesville multi-year catalog (all models across all editions)
+    BATESVILLE_FULL_CATALOG.forEach((p) => {
+      productMap.set(p.id, { ...p });
+      distinctYears.add(String(p.catalogYear || '2026-27'));
     });
 
     // Also enrich from sales records for historical catalog years
     allSalesRaw.forEach((s: any) => {
       const prodCode = String(s.product_code);
-      const yr = String(s.year || '2025-26');
+      const yr = String(s.year || '2026-27');
       distinctYears.add(yr);
 
       const compositeKey = `${prodCode}-${yr}`;
       if (!productMap.has(compositeKey)) {
-        const base = productMap.get(prodCode);
+        const base = productMap.get(`prod-${prodCode}-${yr}`) || productMap.get(prodCode);
         if (base) {
           productMap.set(compositeKey, {
             ...base,

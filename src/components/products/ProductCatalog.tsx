@@ -113,8 +113,9 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
     onCategoryChange?.(cat);
   };
 
-  // Distinct categories & standard Batesville 2-year editions (Defaulting to 2025-26)
+  // Distinct categories & standard Batesville 2-year editions (Defaulting to 2026-27 Current Edition)
   const baseCatalogYears = [
+    '2026-27',
     '2025-26', 
     '2024-25', 
     '2023-24', 
@@ -130,11 +131,11 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
   
   const availableYears = useMemo(() => {
     const rawYears = localProducts.map(p => String(p.catalogYear || p.year || '')).filter(Boolean);
-    return Array.from(new Set([...baseCatalogYears, ...rawYears])).sort().reverse();
+    return Array.from(new Set([...baseCatalogYears, ...rawYears])).sort((a, b) => b.localeCompare(a));
   }, [localProducts]);
 
-  // Default strictly to 2025-26 (the active Batesville catalog edition)
-  const [selectedYear, setSelectedYear] = useState<string>('2025-26');
+  // Default strictly to 2026-27 (the current active Batesville catalog edition)
+  const [selectedYear, setSelectedYear] = useState<string>('2026-27');
 
   // Strict year matcher: if not the selected year, do not include it unless 'all' is selected
   const matchesYear = (p: Product, filterYear: string) => {
