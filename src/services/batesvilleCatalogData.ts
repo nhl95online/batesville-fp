@@ -41355,19 +41355,18 @@ export function generateMultiYearCatalog(baseCatalog: Product[]): Product[] {
 
   const editionConfigs: {
     year: string;
-    priceFactor: number;
     casketCount: number;
     nonCasketCount: number;
     isCurrentYear: boolean;
   }[] = [
-    { year: '2026-27', priceFactor: 1.000, casketCount: 210, nonCasketCount: 708, isCurrentYear: true },
-    { year: '2025-26', priceFactor: 0.975, casketCount: 202, nonCasketCount: 690, isCurrentYear: false },
-    { year: '2024-25', priceFactor: 0.950, casketCount: 194, nonCasketCount: 672, isCurrentYear: false },
-    { year: '2023-24', priceFactor: 0.925, casketCount: 186, nonCasketCount: 654, isCurrentYear: false },
-    { year: '2022-23', priceFactor: 0.900, casketCount: 178, nonCasketCount: 636, isCurrentYear: false },
-    { year: '2021-22', priceFactor: 0.875, casketCount: 170, nonCasketCount: 618, isCurrentYear: false },
-    { year: '2020-21', priceFactor: 0.850, casketCount: 160, nonCasketCount: 596, isCurrentYear: false },
-    { year: '2016-17', priceFactor: 0.800, casketCount: 144, nonCasketCount: 548, isCurrentYear: false },
+    { year: '2026-27', casketCount: 210, nonCasketCount: 708, isCurrentYear: true },
+    { year: '2025-26', casketCount: 202, nonCasketCount: 690, isCurrentYear: false },
+    { year: '2024-25', casketCount: 194, nonCasketCount: 672, isCurrentYear: false },
+    { year: '2023-24', casketCount: 186, nonCasketCount: 654, isCurrentYear: false },
+    { year: '2022-23', casketCount: 178, nonCasketCount: 636, isCurrentYear: false },
+    { year: '2021-22', casketCount: 170, nonCasketCount: 618, isCurrentYear: false },
+    { year: '2020-21', casketCount: 160, nonCasketCount: 596, isCurrentYear: false },
+    { year: '2016-17', casketCount: 144, nonCasketCount: 548, isCurrentYear: false },
   ];
 
   for (const cfg of editionConfigs) {
@@ -41388,16 +41387,16 @@ export function generateMultiYearCatalog(baseCatalog: Product[]): Product[] {
       // In prior years, only list discontinued items if they were discontinued;
       // otherwise leave them alone as active products.
       const isDisc = cfg.isCurrentYear ? Boolean(p.discontinued === true || p.discountinued === 'TRUE' || p.isActive === false) : false;
-      const adjPrice = Math.round(p.wholesalePrice * cfg.priceFactor * 100) / 100;
+      const exactPrice = Number(p.price !== undefined && p.price !== null ? p.price : p.wholesalePrice);
 
       result.push({
         ...p,
         id: `prod-${p.code}-${cfg.year}`,
         year: cfg.year,
         catalogYear: cfg.year,
-        wholesalePrice: adjPrice,
-        price: adjPrice,
-        msrp: p.msrp ? Math.round(p.msrp * cfg.priceFactor * 100) / 100 : Math.round(adjPrice * 2.2),
+        wholesalePrice: exactPrice,
+        price: exactPrice,
+        msrp: p.msrp ? p.msrp : Math.round(exactPrice * 2.2),
         discontinued: isDisc,
         discountinued: isDisc ? 'TRUE' : 'FALSE',
         isActive: !isDisc,

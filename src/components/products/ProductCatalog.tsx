@@ -732,9 +732,9 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
 
                       {/* 20. price */}
                       <td className="py-2.5 px-3">
-                        {(p.price || p.wholesalePrice) ? (
+                        {(p.price !== undefined && p.price !== null || p.wholesalePrice !== undefined && p.wholesalePrice !== null) ? (
                           <span className="font-bold text-emerald-700 font-mono">
-                            ${Number(p.price || p.wholesalePrice).toLocaleString()}
+                            ${Number(p.price !== undefined && p.price !== null ? p.price : p.wholesalePrice).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                           </span>
                         ) : ''}
                       </td>
@@ -924,11 +924,11 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                 {/* Pricing & Square Action Buttons */}
                 <div className="pt-2 border-t border-slate-100 flex items-center justify-between gap-2">
                   <div className="min-w-0">
-                    {(product.price || product.wholesalePrice) ? (
+                    {(product.price !== undefined && product.price !== null || product.wholesalePrice !== undefined && product.wholesalePrice !== null) ? (
                       <>
                         <span className="text-[9px] text-slate-400 font-semibold block uppercase tracking-wider leading-none">Wholesale</span>
                         <span className="font-mono text-sm font-bold text-emerald-700 leading-tight">
-                          ${Number(product.price || product.wholesalePrice).toLocaleString()}
+                          ${Number(product.price !== undefined && product.price !== null ? product.price : product.wholesalePrice).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                         </span>
                       </>
                     ) : <span className="text-slate-300 text-xs">—</span>}

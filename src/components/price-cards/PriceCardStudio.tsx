@@ -505,7 +505,7 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
               ) : (
                 filteredProducts.map((p) => (
                   <option key={p.id} value={p.id}>
-                    [{p.catalogYear}] {p.code} - {p.name} (${p.wholesalePrice} wholesale)
+                    [{p.catalogYear}] {p.code} - {p.name} (${Number(p.price !== undefined && p.price !== null ? p.price : p.wholesalePrice).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} wholesale)
                   </option>
                 ))
               )}
@@ -575,7 +575,7 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
               <div>
                 <span className="text-slate-500 block">Wholesale Cost:</span>
                 <span className="font-mono text-slate-800 font-semibold">
-                  ${selectedProduct?.wholesalePrice.toLocaleString()}
+                  ${Number(selectedProduct?.price !== undefined && selectedProduct?.price !== null ? selectedProduct?.price : (selectedProduct?.wholesalePrice || 0)).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </span>
               </div>
               <div>

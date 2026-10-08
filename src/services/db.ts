@@ -45,7 +45,9 @@ export async function initializeDatabase(): Promise<void> {
     const sample2026 = await db.products.where('catalogYear').equals('2026-27').first();
     const sample2021Disc = await db.products.where('catalogYear').equals('2021-22').filter(p => isProductDiscontinued(p)).toArray();
     const count2021 = await db.products.where('catalogYear').equals('2021-22').count();
-    const hasBad2021Data = sample2021Disc.length !== 0 || count2021 === 918 || count2021 === 0;
+    const sample2021Item = await db.products.where('catalogYear').equals('2021-22').and(p => p.code === '147959').first();
+    const hasDiscountedWholesale = sample2021Item && Number(sample2021Item.wholesalePrice) !== 8206.91;
+    const hasBad2021Data = sample2021Disc.length !== 0 || count2021 === 918 || count2021 === 0 || hasDiscountedWholesale;
 
     const needsCatalogRefresh = !sampleProd || 
       prodCount < 2000 || // Ensures full multi-year catalog is loaded across all editions
@@ -58,7 +60,7 @@ export async function initializeDatabase(): Promise<void> {
       (sampleUrn && Boolean(sampleUrn.top));
 
     if (needsCatalogRefresh) {
-      console.log('[DB] Refreshing catalog with 2026-27 Batesville current edition and clean discontinued status across all historical catalog years...');
+      console.log('[DB] Refreshing catalog with 2026-27 Batesville current edition and authentic exact wholesale costs matching CSV price column across all historical catalog years...');
       await db.products.clear();
       await db.products.bulkAdd(BATESVILLE_FULL_CATALOG);
     }

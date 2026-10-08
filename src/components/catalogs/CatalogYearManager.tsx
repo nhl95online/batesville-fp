@@ -335,7 +335,7 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
             Average Wholesale Base
           </span>
           <div className="font-serif text-3xl font-black text-emerald-700">
-            ${filteredProducts.length > 0 ? Math.round(filteredProducts.reduce((a, b) => a + b.wholesalePrice, 0) / filteredProducts.length).toLocaleString() : 0}
+            ${filteredProducts.length > 0 ? (filteredProducts.reduce((a, b) => a + (Number(b.price !== undefined && b.price !== null ? b.price : b.wholesalePrice) || 0), 0) / filteredProducts.length).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '0.00'}
           </div>
           <p className="text-xs text-slate-500 mt-1">
             Per unit catalog wholesale baseline
@@ -493,7 +493,7 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
                     {prod.top || 'Half Couch'}
                   </td>
                   <td className="py-2.5 px-4 font-mono font-bold text-emerald-700">
-                    ${prod.wholesalePrice.toLocaleString()}
+                    ${Number(prod.price !== undefined && prod.price !== null ? prod.price : prod.wholesalePrice).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </td>
                   <td className="py-2.5 px-4 text-right">
                     <button

@@ -222,6 +222,16 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   </p>
                 )}
 
+                {/* Authentic Batesville Distributor Wholesale Cost */}
+                {(product.price !== undefined && product.price !== null || product.wholesalePrice !== undefined && product.wholesalePrice !== null) && (
+                  <div className="mt-2.5 flex items-baseline gap-2">
+                    <span className="text-xs uppercase font-semibold text-slate-500 tracking-wider">Wholesale Cost:</span>
+                    <span className="font-mono text-2xl font-black text-emerald-700">
+                      ${Number(product.price !== undefined && product.price !== null ? product.price : product.wholesalePrice).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    </span>
+                  </div>
+                )}
+
                 {/* Casket Merchandising Badges */}
                 <div className="flex flex-wrap items-center gap-2 mt-2">
                   {product.lifesymbols && (
@@ -410,6 +420,14 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   <span className="text-slate-500">Catalog Year:</span>
                   <span className="font-mono text-slate-700">{product.year || product.catalogYear}</span>
                 </div>
+                {(product.price !== undefined && product.price !== null || product.wholesalePrice !== undefined && product.wholesalePrice !== null) && (
+                  <div className="flex justify-between pt-1 border-t border-slate-200">
+                    <span className="text-slate-500 font-semibold">Wholesale Cost (price column):</span>
+                    <span className="font-mono text-emerald-700 font-bold">
+                      ${Number(product.price !== undefined && product.price !== null ? product.price : product.wholesalePrice).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
 
