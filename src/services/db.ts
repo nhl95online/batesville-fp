@@ -43,9 +43,13 @@ export async function initializeDatabase(): Promise<void> {
     const sampleProd = await db.products.toCollection().first();
     const sampleUrn = await db.products.where('category').equals('Urns & Keepsakes - Full Size Urns').first();
     const sample2026 = await db.products.where('catalogYear').equals('2026-27').first();
+    const sample2021Disc = await db.products.where('catalogYear').equals('2021-22').filter(p => isProductDiscontinued(p)).toArray();
+    const hasBad2021Disc = sample2021Disc.length !== 27;
+
     const needsCatalogRefresh = !sampleProd || 
       prodCount < 2000 || // Ensures full multi-year catalog is loaded across all editions
       !sample2026 ||
+      hasBad2021Disc ||
       sampleProd.catalogYear !== '2026-27' ||
       sampleProd.year !== '2026-27' ||
       (sampleProd.description && sampleProd.name !== sampleProd.description) ||
@@ -53,7 +57,7 @@ export async function initializeDatabase(): Promise<void> {
       (sampleUrn && Boolean(sampleUrn.top));
 
     if (needsCatalogRefresh) {
-      console.log('[DB] Refreshing catalog with 2026-27 Batesville current edition and all historical catalog years...');
+      console.log('[DB] Refreshing catalog with 2026-27 Batesville current edition and clean discontinued status across all historical catalog years...');
       await db.products.clear();
       await db.products.bulkAdd(BATESVILLE_FULL_CATALOG);
     }

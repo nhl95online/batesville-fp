@@ -41285,7 +41285,11 @@ export type BatesvilleCatalogEdition = typeof BATESVILLE_CATALOG_EDITIONS[number
 
 /**
  * Builds the full multi-year catalog dataset so that each catalog edition has its authentic
- * models, specifications, dimensions, features, pricing, and year-specific discontinued status.
+ * models, specifications, dimensions, features, pricing, and authentic discontinued status.
+ * 
+ * Strict business rule:
+ * - If a product is active in 2026-27, it is active in 2021-22 and across ALL other editions. It MUST NEVER be discontinued.
+ * - All products that have the flag of discontinued (the 27 genuine discontinued models) are the ONLY ones that show as discontinued.
  */
 export function generateMultiYearCatalog(baseCatalog: Product[]): Product[] {
   const result: Product[] = [];
@@ -41293,17 +41297,15 @@ export function generateMultiYearCatalog(baseCatalog: Product[]): Product[] {
   const editionConfigs: {
     year: string;
     priceFactor: number;
-    modelCount: number;
-    discRange: [number, number];
   }[] = [
-    { year: '2026-27', priceFactor: 1.000, modelCount: 918, discRange: [0, 27] },
-    { year: '2025-26', priceFactor: 0.975, modelCount: 918, discRange: [30, 52] },
-    { year: '2024-25', priceFactor: 0.950, modelCount: 910, discRange: [60, 78] },
-    { year: '2023-24', priceFactor: 0.925, modelCount: 905, discRange: [80, 96] },
-    { year: '2022-23', priceFactor: 0.900, modelCount: 898, discRange: [100, 115] },
-    { year: '2021-22', priceFactor: 0.875, modelCount: 890, discRange: [120, 134] },
-    { year: '2020-21', priceFactor: 0.850, modelCount: 880, discRange: [140, 152] },
-    { year: '2016-17', priceFactor: 0.800, modelCount: 850, discRange: [160, 170] },
+    { year: '2026-27', priceFactor: 1.000 },
+    { year: '2025-26', priceFactor: 0.975 },
+    { year: '2024-25', priceFactor: 0.950 },
+    { year: '2023-24', priceFactor: 0.925 },
+    { year: '2022-23', priceFactor: 0.900 },
+    { year: '2021-22', priceFactor: 0.875 },
+    { year: '2020-21', priceFactor: 0.850 },
+    { year: '2016-17', priceFactor: 0.800 },
   ];
 
   for (const cfg of editionConfigs) {
@@ -41314,10 +41316,12 @@ export function generateMultiYearCatalog(baseCatalog: Product[]): Product[] {
       continue;
     }
 
-    const sliceCount = Math.min(cfg.modelCount, baseCatalog.length);
-    for (let i = 0; i < sliceCount; i++) {
+    for (let i = 0; i < baseCatalog.length; i++) {
       const p = baseCatalog[i];
-      const isDisc = i >= cfg.discRange[0] && i < cfg.discRange[1];
+      // Inherit the exact authentic discontinued status:
+      // If a product is active in 2026-27, it is active in 2021-22 and ALL years.
+      // Only products with the genuine discontinued flag have discontinued: true.
+      const isDisc = Boolean(p.discontinued === true || p.discountinued === 'TRUE' || p.isActive === false);
       const adjPrice = Math.round(p.wholesalePrice * cfg.priceFactor * 100) / 100;
 
       result.push({
