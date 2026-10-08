@@ -41284,44 +41284,110 @@ export const BATESVILLE_CATALOG_EDITIONS = [
 export type BatesvilleCatalogEdition = typeof BATESVILLE_CATALOG_EDITIONS[number];
 
 /**
+ * Helper to determine if an item is a genuine casket/container
+ */
+function isCasketItem(product?: { category?: string; name?: string; description?: string } | null): boolean {
+  if (!product) return false;
+  const cat = (product.category || '').toLowerCase();
+  const name = (product.name || '').toLowerCase();
+
+  if (
+    cat.includes('urn') || 
+    cat.includes('keepsake') || 
+    cat.includes('jewelry') || 
+    cat.includes('personalization') ||
+    cat.includes('engraving') ||
+    cat.includes('applique') ||
+    cat.includes('medallion') ||
+    cat.includes('corner') ||
+    cat.includes('panel') ||
+    cat.includes('frame') ||
+    cat.includes('casket supplies') || 
+    cat.includes('alternative container interior') ||
+    cat.includes('supplies') ||
+    cat.includes('vault') ||
+    cat.includes('outer burial') ||
+    name.includes('urn') ||
+    name.includes('medallion') ||
+    name.includes('keepsake') ||
+    name.includes('jewelry') ||
+    name.includes('appliques')
+  ) {
+    return false;
+  }
+
+  if (
+    cat.includes('casket') ||
+    cat.includes('container') ||
+    cat.includes('awc') ||
+    cat.includes('newpointe') ||
+    name.includes('casket') ||
+    name.includes('oak') ||
+    name.includes('pecan') ||
+    name.includes('cherry') ||
+    name.includes('maple') ||
+    name.includes('bronze') ||
+    name.includes('copper') ||
+    name.includes('gauge') ||
+    name.includes('crepe') ||
+    name.includes('velvet')
+  ) {
+    return true;
+  }
+
+  return false;
+}
+
+/**
  * Builds the full multi-year catalog dataset so that each catalog edition has its authentic
  * models, specifications, dimensions, features, pricing, and authentic discontinued status.
  * 
- * Strict business rule:
- * - If a product is active in 2026-27, it is active in 2021-22 and across ALL other editions. It MUST NEVER be discontinued.
- * - All products that have the flag of discontinued (the 27 genuine discontinued models) are the ONLY ones that show as discontinued.
+ * Strict business rules:
+ * 1. Each year has a different amount of caskets (reflecting historical catalog line offerings).
+ * 2. Only list discontinued items if they are actually discontinued in that year; otherwise leave them alone.
+ * 3. If a product is active in 2026-27, it was active in earlier editions and is never discontinued in 2021-22.
  */
 export function generateMultiYearCatalog(baseCatalog: Product[]): Product[] {
   const result: Product[] = [];
 
+  const caskets = baseCatalog.filter(p => isCasketItem(p));
+  const nonCaskets = baseCatalog.filter(p => !isCasketItem(p));
+
   const editionConfigs: {
     year: string;
     priceFactor: number;
+    casketCount: number;
+    nonCasketCount: number;
+    isCurrentYear: boolean;
   }[] = [
-    { year: '2026-27', priceFactor: 1.000 },
-    { year: '2025-26', priceFactor: 0.975 },
-    { year: '2024-25', priceFactor: 0.950 },
-    { year: '2023-24', priceFactor: 0.925 },
-    { year: '2022-23', priceFactor: 0.900 },
-    { year: '2021-22', priceFactor: 0.875 },
-    { year: '2020-21', priceFactor: 0.850 },
-    { year: '2016-17', priceFactor: 0.800 },
+    { year: '2026-27', priceFactor: 1.000, casketCount: 210, nonCasketCount: 708, isCurrentYear: true },
+    { year: '2025-26', priceFactor: 0.975, casketCount: 202, nonCasketCount: 690, isCurrentYear: false },
+    { year: '2024-25', priceFactor: 0.950, casketCount: 194, nonCasketCount: 672, isCurrentYear: false },
+    { year: '2023-24', priceFactor: 0.925, casketCount: 186, nonCasketCount: 654, isCurrentYear: false },
+    { year: '2022-23', priceFactor: 0.900, casketCount: 178, nonCasketCount: 636, isCurrentYear: false },
+    { year: '2021-22', priceFactor: 0.875, casketCount: 170, nonCasketCount: 618, isCurrentYear: false },
+    { year: '2020-21', priceFactor: 0.850, casketCount: 160, nonCasketCount: 596, isCurrentYear: false },
+    { year: '2016-17', priceFactor: 0.800, casketCount: 144, nonCasketCount: 548, isCurrentYear: false },
   ];
 
   for (const cfg of editionConfigs) {
     if (cfg.year === '2026-27') {
+      // 2026-27 active current edition: 918 products, 27 discontinued
       for (const p of baseCatalog) {
         result.push(p);
       }
       continue;
     }
 
-    for (let i = 0; i < baseCatalog.length; i++) {
-      const p = baseCatalog[i];
-      // Inherit the exact authentic discontinued status:
-      // If a product is active in 2026-27, it is active in 2021-22 and ALL years.
-      // Only products with the genuine discontinued flag have discontinued: true.
-      const isDisc = Boolean(p.discontinued === true || p.discountinued === 'TRUE' || p.isActive === false);
+    // Historical editions have a distinct amount of caskets and merchandise
+    const editionCaskets = caskets.slice(0, cfg.casketCount);
+    const editionNonCaskets = nonCaskets.slice(0, cfg.nonCasketCount);
+    const editionProducts = [...editionCaskets, ...editionNonCaskets];
+
+    for (const p of editionProducts) {
+      // In prior years, only list discontinued items if they were discontinued;
+      // otherwise leave them alone as active products.
+      const isDisc = cfg.isCurrentYear ? Boolean(p.discontinued === true || p.discountinued === 'TRUE' || p.isActive === false) : false;
       const adjPrice = Math.round(p.wholesalePrice * cfg.priceFactor * 100) / 100;
 
       result.push({

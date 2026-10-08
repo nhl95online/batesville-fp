@@ -44,12 +44,13 @@ export async function initializeDatabase(): Promise<void> {
     const sampleUrn = await db.products.where('category').equals('Urns & Keepsakes - Full Size Urns').first();
     const sample2026 = await db.products.where('catalogYear').equals('2026-27').first();
     const sample2021Disc = await db.products.where('catalogYear').equals('2021-22').filter(p => isProductDiscontinued(p)).toArray();
-    const hasBad2021Disc = sample2021Disc.length !== 27;
+    const count2021 = await db.products.where('catalogYear').equals('2021-22').count();
+    const hasBad2021Data = sample2021Disc.length !== 0 || count2021 === 918 || count2021 === 0;
 
     const needsCatalogRefresh = !sampleProd || 
       prodCount < 2000 || // Ensures full multi-year catalog is loaded across all editions
       !sample2026 ||
-      hasBad2021Disc ||
+      hasBad2021Data ||
       sampleProd.catalogYear !== '2026-27' ||
       sampleProd.year !== '2026-27' ||
       (sampleProd.description && sampleProd.name !== sampleProd.description) ||
