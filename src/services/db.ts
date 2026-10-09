@@ -66,7 +66,7 @@ export async function initializeDatabase(): Promise<void> {
     }
   }
 
-  // Ensure sales records exist and have authentic distributor volume so all date ranges sum correctly
+  // Ensure sales records exist and have authentic distributor volume and showroom client sales
   const salesCount = await db.sales.count();
   let needsSalesSeed = salesCount === 0;
   if (!needsSalesSeed) {
@@ -77,14 +77,34 @@ export async function initializeDatabase(): Promise<void> {
         needsSalesSeed = true;
       }
     }
+    const sampleVescioCount = await db.sales.filter(s => String(s.accountNumber) === '262863').count();
+    if (sampleVescioCount === 0) {
+      needsSalesSeed = true;
+    }
   }
 
   if (needsSalesSeed) {
-    console.log('[DB] Seeding authentic multi-year Batesville distributor sales across all date ranges...');
+    console.log('[DB] Seeding authentic multi-year Batesville distributor sales including showroom client accounts across all date ranges...');
     await db.sales.clear();
     const seedSales = generateSeedSales();
     await db.sales.bulkAdd(seedSales);
     invalidateSalesCache();
+  }
+
+  // Ensure default showroom accounts exist locally
+  const custCount = await db.customers.count();
+  if (custCount === 0) {
+    const { INITIAL_CUSTOMERS } = await import('./seedData');
+    await db.customers.bulkAdd(INITIAL_CUSTOMERS);
+  } else {
+    const vescioCust = await db.customers.filter(c => String(c.accountNumber || c.code) === '262863').first();
+    if (!vescioCust) {
+      const { INITIAL_CUSTOMERS } = await import('./seedData');
+      const v = INITIAL_CUSTOMERS.find(c => c.code === '262863');
+      const g = INITIAL_CUSTOMERS.find(c => c.code === '919742');
+      if (v) await db.customers.put(v);
+      if (g) await db.customers.put(g);
+    }
   }
 }
 

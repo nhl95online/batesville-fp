@@ -1,12 +1,16 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { Customer, Product, SaleRecord, RoomShape, RoomCapacity, FloorSlot, CustomerFloorPlan } from '../../types';
+import { Customer, Product, SaleRecord, RoomShape, RoomCapacity, FloorSlot, CustomerFloorPlan, CustomerProductPricing } from '../../types';
 import { db } from '../../services/db';
 import { 
   isUrnProduct, 
   fetchCustomerShowroomFromSupabase, 
   fetchAccountsWithShowroomLocations, 
-  saveCustomerShowroomToSupabase 
+  saveCustomerShowroomToSupabase,
+  fetchCustomerPricingFromSupabase,
+  saveCustomerPricingToSupabase,
+  resolveSlotPricing
 } from '../../services/supabase';
+import { getCustomerRetailPrice, saveCustomerRetails } from '../../services/customerRetails';
 import { 
   LayoutGrid, 
   Sparkles, 
@@ -39,9 +43,14 @@ import {
   Move,
   Ruler,
   Settings2,
-  DoorOpen
+  DoorOpen,
+  DollarSign,
+  Percent,
+  Tag,
+  Edit3
 } from 'lucide-react';
 import { RoomArchitectureModal, RoomArchConfig } from './RoomArchitectureModal';
+
 
 interface ShowroomFloorPlanProps {
   customers: Customer[];
@@ -129,6 +138,13 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
   const [catalogSearch, setCatalogSearch] = useState('');
   const [catalogFilterType, setCatalogFilterType] = useState<'all' | 'casket' | 'urn'>('all');
 
+  // Customer Product Pricing Map & Inline Retail Editing
+  const [customerPricingMap, setCustomerPricingMap] = useState<Map<string, CustomerProductPricing>>(new Map());
+  const [editingRetailSlotId, setEditingRetailSlotId] = useState<string | null>(null);
+  const [retailInputVal, setRetailInputVal] = useState<string>('');
+  const [isSavingRetail, setIsSavingRetail] = useState(false);
+
+
   // Discover accounts that have live showrooms stored in Supabase
   useEffect(() => {
     async function loadCloudAccounts() {
@@ -214,12 +230,16 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
 
     const caskets = products.filter(p => !isUrnProduct(p));
     const urns = products.filter(p => isUrnProduct(p));
+    const acct = String(activeCustomer?.accountNumber || activeCustomer?.code || '').trim();
 
     const newSlots: FloorSlot[] = [];
 
     for (let i = 1; i <= casketCount; i++) {
       const prod = caskets[(i - 1) % Math.max(1, caskets.length)];
       const isDouble = true;
+      const localRetail = prod ? getCustomerRetailPrice(acct, prod.code) : null;
+      const pricing = resolveSlotPricing(activeCustomer, prod, customerPricingMap, localRetail);
+
       newSlots.push({
         id: `casket-bay-${i}`,
         slotNumber: i,
@@ -233,7 +253,13 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
         productCode: prod?.code,
         productName: prod?.name,
         category: prod?.category,
-        wholesalePrice: prod?.wholesalePrice,
+        wholesalePrice: pricing.masterListPrice,
+        masterListPrice: pricing.masterListPrice,
+        discountPercent: pricing.discountPercent,
+        netCost: pricing.netCost,
+        retailPrice: pricing.retailPrice,
+        profitMarginDollars: pricing.profitMarginDollars,
+        profitMarginPercent: pricing.profitMarginPercent,
         imageUrl: prod?.imageUrl,
       });
     }
@@ -241,6 +267,9 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
     for (let j = 1; j <= urnCount; j++) {
       const urn = urns[(j - 1) % Math.max(1, urns.length)];
       const shelfLvl = ((j - 1) % 3) + 1;
+      const localRetail = urn ? getCustomerRetailPrice(acct, urn.code) : null;
+      const pricing = resolveSlotPricing(activeCustomer, urn, customerPricingMap, localRetail);
+
       newSlots.push({
         id: `urn-shelf-${j}`,
         slotNumber: j,
@@ -255,7 +284,13 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
         productCode: urn?.code,
         productName: urn?.name,
         category: urn?.category,
-        wholesalePrice: urn?.wholesalePrice,
+        wholesalePrice: pricing.masterListPrice,
+        masterListPrice: pricing.masterListPrice,
+        discountPercent: pricing.discountPercent,
+        netCost: pricing.netCost,
+        retailPrice: pricing.retailPrice,
+        profitMarginDollars: pricing.profitMarginDollars,
+        profitMarginPercent: pricing.profitMarginPercent,
         imageUrl: urn?.imageUrl,
       });
     }
@@ -264,7 +299,7 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
     if (newSlots.length > 0) {
       setSelectedSlotId(newSlots[0].id);
     }
-  }, [products]);
+  }, [products, activeCustomer, customerPricingMap]);
 
   // Load customer floor plan directly from Supabase, falling back to local cache or defaults
   const loadCustomerFloorPlan = useCallback(async (forceCloud = false) => {
@@ -274,7 +309,16 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
     const acct = String(activeCustomer.accountNumber || activeCustomer.code || '').trim();
 
     try {
-      const cloudRes = await fetchCustomerShowroomFromSupabase(acct, activeCustomer.name);
+      const [cloudRes, pricingList] = await Promise.all([
+        fetchCustomerShowroomFromSupabase(acct, activeCustomer.name),
+        fetchCustomerPricingFromSupabase(acct)
+      ]);
+
+      const pricingMap = new Map<string, CustomerProductPricing>();
+      pricingList.forEach(p => {
+        pricingMap.set(String(p.product_code), p);
+      });
+      setCustomerPricingMap(pricingMap);
 
       if (cloudRes.success && (cloudRes.locations.length > 0 || cloudRes.room)) {
         setCloudRoomMeta(cloudRes.room);
@@ -400,6 +444,15 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
             if (orientDeg === undefined || orientDeg === 0) orientDeg = 0;
           }
 
+          const prodCode = loc.product_code || matchedProd?.code;
+          const localRetail = prodCode ? getCustomerRetailPrice(acct, prodCode) : null;
+          const pricing = resolveSlotPricing(
+            activeCustomer,
+            matchedProd || { product_code: prodCode, category: loc.category },
+            pricingMap,
+            localRetail
+          );
+
           return {
             id: slotId,
             slotNumber: bayNum,
@@ -419,7 +472,13 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
             productCode: loc.product_code || matchedProd?.code,
             productName: loc.product_name || matchedProd?.name || 'Unassigned',
             category: loc.category || matchedProd?.category || (isUrn ? 'Urns & Keepsakes' : 'Burial'),
-            wholesalePrice: matchedProd?.wholesalePrice || (isUrn ? 250 : 1200),
+            wholesalePrice: pricing.masterListPrice,
+            masterListPrice: pricing.masterListPrice,
+            discountPercent: pricing.discountPercent,
+            netCost: pricing.netCost,
+            retailPrice: pricing.retailPrice,
+            profitMarginDollars: pricing.profitMarginDollars,
+            profitMarginPercent: pricing.profitMarginPercent,
             imageUrl: matchedProd?.imageUrl,
           };
         });
@@ -487,9 +546,30 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
             const parsed: CustomerFloorPlan = JSON.parse(saved);
             setRoomShape(parsed.roomShape || 'rectangle');
             setRoomCapacity(parsed.roomCapacity || 'medium');
-            setSlots(parsed.slots || []);
-            if (parsed.slots && parsed.slots.length > 0) {
-              setSelectedSlotId(parsed.slots[0].id);
+            const enriched = (parsed.slots || []).map(s => {
+              const pCode = s.productCode;
+              const matchedP = products.find(p => p.code === pCode);
+              const localRetail = pCode ? getCustomerRetailPrice(acct, pCode) : null;
+              const pricing = resolveSlotPricing(
+                activeCustomer,
+                matchedP || { product_code: pCode, category: s.category, wholesalePrice: s.wholesalePrice },
+                pricingMap,
+                s.retailPrice || localRetail
+              );
+              return {
+                ...s,
+                wholesalePrice: pricing.masterListPrice,
+                masterListPrice: pricing.masterListPrice,
+                discountPercent: pricing.discountPercent,
+                netCost: pricing.netCost,
+                retailPrice: pricing.retailPrice,
+                profitMarginDollars: pricing.profitMarginDollars,
+                profitMarginPercent: pricing.profitMarginPercent,
+              };
+            });
+            setSlots(enriched);
+            if (enriched.length > 0) {
+              setSelectedSlotId(enriched[0].id);
             }
             return;
           } catch (e) {
@@ -682,6 +762,10 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
   const handleSwapSlotProduct = (newProduct: Product) => {
     if (!selectedSlotId) return;
 
+    const acct = String(activeCustomer?.accountNumber || activeCustomer?.code || '').trim();
+    const localRetail = getCustomerRetailPrice(acct, newProduct.code);
+    const pricing = resolveSlotPricing(activeCustomer, newProduct, customerPricingMap, localRetail);
+
     setSlots(prev => {
       const updated = prev.map(s => {
         if (s.id === selectedSlotId) {
@@ -691,7 +775,13 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
             productCode: newProduct.code,
             productName: newProduct.name,
             category: newProduct.category,
-            wholesalePrice: newProduct.wholesalePrice,
+            wholesalePrice: pricing.masterListPrice,
+            masterListPrice: pricing.masterListPrice,
+            discountPercent: pricing.discountPercent,
+            netCost: pricing.netCost,
+            retailPrice: pricing.retailPrice,
+            profitMarginDollars: pricing.profitMarginDollars,
+            profitMarginPercent: pricing.profitMarginPercent,
             imageUrl: newProduct.imageUrl,
           };
         }
@@ -704,13 +794,100 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
     setIsCatalogModalOpen(false);
   };
 
+  const handleStartEditingRetail = (slot: FloorSlot) => {
+    setEditingRetailSlotId(slot.id);
+    setRetailInputVal(String(slot.retailPrice || ''));
+  };
+
+  const handleSaveEditedRetail = async (slot: FloorSlot) => {
+    if (!activeCustomer || !slot.productCode) return;
+    const num = parseFloat(retailInputVal.replace(/[^0-9.]/g, ''));
+    if (isNaN(num) || num <= 0) return;
+
+    setIsSavingRetail(true);
+    try {
+      const acct = String(activeCustomer.accountNumber || activeCustomer.code || '');
+      // 1. Save locally in customerRetails
+      saveCustomerRetails(acct, { [slot.productCode]: num });
+
+      // 2. Save into Supabase customer_product_pricing table
+      await saveCustomerPricingToSupabase([{
+        account_number: acct,
+        product_code: slot.productCode,
+        catalog_year: '2024-25',
+        master_list_price: slot.masterListPrice || slot.wholesalePrice || 1200,
+        discount_percent: slot.discountPercent || (slot.type === 'urn' ? activeCustomer.cremationDiscount : activeCustomer.burialDiscount) || 0,
+        net_cost: slot.netCost || Math.round((slot.wholesalePrice || 1200) * (1 - ((slot.discountPercent || 0) / 100))),
+        retail_price: num,
+        source: 'custom_override'
+      }]);
+
+      // 3. Update customerPricingMap
+      setCustomerPricingMap(prev => {
+        const next = new Map(prev);
+        const existing = next.get(String(slot.productCode)) || {
+          account_number: acct,
+          product_code: slot.productCode!,
+          catalog_year: '2024-25',
+          master_list_price: slot.masterListPrice || slot.wholesalePrice || 1200,
+          discount_percent: slot.discountPercent || 0,
+          net_cost: slot.netCost || 0,
+        };
+        next.set(String(slot.productCode), {
+          ...existing,
+          retail_price: num,
+          profit_margin_dollars: num - (slot.netCost || 0),
+          profit_margin_percent: num > 0 ? Math.round(((num - (slot.netCost || 0)) / num) * 1000) / 10 : 0,
+        });
+        return next;
+      });
+
+      // 4. Update in slots
+      setSlots(prev => prev.map(s => {
+        if (s.id === slot.id || (s.productCode && s.productCode === slot.productCode)) {
+          const net = s.netCost || s.wholesalePrice || 0;
+          const profit = num - net;
+          const marginPct = num > 0 ? Math.round((profit / num) * 1000) / 10 : 0;
+          return {
+            ...s,
+            retailPrice: num,
+            profitMarginDollars: profit,
+            profitMarginPercent: marginPct
+          };
+        }
+        return s;
+      }));
+
+      setEditingRetailSlotId(null);
+    } catch (err) {
+      console.error('Failed to save edited retail price:', err);
+    } finally {
+      setIsSavingRetail(false);
+    }
+  };
+
   // Slot Performance calculation
   const getSlotSalesStats = (slot: FloorSlot) => {
-    if (!slot.productCode) return { units: 0, revenue: 0, lastDate: 'Never', status: 'stagnant' as const };
+    if (!slot.productCode) {
+      return { units: 0, floorUnits: 0, salesUnits: 0, revenue: 0, lastDate: 'Never', status: 'stagnant' as const };
+    }
 
-    const matching = customerSales.filter(s => s.productCode === slot.productCode);
-    const units = matching.reduce((sum, s) => sum + Number(s.quantity || 1), 0);
-    const revenue = matching.reduce((sum, s) => sum + (Number(s.cost) || Number(s.totalAmount) || 0), 0);
+    const normSlotCode = String(slot.productCode).trim().toLowerCase();
+    const matching = customerSales.filter(s => {
+      const sCode = String(s.productCode || '').trim().toLowerCase();
+      if (sCode === normSlotCode) return true;
+      if (slot.productId && s.productId === slot.productId) return true;
+      return false;
+    });
+
+    const salesUnits = matching.reduce((sum, s) => sum + Number(s.quantity || 1), 0);
+    const salesRevenue = matching.reduce((sum, s) => sum + (Number(s.cost) || Number(s.totalAmount) || 0), 0);
+
+    // Showroom unit placed on the floor plan is counted as an active showroom floor display unit
+    const floorUnits = 1;
+    const units = salesUnits + floorUnits;
+    const unitWholesale = Number(slot.masterListPrice || slot.wholesalePrice) || 1200;
+    const revenue = salesRevenue + (salesUnits === 0 ? unitWholesale : 0);
 
     const sortedDates = matching
       .map(s => s.saleDate)
@@ -718,7 +895,7 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
       .sort()
       .reverse();
 
-    const lastDate = sortedDates[0] || (matching.length > 0 ? 'Recorded' : 'No sales');
+    const lastDate = sortedDates[0] || (matching.length > 0 ? 'Recorded' : 'Active on Floor');
 
     let status: 'top' | 'steady' | 'stagnant' = 'stagnant';
     if (units >= 5) {
@@ -727,7 +904,7 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
       status = 'steady';
     }
 
-    return { units, revenue, lastDate, status };
+    return { units, floorUnits, salesUnits, revenue, lastDate, status };
   };
 
   const activeSlot = slots.find(s => s.id === selectedSlotId);
@@ -794,6 +971,8 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
     let steadyCount = 0;
     let stagnantCount = 0;
     let totalWholesale = 0;
+    let totalNetCost = 0;
+    let totalRetail = 0;
 
     slots.forEach(s => {
       const stats = getSlotSalesStats(s);
@@ -801,12 +980,19 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
       else if (stats.status === 'steady') steadyCount++;
       else stagnantCount++;
 
-      totalWholesale += s.wholesalePrice || 1200;
+      const master = s.masterListPrice || s.wholesalePrice || 1200;
+      const net = s.netCost || Math.round(master * 0.54);
+      const retail = s.retailPrice || Math.round(net * 2.4);
+
+      totalWholesale += master;
+      totalNetCost += net;
+      totalRetail += retail;
     });
 
     const activeSelling = topCount + steadyCount;
     const healthScore = slots.length > 0 ? Math.round((activeSelling / slots.length) * 100) : 0;
-    const estimatedRetail = Math.round(totalWholesale * 2.4);
+    const totalProfitSpread = totalRetail - totalNetCost;
+    const blendedMarginPercent = totalRetail > 0 ? Math.round((totalProfitSpread / totalRetail) * 1000) / 10 : 0;
 
     return {
       totalSlots: slots.length,
@@ -817,7 +1003,11 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
       stagnantCount,
       healthScore,
       totalWholesale,
-      estimatedRetail,
+      totalNetCost,
+      totalRetail,
+      totalProfitSpread,
+      blendedMarginPercent,
+      estimatedRetail: totalRetail,
     };
   }, [slots, customerSales]);
 
@@ -1030,7 +1220,7 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
       </div>
 
       {/* Showroom Summary Bar */}
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 text-xs">
+      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 text-xs">
         <div className="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
           <span className="text-slate-500 block mb-0.5">Showroom Velocity</span>
           <div className="flex items-baseline space-x-2">
@@ -1071,12 +1261,42 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
           </span>
         </div>
 
-        <div className="bg-white border border-slate-200 p-4 rounded-xl shadow-sm col-span-2 sm:col-span-1">
-          <span className="text-slate-500 block mb-0.5">Floor Display Value</span>
-          <span className="text-base font-bold text-slate-900 font-mono block">
-            ${showroomSummary.totalWholesale.toLocaleString()}
+        {/* Customer Floor Inventory at Net Cost */}
+        <div className="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+          <span className="text-slate-500 block mb-0.5 flex items-center gap-1">
+            <DollarSign className="w-3.5 h-3.5 text-emerald-600" />
+            <span>Floor at Cost (Net)</span>
           </span>
-          <span className="text-[10px] text-slate-400">Wholesale Total</span>
+          <span className="text-base font-bold text-slate-900 font-mono block">
+            ${showroomSummary.totalNetCost.toLocaleString()}
+          </span>
+          <span className="text-[10px] text-emerald-700 font-medium">Customer Net Investment</span>
+        </div>
+
+        {/* Customer Showroom at Consumer Retail List */}
+        <div className="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+          <span className="text-slate-500 block mb-0.5 flex items-center gap-1">
+            <Tag className="w-3.5 h-3.5 text-amber-600" />
+            <span>Floor at Retail (List)</span>
+          </span>
+          <span className="text-base font-bold text-amber-900 font-mono block">
+            ${showroomSummary.totalRetail.toLocaleString()}
+          </span>
+          <span className="text-[10px] text-amber-700 font-medium">Showroom GPL Potential</span>
+        </div>
+
+        {/* Showroom Profit Margin Spread & % */}
+        <div className="bg-gradient-to-br from-emerald-50 to-white border border-emerald-200 p-4 rounded-xl shadow-sm">
+          <span className="text-emerald-800 block mb-0.5 flex items-center gap-1 font-semibold">
+            <Percent className="w-3.5 h-3.5 text-emerald-700" />
+            <span>Showroom Margin</span>
+          </span>
+          <span className="text-base font-black text-emerald-900 font-mono block">
+            +${showroomSummary.totalProfitSpread.toLocaleString()}
+          </span>
+          <span className="text-[10px] font-bold text-emerald-700 font-mono">
+            {showroomSummary.blendedMarginPercent}% Blended Margin
+          </span>
         </div>
       </div>
 
@@ -1856,15 +2076,22 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
                                 <span className="font-serif font-bold text-xs text-slate-900 block truncate" title={topSlot.productName}>
                                   {topSlot.productName || 'Unassigned'}
                                 </span>
-                                <div className="flex items-center justify-between">
-                                  <span className="text-[10px] text-slate-500 block truncate">
-                                    {topSlot.category || 'Burial'}
-                                  </span>
-                                  {topSlot.wholesalePrice && (
-                                    <span className="text-[10px] text-emerald-700 font-bold font-mono">
-                                      ${Number(topSlot.wholesalePrice).toLocaleString()}
+                                <div className="flex items-center justify-between mt-1 text-[10px]">
+                                  <div className="flex items-center gap-1.5 font-mono">
+                                    <span className="text-slate-600 font-medium" title="Customer Net Cost">
+                                      Cost: <span className="font-bold text-slate-900">${(topSlot.netCost || topSlot.wholesalePrice || 0).toLocaleString()}</span>
                                     </span>
-                                  )}
+                                    {topSlot.retailPrice ? (
+                                      <span className="text-amber-800 font-bold" title="Showroom Retail List (GPL)">
+                                        List: ${topSlot.retailPrice.toLocaleString()}
+                                      </span>
+                                    ) : null}
+                                  </div>
+                                  {topSlot.profitMarginPercent !== undefined && topSlot.profitMarginPercent > 0 ? (
+                                    <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                      +{topSlot.profitMarginPercent}%
+                                    </span>
+                                  ) : null}
                                 </div>
                               </div>
                             </div>
@@ -1905,15 +2132,22 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
                                   <span className="font-serif font-bold text-xs text-slate-900 block truncate" title={btmSlot.productName}>
                                     {btmSlot.productName || 'Unassigned'}
                                   </span>
-                                  <div className="flex items-center justify-between">
-                                    <span className="text-[10px] text-slate-500 block truncate">
-                                      {btmSlot.category || 'Burial'}
-                                    </span>
-                                    {btmSlot.wholesalePrice && (
-                                      <span className="text-[10px] text-emerald-700 font-bold font-mono">
-                                        ${Number(btmSlot.wholesalePrice).toLocaleString()}
+                                  <div className="flex items-center justify-between mt-1 text-[10px]">
+                                    <div className="flex items-center gap-1.5 font-mono">
+                                      <span className="text-slate-600 font-medium" title="Customer Net Cost">
+                                        Cost: <span className="font-bold text-slate-900">${(btmSlot.netCost || btmSlot.wholesalePrice || 0).toLocaleString()}</span>
                                       </span>
-                                    )}
+                                      {btmSlot.retailPrice ? (
+                                        <span className="text-amber-800 font-bold" title="Showroom Retail List (GPL)">
+                                          List: ${btmSlot.retailPrice.toLocaleString()}
+                                        </span>
+                                      ) : null}
+                                    </div>
+                                    {btmSlot.profitMarginPercent !== undefined && btmSlot.profitMarginPercent > 0 ? (
+                                      <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                        +{btmSlot.profitMarginPercent}%
+                                      </span>
+                                    ) : null}
                                   </div>
                                 </div>
                               </div>
@@ -2109,25 +2343,152 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
 
                 {/* Sales Figures Ledger */}
                 {activeSlotStats && (
-                  <div className="grid grid-cols-2 gap-2 bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs">
-                    <div>
-                      <span className="text-slate-400 block text-[10px]">Client Units Sold</span>
-                      <span className="font-mono text-base font-bold text-slate-900">
-                        {activeSlotStats.units} units
-                      </span>
+                  <div className="bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-xs space-y-2.5">
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <span className="text-slate-500 block text-[10px] uppercase tracking-wider font-semibold">Client Units Sold</span>
+                        <div className="flex items-baseline space-x-1 mt-0.5">
+                          <span className="font-mono text-lg font-bold text-slate-900">
+                            {activeSlotStats.units} units
+                          </span>
+                        </div>
+                        <span className="text-[10px] text-amber-700 font-medium block">
+                          {activeSlotStats.floorUnits} Showroom Unit + {activeSlotStats.salesUnits} Reorders
+                        </span>
+                      </div>
+                      <div>
+                        <span className="text-slate-500 block text-[10px] uppercase tracking-wider font-semibold">Client Revenue</span>
+                        <span className="font-mono text-lg font-bold text-emerald-700 block mt-0.5">
+                          ${activeSlotStats.revenue.toLocaleString()}
+                        </span>
+                        <span className="text-[10px] text-slate-400 block">
+                          Wholesale Total
+                        </span>
+                      </div>
                     </div>
-                    <div>
-                      <span className="text-slate-400 block text-[10px]">Client Revenue</span>
-                      <span className="font-mono text-base font-bold text-emerald-700">
-                        ${activeSlotStats.revenue.toLocaleString()}
+                    <div className="pt-2 border-t border-slate-200 flex justify-between items-center text-[11px]">
+                      <span className="text-slate-500 font-medium">Last Client Purchase:</span>
+                      <span className="font-mono text-slate-800 font-semibold bg-white px-2 py-0.5 rounded border border-slate-200 shadow-2xs">
+                        {activeSlotStats.lastDate}
                       </span>
-                    </div>
-                    <div className="col-span-2 pt-2 border-t border-slate-200 flex justify-between text-[11px]">
-                      <span className="text-slate-500">Last Client Purchase:</span>
-                      <span className="font-mono text-slate-700">{activeSlotStats.lastDate}</span>
                     </div>
                   </div>
                 )}
+              </div>
+
+              {/* Customer Pricing & Margin Breakdown Card */}
+              <div className="bg-gradient-to-br from-amber-50/70 via-white to-emerald-50/40 border border-amber-200/90 rounded-2xl p-4 space-y-3 shadow-xs">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-1.5 text-slate-900">
+                    <DollarSign className="w-4 h-4 text-emerald-600" />
+                    <h4 className="font-bold text-xs uppercase tracking-wider">
+                      Pricing & Profitability
+                    </h4>
+                  </div>
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-bold border border-amber-200 truncate max-w-[140px]">
+                    {activeCustomer?.name}
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2 text-xs">
+                  {/* Master List Price */}
+                  <div className="bg-white p-2.5 rounded-xl border border-slate-200 shadow-xs">
+                    <span className="text-slate-400 block text-[10px]">Master List Price</span>
+                    <span className="font-mono text-xs font-bold text-slate-700 block mt-0.5">
+                      ${(activeSlot.masterListPrice || activeSlot.wholesalePrice || 1200).toLocaleString()}
+                    </span>
+                    <span className="text-[9px] text-slate-400">Batesville Catalog</span>
+                  </div>
+
+                  {/* Customer Discount % */}
+                  <div className="bg-white p-2.5 rounded-xl border border-slate-200 shadow-xs">
+                    <span className="text-slate-400 block text-[10px]">Discount Applied</span>
+                    <span className="font-mono text-xs font-bold text-emerald-700 block mt-0.5">
+                      {activeSlot.discountPercent ?? (activeSlot.type === 'urn' ? activeCustomer?.cremationDiscount : activeCustomer?.burialDiscount) ?? 0}% Off
+                    </span>
+                    <span className="text-[9px] text-slate-400">
+                      {activeSlot.type === 'urn' ? 'Cremation Contract' : 'Burial Contract'}
+                    </span>
+                  </div>
+
+                  {/* Net Cost (What funeral home pays) */}
+                  <div className="bg-emerald-50/60 p-2.5 rounded-xl border border-emerald-300">
+                    <span className="text-emerald-800 font-bold block text-[10px] uppercase">Net Cost (Invoice)</span>
+                    <span className="font-mono text-base font-black text-slate-950 block mt-0.5">
+                      ${(activeSlot.netCost || activeSlot.wholesalePrice || 0).toLocaleString()}
+                    </span>
+                    <span className="text-[9px] text-emerald-700 font-medium">Customer True Cost</span>
+                  </div>
+
+                  {/* Retail List (GPL) */}
+                  <div className="bg-amber-50/60 p-2.5 rounded-xl border border-amber-300">
+                    <div className="flex items-center justify-between">
+                      <span className="text-amber-900 font-bold text-[10px] uppercase">Showroom List (GPL)</span>
+                      {editingRetailSlotId !== activeSlot.id && (
+                        <button
+                          onClick={() => handleStartEditingRetail(activeSlot)}
+                          className="text-amber-700 hover:text-amber-900 p-0.5 rounded hover:bg-amber-200/50 transition-colors cursor-pointer"
+                          title="Edit Customer Showroom Price"
+                        >
+                          <Edit3 className="w-3 h-3" />
+                        </button>
+                      )}
+                    </div>
+                    {editingRetailSlotId === activeSlot.id ? (
+                      <div className="mt-1 space-y-1">
+                        <div className="flex items-center space-x-1">
+                          <span className="text-xs font-bold text-slate-600">$</span>
+                          <input
+                            type="text"
+                            value={retailInputVal}
+                            onChange={(e) => setRetailInputVal(e.target.value)}
+                            className="w-full px-1.5 py-0.5 text-xs font-mono font-bold bg-white border border-amber-400 rounded focus:outline-none focus:ring-1 focus:ring-amber-500"
+                            placeholder="5495"
+                            autoFocus
+                          />
+                        </div>
+                        <div className="flex items-center space-x-1">
+                          <button
+                            onClick={() => handleSaveEditedRetail(activeSlot)}
+                            disabled={isSavingRetail}
+                            className="px-2 py-0.5 bg-amber-600 hover:bg-amber-500 text-white rounded text-[10px] font-bold cursor-pointer disabled:opacity-50"
+                          >
+                            {isSavingRetail ? 'Saving...' : 'Save'}
+                          </button>
+                          <button
+                            onClick={() => setEditingRetailSlotId(null)}
+                            className="px-2 py-0.5 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded text-[10px] cursor-pointer"
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <>
+                        <span className="font-mono text-base font-black text-amber-950 block mt-0.5">
+                          ${(activeSlot.retailPrice || 0).toLocaleString()}
+                        </span>
+                        <span className="text-[9px] text-amber-700 font-medium">Consumer List</span>
+                      </>
+                    )}
+                  </div>
+                </div>
+
+                {/* Profit Margin Spread & Margin % */}
+                <div className="p-2.5 rounded-xl bg-white border border-emerald-200 flex items-center justify-between text-xs">
+                  <div>
+                    <span className="text-emerald-800 text-[10px] block font-semibold uppercase">Gross Margin Spread</span>
+                    <span className="font-mono text-sm font-bold text-emerald-950">
+                      +${(activeSlot.profitMarginDollars || (activeSlot.retailPrice && activeSlot.netCost ? activeSlot.retailPrice - activeSlot.netCost : 0)).toLocaleString()}
+                    </span>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-emerald-800 text-[10px] block font-semibold uppercase">Margin %</span>
+                    <span className="font-mono text-sm font-black text-emerald-700">
+                      {activeSlot.profitMarginPercent || (activeSlot.retailPrice && activeSlot.netCost ? Math.round(((activeSlot.retailPrice - activeSlot.netCost) / activeSlot.retailPrice) * 1000) / 10 : 0)}%
+                    </span>
+                  </div>
+                </div>
               </div>
 
               {/* Display & Rack Configuration */}

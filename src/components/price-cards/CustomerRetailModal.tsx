@@ -7,6 +7,7 @@ import {
   parseRetailListText,
   CustomerRetailMap 
 } from '../../services/customerRetails';
+import { saveCustomerPricingToSupabase, isUrnProduct } from '../../services/supabase';
 import { X, DollarSign, Upload, Plus, Trash2, CheckCircle2, AlertCircle } from 'lucide-react';
 
 interface CustomerRetailModalProps {
@@ -32,6 +33,10 @@ export const CustomerRetailModal: React.FC<CustomerRetailModalProps> = ({
   const [newCode, setNewCode] = useState('');
   const [newPrice, setNewPrice] = useState('');
   const [statusMsg, setStatusMsg] = useState<{ success: boolean; text: string } | null>(null);
+
+  const currentCustomerObj = customers.find(c => 
+    c.code === selectedCustId || c.id === selectedCustId || String(c.accountNumber) === selectedCustId
+  );
 
   useEffect(() => {
     if (currentCustomerId) {
@@ -64,8 +69,29 @@ export const CustomerRetailModal: React.FC<CustomerRetailModalProps> = ({
     const updated = getCustomerRetails(selectedCustId);
     setLoadedRetails(updated);
     setPasteText('');
-    setStatusMsg({ success: true, text: `Successfully loaded ${count} retail prices for this customer!` });
+    setStatusMsg({ success: true, text: `Successfully loaded ${count} retail prices and synced to Supabase!` });
     onRetailsUpdated(selectedCustId);
+
+    // Sync to Supabase customer_product_pricing table
+    const acct = currentCustomerObj?.accountNumber || selectedCustId;
+    const pricingPayload = Object.entries(parsed).map(([pCode, price]) => {
+      const prod = products.find(p => String(p.code) === String(pCode) || String(p.product_code) === String(pCode));
+      const isUrn = prod ? isUrnProduct(prod) : false;
+      const disc = isUrn ? (currentCustomerObj?.cremationDiscount || 0) : (currentCustomerObj?.burialDiscount || 0);
+      const master = prod?.wholesalePrice || prod?.price || 1200;
+      const net = Math.round(master * (1 - disc / 100) * 100) / 100;
+      return {
+        account_number: acct,
+        product_code: pCode,
+        catalog_year: '2024-25',
+        master_list_price: master,
+        discount_percent: disc,
+        net_cost: net,
+        retail_price: price,
+        source: 'gpl_import' as const
+      };
+    });
+    saveCustomerPricingToSupabase(pricingPayload).catch(err => console.warn('Supabase pricing sync warning:', err));
   };
 
   const handleAddSingle = () => {
@@ -81,8 +107,26 @@ export const CustomerRetailModal: React.FC<CustomerRetailModalProps> = ({
     setLoadedRetails(updated);
     setNewCode('');
     setNewPrice('');
-    setStatusMsg({ success: true, text: `Added retail price for SKU ${newCode.trim()}: $${num.toLocaleString()}` });
+    setStatusMsg({ success: true, text: `Added retail price for SKU ${newCode.trim()}: $${num.toLocaleString()} and synced to Supabase!` });
     onRetailsUpdated(selectedCustId);
+
+    // Sync single row to Supabase customer_product_pricing table
+    const prod = products.find(p => String(p.code) === String(newCode.trim()) || String(p.product_code) === String(newCode.trim()));
+    const isUrn = prod ? isUrnProduct(prod) : false;
+    const disc = isUrn ? (currentCustomerObj?.cremationDiscount || 0) : (currentCustomerObj?.burialDiscount || 0);
+    const master = prod?.wholesalePrice || prod?.price || 1200;
+    const net = Math.round(master * (1 - disc / 100) * 100) / 100;
+
+    saveCustomerPricingToSupabase([{
+      account_number: currentCustomerObj?.accountNumber || selectedCustId,
+      product_code: newCode.trim(),
+      catalog_year: '2024-25',
+      master_list_price: master,
+      discount_percent: disc,
+      net_cost: net,
+      retail_price: Math.round(num * 100) / 100,
+      source: 'custom_override' as const
+    }]).catch(err => console.warn('Supabase pricing single sync warning:', err));
   };
 
   const handleDeleteItem = (code: string) => {
@@ -92,9 +136,6 @@ export const CustomerRetailModal: React.FC<CustomerRetailModalProps> = ({
     onRetailsUpdated(selectedCustId);
   };
 
-  const currentCustomerObj = customers.find(c => 
-    c.code === selectedCustId || c.id === selectedCustId || String(c.accountNumber) === selectedCustId
-  );
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fadeIn">

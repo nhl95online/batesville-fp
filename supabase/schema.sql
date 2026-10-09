@@ -422,4 +422,41 @@ SET quota_amount = EXCLUDED.quota_amount,
     working_days = EXCLUDED.working_days,
     updated_at = NOW();
 
+-- 13. Customer Product Pricing & Discounted Net Pricing Table
+CREATE TABLE IF NOT EXISTS public.customer_product_pricing (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    account_number BIGINT NOT NULL,
+    product_code BIGINT NOT NULL,
+    catalog_year TEXT NOT NULL DEFAULT '2024-25',
+    master_list_price NUMERIC(10, 2) NOT NULL DEFAULT 0,
+    discount_percent NUMERIC(5, 2) DEFAULT 0,
+    net_cost NUMERIC(10, 2) NOT NULL DEFAULT 0,
+    retail_price NUMERIC(10, 2),
+    profit_margin_dollars NUMERIC(10, 2) GENERATED ALWAYS AS (
+        CASE WHEN retail_price IS NOT NULL THEN (retail_price - net_cost) ELSE NULL END
+    ) STORED,
+    profit_margin_percent NUMERIC(5, 2) GENERATED ALWAYS AS (
+        CASE WHEN retail_price > 0 THEN ROUND(((retail_price - net_cost) / retail_price) * 100, 2) ELSE NULL END
+    ) STORED,
+    source TEXT DEFAULT 'formula',
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW(),
+    UNIQUE (account_number, product_code, catalog_year)
+);
+
+CREATE INDEX IF NOT EXISTS idx_cust_pricing_acct ON public.customer_product_pricing(account_number);
+CREATE INDEX IF NOT EXISTS idx_cust_pricing_pcode ON public.customer_product_pricing(product_code);
+
+ALTER TABLE public.customer_product_pricing ENABLE ROW LEVEL SECURITY;
+
+DO $$ 
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM pg_policies WHERE policyname = 'Public Access Customer Pricing' AND tablename = 'customer_product_pricing'
+    ) THEN
+        CREATE POLICY "Public Access Customer Pricing" ON public.customer_product_pricing FOR ALL USING (true) WITH CHECK (true);
+    END IF;
+END $$;
+
+
 

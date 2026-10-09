@@ -233,6 +233,13 @@ export interface FloorSlot {
   productName?: string;
   category?: string;
   wholesalePrice?: number;
+  // Customer-Specific Pricing Fields
+  masterListPrice?: number;
+  discountPercent?: number;
+  netCost?: number;
+  retailPrice?: number;
+  profitMarginDollars?: number;
+  profitMarginPercent?: number;
   imageUrl?: string;
   wallZone?: string;
   posX?: number;
@@ -240,6 +247,23 @@ export interface FloorSlot {
   orientation_deg?: number;
   notes?: string;
 }
+
+export interface CustomerProductPricing {
+  id?: number | string;
+  account_number: number | string;
+  product_code: number | string;
+  catalog_year: string;
+  master_list_price: number;
+  discount_percent: number;
+  net_cost: number;
+  retail_price?: number;
+  profit_margin_dollars?: number;
+  profit_margin_percent?: number;
+  source?: 'formula' | 'custom_override' | 'gpl_import';
+  created_at?: string;
+  updated_at?: string;
+}
+
 
 export interface CustomerRoom {
   room_id?: string;

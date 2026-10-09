@@ -1,7 +1,7 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { jsPDF } from 'jspdf';
 import { db, invalidateSalesCache, saveLithoItem } from './db';
-import { Customer, Product, SaleRecord, SupabaseConfig, CasketImageItem, LithoItem, FloorSlot } from '../types';
+import { Customer, Product, SaleRecord, SupabaseConfig, CasketImageItem, LithoItem, FloorSlot, CustomerProductPricing } from '../types';
 import { BATESVILLE_CASKET_CATALOG, BATESVILLE_FULL_CATALOG } from './batesvilleCatalogData';
 
 const STORAGE_KEY = 'batesville_fp_supabase_config';
@@ -1566,3 +1566,156 @@ export function isCasketProduct(product?: { category?: string; name?: string; de
     name.includes('casket')
   );
 }
+
+/**
+ * Fetch customer-specific product pricing list from Supabase
+ */
+export async function fetchCustomerPricingFromSupabase(
+  accountNumber: string | number,
+  catalogYear?: string
+): Promise<CustomerProductPricing[]> {
+  try {
+    const client = getSupabaseClient();
+    const acct = Number(String(accountNumber).replace(/[^0-9]/g, '')) || 0;
+    if (!acct) return [];
+
+    let query = client
+      .from('customer_product_pricing')
+      .select('*')
+      .eq('account_number', acct);
+
+    if (catalogYear) {
+      query = query.eq('catalog_year', catalogYear);
+    }
+
+    const { data, error } = await query;
+    if (error) {
+      console.warn('Error fetching customer_product_pricing:', error.message);
+      return [];
+    }
+    return (data || []) as CustomerProductPricing[];
+  } catch (err) {
+    console.error('fetchCustomerPricingFromSupabase exception:', err);
+    return [];
+  }
+}
+
+/**
+ * Save / Upsert customer product pricing records into Supabase
+ */
+export async function saveCustomerPricingToSupabase(
+  pricingList: Partial<CustomerProductPricing>[]
+): Promise<{ success: boolean; message: string; count?: number }> {
+  try {
+    const client = getSupabaseClient();
+    if (!pricingList || pricingList.length === 0) {
+      return { success: true, message: 'No pricing records to save.' };
+    }
+
+    const payload = pricingList.map(p => ({
+      account_number: Number(String(p.account_number).replace(/[^0-9]/g, '')),
+      product_code: Number(String(p.product_code).replace(/[^0-9]/g, '')),
+      catalog_year: p.catalog_year || '2024-25',
+      master_list_price: Number(p.master_list_price) || 0,
+      discount_percent: Number(p.discount_percent) || 0,
+      net_cost: Number(p.net_cost) || 0,
+      retail_price: p.retail_price !== undefined && p.retail_price !== null ? Number(p.retail_price) : null,
+      source: p.source || 'custom_override',
+      updated_at: new Date().toISOString()
+    }));
+
+    const { error } = await client
+      .from('customer_product_pricing')
+      .upsert(payload, { onConflict: 'account_number,product_code,catalog_year' });
+
+    if (error) {
+      return { success: false, message: error.message };
+    }
+
+    return { 
+      success: true, 
+      message: `Successfully saved ${payload.length} customer pricing records to Supabase!`,
+      count: payload.length 
+    };
+  } catch (err: any) {
+    return { success: false, message: err.message || 'Failed to save customer pricing.' };
+  }
+}
+
+/**
+ * Resolves customer-specific pricing for a product or showroom slot:
+ * 1. Checks custom override in customer_product_pricing table (if fetched)
+ * 2. Checks customerRetails (GPL retail stored in customerRetails service)
+ * 3. Falls back to customer burial/cremation discount and default markup
+ */
+export function resolveSlotPricing(
+  customer: Customer | null | undefined,
+  product: Partial<Product> | null | undefined,
+  customPricingMap?: Map<string, CustomerProductPricing>,
+  localRetailPrice?: number | null
+): {
+  masterListPrice: number;
+  discountPercent: number;
+  netCost: number;
+  retailPrice: number;
+  profitMarginDollars: number;
+  profitMarginPercent: number;
+} {
+  const pCodeStr = String(product?.product_code || product?.productCode || product?.code || '').trim();
+  const override = customPricingMap && pCodeStr ? customPricingMap.get(pCodeStr) : undefined;
+
+  // 1. Master List Price
+  const masterList = Number(
+    override?.master_list_price || 
+    product?.wholesalePrice || 
+    product?.price || 
+    1200
+  );
+
+  // 2. Determine Discount %
+  const isUrn = isUrnProduct(product || {});
+  const defaultDiscount = isUrn 
+    ? Number(customer?.cremationDiscount || 0)
+    : Number(customer?.burialDiscount || 0);
+
+  const discountPercent = override?.discount_percent !== undefined 
+    ? Number(override.discount_percent) 
+    : defaultDiscount;
+
+  // 3. Calculate Customer Net Cost
+  let netCost = override?.net_cost !== undefined
+    ? Number(override.net_cost)
+    : Math.round(masterList * (1 - (discountPercent / 100)) * 100) / 100;
+
+  if (netCost <= 0 && masterList > 0) {
+    netCost = masterList;
+  }
+
+  // 4. Retail Price (GPL)
+  let retailPrice = 0;
+  if (override?.retail_price !== undefined && override.retail_price !== null && Number(override.retail_price) > 0) {
+    retailPrice = Number(override.retail_price);
+  } else if (localRetailPrice !== undefined && localRetailPrice !== null && localRetailPrice > 0) {
+    retailPrice = localRetailPrice;
+  } else {
+    // Standard default markup from customer profile or 140%
+    const markup = customer?.defaultMarkupPercent ? Number(customer.defaultMarkupPercent) : 140;
+    retailPrice = Math.round(netCost * (1 + (markup / 100)));
+  }
+
+  // 5. Margin metrics
+  const profitMarginDollars = retailPrice > 0 ? Math.round((retailPrice - netCost) * 100) / 100 : 0;
+  const profitMarginPercent = retailPrice > 0 
+    ? Math.round(((retailPrice - netCost) / retailPrice) * 1000) / 10 
+    : 0;
+
+  return {
+    masterListPrice: masterList,
+    discountPercent,
+    netCost,
+    retailPrice,
+    profitMarginDollars,
+    profitMarginPercent
+  };
+}
+

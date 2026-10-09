@@ -104,6 +104,51 @@ export const INITIAL_CUSTOMERS: Customer[] = [
     notes: 'Regional associate facility. Focus on basic steel and keepsake bundles.',
     createdAt: '2024-01-12T13:30:00.000Z',
     updatedAt: '2026-02-14T15:10:00.000Z',
+  },
+  {
+    id: 'cust-262863',
+    code: '262863',
+    accountNumber: 262863,
+    name: 'Vescio Funeral Home Woodbridge Chapel',
+    contactPerson: 'Dave Albanese',
+    email: 'info@vesciofuneralhome.com',
+    phone: '(905) 850-3332',
+    address: '8101 Weston Road',
+    city: 'Woodbridge',
+    state: 'ON',
+    zip: 'L4L 1A6',
+    tier: 'Platinum',
+    program: 'PA',
+    selectionRoom: true,
+    selectionRoomStyle: 'Full Size',
+    burialDiscount: 32,
+    cremationDiscount: 15,
+    rebate: 21,
+    defaultMarkupPercent: 145,
+    notes: 'Promethean on an angle, and a small bloc in the entrance to the right. 16 casket selection room.',
+    createdAt: '2023-01-01T00:00:00.000Z',
+    updatedAt: '2026-09-20T00:00:00.000Z',
+  },
+  {
+    id: 'cust-919742',
+    code: '919742',
+    accountNumber: 919742,
+    name: 'Guenette Funeral Home',
+    contactPerson: 'Serge Guenette',
+    email: 'info@guenettefuneral.com',
+    phone: '(705) 362-4321',
+    address: '108 17th Avenue',
+    city: 'Kapuskasing',
+    state: 'ON',
+    zip: 'P5N 1M5',
+    tier: 'Gold',
+    program: 'Standard',
+    selectionRoom: true,
+    selectionRoomStyle: 'Full Size',
+    defaultMarkupPercent: 140,
+    notes: 'Urn Wall on the left side of the upside down L-Shaped Room, All caskets are currently on DOUBLE RACKS. 24 showroom units.',
+    createdAt: '2023-01-01T00:00:00.000Z',
+    updatedAt: '2026-09-20T00:00:00.000Z',
   }
 ];
 
@@ -506,6 +551,236 @@ export function generateSeedSales(): SaleRecord[] {
       notes: `Live October delivery for ${customer.name}`
     });
 
+    orderSeq++;
+  }
+
+  // 3. Generate authentic showroom client reorders for Vescio Funeral Home Woodbridge Chapel (Account 262863)
+  const VESCIO_SHOWROOM_MODELS = [
+    { code: '255455', name: 'OT9 825 DH Onyx', category: 'Burial - Metal', subcategory: 'Metal', cost: 1280.00, monthlyOrders: [
+      { year: '2024-25', mCode: 'NOV', fm: 2, cm: 11, day: '14', qty: 2 },
+      { year: '2024-25', mCode: 'FEB', fm: 5, cm: 2, day: '18', qty: 3 },
+      { year: '2024-25', mCode: 'MAY', fm: 8, cm: 5, day: '22', qty: 3 },
+      { year: '2024-25', mCode: 'AUG', fm: 11, cm: 8, day: '19', qty: 3 },
+      { year: '2025-26', mCode: 'NOV', fm: 2, cm: 11, day: '12', qty: 2 },
+      { year: '2025-26', mCode: 'JAN', fm: 4, cm: 1, day: '16', qty: 2 },
+      { year: '2025-26', mCode: 'MAR', fm: 6, cm: 3, day: '20', qty: 3 },
+      { year: '2025-26', mCode: 'MAY', fm: 8, cm: 5, day: '15', qty: 2 },
+      { year: '2025-26', mCode: 'JUL', fm: 10, cm: 7, day: '24', qty: 2 },
+      { year: '2025-26', mCode: 'SEP', fm: 12, cm: 9, day: '18', qty: 2 },
+      { year: '2026-27', mCode: 'OCT', fm: 1, cm: 10, day: '05', qty: 1 }
+    ]},
+    { code: '261097', name: 'OT37 833 D Brushed Merlot', category: 'Burial - Metal', subcategory: 'Metal', cost: 1271.48, monthlyOrders: [
+      { year: '2024-25', mCode: 'DEC', fm: 3, cm: 12, day: '10', qty: 2 },
+      { year: '2024-25', mCode: 'MAR', fm: 6, cm: 3, day: '15', qty: 3 },
+      { year: '2024-25', mCode: 'JUL', fm: 10, cm: 7, day: '20', qty: 2 },
+      { year: '2025-26', mCode: 'NOV', fm: 2, cm: 11, day: '18', qty: 2 },
+      { year: '2025-26', mCode: 'FEB', fm: 5, cm: 2, day: '14', qty: 2 },
+      { year: '2025-26', mCode: 'APR', fm: 7, cm: 4, day: '22', qty: 2 },
+      { year: '2025-26', mCode: 'JUL', fm: 10, cm: 7, day: '16', qty: 2 },
+      { year: '2025-26', mCode: 'SEP', fm: 12, cm: 9, day: '22', qty: 2 },
+      { year: '2026-27', mCode: 'OCT', fm: 1, cm: 10, day: '08', qty: 1 }
+    ]},
+    { code: '251625', name: 'Dalton Select', category: 'Burial - Wood - Custom', subcategory: 'Wood', cost: 1200.00, monthlyOrders: [
+      { year: '2024-25', mCode: 'OCT', fm: 1, cm: 10, day: '22', qty: 3 },
+      { year: '2024-25', mCode: 'JAN', fm: 4, cm: 1, day: '18', qty: 3 },
+      { year: '2024-25', mCode: 'APR', fm: 7, cm: 4, day: '15', qty: 3 },
+      { year: '2024-25', mCode: 'AUG', fm: 11, cm: 8, day: '21', qty: 3 },
+      { year: '2025-26', mCode: 'NOV', fm: 2, cm: 11, day: '08', qty: 2 },
+      { year: '2025-26', mCode: 'JAN', fm: 4, cm: 1, day: '24', qty: 2 },
+      { year: '2025-26', mCode: 'MAR', fm: 6, cm: 3, day: '18', qty: 3 },
+      { year: '2025-26', mCode: 'MAY', fm: 8, cm: 5, day: '26', qty: 2 },
+      { year: '2025-26', mCode: 'JUL', fm: 10, cm: 7, day: '14', qty: 2 },
+      { year: '2025-26', mCode: 'AUG', fm: 11, cm: 8, day: '25', qty: 3 },
+      { year: '2026-27', mCode: 'OCT', fm: 1, cm: 10, day: '03', qty: 1 }
+    ]},
+    { code: '258838', name: '4V4 825 HD Montgomery Red', category: 'Burial - Wood - Custom', subcategory: 'Wood', cost: 994.50, monthlyOrders: [
+      { year: '2024-25', mCode: 'DEC', fm: 3, cm: 12, day: '15', qty: 2 },
+      { year: '2024-25', mCode: 'APR', fm: 7, cm: 4, day: '18', qty: 2 },
+      { year: '2024-25', mCode: 'AUG', fm: 11, cm: 8, day: '20', qty: 2 },
+      { year: '2025-26', mCode: 'DEC', fm: 3, cm: 12, day: '14', qty: 2 },
+      { year: '2025-26', mCode: 'MAR', fm: 6, cm: 3, day: '22', qty: 2 },
+      { year: '2025-26', mCode: 'JUN', fm: 9, cm: 6, day: '18', qty: 2 },
+      { year: '2025-26', mCode: 'SEP', fm: 12, cm: 9, day: '14', qty: 2 },
+      { year: '2026-27', mCode: 'OCT', fm: 1, cm: 10, day: '06', qty: 1 }
+    ]},
+    { code: '205161', name: '4V1 891 HD Trenton', category: 'Burial - Wood', subcategory: 'Wood', cost: 874.54, monthlyOrders: [
+      { year: '2024-25', mCode: 'NOV', fm: 2, cm: 11, day: '19', qty: 3 },
+      { year: '2024-25', mCode: 'MAR', fm: 6, cm: 3, day: '12', qty: 3 },
+      { year: '2024-25', mCode: 'JUL', fm: 10, cm: 7, day: '28', qty: 3 },
+      { year: '2025-26', mCode: 'OCT', fm: 1, cm: 10, day: '24', qty: 2 },
+      { year: '2025-26', mCode: 'JAN', fm: 4, cm: 1, day: '15', qty: 2 },
+      { year: '2025-26', mCode: 'APR', fm: 7, cm: 4, day: '19', qty: 3 },
+      { year: '2025-26', mCode: 'JUL', fm: 10, cm: 7, day: '22', qty: 2 },
+      { year: '2025-26', mCode: 'SEP', fm: 12, cm: 9, day: '28', qty: 2 },
+      { year: '2026-27', mCode: 'OCT', fm: 1, cm: 10, day: '07', qty: 1 }
+    ]},
+    { code: '242475', name: 'Q01 8J5 CAH Heirloom Pewter', category: 'Burial - Metal', subcategory: 'Metal', cost: 1500.00, monthlyOrders: [
+      { year: '2024-25', mCode: 'JAN', fm: 4, cm: 1, day: '20', qty: 2 },
+      { year: '2024-25', mCode: 'MAY', fm: 8, cm: 5, day: '14', qty: 2 },
+      { year: '2025-26', mCode: 'NOV', fm: 2, cm: 11, day: '25', qty: 2 },
+      { year: '2025-26', mCode: 'FEB', fm: 5, cm: 2, day: '18', qty: 2 },
+      { year: '2025-26', mCode: 'MAY', fm: 8, cm: 5, day: '12', qty: 2 },
+      { year: '2025-26', mCode: 'JUL', fm: 10, cm: 7, day: '20', qty: 2 }
+    ]},
+    { code: '252313', name: '4V2 825 HD Weyburn-Last Supper', category: 'Burial - Wood - Custom', subcategory: 'Wood', cost: 1534.91, monthlyOrders: [
+      { year: '2024-25', mCode: 'FEB', fm: 5, cm: 2, day: '16', qty: 2 },
+      { year: '2024-25', mCode: 'JUN', fm: 9, cm: 6, day: '21', qty: 2 },
+      { year: '2025-26', mCode: 'DEC', fm: 3, cm: 12, day: '18', qty: 2 },
+      { year: '2025-26', mCode: 'APR', fm: 7, cm: 4, day: '14', qty: 2 },
+      { year: '2025-26', mCode: 'AUG', fm: 11, cm: 8, day: '11', qty: 2 }
+    ]},
+    { code: '257956', name: 'QD2 8F3 A Pisces Silver', category: 'Burial - Metal', subcategory: 'Metal', cost: 900.00, monthlyOrders: [
+      { year: '2024-25', mCode: 'OCT', fm: 1, cm: 10, day: '16', qty: 2 },
+      { year: '2024-25', mCode: 'FEB', fm: 5, cm: 2, day: '22', qty: 2 },
+      { year: '2024-25', mCode: 'JUN', fm: 9, cm: 6, day: '14', qty: 2 },
+      { year: '2025-26', mCode: 'NOV', fm: 2, cm: 11, day: '20', qty: 2 },
+      { year: '2025-26', mCode: 'MAR', fm: 6, cm: 3, day: '16', qty: 2 },
+      { year: '2025-26', mCode: 'JUN', fm: 9, cm: 6, day: '24', qty: 2 },
+      { year: '2025-26', mCode: 'SEP', fm: 12, cm: 9, day: '08', qty: 2 }
+    ]},
+    { code: '195862', name: 'Brandon Select', category: 'Burial - Wood', subcategory: 'Wood', cost: 1200.00, monthlyOrders: [
+      { year: '2024-25', mCode: 'DEC', fm: 3, cm: 12, day: '22', qty: 3 },
+      { year: '2024-25', mCode: 'APR', fm: 7, cm: 4, day: '10', qty: 3 },
+      { year: '2024-25', mCode: 'JUL', fm: 10, cm: 7, day: '18', qty: 3 },
+      { year: '2025-26', mCode: 'OCT', fm: 1, cm: 10, day: '18', qty: 2 },
+      { year: '2025-26', mCode: 'JAN', fm: 4, cm: 1, day: '12', qty: 2 },
+      { year: '2025-26', mCode: 'APR', fm: 7, cm: 4, day: '25', qty: 3 },
+      { year: '2025-26', mCode: 'JUL', fm: 10, cm: 7, day: '19', qty: 2 },
+      { year: '2025-26', mCode: 'SEP', fm: 12, cm: 9, day: '15', qty: 3 },
+      { year: '2026-27', mCode: 'OCT', fm: 1, cm: 10, day: '04', qty: 1 }
+    ]},
+    { code: '195846', name: '8PM 865 HD Regent Mahogany', category: 'Burial - Wood', subcategory: 'Wood', cost: 2520.00, monthlyOrders: [
+      { year: '2024-25', mCode: 'NOV', fm: 2, cm: 11, day: '28', qty: 1 },
+      { year: '2024-25', mCode: 'MAY', fm: 8, cm: 5, day: '16', qty: 2 },
+      { year: '2025-26', mCode: 'JAN', fm: 4, cm: 1, day: '19', qty: 1 },
+      { year: '2025-26', mCode: 'MAR', fm: 6, cm: 3, day: '25', qty: 1 },
+      { year: '2025-26', mCode: 'JUN', fm: 9, cm: 6, day: '18', qty: 2 }
+    ]},
+    { code: '195869', name: 'Freelton Select', category: 'Burial - Wood', subcategory: 'Wood', cost: 995.28, monthlyOrders: [
+      { year: '2024-25', mCode: 'OCT', fm: 1, cm: 10, day: '25', qty: 2 },
+      { year: '2024-25', mCode: 'APR', fm: 7, cm: 4, day: '22', qty: 2 },
+      { year: '2025-26', mCode: 'DEC', fm: 3, cm: 12, day: '10', qty: 1 },
+      { year: '2025-26', mCode: 'APR', fm: 7, cm: 4, day: '16', qty: 2 },
+      { year: '2025-26', mCode: 'JUL', fm: 10, cm: 7, day: '22', qty: 1 }
+    ]},
+    { code: '195871', name: 'Butler Aspen', category: 'Burial - Wood', subcategory: 'Wood', cost: 995.28, monthlyOrders: [
+      { year: '2024-25', mCode: 'JAN', fm: 4, cm: 1, day: '14', qty: 1 },
+      { year: '2024-25', mCode: 'JUN', fm: 9, cm: 6, day: '20', qty: 2 },
+      { year: '2025-26', mCode: 'FEB', fm: 5, cm: 2, day: '12', qty: 1 },
+      { year: '2025-26', mCode: 'MAY', fm: 8, cm: 5, day: '15', qty: 2 }
+    ]},
+    { code: '146825', name: '4BH 891 D Gurnet', category: 'Burial - Wood', subcategory: 'Wood', cost: 1020.00, monthlyOrders: [
+      { year: '2024-25', mCode: 'DEC', fm: 3, cm: 12, day: '18', qty: 1 },
+      { year: '2024-25', mCode: 'JUL', fm: 10, cm: 7, day: '11', qty: 2 },
+      { year: '2025-26', mCode: 'MAR', fm: 6, cm: 3, day: '28', qty: 1 },
+      { year: '2025-26', mCode: 'AUG', fm: 11, cm: 8, day: '04', qty: 2 }
+    ]},
+    { code: '148191', name: '3Q9 892 LH Provincial Maple', category: 'Burial - Wood', subcategory: 'Wood', cost: 2840.00, monthlyOrders: [
+      { year: '2024-25', mCode: 'FEB', fm: 5, cm: 2, day: '20', qty: 1 },
+      { year: '2025-26', mCode: 'NOV', fm: 2, cm: 11, day: '14', qty: 1 },
+      { year: '2025-26', mCode: 'APR', fm: 7, cm: 4, day: '12', qty: 1 }
+    ]},
+    { code: '147968', name: 'Z94 997 DH Promethean Bronze', category: 'Burial - Metal', subcategory: 'Bronze', cost: 12500.00, monthlyOrders: [
+      { year: '2024-25', mCode: 'SEP', fm: 12, cm: 9, day: '10', qty: 1 },
+      { year: '2025-26', mCode: 'FEB', fm: 5, cm: 2, day: '10', qty: 1 }
+    ]},
+    { code: '209772', name: '711 President Carved Top-F/T', category: 'Burial - Wood', subcategory: 'Wood', cost: 1200.00, monthlyOrders: [
+      { year: '2024-25', mCode: 'AUG', fm: 11, cm: 8, day: '15', qty: 1 },
+      { year: '2025-26', mCode: 'MAR', fm: 6, cm: 3, day: '24', qty: 1 }
+    ]}
+  ];
+
+  for (const item of VESCIO_SHOWROOM_MODELS) {
+    for (const ord of item.monthlyOrders) {
+      const baseYear = parseInt(ord.year.split('-')[0], 10);
+      const calYear = ord.fm <= 3 ? baseYear : baseYear + 1;
+      const saleDate = `${calYear}-${String(ord.cm).padStart(2, '0')}-${ord.day}`;
+      const totalAmount = Math.round(ord.qty * item.cost * 100) / 100;
+
+      sales.push({
+        id: `sale-vescio-${ord.year}-${ord.mCode}-${orderSeq}`,
+        saleId: orderSeq,
+        year: ord.year,
+        month: ord.mCode,
+        day: ord.day,
+        program: 'PA',
+        accountName: 'Vescio Funeral Home Woodbridge Chapel',
+        accountNumber: 262863,
+        productCode: item.code,
+        category: item.category,
+        subcategory: item.subcategory,
+        description: item.name,
+        quantity: ord.qty,
+        cost: totalAmount,
+        customerId: 'cust-262863',
+        productId: `prod-${item.code}-${ord.year}`,
+        orderNumber: `ORD-${ord.year}-${orderSeq}`,
+        unitPrice: item.cost,
+        totalAmount,
+        saleDate,
+        fiscalMonth: ord.fm,
+        calMonth: ord.cm,
+        notes: `Distributor showroom delivery for Vescio Funeral Home Woodbridge Chapel`
+      });
+      orderSeq++;
+    }
+  }
+
+  // 4. Generate authentic showroom client reorders for Guenette Funeral Home (Account 919742)
+  const GUENETTE_SHOWROOM_MODELS = [
+    { code: '147719', name: 'A21 879 DH Neopolitan Blue', category: 'Burial - Metal', subcategory: 'Metal', cost: 1470.00, units: 10, lastMonth: '09', lastDay: '16' },
+    { code: '52-417-103', name: 'FERGUS PC', category: 'Burial - Wood', subcategory: 'Wood', cost: 1150.00, units: 8, lastMonth: '08', lastDay: '24' },
+    { code: '185487', name: 'JF9 825 CDH Golden Midnight', category: 'Burial - Metal', subcategory: 'Metal', cost: 1620.00, units: 7, lastMonth: '09', lastDay: '10' },
+    { code: '32-62-12', name: 'DIGBY PC', category: 'Burial - Wood', subcategory: 'Wood', cost: 980.00, units: 6, lastMonth: '07', lastDay: '19' },
+    { code: '71007964', name: 'MONARCH SANDSTONE PC', category: 'Burial - Metal', subcategory: 'Metal', cost: 1320.00, units: 5, lastMonth: '08', lastDay: '05' },
+    { code: '32-1062-28', name: 'ASHTON PC', category: 'Burial - Wood', subcategory: 'Wood', cost: 1100.00, units: 6, lastMonth: '09', lastDay: '02' },
+    { code: '110951', name: 'WINSTON-100 PC', category: 'Burial - Cloth', subcategory: 'Cloth', cost: 650.00, units: 8, lastMonth: '09', lastDay: '20' },
+    { code: '52-5410-00', name: 'HOMEWARD PC', category: 'Burial - Wood', subcategory: 'Wood', cost: 890.00, units: 4, lastMonth: '06', lastDay: '14' },
+    { code: '245435', name: 'MDF Cremation Box-Pine-Cut Top', category: 'Cremation', subcategory: 'Cremation', cost: 320.00, units: 15, lastMonth: '09', lastDay: '27' },
+    { code: '79-5055-01', name: 'BASIC SHELL/RF LID', category: 'Cremation', subcategory: 'Cremation', cost: 210.00, units: 18, lastMonth: '09', lastDay: '29' },
+    { code: '208692', name: 'Bradbury Pecan Urn', category: 'Urns & Keepsakes', subcategory: 'Urns', cost: 240.00, units: 9, lastMonth: '08', lastDay: '22' },
+    { code: '235556', name: 'Pewter Bronze Vertical Urn', category: 'Urns & Keepsakes', subcategory: 'Urns', cost: 195.00, units: 7, lastMonth: '09', lastDay: '12' },
+    { code: '235555', name: 'Brushed Bronze Horizontal Urn', category: 'Urns & Keepsakes', subcategory: 'Urns', cost: 195.00, units: 6, lastMonth: '07', lastDay: '18' },
+    { code: '235709', name: 'Crimson Delphia Urn', category: 'Urns & Keepsakes', subcategory: 'Urns', cost: 165.00, units: 8, lastMonth: '09', lastDay: '08' },
+    { code: '235705', name: 'Blue Delphia Urn', category: 'Urns & Keepsakes', subcategory: 'Urns', cost: 165.00, units: 9, lastMonth: '09', lastDay: '21' },
+    { code: '205396', name: 'Ashen Pewter Urn', category: 'Urns & Keepsakes', subcategory: 'Urns', cost: 155.00, units: 6, lastMonth: '08', lastDay: '15' },
+    { code: '20006', name: 'Cross Oak', category: 'Urns & Keepsakes', subcategory: 'Urns', cost: 175.00, units: 4, lastMonth: '06', lastDay: '11' },
+    { code: 'A572', name: 'Flying Doves', category: 'Urns & Keepsakes', subcategory: 'Urns', cost: 140.00, units: 5, lastMonth: '07', lastDay: '04' },
+    { code: '51000-1-3-5-7', name: 'Cultured Marble', category: 'Urns & Keepsakes', subcategory: 'Urns', cost: 185.00, units: 4, lastMonth: '05', lastDay: '28' },
+    { code: '960530-1-2-3', name: 'Marbleized', category: 'Urns & Keepsakes', subcategory: 'Urns', cost: 160.00, units: 3, lastMonth: '04', lastDay: '16' },
+    { code: '960411-2', name: 'Blessing', category: 'Urns & Keepsakes', subcategory: 'Urns', cost: 150.00, units: 3, lastMonth: '05', lastDay: '09' },
+    { code: '210', name: 'Camo Tambour', category: 'Urns & Keepsakes', subcategory: 'Urns', cost: 170.00, units: 2, lastMonth: '03', lastDay: '14' },
+    { code: '219', name: 'Raised Panel', category: 'Urns & Keepsakes', subcategory: 'Urns', cost: 180.00, units: 3, lastMonth: '06', lastDay: '22' },
+    { code: 'EA-1002', name: 'Heart Urn', category: 'Urns & Keepsakes', subcategory: 'Urns', cost: 110.00, units: 5, lastMonth: '08', lastDay: '19' },
+  ];
+
+  for (const gItem of GUENETTE_SHOWROOM_MODELS) {
+    const totalAmount = Math.round(gItem.units * gItem.cost * 100) / 100;
+    sales.push({
+      id: `sale-guenette-2025-26-${orderSeq}`,
+      saleId: orderSeq,
+      year: '2025-26',
+      month: gItem.lastMonth === '09' ? 'SEP' : gItem.lastMonth === '08' ? 'AUG' : 'JUL',
+      day: gItem.lastDay,
+      program: 'Standard',
+      accountName: 'Guenette Funeral Home',
+      accountNumber: 919742,
+      productCode: gItem.code,
+      category: gItem.category,
+      subcategory: gItem.subcategory,
+      description: gItem.name,
+      quantity: gItem.units,
+      cost: totalAmount,
+      customerId: 'cust-919742',
+      productId: `prod-${gItem.code}-2025-26`,
+      orderNumber: `ORD-2025-26-${orderSeq}`,
+      unitPrice: gItem.cost,
+      totalAmount,
+      saleDate: `2026-${gItem.lastMonth}-${gItem.lastDay}`,
+      fiscalMonth: parseInt(gItem.lastMonth, 10) >= 10 ? parseInt(gItem.lastMonth, 10) - 9 : parseInt(gItem.lastMonth, 10) + 3,
+      calMonth: parseInt(gItem.lastMonth, 10),
+      notes: `Distributor showroom delivery for Guenette Funeral Home`
+    });
     orderSeq++;
   }
 
