@@ -434,28 +434,6 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
             </div>
           </div>
 
-          {/* Year-to-Year Product Sales Performance Breakdown */}
-          <div className="space-y-3 pt-4 border-t border-slate-200">
-            <h3 className="text-xs uppercase font-bold tracking-wider text-slate-700 flex items-center gap-1.5">
-              <TrendingUp className="w-4 h-4 text-emerald-600" />
-              Year-to-Year Sales Performance Breakdown
-            </h3>
-            
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              {history.map((yr) => (
-                <div key={yr.year} className="bg-slate-50 border border-slate-200 p-3.5 rounded-xl text-center shadow-sm">
-                  <div className="text-xs font-semibold text-slate-500 mb-1">{yr.year}</div>
-                  <div className="text-lg font-serif font-bold text-amber-700">
-                    ${yr.revenue.toLocaleString()}
-                  </div>
-                  <div className="text-[11px] text-slate-500 mt-1">
-                    {yr.units} units ({yr.ordersCount} orders)
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
         </div>
 
       </div>
