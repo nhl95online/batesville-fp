@@ -1302,6 +1302,8 @@ export async function pushToSupabase(): Promise<{ success: boolean; message: str
         'Customer Type': c.customerType || null,
         'Attitude towards Batesville': c.attitudeTowardsBatesville || null,
         'Primary Burial Products Competitor': c.primaryBurialProductsCompetitor || null,
+        '2nd Contact': c.secondContact || null,
+        '3rd Contact': c.thirdContact || null,
         burial_discount: c.burialDiscount ?? 0,
         cremation_discount: c.cremationDiscount ?? 0,
         rebate: c.rebate ?? null,

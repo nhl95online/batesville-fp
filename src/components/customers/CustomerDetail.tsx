@@ -157,7 +157,7 @@ export const CustomerDetail: React.FC<CustomerDetailProps> = ({
               <span className="text-slate-500">Main Phone Number:</span>
               <span className="font-mono text-slate-800">{customer.mainPhoneNumber || customer.phone || '—'}</span>
             </div>
-            <div className="flex justify-between pb-1">
+            <div className="flex justify-between border-b border-slate-200 pb-1.5">
               <span className="text-slate-500">Contact Email:</span>
               <span className="truncate max-w-[200px]">
                 {(customer.contactEmail || customer.email) ? (
@@ -168,6 +168,14 @@ export const CustomerDetail: React.FC<CustomerDetailProps> = ({
                   <span className="text-slate-400">—</span>
                 )}
               </span>
+            </div>
+            <div className="flex justify-between border-b border-slate-200 pb-1.5">
+              <span className="text-slate-500">2nd Contact:</span>
+              <span className="font-semibold text-slate-900">{customer.secondContact || '—'}</span>
+            </div>
+            <div className="flex justify-between pb-1">
+              <span className="text-slate-500">3rd Contact:</span>
+              <span className="font-semibold text-slate-900">{customer.thirdContact || '—'}</span>
             </div>
           </div>
         </div>

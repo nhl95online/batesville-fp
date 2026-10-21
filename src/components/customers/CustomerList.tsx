@@ -221,6 +221,8 @@ export const CustomerList: React.FC<CustomerListProps> = ({
                   <th className="py-3 px-3.5 font-semibold">Customer Type</th>
                   <th className="py-3 px-3.5 font-semibold">Attitude towards Batesville</th>
                   <th className="py-3 px-3.5 font-semibold">Primary Burial Products Competitor</th>
+                  <th className="py-3 px-3.5 font-semibold">2nd Contact</th>
+                  <th className="py-3 px-3.5 font-semibold">3rd Contact</th>
                   <th className="py-3 px-3.5 font-semibold">burial_discount</th>
                   <th className="py-3 px-3.5 font-semibold">cremation_discount</th>
                   <th className="py-3 px-3.5 font-semibold">rebate</th>
@@ -278,6 +280,8 @@ export const CustomerList: React.FC<CustomerListProps> = ({
                       <td className="py-3 px-3.5 font-sans text-slate-700">{c.customerType || '—'}</td>
                       <td className="py-3 px-3.5 font-sans text-slate-700">{c.attitudeTowardsBatesville || '—'}</td>
                       <td className="py-3 px-3.5 font-sans text-slate-700">{c.primaryBurialProductsCompetitor || '—'}</td>
+                      <td className="py-3 px-3.5 font-sans text-slate-700">{c.secondContact || '—'}</td>
+                      <td className="py-3 px-3.5 font-sans text-slate-700">{c.thirdContact || '—'}</td>
 
                       {/* burial_discount */}
                       <td className="py-3 px-3.5">
