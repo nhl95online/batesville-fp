@@ -122,11 +122,25 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
   initialDimension,
   onDimensionChange,
 }) => {
+  // Filter strictly to the current catalog year (2026-27) and sort by productId ascending
+  const currentYearProducts = useMemo(() => {
+    const currentYr = products.filter(p => {
+      const yr = String(p.catalogYear || p.year || '').trim();
+      return yr === '2026-27' || yr.startsWith('2026');
+    });
+    const base = currentYr.length > 0 ? currentYr : products;
+    return [...base].sort((a, b) => {
+      const idA = a.productId ?? (a.product_id ? Number(a.product_id) : 99999);
+      const idB = b.productId ?? (b.product_id ? Number(b.product_id) : 99999);
+      return idA - idB;
+    });
+  }, [products]);
+
   const [selectedCustomerId, setSelectedCustomerId] = useState<string>(
     initialCustomerId || customers[0]?.id || ''
   );
   const [selectedProductId, setSelectedProductId] = useState<string>(
-    initialProductId || products[0]?.id || ''
+    initialProductId || currentYearProducts[0]?.id || ''
   );
   const [dimension, setDimension] = useState<CardDimension>(initialDimension || '6x6');
 
@@ -180,14 +194,23 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
 
   const selectedCustomer = customers.find(c => c.id === selectedCustomerId) || customers[0];
   
-  // Filter products for Urns if 2x12 is active
+  // Filter products for Urns if 2x12 is active (strictly current year)
   const availableProducts = useMemo(() => {
     if (dimension === '2x12') {
-      const urns = products.filter(isUrnProduct);
-      return urns.length > 0 ? urns : products;
+      const urns = currentYearProducts.filter(isUrnProduct);
+      return urns.length > 0 ? urns : currentYearProducts;
     }
-    return products;
-  }, [dimension, products]);
+    return currentYearProducts;
+  }, [dimension, currentYearProducts]);
+
+  // Ensure selectedProductId is a valid current-year product
+  useEffect(() => {
+    if (availableProducts.length > 0 && !availableProducts.some(p => p.id === selectedProductId)) {
+      const passedProd = products.find(p => p.id === selectedProductId);
+      const matchedByCode = passedProd ? availableProducts.find(p => p.code === passedProd.code) : undefined;
+      setSelectedProductId((matchedByCode || availableProducts[0]).id);
+    }
+  }, [availableProducts, selectedProductId, products]);
 
   // Filter available products by search term (name, SKU / code, description, material, finish)
   const filteredProducts = useMemo(() => {
@@ -223,14 +246,14 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
   // When switching to 2x12, ensure an urn is selected
   useEffect(() => {
     if (dimension === '2x12') {
-      const urns = products.filter(isUrnProduct);
+      const urns = currentYearProducts.filter(isUrnProduct);
       if (urns.length > 0 && !urns.some(p => p.id === selectedProductId)) {
         setSelectedProductId(urns[0].id);
       }
     }
-  }, [dimension, products, selectedProductId]);
+  }, [dimension, currentYearProducts, selectedProductId]);
 
-  const selectedProduct = availableProducts.find(p => p.id === selectedProductId) || availableProducts[0] || products[0];
+  const selectedProduct = availableProducts.find(p => p.id === selectedProductId) || availableProducts[0] || currentYearProducts[0];
 
   // Auto-initialize collection, name, bullets, and misc features on product change
   useEffect(() => {
@@ -508,7 +531,7 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
               ) : (
                 filteredProducts.map((p) => (
                   <option key={p.id} value={p.id}>
-                    [{p.catalogYear}] {p.code} - {p.name} (${Number(p.price !== undefined && p.price !== null ? p.price : p.wholesalePrice).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} wholesale)
+                    {p.code} - {p.name}
                   </option>
                 ))
               )}
@@ -574,19 +597,11 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
               />
             </div>
             
-            <div className="grid grid-cols-2 gap-3 pt-2 border-t border-slate-200 text-xs">
-              <div>
-                <span className="text-slate-500 block">Wholesale Cost:</span>
-                <span className="font-mono text-slate-800 font-semibold">
-                  ${Number(selectedProduct?.price !== undefined && selectedProduct?.price !== null ? selectedProduct?.price : (selectedProduct?.wholesalePrice || 0)).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                </span>
-              </div>
-              <div>
-                <span className="text-slate-500 block">Calculated Retail:</span>
-                <span className="font-mono text-amber-750 font-bold text-amber-700">
-                  ${calculatedRetailPrice.toLocaleString()}
-                </span>
-              </div>
+            <div className="flex items-center justify-between pt-2 border-t border-slate-200 text-xs">
+              <span className="text-slate-500">Calculated Retail:</span>
+              <span className="font-mono text-amber-750 font-bold text-amber-700 text-sm">
+                ${calculatedRetailPrice.toLocaleString()}
+              </span>
             </div>
 
             <div>

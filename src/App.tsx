@@ -201,14 +201,23 @@ export function App() {
     }))
   ], [products, catalogYears]);
 
+  // Current catalog year products (2026-27 Edition only)
+  const currentYearProducts = useMemo(() => {
+    const currentYr = products.filter(p => {
+      const yr = String(p.catalogYear || p.year || '').trim();
+      return yr === '2026-27' || yr.startsWith('2026');
+    });
+    return currentYr.length > 0 ? currentYr : products;
+  }, [products]);
+
   const productSubpages: SubpageItem[] = useMemo(() => [
-    { id: 'all', label: 'All Products', badge: products.length, description: 'Complete Batesville product catalog' },
-    { id: 'Caskets & Containers - Metal', label: 'Metal Caskets', badge: products.filter(p => p.category === 'Caskets & Containers - Metal').length, description: '18g, 20g, Bronze & Stainless' },
-    { id: 'Caskets & Containers - Wood', label: 'Hardwood Caskets', badge: products.filter(p => p.category === 'Caskets & Containers - Wood').length, description: 'Cherry, Oak, Pecan, Mahogany & Maple' },
-    { id: 'Caskets & Containers - NewPointe', label: 'NewPointe Caskets', badge: products.filter(p => p.category === 'Caskets & Containers - NewPointe').length, description: 'NewPointe collection caskets' },
-    { id: 'Urns & Keepsakes - Full Size Urns', label: 'Full Size Urns', badge: products.filter(p => p.category === 'Urns & Keepsakes - Full Size Urns').length, description: 'Full size urns and cremation memorials' },
-    { id: 'Urns & Keepsakes - Remembrance Keepsakes', label: 'Remembrance Keepsakes', badge: products.filter(p => p.category === 'Urns & Keepsakes - Remembrance Keepsakes').length, description: 'Keepsakes and remembrance items' },
-  ], [products]);
+    { id: 'all', label: 'All Products', badge: currentYearProducts.length, description: 'Complete Batesville product catalog' },
+    { id: 'Caskets & Containers - Metal', label: 'Metal Caskets', badge: currentYearProducts.filter(p => p.category === 'Caskets & Containers - Metal').length, description: '18g, 20g, Bronze & Stainless' },
+    { id: 'Caskets & Containers - Wood', label: 'Hardwood Caskets', badge: currentYearProducts.filter(p => p.category === 'Caskets & Containers - Wood').length, description: 'Cherry, Oak, Pecan, Mahogany & Maple' },
+    { id: 'Caskets & Containers - NewPointe', label: 'NewPointe Caskets', badge: currentYearProducts.filter(p => p.category === 'Caskets & Containers - NewPointe').length, description: 'NewPointe collection caskets' },
+    { id: 'Urns & Keepsakes - Full Size Urns', label: 'Full Size Urns', badge: currentYearProducts.filter(p => p.category === 'Urns & Keepsakes - Full Size Urns').length, description: 'Full size urns and cremation memorials' },
+    { id: 'Urns & Keepsakes - Remembrance Keepsakes', label: 'Remembrance Keepsakes', badge: currentYearProducts.filter(p => p.category === 'Urns & Keepsakes - Remembrance Keepsakes').length, description: 'Keepsakes and remembrance items' },
+  ], [currentYearProducts]);
 
   const customerSubpages: SubpageItem[] = useMemo(() => [
     { id: 'all', label: 'All Accounts', badge: customers.length, description: 'All partner accounts' },
@@ -587,7 +596,7 @@ interface NavTabItem {
         {activeTab === 'cards' && isLoggedIn && (
           <PriceCardStudio
             customers={customers}
-            products={products}
+            products={currentYearProducts}
             initialCustomerId={targetCustomerId}
             initialProductId={targetProductId}
             initialDimension={cardSubpage}
@@ -617,7 +626,7 @@ interface NavTabItem {
 
         {activeTab === 'products' && (
           <ProductCatalog
-            products={products}
+            products={currentYearProducts}
             onSelectProductForCard={handleSelectProductForCard}
             onOpenImageManager={() => {
               if (!isLoggedIn) {
@@ -654,7 +663,7 @@ interface NavTabItem {
         {activeTab === 'floorplans' && isLoggedIn && (
           <ShowroomFloorPlan
             customers={customers}
-            products={products}
+            products={currentYearProducts}
             initialCustomerId={targetFloorPlanCustomerId}
             initialRoomShape={floorplanSubpage}
             onRoomShapeChange={(shape) => setFloorplanSubpage(shape)}

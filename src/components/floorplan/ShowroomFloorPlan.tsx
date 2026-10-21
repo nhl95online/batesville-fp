@@ -2754,9 +2754,6 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
                   </div>
 
                   <div className="text-right shrink-0 pl-3">
-                    <span className="font-mono font-bold text-xs text-slate-900 block">
-                      ${product.wholesalePrice?.toLocaleString()}
-                    </span>
                     <span className="text-[10px] text-amber-700 font-bold group-hover:underline">
                       Assign to Slot →
                     </span>

@@ -335,13 +335,13 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
 
         <div className="bg-[#fafcfa] border border-slate-300 border-t-4 border-t-emerald-700 p-5 shadow-xs">
           <span className="text-xs font-serif font-bold text-emerald-900 uppercase tracking-widest block border-b border-dotted border-slate-300 pb-1 mb-2">
-            Average Wholesale Index
+            Personalization &amp; Dual Disp.
           </span>
           <div className="font-serif text-3xl font-black text-emerald-800">
-            ${filteredProducts.length > 0 ? (filteredProducts.reduce((a, b) => a + (Number(b.price !== undefined && b.price !== null ? b.price : b.wholesalePrice) || 0), 0) / filteredProducts.length).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '0.00'}
+            {filteredProducts.filter(p => Boolean(p.lifesymbols || p.lifestories || p.dualDisposition || p.dual_disposition)).length} Models
           </div>
           <p className="text-xs font-serif italic text-slate-600 mt-1">
-            Per unit catalog wholesale baseline
+            LifeSymbols®, LifeStories® &amp; Dual Disposition
           </p>
         </div>
       </div>
@@ -430,7 +430,6 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
                 <th className="py-3 px-4 font-semibold">Material & Finish</th>
                 <th className="py-3 px-4 font-semibold">Interior Fabric</th>
                 <th className="py-3 px-4 font-semibold">Cap / Top</th>
-                <th className="py-3 px-4 font-semibold">Wholesale</th>
                 <th className="py-3 px-4 font-semibold text-right">Action</th>
               </tr>
             </thead>
@@ -494,9 +493,6 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
                   </td>
                   <td className="py-2.5 px-4 text-slate-500 whitespace-nowrap">
                     {prod.top || 'Half Couch'}
-                  </td>
-                  <td className="py-2.5 px-4 font-mono font-bold text-emerald-700">
-                    ${Number(prod.price !== undefined && prod.price !== null ? prod.price : prod.wholesalePrice).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </td>
                   <td className="py-2.5 px-4 text-right">
                     <button

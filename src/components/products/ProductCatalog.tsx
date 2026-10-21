@@ -385,18 +385,9 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
         <div className="flex items-center space-x-2">
           <Calendar className="w-3.5 h-3.5 text-emerald-800" />
           <span className="text-slate-700 font-serif font-bold uppercase tracking-wider">Edition Year:</span>
-          <select
-            value={selectedYear}
-            onChange={(e) => setSelectedYear(e.target.value)}
-            className="bg-white border border-slate-400 px-2.5 py-1 text-slate-900 font-serif font-bold focus:outline-none focus:border-emerald-800 cursor-pointer"
-          >
-            {availableYears.map((y, idx) => (
-              <option key={y} value={y}>
-                {idx === 0 ? `${y} Edition (Current)` : `${y} Edition`}
-              </option>
-            ))}
-            <option value="all">All Catalog Years ({localProducts.length})</option>
-          </select>
+          <span className="bg-emerald-50 border border-emerald-300 px-2.5 py-1 text-emerald-950 font-serif font-bold">
+            {selectedYear} Edition (Current)
+          </span>
         </div>
 
         <div className="flex items-center space-x-2">
@@ -531,13 +522,6 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                   <th className="py-3 px-3 font-semibold whitespace-nowrap">ext_length</th>
                   <th className="py-3 px-3 font-semibold whitespace-nowrap">int_width</th>
                   <th className="py-3 px-3 font-semibold whitespace-nowrap">weight_capacity</th>
-                  <th 
-                    onClick={() => handleSort('price')}
-                    className="py-3 px-3 font-semibold whitespace-nowrap cursor-pointer hover:bg-slate-100 select-none transition-colors group/th"
-                  >
-                    price
-                    {sortField === 'price' ? (sortAsc ? <ArrowUp className="w-3 h-3 text-amber-600 inline ml-1" /> : <ArrowDown className="w-3 h-3 text-amber-600 inline ml-1" />) : <ArrowUpDown className="w-3 h-3 text-slate-300 inline ml-1 opacity-0 group-hover/th:opacity-100" />}
-                  </th>
                   <th className="py-3 px-3 font-semibold whitespace-nowrap text-right sticky right-0 bg-slate-50 shadow-l">Actions</th>
                 </tr>
               </thead>
@@ -733,15 +717,6 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                         {(p.weight_capacity || p.weightCapacity || p.capacity) ? (p.weight_capacity || p.weightCapacity || p.capacity) : ''}
                       </td>
 
-                      {/* 20. price */}
-                      <td className="py-2.5 px-3">
-                        {(p.price !== undefined && p.price !== null || p.wholesalePrice !== undefined && p.wholesalePrice !== null) ? (
-                          <span className="font-bold text-emerald-700 font-mono">
-                            ${Number(p.price !== undefined && p.price !== null ? p.price : p.wholesalePrice).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                          </span>
-                        ) : ''}
-                      </td>
-
                       {/* Actions */}
                       <td className="py-2.5 px-3 text-right sticky right-0 bg-white group-hover:bg-amber-50/50 shadow-l" onClick={(e) => e.stopPropagation()}>
                         <div className="flex items-center justify-end space-x-1 shrink-0">
@@ -924,17 +899,13 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                   )}
                 </div>
 
-                {/* Pricing & Square Action Buttons */}
+                {/* Square Action Buttons */}
                 <div className="pt-2 border-t border-slate-100 flex items-center justify-between gap-2">
                   <div className="min-w-0">
-                    {(product.price !== undefined && product.price !== null || product.wholesalePrice !== undefined && product.wholesalePrice !== null) ? (
-                      <>
-                        <span className="text-[9px] text-slate-400 font-semibold block uppercase tracking-wider leading-none">Wholesale</span>
-                        <span className="font-mono text-sm font-bold text-emerald-700 leading-tight">
-                          ${Number(product.price !== undefined && product.price !== null ? product.price : product.wholesalePrice).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                        </span>
-                      </>
-                    ) : <span className="text-slate-300 text-xs">—</span>}
+                    <span className="text-[9px] text-slate-400 font-semibold block uppercase tracking-wider leading-none">SKU / Code</span>
+                    <span className="font-mono text-xs font-bold text-emerald-800 leading-tight">
+                      {product.product_code || product.code || '—'}
+                    </span>
                   </div>
 
                   <div className="flex items-center space-x-1.5 shrink-0">
