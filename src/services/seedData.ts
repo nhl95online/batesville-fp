@@ -501,60 +501,7 @@ export function generateSeedSales(): SaleRecord[] {
     }
   }
 
-  // 2. Generate live incoming Month 1 (October 2026) orders for FY 2026-27
-  const fy27Month1Target = 462500;
-  let fy27Running = 0;
-  const fy27DaySchedule = [2, 5, 8, 12, 16, 20, 24, 28];
-  const fy27OrderWeights = [0.12, 0.14, 0.11, 0.13, 0.15, 0.12, 0.11, 0.12];
-
-  for (let oIdx = 0; oIdx < fy27DaySchedule.length; oIdx++) {
-    let orderAmount = 0;
-    if (oIdx === fy27DaySchedule.length - 1) {
-      orderAmount = fy27Month1Target - fy27Running;
-    } else {
-      orderAmount = Math.round(fy27Month1Target * fy27OrderWeights[oIdx]);
-      fy27Running += orderAmount;
-    }
-
-    const custIdx = oIdx % INITIAL_CUSTOMERS.length;
-    const customer = INITIAL_CUSTOMERS[custIdx];
-    const prodIdx = (oIdx * 2) % INITIAL_PRODUCTS.length;
-    const product = INITIAL_PRODUCTS[prodIdx];
-    const dayStr = fy27DaySchedule[oIdx].toString().padStart(2, '0');
-    const saleDate = `2026-10-${dayStr}`;
-    const unitPrice = product.wholesalePrice || 2400;
-    const quantity = Math.max(1, Math.round(orderAmount / unitPrice));
-
-    sales.push({
-      id: `sale-2026-10-${orderSeq}`,
-      saleId: orderSeq,
-      year: '2026-27',
-      month: 'OCT',
-      day: dayStr,
-      program: customer.program || 'OBB',
-      accountName: customer.name,
-      accountNumber: customer.accountNumber || (100 + custIdx),
-      productCode: product.code,
-      category: product.category,
-      subcategory: product.subcategory || 'Commercial',
-      description: product.name,
-      quantity,
-      cost: orderAmount,
-      customerId: customer.id,
-      productId: product.id,
-      orderNumber: `ORD-2026-27-${orderSeq}`,
-      unitPrice: Math.round(orderAmount / quantity),
-      totalAmount: orderAmount,
-      saleDate,
-      fiscalMonth: 1,
-      calMonth: 10,
-      notes: `Live October delivery for ${customer.name}`
-    });
-
-    orderSeq++;
-  }
-
-  // 3. Generate authentic showroom client reorders for Vescio Funeral Home Woodbridge Chapel (Account 262863)
+  // 2. Generate authentic showroom client reorders for Vescio Funeral Home Woodbridge Chapel (Account 262863)
   const VESCIO_SHOWROOM_MODELS = [
     { code: '255455', name: 'OT9 825 DH Onyx', category: 'Burial - Metal', subcategory: 'Metal', cost: 1280.00, monthlyOrders: [
       { year: '2024-25', mCode: 'NOV', fm: 2, cm: 11, day: '14', qty: 2 },
@@ -566,8 +513,7 @@ export function generateSeedSales(): SaleRecord[] {
       { year: '2025-26', mCode: 'MAR', fm: 6, cm: 3, day: '20', qty: 3 },
       { year: '2025-26', mCode: 'MAY', fm: 8, cm: 5, day: '15', qty: 2 },
       { year: '2025-26', mCode: 'JUL', fm: 10, cm: 7, day: '24', qty: 2 },
-      { year: '2025-26', mCode: 'SEP', fm: 12, cm: 9, day: '18', qty: 2 },
-      { year: '2026-27', mCode: 'OCT', fm: 1, cm: 10, day: '05', qty: 1 }
+      { year: '2025-26', mCode: 'SEP', fm: 12, cm: 9, day: '18', qty: 2 }
     ]},
     { code: '261097', name: 'OT37 833 D Brushed Merlot', category: 'Burial - Metal', subcategory: 'Metal', cost: 1271.48, monthlyOrders: [
       { year: '2024-25', mCode: 'DEC', fm: 3, cm: 12, day: '10', qty: 2 },
@@ -577,8 +523,7 @@ export function generateSeedSales(): SaleRecord[] {
       { year: '2025-26', mCode: 'FEB', fm: 5, cm: 2, day: '14', qty: 2 },
       { year: '2025-26', mCode: 'APR', fm: 7, cm: 4, day: '22', qty: 2 },
       { year: '2025-26', mCode: 'JUL', fm: 10, cm: 7, day: '16', qty: 2 },
-      { year: '2025-26', mCode: 'SEP', fm: 12, cm: 9, day: '22', qty: 2 },
-      { year: '2026-27', mCode: 'OCT', fm: 1, cm: 10, day: '08', qty: 1 }
+      { year: '2025-26', mCode: 'SEP', fm: 12, cm: 9, day: '22', qty: 2 }
     ]},
     { code: '251625', name: 'Dalton Select', category: 'Burial - Wood - Custom', subcategory: 'Wood', cost: 1200.00, monthlyOrders: [
       { year: '2024-25', mCode: 'OCT', fm: 1, cm: 10, day: '22', qty: 3 },
@@ -590,8 +535,7 @@ export function generateSeedSales(): SaleRecord[] {
       { year: '2025-26', mCode: 'MAR', fm: 6, cm: 3, day: '18', qty: 3 },
       { year: '2025-26', mCode: 'MAY', fm: 8, cm: 5, day: '26', qty: 2 },
       { year: '2025-26', mCode: 'JUL', fm: 10, cm: 7, day: '14', qty: 2 },
-      { year: '2025-26', mCode: 'AUG', fm: 11, cm: 8, day: '25', qty: 3 },
-      { year: '2026-27', mCode: 'OCT', fm: 1, cm: 10, day: '03', qty: 1 }
+      { year: '2025-26', mCode: 'AUG', fm: 11, cm: 8, day: '25', qty: 3 }
     ]},
     { code: '258838', name: '4V4 825 HD Montgomery Red', category: 'Burial - Wood - Custom', subcategory: 'Wood', cost: 994.50, monthlyOrders: [
       { year: '2024-25', mCode: 'DEC', fm: 3, cm: 12, day: '15', qty: 2 },
@@ -600,8 +544,7 @@ export function generateSeedSales(): SaleRecord[] {
       { year: '2025-26', mCode: 'DEC', fm: 3, cm: 12, day: '14', qty: 2 },
       { year: '2025-26', mCode: 'MAR', fm: 6, cm: 3, day: '22', qty: 2 },
       { year: '2025-26', mCode: 'JUN', fm: 9, cm: 6, day: '18', qty: 2 },
-      { year: '2025-26', mCode: 'SEP', fm: 12, cm: 9, day: '14', qty: 2 },
-      { year: '2026-27', mCode: 'OCT', fm: 1, cm: 10, day: '06', qty: 1 }
+      { year: '2025-26', mCode: 'SEP', fm: 12, cm: 9, day: '14', qty: 2 }
     ]},
     { code: '205161', name: '4V1 891 HD Trenton', category: 'Burial - Wood', subcategory: 'Wood', cost: 874.54, monthlyOrders: [
       { year: '2024-25', mCode: 'NOV', fm: 2, cm: 11, day: '19', qty: 3 },
@@ -611,8 +554,7 @@ export function generateSeedSales(): SaleRecord[] {
       { year: '2025-26', mCode: 'JAN', fm: 4, cm: 1, day: '15', qty: 2 },
       { year: '2025-26', mCode: 'APR', fm: 7, cm: 4, day: '19', qty: 3 },
       { year: '2025-26', mCode: 'JUL', fm: 10, cm: 7, day: '22', qty: 2 },
-      { year: '2025-26', mCode: 'SEP', fm: 12, cm: 9, day: '28', qty: 2 },
-      { year: '2026-27', mCode: 'OCT', fm: 1, cm: 10, day: '07', qty: 1 }
+      { year: '2025-26', mCode: 'SEP', fm: 12, cm: 9, day: '28', qty: 2 }
     ]},
     { code: '242475', name: 'Q01 8J5 CAH Heirloom Pewter', category: 'Burial - Metal', subcategory: 'Metal', cost: 1500.00, monthlyOrders: [
       { year: '2024-25', mCode: 'JAN', fm: 4, cm: 1, day: '20', qty: 2 },
@@ -646,8 +588,7 @@ export function generateSeedSales(): SaleRecord[] {
       { year: '2025-26', mCode: 'JAN', fm: 4, cm: 1, day: '12', qty: 2 },
       { year: '2025-26', mCode: 'APR', fm: 7, cm: 4, day: '25', qty: 3 },
       { year: '2025-26', mCode: 'JUL', fm: 10, cm: 7, day: '19', qty: 2 },
-      { year: '2025-26', mCode: 'SEP', fm: 12, cm: 9, day: '15', qty: 3 },
-      { year: '2026-27', mCode: 'OCT', fm: 1, cm: 10, day: '04', qty: 1 }
+      { year: '2025-26', mCode: 'SEP', fm: 12, cm: 9, day: '15', qty: 3 }
     ]},
     { code: '195846', name: '8PM 865 HD Regent Mahogany', category: 'Burial - Wood', subcategory: 'Wood', cost: 2520.00, monthlyOrders: [
       { year: '2024-25', mCode: 'NOV', fm: 2, cm: 11, day: '28', qty: 1 },

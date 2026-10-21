@@ -66,26 +66,26 @@ export async function initializeDatabase(): Promise<void> {
     }
   }
 
-  // Ensure sales records exist and have authentic distributor volume and showroom client sales
-  const salesCount = await db.sales.count();
-  let needsSalesSeed = salesCount === 0;
-  if (!needsSalesSeed) {
-    const sample2024 = await db.sales.where('year').equals('2024-25').toArray();
-    if (sample2024.length > 0) {
-      const sum2024 = sample2024.reduce((acc, s) => acc + (Number(s.cost) || Number(s.totalAmount) || 0), 0);
-      if (sum2024 < 1000000) {
-        needsSalesSeed = true;
-      }
-    }
-    const sampleVescioCount = await db.sales.filter(s => String(s.accountNumber) === '262863').count();
-    if (sampleVescioCount === 0) {
-      needsSalesSeed = true;
-    }
+  // Purge any previously seeded synthetic 2026-27 October sales so FY 2026-27 starts at 0 until real October sales are uploaded
+  const synthetic2026Sales = await db.sales
+    .filter(s =>
+      String(s.id || '').startsWith('sale-2026-10-') ||
+      String(s.id || '').startsWith('sale-vescio-2026-27-') ||
+      (String(s.year) === '2026-27' && (
+        String(s.notes || '').includes('Live October delivery') ||
+        String(s.notes || '').includes('Distributor showroom delivery') ||
+        String(s.productCode || '').startsWith('BV-')
+      ))
+    )
+    .primaryKeys();
+  if (synthetic2026Sales.length > 0) {
+    await db.sales.bulkDelete(synthetic2026Sales);
+    invalidateSalesCache();
   }
 
-  if (needsSalesSeed) {
-    console.log('[DB] Seeding authentic multi-year Batesville distributor sales including showroom client accounts across all date ranges...');
-    await db.sales.clear();
+  // Only seed fallback historical sales if db.sales is completely empty (before Supabase sync)
+  const salesCount = await db.sales.count();
+  if (salesCount === 0) {
     const seedSales = generateSeedSales();
     await db.sales.bulkAdd(seedSales);
     invalidateSalesCache();

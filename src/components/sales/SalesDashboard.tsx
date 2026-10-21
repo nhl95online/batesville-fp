@@ -162,31 +162,28 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
     let sales = await getCachedSales();
     if (sales.length === 0) {
       sales = await db.sales.toArray();
-      if (sales.length === 0) {
-        const { generateSeedSales } = await import('../../services/seedData');
-        const seedSales = generateSeedSales();
-        await db.sales.bulkAdd(seedSales);
-        sales = await getCachedSales(true);
-      }
     }
     setRawSales(sales);
-    const distinct: string[] = Array.from(new Set(sales.map(s => String(s.year))))
+    const distinct: string[] = Array.from(new Set([...sales.map(s => String(s.year)), '2026-27']))
       .filter(Boolean)
       .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
     
     if (distinct.length > 0) {
       setAvailableYears(distinct);
-      const latest = distinct[distinct.length - 1];
-      const prev = distinct.length > 1 ? distinct[distinct.length - 2] : distinct[0];
-      setCurrentYear(latest);
-      setPreviousYear(prev);
-      setSelectedTableYear(latest);
+      const yearsWithSales = Array.from(new Set(sales.map(s => String(s.year))))
+        .filter(Boolean)
+        .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+      const latestActive = yearsWithSales.length > 0 ? yearsWithSales[yearsWithSales.length - 1] : '2025-26';
+      const prevActive = yearsWithSales.length > 1 ? yearsWithSales[yearsWithSales.length - 2] : '2024-25';
+      setCurrentYear(latestActive);
+      setPreviousYear(prevActive);
+      setSelectedTableYear(distinct[distinct.length - 1]);
     } else {
-      const fallbackYears = ['2022-23', '2023-24', '2024-25', '2025-26'];
+      const fallbackYears = ['2022-23', '2023-24', '2024-25', '2025-26', '2026-27'];
       setAvailableYears(fallbackYears);
       setCurrentYear('2025-26');
       setPreviousYear('2024-25');
-      setSelectedTableYear('2025-26');
+      setSelectedTableYear('2026-27');
     }
   };
 
