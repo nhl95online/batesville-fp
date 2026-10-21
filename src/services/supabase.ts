@@ -1301,7 +1301,12 @@ export async function pushToSupabase(): Promise<{ success: boolean; message: str
         'Digital Showroom Migration Priority': c.digitalShowroomMigrationPriority || null,
         'Customer Type': c.customerType || null,
         'Attitude towards Batesville': c.attitudeTowardsBatesville || null,
-        'Primary Burial Products Competitor': c.primaryBurialProductsCompetitor || null
+        'Primary Burial Products Competitor': c.primaryBurialProductsCompetitor || null,
+        burial_discount: c.burialDiscount ?? 0,
+        cremation_discount: c.cremationDiscount ?? 0,
+        rebate: c.rebate ?? null,
+        selectionroom: Boolean(c.selectionRoom),
+        selectionroom_style: c.selectionRoomStyle || null
       }));
       await client.from('customers').upsert(customersPayload, { onConflict: 'customer_id' });
     }

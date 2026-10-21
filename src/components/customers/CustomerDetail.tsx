@@ -214,9 +214,34 @@ export const CustomerDetail: React.FC<CustomerDetailProps> = ({
               <span className="text-slate-500">Attitude towards Batesville:</span>
               <span className="font-semibold text-slate-900">{customer.attitudeTowardsBatesville || '—'}</span>
             </div>
-            <div className="flex justify-between pb-1">
+            <div className="flex justify-between border-b border-slate-200 pb-1.5">
               <span className="text-slate-500">Primary Burial Products Competitor:</span>
               <span className="font-semibold text-slate-900">{customer.primaryBurialProductsCompetitor || '—'}</span>
+            </div>
+            <div className="flex justify-between border-b border-slate-200 pb-1.5">
+              <span className="text-slate-500">burial_discount:</span>
+              <span className="font-mono font-bold text-emerald-700">{customer.burialDiscount ?? 0}%</span>
+            </div>
+            <div className="flex justify-between border-b border-slate-200 pb-1.5">
+              <span className="text-slate-500">cremation_discount:</span>
+              <span className="font-mono font-bold text-blue-700">{customer.cremationDiscount ?? 0}%</span>
+            </div>
+            <div className="flex justify-between border-b border-slate-200 pb-1.5">
+              <span className="text-slate-500">rebate:</span>
+              <span className="font-mono text-slate-800">
+                {customer.rebate !== undefined && customer.rebate !== null ? `${customer.rebate}%` : '—'}
+              </span>
+            </div>
+            <div className="flex justify-between border-b border-slate-200 pb-1.5">
+              <span className="text-slate-500">selectionroom:</span>
+              <span className={`font-bold flex items-center gap-1 ${customer.selectionRoom ? 'text-emerald-700' : 'text-slate-400'}`}>
+                {customer.selectionRoom ? <Check className="w-3.5 h-3.5" /> : <X className="w-3.5 h-3.5" />}
+                {customer.selectionRoom ? 'TRUE' : 'FALSE'}
+              </span>
+            </div>
+            <div className="flex justify-between pb-1">
+              <span className="text-slate-500">selectionroom_style:</span>
+              <span className="font-semibold text-slate-900">{customer.selectionRoomStyle || 'None'}</span>
             </div>
           </div>
         </div>

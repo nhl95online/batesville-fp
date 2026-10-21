@@ -221,6 +221,11 @@ export const CustomerList: React.FC<CustomerListProps> = ({
                   <th className="py-3 px-3.5 font-semibold">Customer Type</th>
                   <th className="py-3 px-3.5 font-semibold">Attitude towards Batesville</th>
                   <th className="py-3 px-3.5 font-semibold">Primary Burial Products Competitor</th>
+                  <th className="py-3 px-3.5 font-semibold">burial_discount</th>
+                  <th className="py-3 px-3.5 font-semibold">cremation_discount</th>
+                  <th className="py-3 px-3.5 font-semibold">rebate</th>
+                  <th className="py-3 px-3.5 font-semibold">selectionroom</th>
+                  <th className="py-3 px-3.5 font-semibold">selectionroom_style</th>
                   <th className="py-3 px-3.5 font-semibold text-right">Actions</th>
                 </tr>
               </thead>
@@ -273,6 +278,47 @@ export const CustomerList: React.FC<CustomerListProps> = ({
                       <td className="py-3 px-3.5 font-sans text-slate-700">{c.customerType || '—'}</td>
                       <td className="py-3 px-3.5 font-sans text-slate-700">{c.attitudeTowardsBatesville || '—'}</td>
                       <td className="py-3 px-3.5 font-sans text-slate-700">{c.primaryBurialProductsCompetitor || '—'}</td>
+
+                      {/* burial_discount */}
+                      <td className="py-3 px-3.5">
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-xs bg-emerald-50 text-emerald-800 font-bold border border-emerald-200">
+                          {c.burialDiscount ?? 0}%
+                        </span>
+                      </td>
+
+                      {/* cremation_discount */}
+                      <td className="py-3 px-3.5">
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-xs bg-blue-50 text-blue-800 font-bold border border-blue-200">
+                          {c.cremationDiscount ?? 0}%
+                        </span>
+                      </td>
+
+                      {/* rebate */}
+                      <td className="py-3 px-3.5 text-slate-600">
+                        {c.rebate !== undefined && c.rebate !== null ? `${c.rebate}%` : '—'}
+                      </td>
+
+                      {/* selectionroom */}
+                      <td className="py-3 px-3.5">
+                        {c.selectionRoom ? (
+                          <span className="inline-flex items-center space-x-1 text-emerald-700 font-bold text-[11px]">
+                            <Check className="w-3.5 h-3.5" />
+                            <span>TRUE</span>
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center space-x-1 text-slate-400 text-[11px]">
+                            <X className="w-3.5 h-3.5" />
+                            <span>FALSE</span>
+                          </span>
+                        )}
+                      </td>
+
+                      {/* selectionroom_style */}
+                      <td className="py-3 px-3.5 font-sans">
+                        <span className="px-2 py-0.5 bg-slate-100 border border-slate-300 text-slate-700 text-[11px]">
+                          {c.selectionRoomStyle || 'None'}
+                        </span>
+                      </td>
 
                       {/* Actions */}
                       <td className="py-3 px-3.5 text-right font-sans" onClick={(e) => e.stopPropagation()}>
