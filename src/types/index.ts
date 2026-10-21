@@ -17,29 +17,45 @@ export type CustomerTier = 'ARB' | 'PLN' | 'PA' | 'SPP' | 'AMP' | 'Standard' | s
 
 export interface Customer {
   id: string; // e.g. "cust-1"
-  customerId?: number; // customer_id
-  accountNumber?: number | string; // account_#
-  code: string; // account_# as string
-  name: string; // account_name
-  accountName?: string; // account_name
-  mainContact?: string; // Main Contact
-  contactPerson: string; // Main Contact alias
-  email?: string; // email
-  secondContact?: string; // 2nd Contact
-  thirdContact?: string; // 3rd Contact
-  burialDiscount?: number; // burial_discount (e.g. 46)
-  cremationDiscount?: number; // cremation_discount (e.g. 30)
-  rebate?: number; // rebate
-  selectionRoom?: boolean; // selectionroom (true / false)
-  selectionRoomStyle?: string; // selectionroom_style ("Full Size" | "Only Urns")
-  program?: string; // program ("ARB" | "PLN" | "PA" | "SPP" | "AMP")
-  tier: CustomerTier;
-  defaultMarkupPercent: number; // calculated from discounts or default
-  address?: string;
-  city?: string;
-  state?: string;
-  zip?: string;
+  // Exact 19 Supabase 'customers' table columns
+  customerId?: number | string; // customer_id
+  accountNumber?: number | string; // Account Number
+  name: string; // Name
+  address?: string; // Address
+  city?: string; // City
+  state?: string; // State
+  primaryContact?: string; // Primary Contact
+  contactPhone?: string; // Contact Phone
+  mainPhoneNumber?: string; // Main Phone Number
+  deliveryDays?: string; // Delivery Days
+  customerSpectrum?: string; // Customer Spectrum
+  customerPurchaseProgram?: string; // Customer Purchase Program
+  netUrnPrice?: string | number; // Net Urn Price
+  programSubGroup2?: string; // Program Sub-Group 2
+  contactEmail?: string; // Contact Email
+  digitalShowroomMigrationPriority?: string; // Digital Showroom Migration Priority
+  customerType?: string; // Customer Type
+  attitudeTowardsBatesville?: string; // Attitude towards Batesville
+  primaryBurialProductsCompetitor?: string; // Primary Burial Products Competitor
+
+  // Legacy & convenience aliases for app compatibility
+  code: string; // Account Number as string
+  accountName?: string;
+  mainContact?: string;
+  contactPerson: string;
+  email?: string;
   phone?: string;
+  zip?: string;
+  secondContact?: string;
+  thirdContact?: string;
+  burialDiscount?: number;
+  cremationDiscount?: number;
+  rebate?: number;
+  selectionRoom?: boolean;
+  selectionRoomStyle?: string;
+  program?: string;
+  tier: CustomerTier;
+  defaultMarkupPercent: number;
   logoUrl?: string;
   notes?: string;
   createdAt: string;

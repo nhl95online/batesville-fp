@@ -332,30 +332,67 @@ export async function syncFromSupabase(): Promise<{
     const { data: remoteCustomers, error: custError } = await client.from('customers').select('*');
     if (custError) throw new Error(`Customers sync error: ${custError.message}`);
 
-    const mappedCustomers: Customer[] = (remoteCustomers || []).map((c: any) => {
-      const markup = c.burial_discount ? Math.round(100 + c.burial_discount) : 140;
+    const mappedCustomers: Customer[] = (remoteCustomers || []).map((c: any, idx: number) => {
+      const custId = c.customer_id ?? c['customer_id'] ?? (idx + 1);
+      const acctNum = c['Account Number'] ?? c.account_number ?? c['account_#'] ?? c.code ?? custId;
+      const acctName = c['Name'] ?? c.name ?? c.account_name ?? `Account ${acctNum}`;
+      const address = c['Address'] ?? c.address ?? '';
+      const city = c['City'] ?? c.city ?? '';
+      const state = c['State'] ?? c.state ?? '';
+      const primaryContact = c['Primary Contact'] ?? c.primary_contact ?? c['Main Contact'] ?? c.main_contact ?? '';
+      const contactPhone = c['Contact Phone'] ?? c.contact_phone ?? '';
+      const mainPhoneNumber = c['Main Phone Number'] ?? c.main_phone_number ?? c.phone ?? '';
+      const deliveryDays = c['Delivery Days'] ?? c.delivery_days ?? '';
+      const customerSpectrum = c['Customer Spectrum'] ?? c.customer_spectrum ?? '';
+      const customerPurchaseProgram = c['Customer Purchase Program'] ?? c.customer_purchase_program ?? c.program ?? '';
+      const netUrnPrice = c['Net Urn Price'] ?? c.net_urn_price ?? '';
+      const programSubGroup2 = c['Program Sub-Group 2'] ?? c.program_sub_group_2 ?? c['program_sub-group_2'] ?? '';
+      const contactEmail = c['Contact Email'] ?? c.contact_email ?? c.email ?? '';
+      const digitalShowroomMigrationPriority = c['Digital Showroom Migration Priority'] ?? c.digital_showroom_migration_priority ?? '';
+      const customerType = c['Customer Type'] ?? c.customer_type ?? '';
+      const attitudeTowardsBatesville = c['Attitude towards Batesville'] ?? c.attitude_towards_batesville ?? '';
+      const primaryBurialProductsCompetitor = c['Primary Burial Products Competitor'] ?? c.primary_burial_products_competitor ?? '';
+
+      const markup = c.burial_discount ? Math.round(100 + Number(c.burial_discount)) : 140;
 
       return {
-        id: `cust-${c.customer_id}`,
-        customerId: Number(c.customer_id),
-        accountNumber: c['account_#'],
-        code: String(c['account_#'] || c.customer_id),
-        name: c.account_name || `Account ${c['account_#']}`,
-        accountName: c.account_name || `Account ${c['account_#']}`,
-        mainContact: c['Main Contact'] || '—',
-        contactPerson: c['Main Contact'] || '—',
-        email: c.email || undefined,
+        id: `cust-${custId}`,
+        customerId: custId,
+        accountNumber: acctNum,
+        code: String(acctNum),
+        name: String(acctName),
+        accountName: String(acctName),
+        address: address ? String(address) : undefined,
+        city: city ? String(city) : undefined,
+        state: state ? String(state) : undefined,
+        primaryContact: primaryContact ? String(primaryContact) : undefined,
+        mainContact: primaryContact ? String(primaryContact) : '—',
+        contactPerson: primaryContact ? String(primaryContact) : '—',
+        contactPhone: contactPhone ? String(contactPhone) : undefined,
+        mainPhoneNumber: mainPhoneNumber ? String(mainPhoneNumber) : undefined,
+        phone: (mainPhoneNumber || contactPhone) ? String(mainPhoneNumber || contactPhone) : undefined,
+        deliveryDays: deliveryDays ? String(deliveryDays) : undefined,
+        customerSpectrum: customerSpectrum ? String(customerSpectrum) : undefined,
+        customerPurchaseProgram: customerPurchaseProgram ? String(customerPurchaseProgram) : undefined,
+        program: customerPurchaseProgram ? String(customerPurchaseProgram) : 'Standard',
+        tier: customerPurchaseProgram ? String(customerPurchaseProgram) : 'Standard',
+        netUrnPrice: netUrnPrice !== null && netUrnPrice !== undefined && netUrnPrice !== '' ? netUrnPrice : undefined,
+        programSubGroup2: programSubGroup2 ? String(programSubGroup2) : undefined,
+        contactEmail: contactEmail ? String(contactEmail) : undefined,
+        email: contactEmail ? String(contactEmail) : undefined,
+        digitalShowroomMigrationPriority: digitalShowroomMigrationPriority ? String(digitalShowroomMigrationPriority) : undefined,
+        customerType: customerType ? String(customerType) : undefined,
+        attitudeTowardsBatesville: attitudeTowardsBatesville ? String(attitudeTowardsBatesville) : undefined,
+        primaryBurialProductsCompetitor: primaryBurialProductsCompetitor ? String(primaryBurialProductsCompetitor) : undefined,
         secondContact: c['2nd Contact'] || undefined,
         thirdContact: c['3rd Contact'] || undefined,
         burialDiscount: Number(c.burial_discount || 0),
         cremationDiscount: Number(c.cremation_discount || 0),
         rebate: c.rebate !== null && c.rebate !== undefined ? Number(c.rebate) : undefined,
-        selectionRoom: Boolean(c.selectionroom),
+        selectionRoom: Boolean(c.selectionroom || digitalShowroomMigrationPriority),
         selectionRoomStyle: c.selectionroom_style || (c.selectionroom ? 'Full Size' : 'None'),
-        program: c.program || 'Standard',
-        tier: c.program || 'Standard',
         defaultMarkupPercent: markup,
-        notes: `Program: ${c.program || 'N/A'} • Style: ${c.selectionroom_style || 'Standard'} • Discounts: Burial ${c.burial_discount || 0}%, Cremation ${c.cremation_discount || 0}%`,
+        notes: `Program: ${customerPurchaseProgram || 'N/A'} • Type: ${customerType || 'Standard'} • Delivery: ${deliveryDays || 'N/A'}`,
         createdAt: c.createdAt || new Date().toISOString(),
         updatedAt: new Date().toISOString()
       };
@@ -1245,7 +1282,28 @@ export async function pushToSupabase(): Promise<{ success: boolean; message: str
     const localSales = await db.sales.toArray();
 
     if (localCustomers.length > 0) {
-      await client.from('customers').upsert(localCustomers);
+      const customersPayload = localCustomers.map((c, idx) => ({
+        customer_id: Number(c.customerId) || (idx + 1),
+        'Account Number': c.accountNumber || c.code,
+        'Name': c.name,
+        'Address': c.address || null,
+        'City': c.city || null,
+        'State': c.state || null,
+        'Primary Contact': c.primaryContact || c.mainContact || null,
+        'Contact Phone': c.contactPhone || null,
+        'Main Phone Number': c.mainPhoneNumber || c.phone || null,
+        'Delivery Days': c.deliveryDays || null,
+        'Customer Spectrum': c.customerSpectrum || null,
+        'Customer Purchase Program': c.customerPurchaseProgram || c.program || null,
+        'Net Urn Price': c.netUrnPrice ?? null,
+        'Program Sub-Group 2': c.programSubGroup2 || null,
+        'Contact Email': c.contactEmail || c.email || null,
+        'Digital Showroom Migration Priority': c.digitalShowroomMigrationPriority || null,
+        'Customer Type': c.customerType || null,
+        'Attitude towards Batesville': c.attitudeTowardsBatesville || null,
+        'Primary Burial Products Competitor': c.primaryBurialProductsCompetitor || null
+      }));
+      await client.from('customers').upsert(customersPayload, { onConflict: 'customer_id' });
     }
     if (localProducts.length > 0) {
       await client.from('products').upsert(localProducts);

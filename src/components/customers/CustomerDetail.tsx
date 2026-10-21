@@ -113,105 +113,112 @@ export const CustomerDetail: React.FC<CustomerDetailProps> = ({
       {/* Grid of Details: Supabase Headers & Metrics */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
-        {/* Column 1: Supabase Customer Fields */}
-        <div className="bg-white border border-slate-200 p-6 rounded-2xl space-y-4 shadow-sm">
-          <h2 className="text-xs font-semibold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-            <Users className="w-4 h-4 text-amber-600" />
-            Supabase Account Profile
+        {/* Column 1: Supabase Customer Identity & Contact Fields */}
+        <div className="bg-[#fafcfa] border-2 border-slate-400 p-6 space-y-4 shadow-xs">
+          <h2 className="text-xs font-serif font-bold text-blue-950 uppercase tracking-wider flex items-center gap-1.5 border-b border-slate-300 pb-2">
+            <Users className="w-4 h-4 text-emerald-800" />
+            Supabase Customer Profile
           </h2>
 
-          <div className="space-y-2.5 text-xs text-slate-700">
-            <div className="flex justify-between border-b border-slate-100 pb-2">
+          <div className="space-y-2 text-xs text-slate-700">
+            <div className="flex justify-between border-b border-slate-200 pb-1.5">
               <span className="text-slate-500">customer_id:</span>
               <span className="font-mono font-semibold text-slate-900">{customer.customerId || customer.id.replace('cust-', '')}</span>
             </div>
-            <div className="flex justify-between border-b border-slate-100 pb-2">
-              <span className="text-slate-500">account_#:</span>
-              <span className="font-mono font-bold text-amber-700">{customer.accountNumber || customer.code}</span>
+            <div className="flex justify-between border-b border-slate-200 pb-1.5">
+              <span className="text-slate-500">Account Number:</span>
+              <span className="font-mono font-bold text-emerald-800">{customer.accountNumber || customer.code}</span>
             </div>
-            <div className="flex justify-between border-b border-slate-100 pb-2">
-              <span className="text-slate-500">account_name:</span>
-              <span className="font-semibold text-slate-900 truncate max-w-[180px]">{customer.name}</span>
+            <div className="flex justify-between border-b border-slate-200 pb-1.5">
+              <span className="text-slate-500">Name:</span>
+              <span className="font-semibold text-slate-900 truncate max-w-[200px]">{customer.name}</span>
             </div>
-            <div className="flex justify-between border-b border-slate-100 pb-2">
-              <span className="text-slate-500">Main Contact:</span>
-              <span className="font-semibold text-slate-900">{customer.mainContact || '—'}</span>
+            <div className="flex justify-between border-b border-slate-200 pb-1.5">
+              <span className="text-slate-500">Address:</span>
+              <span className="font-semibold text-slate-900 truncate max-w-[200px]">{customer.address || '—'}</span>
             </div>
-            <div className="flex justify-between border-b border-slate-100 pb-2">
-              <span className="text-slate-500">email:</span>
-              <span className="truncate max-w-[180px]">
-                {customer.email ? (
-                  <a href={`mailto:${customer.email}`} className="text-amber-700 hover:underline">
-                    {customer.email}
+            <div className="flex justify-between border-b border-slate-200 pb-1.5">
+              <span className="text-slate-500">City:</span>
+              <span className="font-semibold text-slate-900">{customer.city || '—'}</span>
+            </div>
+            <div className="flex justify-between border-b border-slate-200 pb-1.5">
+              <span className="text-slate-500">State:</span>
+              <span className="font-semibold text-slate-900">{customer.state || '—'}</span>
+            </div>
+            <div className="flex justify-between border-b border-slate-200 pb-1.5">
+              <span className="text-slate-500">Primary Contact:</span>
+              <span className="font-semibold text-slate-900">{customer.primaryContact || customer.mainContact || '—'}</span>
+            </div>
+            <div className="flex justify-between border-b border-slate-200 pb-1.5">
+              <span className="text-slate-500">Contact Phone:</span>
+              <span className="font-mono text-slate-800">{customer.contactPhone || '—'}</span>
+            </div>
+            <div className="flex justify-between border-b border-slate-200 pb-1.5">
+              <span className="text-slate-500">Main Phone Number:</span>
+              <span className="font-mono text-slate-800">{customer.mainPhoneNumber || customer.phone || '—'}</span>
+            </div>
+            <div className="flex justify-between pb-1">
+              <span className="text-slate-500">Contact Email:</span>
+              <span className="truncate max-w-[200px]">
+                {(customer.contactEmail || customer.email) ? (
+                  <a href={`mailto:${customer.contactEmail || customer.email}`} className="text-blue-800 hover:underline">
+                    {customer.contactEmail || customer.email}
                   </a>
                 ) : (
-                  <span className="text-slate-400">NULL</span>
+                  <span className="text-slate-400">—</span>
                 )}
               </span>
-            </div>
-            <div className="flex justify-between border-b border-slate-100 pb-2">
-              <span className="text-slate-500">2nd Contact:</span>
-              <span>{customer.secondContact || <span className="text-slate-400">NULL</span>}</span>
-            </div>
-            <div className="flex justify-between border-b border-slate-100 pb-2">
-              <span className="text-slate-500">3rd Contact:</span>
-              <span>{customer.thirdContact || <span className="text-slate-400">NULL</span>}</span>
-            </div>
-            <div className="flex justify-between border-b border-slate-100 pb-2">
-              <span className="text-slate-500">program:</span>
-              <span className="font-bold text-amber-700">{customer.program || 'N/A'}</span>
             </div>
           </div>
         </div>
 
-        {/* Column 2: Discounts & Selection Room Configuration */}
-        <div className="bg-white border border-slate-200 p-6 rounded-2xl space-y-4 shadow-sm">
-          <h2 className="text-xs font-semibold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-            <Percent className="w-4 h-4 text-emerald-600" />
-            Discounts & Selection Room
+        {/* Column 2: Programs, Delivery & Showroom Details */}
+        <div className="bg-[#fafcfa] border-2 border-slate-400 p-6 space-y-4 shadow-xs">
+          <h2 className="text-xs font-serif font-bold text-blue-950 uppercase tracking-wider flex items-center gap-1.5 border-b border-slate-300 pb-2">
+            <Building2 className="w-4 h-4 text-blue-900" />
+            Program &amp; Account Classification
           </h2>
 
-          <div className="grid grid-cols-2 gap-3">
-            <div className="bg-slate-50 border border-slate-200 p-4 rounded-xl text-center">
-              <span className="text-[11px] text-slate-500 block uppercase">burial_discount</span>
-              <span className="font-mono text-3xl font-black text-emerald-600 mt-1 block">
-                {customer.burialDiscount}%
-              </span>
-              <span className="text-[10px] text-slate-400 mt-0.5 block">Off Caskets</span>
+          <div className="space-y-2 text-xs text-slate-700">
+            <div className="flex justify-between border-b border-slate-200 pb-1.5">
+              <span className="text-slate-500">Delivery Days:</span>
+              <span className="font-mono font-bold text-emerald-800">{customer.deliveryDays || '—'}</span>
             </div>
-
-            <div className="bg-slate-50 border border-slate-200 p-4 rounded-xl text-center">
-              <span className="text-[11px] text-slate-500 block uppercase">cremation_discount</span>
-              <span className="font-mono text-3xl font-black text-blue-600 mt-1 block">
-                {customer.cremationDiscount}%
+            <div className="flex justify-between border-b border-slate-200 pb-1.5">
+              <span className="text-slate-500">Customer Spectrum:</span>
+              <span className="font-semibold text-slate-900">{customer.customerSpectrum || '—'}</span>
+            </div>
+            <div className="flex justify-between border-b border-slate-200 pb-1.5">
+              <span className="text-slate-500">Customer Purchase Program:</span>
+              <span className="font-bold text-emerald-800">{customer.customerPurchaseProgram || customer.program || '—'}</span>
+            </div>
+            <div className="flex justify-between border-b border-slate-200 pb-1.5">
+              <span className="text-slate-500">Net Urn Price:</span>
+              <span className="font-mono text-slate-900">
+                {customer.netUrnPrice !== undefined && customer.netUrnPrice !== null && customer.netUrnPrice !== '' ? String(customer.netUrnPrice) : '—'}
               </span>
-              <span className="text-[10px] text-slate-400 mt-0.5 block">Off Urns/Units</span>
+            </div>
+            <div className="flex justify-between border-b border-slate-200 pb-1.5">
+              <span className="text-slate-500">Program Sub-Group 2:</span>
+              <span className="font-semibold text-slate-900">{customer.programSubGroup2 || '—'}</span>
+            </div>
+            <div className="flex justify-between border-b border-slate-200 pb-1.5">
+              <span className="text-slate-500">Digital Showroom Migration Priority:</span>
+              <span className="font-semibold text-blue-900">{customer.digitalShowroomMigrationPriority || '—'}</span>
+            </div>
+            <div className="flex justify-between border-b border-slate-200 pb-1.5">
+              <span className="text-slate-500">Customer Type:</span>
+              <span className="font-semibold text-slate-900">{customer.customerType || '—'}</span>
+            </div>
+            <div className="flex justify-between border-b border-slate-200 pb-1.5">
+              <span className="text-slate-500">Attitude towards Batesville:</span>
+              <span className="font-semibold text-slate-900">{customer.attitudeTowardsBatesville || '—'}</span>
+            </div>
+            <div className="flex justify-between pb-1">
+              <span className="text-slate-500">Primary Burial Products Competitor:</span>
+              <span className="font-semibold text-slate-900">{customer.primaryBurialProductsCompetitor || '—'}</span>
             </div>
           </div>
-
-          <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2 text-xs text-slate-700">
-            <div className="flex justify-between">
-              <span className="text-slate-500">rebate:</span>
-              <span className="font-mono text-slate-700">
-                {customer.rebate !== undefined && customer.rebate !== null ? `${customer.rebate}%` : 'NULL'}
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-slate-500">selectionroom:</span>
-              <span className={`font-bold flex items-center gap-1 ${customer.selectionRoom ? 'text-emerald-600' : 'text-slate-400'}`}>
-                {customer.selectionRoom ? <Check className="w-3.5 h-3.5" /> : <X className="w-3.5 h-3.5" />}
-                {customer.selectionRoom ? 'TRUE (Active)' : 'FALSE'}
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-slate-500">selectionroom_style:</span>
-              <span className="font-semibold text-amber-700">{customer.selectionRoomStyle || 'None'}</span>
-            </div>
-          </div>
-
-          <p className="text-xs text-slate-500">
-            💡 <strong>Price Card Automation:</strong> When printing price cards for this funeral home, their <strong>{customer.burialDiscount}% burial discount</strong> is automatically reflected in the calculation!
-          </p>
         </div>
 
         {/* Column 3: Multi-Year Sales Metrics */}
