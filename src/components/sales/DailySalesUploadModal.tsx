@@ -16,12 +16,6 @@ import {
   CheckCircle2, 
   AlertTriangle, 
   Trash2, 
-  Plus, 
-  DollarSign, 
-  Package, 
-  Calendar, 
-  Building2, 
-  ArrowRight,
   Loader2,
   FileSpreadsheet
 } from 'lucide-react';
@@ -185,7 +179,7 @@ export const DailySalesUploadModal: React.FC<DailySalesUploadModalProps> = ({
           month: s.month,
           day: String(s.day),
           program: s.program,
-          account_name: s.accountName,
+          account_name: s.accountName || String(s.accountNumber),
           'account_#': Number(s.accountNumber) || s.accountNumber,
           product_code: Number(s.productCode) || s.productCode,
           category: s.category,
@@ -365,7 +359,7 @@ ALTER TABLE sales ALTER COLUMN sales_id SET DEFAULT nextval('sales_sales_id_seq'
                 {isLoading ? 'Extracting & Parsing Daily Sales PDF...' : 'Drop or Tap to Upload Daily Sales PDF'}
               </h3>
               <p className="text-xs text-slate-600 max-w-md leading-relaxed">
-                Supports Batesville <strong>Daily Billing Reports</strong>: automatically parses Item Number, Description, Qty, and Invoice $$, resolves Account # from Customer Ship-to Name, matches official customer names, and excludes grey subtotal rows.
+                Supports Batesville <strong>Daily Billing Reports</strong>: automatically parses Account #, Order #, Item Number, Description, Qty, and Invoice $$, and excludes grey subtotal rows.
               </p>
               
               <div className="mt-4 inline-flex items-center space-x-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold text-xs shadow-md shadow-amber-500/20 pointer-events-none">
@@ -385,7 +379,7 @@ ALTER TABLE sales ALTER COLUMN sales_id SET DEFAULT nextval('sales_sales_id_seq'
                 value={pasteText}
                 onChange={(e) => setPasteText(e.target.value)}
                 rows={8}
-                placeholder={`Example lines:\n2025-04-12  134700  Scott Brampton  271819  M39 Neopolitan Blue  1  $4,065.00\n2025-04-12  134964  Forrest & Taylor  146799  Woodford Pecan  1  $4,995.00`}
+                placeholder={`Example lines:\n2025-04-12  134700  271819  M39 Neopolitan Blue  1  $4,065.00\n2025-04-12  134964  146799  Woodford Pecan  1  $4,995.00`}
                 className="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-xs text-slate-800 font-mono focus:outline-none focus:border-amber-500 focus:bg-white"
               />
               <div className="flex justify-end">
@@ -441,7 +435,7 @@ ALTER TABLE sales ALTER COLUMN sales_id SET DEFAULT nextval('sales_sales_id_seq'
                 </div>
               </div>
 
-              {/* Transactions Table */}
+              {/* Transactions Table (Customer Name column removed - uses Account # directly) */}
               <div className="border border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm">
                 <div className="max-h-[340px] overflow-y-auto">
                   <table className="w-full text-left text-xs border-collapse">
@@ -451,7 +445,6 @@ ALTER TABLE sales ALTER COLUMN sales_id SET DEFAULT nextval('sales_sales_id_seq'
                         <th className="px-2 py-2.5 text-center">Month</th>
                         <th className="px-2 py-2.5 text-center">Day</th>
                         <th className="px-3 py-2.5">Account #</th>
-                        <th className="px-3 py-2.5">Customer Name</th>
                         <th className="px-3 py-2.5">Order #</th>
                         <th className="px-3 py-2.5">Item #</th>
                         <th className="px-3 py-2.5">Product Description</th>
@@ -465,7 +458,7 @@ ALTER TABLE sales ALTER COLUMN sales_id SET DEFAULT nextval('sales_sales_id_seq'
                       {editableRows.map((row) => (
                         <tr key={row.id} className="hover:bg-slate-50 transition-colors">
                           
-                          {/* Year (e.g. 2025-26) */}
+                          {/* Year (e.g. 2026-27) */}
                           <td className="px-2.5 py-2 whitespace-nowrap">
                             <input
                               type="text"
@@ -476,7 +469,7 @@ ALTER TABLE sales ALTER COLUMN sales_id SET DEFAULT nextval('sales_sales_id_seq'
                             />
                           </td>
 
-                          {/* Month (e.g. SEP) */}
+                          {/* Month (e.g. OCT) */}
                           <td className="px-2 py-2 text-center whitespace-nowrap">
                             <input
                               type="text"
@@ -487,7 +480,7 @@ ALTER TABLE sales ALTER COLUMN sales_id SET DEFAULT nextval('sales_sales_id_seq'
                             />
                           </td>
 
-                          {/* Day (e.g. 19) */}
+                          {/* Day (e.g. 1) */}
                           <td className="px-2 py-2 text-center whitespace-nowrap">
                             <input
                               type="number"
@@ -506,17 +499,7 @@ ALTER TABLE sales ALTER COLUMN sales_id SET DEFAULT nextval('sales_sales_id_seq'
                               type="text"
                               value={row.accountNumber}
                               onChange={(e) => handleRowChange(row.id, 'accountNumber', e.target.value)}
-                              className="bg-white border border-slate-300 rounded px-1.5 py-0.5 text-xs text-amber-700 font-mono w-20 focus:outline-none focus:border-amber-600"
-                            />
-                          </td>
-
-                          {/* Customer Name */}
-                          <td className="px-3 py-2 max-w-[160px] truncate">
-                            <input
-                              type="text"
-                              value={row.accountName}
-                              onChange={(e) => handleRowChange(row.id, 'accountName', e.target.value)}
-                              className="bg-white border border-slate-300 rounded px-1.5 py-0.5 text-xs text-slate-800 w-full focus:outline-none focus:border-amber-600"
+                              className="bg-white border border-slate-300 rounded px-1.5 py-0.5 text-xs text-amber-700 font-mono w-24 focus:outline-none focus:border-amber-600 font-bold"
                             />
                           </td>
 
@@ -541,7 +524,7 @@ ALTER TABLE sales ALTER COLUMN sales_id SET DEFAULT nextval('sales_sales_id_seq'
                           </td>
 
                           {/* Description */}
-                          <td className="px-3 py-2 max-w-[200px] truncate">
+                          <td className="px-3 py-2 max-w-[260px] truncate">
                             <input
                               type="text"
                               value={row.description}
