@@ -302,18 +302,21 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
 
   return (
     <div className="space-y-6 animate-fadeIn">
-      {/* Header Bar */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-white border border-slate-200 p-6 rounded-2xl shadow-sm">
+      {/* Newspaper Section Header Bar */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-[#fafcfa] border-y-4 border-double border-emerald-900 border-x border-slate-300 p-6 shadow-xs">
         <div>
           <div className="flex items-center space-x-3">
-            <div className="p-2.5 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-600">
+            <div className="p-2.5 bg-emerald-900 border border-emerald-950 text-emerald-100">
               <BarChart3 className="w-6 h-6" />
             </div>
             <div>
-              <h1 className="text-2xl font-serif font-bold text-slate-900 tracking-wide">
-                Sales Analytics & Transactions
+              <span className="text-[10px] font-mono uppercase tracking-widest text-blue-900 font-bold block">
+                § FINANCIAL LEDGER • FISCAL DISPATCH &amp; QUOTA TRACKER
+              </span>
+              <h1 className="text-2xl font-serif font-black text-slate-950 tracking-wide uppercase">
+                Sales Analytics &amp; Transactions
               </h1>
-              <p className="text-xs sm:text-sm text-slate-500">
+              <p className="text-xs sm:text-sm font-serif italic text-slate-600">
                 Batesville Fiscal Calendar: <strong>October 1st to September 30th</strong> • Monthly, yearly, and YoY trends.
               </p>
             </div>
@@ -322,14 +325,14 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
 
         <div className="flex flex-wrap items-center gap-3">
           {/* View Toggle */}
-          <div className="flex items-center space-x-1 bg-slate-100 p-1 rounded-xl border border-slate-200">
+          <div className="flex items-center space-x-1 bg-[#eef4f1] p-1 border border-slate-400 font-serif">
             <button
               onClick={() => {
                 setActiveTab('quota');
                 if (onViewChange) onViewChange('quota');
               }}
-              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
-                activeTab === 'quota' ? 'bg-amber-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
+              className={`flex items-center space-x-1.5 px-3 py-1.5 text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                activeTab === 'quota' ? 'bg-emerald-800 text-white shadow-xs' : 'text-slate-700 hover:text-slate-950'
               }`}
             >
               <Target className="w-3.5 h-3.5" />
@@ -340,8 +343,8 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
                 setActiveTab('analytics');
                 if (onViewChange) onViewChange('analytics');
               }}
-              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
-                activeTab === 'analytics' ? 'bg-amber-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
+              className={`flex items-center space-x-1.5 px-3 py-1.5 text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                activeTab === 'analytics' ? 'bg-blue-900 text-white shadow-xs' : 'text-slate-700 hover:text-slate-950'
               }`}
             >
               <BarChart3 className="w-3.5 h-3.5" />
@@ -352,8 +355,8 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
                 setActiveTab('table');
                 if (onViewChange) onViewChange('table');
               }}
-              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
-                activeTab === 'table' ? 'bg-amber-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
+              className={`flex items-center space-x-1.5 px-3 py-1.5 text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                activeTab === 'table' ? 'bg-emerald-800 text-white shadow-xs' : 'text-slate-700 hover:text-slate-950'
               }`}
             >
               <TableIcon className="w-3.5 h-3.5" />
@@ -364,26 +367,26 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
           {/* Upload Daily Sales PDF Button */}
           <button
             onClick={() => setIsUploadModalOpen(true)}
-            className="flex items-center space-x-1.5 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-white font-bold px-3.5 py-2 rounded-xl text-xs shadow-md shadow-emerald-500/20 transition-all cursor-pointer"
+            className="flex items-center space-x-1.5 bg-emerald-800 hover:bg-emerald-700 text-white font-serif font-bold uppercase tracking-wider px-3.5 py-2 border border-emerald-950 text-xs shadow-xs transition-all cursor-pointer"
           >
-            <UploadCloud className="w-3.5 h-3.5" />
+            <UploadCloud className="w-3.5 h-3.5 text-emerald-200" />
             <span>Upload Daily Sales (PDF)</span>
           </button>
 
           {/* Export CSV Button */}
           <button
             onClick={exportSalesCsv}
-            className="flex items-center space-x-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-700 transition-all cursor-pointer"
+            className="flex items-center space-x-1.5 bg-blue-50 hover:bg-blue-100 border border-blue-400 px-3.5 py-2 text-xs font-serif font-bold uppercase tracking-wider text-blue-950 transition-all cursor-pointer"
           >
-            <Download className="w-3.5 h-3.5 text-amber-600" />
+            <Download className="w-3.5 h-3.5 text-blue-800" />
             <span>Export CSV</span>
           </button>
         </div>
       </div>
 
       {/* Fiscal Calendar Badge Alert */}
-      <div className="flex items-center space-x-2.5 bg-amber-50/90 border border-amber-200 px-4 py-2.5 rounded-xl text-xs text-amber-900 shadow-sm">
-        <Clock className="w-4 h-4 text-amber-600 shrink-0" />
+      <div className="flex items-center space-x-2.5 bg-blue-50/80 border-l-4 border-l-blue-900 border border-blue-200 px-4 py-2.5 text-xs font-serif text-blue-950 shadow-2xs">
+        <Clock className="w-4 h-4 text-emerald-700 shrink-0" />
         <span>
           <strong>Batesville Fiscal Year Cycle:</strong> Runs from <strong>October 1st</strong> through <strong>September 30th</strong>. Q1: Oct–Dec • Q2: Jan–Mar • Q3: Apr–Jun • Q4: Jul–Sep.
         </span>
@@ -399,11 +402,11 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
       ) : activeTab === 'analytics' ? (
         <>
           {/* Secondary Filter Bar */}
-          <div className="flex flex-wrap items-center justify-between gap-4 bg-white border border-slate-200 p-4 rounded-xl text-xs shadow-sm">
+          <div className="flex flex-wrap items-center justify-between gap-4 bg-[#fafcfa] border border-slate-400 border-t-2 border-t-emerald-800 p-4 text-xs shadow-xs font-serif">
             <div className="flex flex-wrap items-center gap-4">
               <div className="flex items-center space-x-2">
-                <Calendar className="w-3.5 h-3.5 text-amber-600" />
-                <span className="text-slate-500 font-medium">Fiscal Years:</span>
+                <Calendar className="w-3.5 h-3.5 text-emerald-800" />
+                <span className="text-slate-700 font-bold uppercase tracking-wider">Fiscal Years:</span>
                 <select
                   value={currentYear}
                   onChange={(e) => {
@@ -414,7 +417,7 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
                       setPreviousYear(availableYears[idx - 1]);
                     }
                   }}
-                  className="bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1 font-bold text-slate-800 focus:outline-none focus:border-amber-500 cursor-pointer"
+                  className="bg-white border border-slate-400 px-2.5 py-1 font-bold text-slate-900 focus:outline-none focus:border-emerald-800 cursor-pointer"
                 >
                   {availableYears.map((yr) => (
                     <option key={yr} value={yr}>
@@ -422,11 +425,11 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
                     </option>
                   ))}
                 </select>
-                <span className="text-slate-400 font-medium">vs</span>
+                <span className="text-slate-500 italic">vs.</span>
                 <select
                   value={previousYear}
                   onChange={(e) => setPreviousYear(e.target.value)}
-                  className="bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1 font-semibold text-slate-700 focus:outline-none focus:border-amber-500 cursor-pointer"
+                  className="bg-white border border-slate-400 px-2.5 py-1 font-semibold text-slate-800 focus:outline-none focus:border-blue-800 cursor-pointer"
                 >
                   {availableYears.map((yr) => (
                     <option key={yr} value={yr}>{yr}</option>
@@ -435,11 +438,11 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
               </div>
 
               <div className="flex items-center space-x-2">
-                <label className="text-slate-500 font-medium">Customer:</label>
+                <label className="text-slate-700 font-bold uppercase tracking-wider">Customer:</label>
                 <select
                   value={selectedCustomerId}
                   onChange={(e) => setSelectedCustomerId(e.target.value)}
-                  className="bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1 text-slate-800 focus:outline-none focus:border-amber-500 max-w-[220px]"
+                  className="bg-white border border-slate-400 px-2.5 py-1 text-slate-900 focus:outline-none focus:border-emerald-800 max-w-[220px]"
                 >
                   <option value="all">All Funeral Homes ({customers.length})</option>
                   {customers.map((c) => (
@@ -451,11 +454,11 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
               </div>
 
               <div className="flex items-center space-x-2">
-                <label className="text-slate-500 font-medium">Product Line:</label>
+                <label className="text-slate-700 font-bold uppercase tracking-wider">Product Line:</label>
                 <select
                   value={selectedProductId}
                   onChange={(e) => setSelectedProductId(e.target.value)}
-                  className="bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1 text-slate-800 focus:outline-none focus:border-amber-500 max-w-[280px]"
+                  className="bg-white border border-slate-400 px-2.5 py-1 text-slate-900 focus:outline-none focus:border-blue-800 max-w-[280px]"
                 >
                   <option value="all">
                     {selectedCustomerId === 'all' 
@@ -482,64 +485,64 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
           {metrics && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {/* 1. Total Current Revenue */}
-              <div className="bg-white border border-slate-200 p-5 rounded-2xl shadow-sm">
-                <div className="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase mb-2">
+              <div className="bg-[#fafcfa] border border-slate-300 border-t-4 border-t-emerald-800 p-5 shadow-xs">
+                <div className="flex items-center justify-between text-emerald-950 text-xs font-serif font-bold uppercase tracking-widest border-b border-dotted border-slate-300 pb-1 mb-2">
                   <span>FY {currentYear} Gross Sales</span>
-                  <DollarSign className="w-4 h-4 text-emerald-600" />
+                  <DollarSign className="w-4 h-4 text-emerald-700" />
                 </div>
-                <div className="font-serif text-3xl font-black text-slate-900">
+                <div className="font-serif text-3xl font-black text-slate-950">
                   ${metrics.currentRevenue.toLocaleString()}
                 </div>
-                <div className="mt-2 text-xs text-slate-500">
+                <div className="mt-2 text-xs font-mono text-slate-600">
                   FY {previousYear}: ${metrics.previousRevenue.toLocaleString()}
                 </div>
               </div>
 
               {/* 2. YoY Revenue Growth */}
-              <div className="bg-white border border-slate-200 p-5 rounded-2xl shadow-sm">
-                <div className="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase mb-2">
+              <div className="bg-[#fafcfa] border border-slate-300 border-t-4 border-t-blue-900 p-5 shadow-xs">
+                <div className="flex items-center justify-between text-blue-950 text-xs font-serif font-bold uppercase tracking-widest border-b border-dotted border-slate-300 pb-1 mb-2">
                   <span>YoY Fiscal Growth</span>
                   {metrics.revenueGrowthPercent >= 0 ? (
-                    <TrendingUp className="w-4 h-4 text-emerald-600" />
+                    <TrendingUp className="w-4 h-4 text-emerald-700" />
                   ) : (
                     <TrendingDown className="w-4 h-4 text-rose-600" />
                   )}
                 </div>
                 <div className={`font-serif text-3xl font-black flex items-center ${
-                  metrics.revenueGrowthPercent >= 0 ? 'text-emerald-600' : 'text-rose-600'
+                  metrics.revenueGrowthPercent >= 0 ? 'text-emerald-800' : 'text-rose-600'
                 }`}>
                   {metrics.revenueGrowthPercent >= 0 ? '+' : ''}{metrics.revenueGrowthPercent}%
                 </div>
-                <div className="mt-2 text-xs text-slate-500">
+                <div className="mt-2 text-xs font-mono text-slate-600">
                   Net: {metrics.currentRevenue - metrics.previousRevenue >= 0 ? '+$' : '-$'}
                   {Math.abs(metrics.currentRevenue - metrics.previousRevenue).toLocaleString()}
                 </div>
               </div>
 
               {/* 3. Total Units Sold */}
-              <div className="bg-white border border-slate-200 p-5 rounded-2xl shadow-sm">
-                <div className="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase mb-2">
+              <div className="bg-[#fafcfa] border border-slate-300 border-t-4 border-t-emerald-700 p-5 shadow-xs">
+                <div className="flex items-center justify-between text-emerald-950 text-xs font-serif font-bold uppercase tracking-widest border-b border-dotted border-slate-300 pb-1 mb-2">
                   <span>FY {currentYear} Units</span>
-                  <Package className="w-4 h-4 text-amber-600" />
+                  <Package className="w-4 h-4 text-emerald-700" />
                 </div>
-                <div className="font-serif text-3xl font-black text-slate-900">
+                <div className="font-serif text-3xl font-black text-slate-950">
                   {metrics.currentUnits.toLocaleString()} units
                 </div>
-                <div className="mt-2 text-xs text-slate-500">
+                <div className="mt-2 text-xs font-mono text-slate-600">
                   FY {previousYear}: {metrics.previousUnits} units ({metrics.unitGrowthPercent >= 0 ? '+' : ''}{metrics.unitGrowthPercent}%)
                 </div>
               </div>
 
               {/* 4. Average Order Value */}
-              <div className="bg-white border border-slate-200 p-5 rounded-2xl shadow-sm">
-                <div className="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase mb-2">
+              <div className="bg-[#fafcfa] border border-slate-300 border-t-4 border-t-blue-800 p-5 shadow-xs">
+                <div className="flex items-center justify-between text-blue-950 text-xs font-serif font-bold uppercase tracking-widest border-b border-dotted border-slate-300 pb-1 mb-2">
                   <span>Average Unit Cost</span>
-                  <DollarSign className="w-4 h-4 text-blue-600" />
+                  <DollarSign className="w-4 h-4 text-blue-800" />
                 </div>
-                <div className="font-serif text-3xl font-black text-slate-900">
+                <div className="font-serif text-3xl font-black text-blue-950">
                   ${metrics.currentUnits > 0 ? Math.round(metrics.currentRevenue / metrics.currentUnits).toLocaleString() : 0}
                 </div>
-                <div className="mt-2 text-xs text-slate-500">
+                <div className="mt-2 text-xs font-serif italic text-slate-600">
                   Wholesale average per casket/unit
                 </div>
               </div>
@@ -547,32 +550,32 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
           )}
 
           {/* Month-by-Month Chart (Fiscal Order: Oct to Sep) */}
-          <div className="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div className="bg-[#fafcfa] border-2 border-slate-400 border-t-4 border-t-emerald-900 p-6 shadow-xs">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 border-b border-slate-300 pb-3">
               <div>
-                <h2 className="text-lg font-serif font-bold text-slate-900">
-                  Fiscal Month Progression ({previousYear} vs {currentYear})
+                <h2 className="text-lg font-serif font-black text-slate-950 uppercase tracking-wider">
+                  Fiscal Month Progression ({previousYear} vs. {currentYear})
                 </h2>
-                <p className="text-xs text-slate-500">
+                <p className="text-xs font-serif italic text-slate-600">
                   {selectedCustomerId !== 'all' 
                     ? `Filtered for: ${selectedCustomer?.name || selectedCustomerId}${selectedProductId !== 'all' ? ` • SKU ${selectedProductId}` : ' • All Customer Associated Products'}` 
                     : `Sequential order from Month 1 (October) through Month 12 (September).${selectedProductId !== 'all' ? ` Filtered for SKU ${selectedProductId}` : ''}`}
                 </p>
               </div>
 
-              <div className="flex items-center space-x-2 bg-slate-100 p-1 rounded-xl text-xs border border-slate-200">
+              <div className="flex items-center space-x-2 bg-[#eef4f1] p-1 text-xs border border-slate-400 font-serif">
                 <button
                   onClick={() => setChartView('revenue')}
-                  className={`px-3 py-1 rounded-lg font-semibold transition-all cursor-pointer ${
-                    chartView === 'revenue' ? 'bg-amber-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
+                  className={`px-3 py-1 font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                    chartView === 'revenue' ? 'bg-emerald-800 text-white shadow-xs' : 'text-slate-700 hover:text-slate-950'
                   }`}
                 >
                   Revenue ($)
                 </button>
                 <button
                   onClick={() => setChartView('units')}
-                  className={`px-3 py-1 rounded-lg font-semibold transition-all cursor-pointer ${
-                    chartView === 'units' ? 'bg-amber-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
+                  className={`px-3 py-1 font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                    chartView === 'units' ? 'bg-blue-900 text-white shadow-xs' : 'text-slate-700 hover:text-slate-950'
                   }`}
                 >
                   Units Sold
@@ -580,35 +583,35 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
               </div>
             </div>
 
-            {/* Recharts Component */}
+            {/* Recharts Component in Green & Blue */}
             {metrics && (
               <div className="h-80 w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   {chartView === 'revenue' ? (
                     <BarChart data={metrics.monthlyBreakdown} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                      <XAxis dataKey="monthName" stroke="#64748b" />
-                      <YAxis stroke="#64748b" tickFormatter={(val) => `$${val / 1000}k`} />
+                      <CartesianGrid strokeDasharray="3 3" stroke="#cbd5e1" />
+                      <XAxis dataKey="monthName" stroke="#0f172a" tick={{ fontFamily: 'monospace', fontSize: 11 }} />
+                      <YAxis stroke="#0f172a" tickFormatter={(val) => `$${val / 1000}k`} tick={{ fontFamily: 'monospace', fontSize: 11 }} />
                       <Tooltip
-                        contentStyle={{ backgroundColor: '#ffffff', borderColor: '#e2e8f0', color: '#0f172a', borderRadius: '0.75rem', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
+                        contentStyle={{ backgroundColor: '#ffffff', borderColor: '#065f46', color: '#0f172a', borderRadius: '2px', fontFamily: 'Georgia, serif' }}
                         formatter={(val: any) => [`$${Number(val).toLocaleString()}`, '']}
                       />
                       <Legend />
-                      <Bar dataKey="previousRevenue" name={`FY ${previousYear} Revenue`} fill="#94a3b8" radius={[4, 4, 0, 0]} />
-                      <Bar dataKey="currentRevenue" name={`FY ${currentYear} Revenue`} fill="#d97706" radius={[4, 4, 0, 0]} />
+                      <Bar dataKey="previousRevenue" name={`FY ${previousYear} Revenue`} fill="#1e3a8a" radius={[2, 2, 0, 0]} />
+                      <Bar dataKey="currentRevenue" name={`FY ${currentYear} Revenue`} fill="#047857" radius={[2, 2, 0, 0]} />
                     </BarChart>
                   ) : (
                     <BarChart data={metrics.monthlyBreakdown} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                      <XAxis dataKey="monthName" stroke="#64748b" />
-                      <YAxis stroke="#64748b" />
+                      <CartesianGrid strokeDasharray="3 3" stroke="#cbd5e1" />
+                      <XAxis dataKey="monthName" stroke="#0f172a" tick={{ fontFamily: 'monospace', fontSize: 11 }} />
+                      <YAxis stroke="#0f172a" tick={{ fontFamily: 'monospace', fontSize: 11 }} />
                       <Tooltip
-                        contentStyle={{ backgroundColor: '#ffffff', borderColor: '#e2e8f0', color: '#0f172a', borderRadius: '0.75rem', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
+                        contentStyle={{ backgroundColor: '#ffffff', borderColor: '#1e3a8a', color: '#0f172a', borderRadius: '2px', fontFamily: 'Georgia, serif' }}
                         formatter={(val: any) => [`${Number(val)} units`, '']}
                       />
                       <Legend />
-                      <Bar dataKey="previousUnits" name={`FY ${previousYear} Units`} fill="#94a3b8" radius={[4, 4, 0, 0]} />
-                      <Bar dataKey="currentUnits" name={`FY ${currentYear} Units`} fill="#10b981" radius={[4, 4, 0, 0]} />
+                      <Bar dataKey="previousUnits" name={`FY ${previousYear} Units`} fill="#2563eb" radius={[2, 2, 0, 0]} />
+                      <Bar dataKey="currentUnits" name={`FY ${currentYear} Units`} fill="#059669" radius={[2, 2, 0, 0]} />
                     </BarChart>
                   )}
                 </ResponsiveContainer>

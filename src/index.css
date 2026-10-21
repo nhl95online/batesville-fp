@@ -4,12 +4,75 @@
 
 @layer base {
   body {
-    @apply font-sans text-slate-800 antialiased;
-    background-color: #f8fafc;
+    @apply font-sans text-slate-900 antialiased;
+    background-color: #f3f6f4;
+    background-image: 
+      radial-gradient(rgba(15, 81, 50, 0.03) 1px, transparent 0),
+      radial-gradient(rgba(30, 58, 138, 0.025) 1px, transparent 0);
+    background-size: 24px 24px;
+    background-position: 0 0, 12px 12px;
   }
 
   h1, h2, h3, h4, .font-serif {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  }
+}
+
+/* Newspaper Broadsheet Utility Classes */
+.newspaper-masthead {
+  border-bottom: 4px double #064e3b;
+  background-color: #fafcfa;
+}
+
+.newspaper-card {
+  background-color: #ffffff;
+  border: 1px solid #94a3b8;
+  border-top: 3px solid #065f46;
+  box-shadow: 2px 2px 0px rgba(15, 23, 42, 0.06);
+}
+
+.newspaper-card-blue {
+  background-color: #ffffff;
+  border: 1px solid #94a3b8;
+  border-top: 3px solid #1e3a8a;
+  box-shadow: 2px 2px 0px rgba(30, 58, 138, 0.06);
+}
+
+.newspaper-rule-double {
+  border-top: 3px double #0f172a;
+  border-bottom: 1px solid #0f172a;
+}
+
+/* Global Green & Blue Newspaper Remapping for legacy Amber classes across all pages & modals */
+@media screen {
+  .text-amber-400 { color: #34d399 !important; }
+  .text-amber-500 { color: #10b981 !important; }
+  .text-amber-600 { color: #047857 !important; }
+  .text-amber-700 { color: #1d4ed8 !important; }
+  .text-amber-800 { color: #065f46 !important; }
+  .text-amber-900 { color: #1e3a8a !important; }
+  .text-amber-950 { color: #0f172a !important; }
+
+  .bg-amber-50, .bg-amber-50\/90, .bg-amber-50\/80, .bg-amber-50\/70, .bg-amber-50\/50 {
+    background-color: #ecfdf5 !important;
+  }
+  .bg-amber-100 { background-color: #dbeafe !important; }
+  .bg-amber-200 { background-color: #bfdbfe !important; }
+  .bg-amber-500 { background-color: #047857 !important; color: #ffffff !important; }
+  .bg-amber-600 { background-color: #1e40af !important; color: #ffffff !important; }
+
+  .border-amber-200, .border-amber-200\/80 { border-color: #a7f3d0 !important; }
+  .border-amber-300 { border-color: #93c5fd !important; }
+  .border-amber-400 { border-color: #34d399 !important; }
+  .border-amber-500 { border-color: #1d4ed8 !important; }
+
+  .from-amber-500, .from-amber-600 {
+    --tw-gradient-from: #047857 var(--tw-gradient-from-position) !important;
+    --tw-gradient-to: rgb(4 120 87 / 0) var(--tw-gradient-to-position) !important;
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important;
+  }
+  .to-amber-500, .to-amber-600, .to-amber-400 {
+    --tw-gradient-to: #1e40af var(--tw-gradient-to-position) !important;
   }
 }
 
@@ -81,18 +144,18 @@
   }
 }
 
-/* Custom Scrollbars (Light Mode) */
+/* Custom Scrollbars (Green & Blue Newspaper Theme) */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(241, 245, 249, 0.8);
+  background: rgba(226, 232, 240, 0.8);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(217, 119, 6, 0.3);
-  border-radius: 4px;
+  background: rgba(4, 120, 87, 0.45);
+  border-radius: 2px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(217, 119, 6, 0.6);
+  background: rgba(30, 64, 175, 0.75);
 }

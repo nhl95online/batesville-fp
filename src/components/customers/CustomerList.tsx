@@ -84,18 +84,21 @@ export const CustomerList: React.FC<CustomerListProps> = ({
 
   return (
     <div className="space-y-6 animate-fadeIn">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white border border-slate-200 p-6 rounded-2xl shadow-sm">
+      {/* Newspaper Section Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-[#fafcfa] border-y-4 border-double border-blue-950 border-x border-slate-300 p-6 shadow-xs">
         <div>
           <div className="flex items-center space-x-3">
-            <div className="p-2.5 bg-blue-50 border border-blue-200 rounded-xl text-blue-600">
+            <div className="p-2.5 bg-blue-900 border border-blue-950 text-blue-100">
               <Building2 className="w-6 h-6" />
             </div>
             <div>
-              <h1 className="text-2xl font-serif font-bold text-slate-900 tracking-wide">
-                Customers & Partner Accounts
+              <span className="text-[10px] font-mono uppercase tracking-widest text-emerald-800 font-bold block">
+                § PARTNER DIRECTORY • FUNERAL HOME ACCOUNTS
+              </span>
+              <h1 className="text-2xl font-serif font-black text-slate-950 tracking-wide uppercase">
+                Customers &amp; Partner Accounts
               </h1>
-              <p className="text-xs sm:text-sm text-slate-500">
+              <p className="text-xs sm:text-sm font-serif italic text-slate-600">
                 Live customer records from Supabase with account numbers, contacts, discounts, and selection rooms.
               </p>
             </div>
@@ -104,11 +107,11 @@ export const CustomerList: React.FC<CustomerListProps> = ({
 
         <div className="flex flex-wrap items-center gap-3">
           {/* View Mode Toggle */}
-          <div className="flex items-center space-x-1 bg-slate-100 p-1 rounded-xl border border-slate-200">
+          <div className="flex items-center space-x-1 bg-[#eef4f1] p-1 border border-slate-400">
             <button
               onClick={() => setViewMode('table')}
-              className={`p-1.5 rounded-lg transition-all cursor-pointer ${
-                viewMode === 'table' ? 'bg-amber-600 text-white font-bold shadow-sm' : 'text-slate-600 hover:text-slate-900'
+              className={`p-1.5 transition-all cursor-pointer ${
+                viewMode === 'table' ? 'bg-emerald-800 text-white font-bold shadow-xs' : 'text-slate-600 hover:text-slate-900'
               }`}
               title="Table Grid View (Supabase Schema)"
             >
@@ -116,8 +119,8 @@ export const CustomerList: React.FC<CustomerListProps> = ({
             </button>
             <button
               onClick={() => setViewMode('cards')}
-              className={`p-1.5 rounded-lg transition-all cursor-pointer ${
-                viewMode === 'cards' ? 'bg-amber-600 text-white font-bold shadow-sm' : 'text-slate-600 hover:text-slate-900'
+              className={`p-1.5 transition-all cursor-pointer ${
+                viewMode === 'cards' ? 'bg-blue-900 text-white font-bold shadow-xs' : 'text-slate-600 hover:text-slate-900'
               }`}
               title="Card Directory View"
             >
@@ -127,28 +130,28 @@ export const CustomerList: React.FC<CustomerListProps> = ({
 
           {/* Search Bar */}
           <div className="relative w-full sm:w-72">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-2.5" />
+            <Search className="w-4 h-4 text-emerald-800 absolute left-3.5 top-2.5" />
             <input
               type="text"
               placeholder="Search account #, name, contact..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-300 rounded-xl pl-10 pr-4 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-amber-500 focus:bg-white"
+              className="w-full bg-white border border-slate-400 pl-10 pr-4 py-2 text-xs font-serif text-slate-900 placeholder-slate-500 focus:outline-none focus:border-emerald-800"
             />
           </div>
         </div>
       </div>
 
       {/* Filter Row: Programs & Selection Room Styles */}
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-white p-4 rounded-xl border border-slate-200 text-xs shadow-sm">
+      <div className="flex flex-wrap items-center justify-between gap-4 bg-[#fafcfa] p-4 border border-slate-400 border-t-2 border-t-emerald-800 text-xs shadow-xs">
         <div className="flex flex-wrap items-center gap-3">
           <div className="flex items-center space-x-2">
-            <Filter className="w-3.5 h-3.5 text-amber-600" />
-            <span className="text-slate-500 font-medium">Program:</span>
+            <Filter className="w-3.5 h-3.5 text-emerald-800" />
+            <span className="text-slate-700 font-serif font-bold uppercase tracking-wider">Program:</span>
             <select
               value={selectedProgram}
               onChange={(e) => handleSelectProgram(e.target.value)}
-              className="bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1 text-slate-800 focus:outline-none focus:border-amber-500 cursor-pointer"
+              className="bg-white border border-slate-400 px-2.5 py-1 text-slate-900 font-serif focus:outline-none focus:border-emerald-800 cursor-pointer"
             >
               <option value="all">All Programs ({customers.length})</option>
               <option value="selection-rooms">Active Selection Rooms</option>
@@ -161,11 +164,11 @@ export const CustomerList: React.FC<CustomerListProps> = ({
           </div>
 
           <div className="flex items-center space-x-2">
-            <span className="text-slate-500 font-medium">Selection Room Style:</span>
+            <span className="text-slate-700 font-serif font-bold uppercase tracking-wider">Selection Room Style:</span>
             <select
               value={selectedStyle}
               onChange={(e) => setSelectedStyle(e.target.value)}
-              className="bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1 text-slate-800 focus:outline-none focus:border-amber-500 cursor-pointer"
+              className="bg-white border border-slate-400 px-2.5 py-1 text-slate-900 font-serif focus:outline-none focus:border-blue-800 cursor-pointer"
             >
               {styles.map((s) => (
                 <option key={s} value={s}>
@@ -176,17 +179,17 @@ export const CustomerList: React.FC<CustomerListProps> = ({
           </div>
         </div>
 
-        <span className="text-slate-500">
-          Showing <strong className="text-slate-900">{filteredCustomers.length}</strong> of {customers.length} customer accounts
+        <span className="text-slate-700 font-serif italic">
+          Showing <strong className="text-blue-950 not-italic font-mono">{filteredCustomers.length}</strong> of {customers.length} customer accounts
         </span>
       </div>
 
       {/* View Mode: Table Grid View (Matches Supabase Table Headers exactly) */}
       {viewMode === 'table' ? (
-        <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+        <div className="bg-[#fafcfa] border-2 border-slate-400 overflow-hidden shadow-sm">
           <div className="overflow-x-auto max-h-[640px]">
             <table className="w-full text-left text-xs border-collapse">
-              <thead className="bg-slate-100 text-slate-600 uppercase tracking-wider border-b border-slate-200 sticky top-0 z-10 backdrop-blur font-mono text-[11px]">
+              <thead className="bg-[#eef4f1] text-blue-950 uppercase tracking-wider border-b-2 border-double border-emerald-900 sticky top-0 z-10 backdrop-blur font-mono text-[11px]">
                 <tr>
                   <th className="py-3 px-3.5 font-semibold">customer_id</th>
                   <th className="py-3 px-3.5 font-semibold">account_#</th>

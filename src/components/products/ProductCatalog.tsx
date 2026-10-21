@@ -280,19 +280,22 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
 
   return (
     <div className="space-y-6 animate-fadeIn">
-      {/* Catalog Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white border border-slate-200 p-6 rounded-2xl shadow-sm">
+      {/* Newspaper Section Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-[#fafcfa] border-y-4 border-double border-blue-950 border-x border-slate-300 p-6 shadow-xs">
         <div>
           <div className="flex items-center space-x-3">
-            <div className="p-2.5 bg-amber-50 border border-amber-200 rounded-xl text-amber-600">
+            <div className="p-2.5 bg-blue-950 border border-blue-900 text-blue-100">
               <Layers className="w-6 h-6" />
             </div>
             <div>
-              <h1 className="text-2xl font-serif font-bold text-slate-900 tracking-wide">
-                Merchandise & Product Catalog
+              <span className="text-[10px] font-mono uppercase tracking-widest text-emerald-800 font-bold block">
+                § CLASSIFIED INDEX • MASTER PRODUCT SPECIFICATION REGISTER
+              </span>
+              <h1 className="text-2xl font-serif font-black text-slate-950 tracking-wide uppercase">
+                Merchandise &amp; Product Catalog
               </h1>
-              <p className="text-xs sm:text-sm text-slate-500">
-                Comprehensive product specifications, dimensions, materials, and cut sheets.
+              <p className="text-xs sm:text-sm font-serif italic text-slate-600">
+                Comprehensive product specifications, dimensions, materials, and authentic litho cut sheets.
               </p>
             </div>
           </div>
@@ -300,11 +303,11 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
 
         <div className="flex flex-wrap items-center gap-3">
           {/* View Mode Switcher */}
-          <div className="flex items-center space-x-1 bg-slate-100 p-1 rounded-xl border border-slate-200">
+          <div className="flex items-center space-x-1 bg-[#eef4f1] p-1 border border-slate-400">
             <button
               onClick={() => setViewMode('table')}
-              className={`p-1.5 rounded-lg transition-all cursor-pointer ${
-                viewMode === 'table' ? 'bg-amber-600 text-white font-bold shadow-sm' : 'text-slate-600 hover:text-slate-900'
+              className={`p-1.5 transition-all cursor-pointer ${
+                viewMode === 'table' ? 'bg-emerald-800 text-white font-bold shadow-xs' : 'text-slate-600 hover:text-slate-900'
               }`}
               title="Table Grid View"
             >
@@ -312,8 +315,8 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
             </button>
             <button
               onClick={() => setViewMode('cards')}
-              className={`p-1.5 rounded-lg transition-all cursor-pointer ${
-                viewMode === 'cards' ? 'bg-amber-600 text-white font-bold shadow-sm' : 'text-slate-600 hover:text-slate-900'
+              className={`p-1.5 transition-all cursor-pointer ${
+                viewMode === 'cards' ? 'bg-blue-900 text-white font-bold shadow-xs' : 'text-slate-600 hover:text-slate-900'
               }`}
               title="Card Grid View"
             >
@@ -327,10 +330,10 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
               {onOpenPriceListImport && (
                 <button
                   onClick={onOpenPriceListImport}
-                  className="flex items-center space-x-1.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold px-3.5 py-2 rounded-xl text-xs shadow-md shadow-amber-500/20 transition-all cursor-pointer hover:scale-[1.01]"
+                  className="flex items-center space-x-1.5 bg-blue-900 hover:bg-blue-800 text-white font-serif font-bold uppercase tracking-wider px-3.5 py-2 text-xs border border-blue-950 shadow-xs transition-all cursor-pointer"
                   title="Import Product Price Guide / Reference List (PDF / Text)"
                 >
-                  <FileSpreadsheet className="w-4 h-4" />
+                  <FileSpreadsheet className="w-4 h-4 text-blue-200" />
                   <span>Import Price List</span>
                 </button>
               )}
@@ -338,23 +341,23 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
               {onOpenImageManager && (
                 <button
                   onClick={onOpenImageManager}
-                  className="flex items-center space-x-2 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 px-3.5 py-2 rounded-xl text-xs font-semibold transition-colors cursor-pointer shadow-sm"
+                  className="flex items-center space-x-2 bg-white hover:bg-emerald-50 text-emerald-950 border border-emerald-800 px-3.5 py-2 text-xs font-serif font-bold transition-colors cursor-pointer shadow-2xs"
                 >
-                  <ImageIcon className="w-4 h-4 text-amber-600" />
-                  <span>Casket Images</span>
+                  <ImageIcon className="w-4 h-4 text-emerald-700" />
+                  <span>Photo Archive</span>
                 </button>
               )}
 
               {onOpenLithoManager && (
                 <button
                   onClick={onOpenLithoManager}
-                  className="flex items-center space-x-2 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 px-3.5 py-2 rounded-xl text-xs font-semibold transition-colors cursor-pointer shadow-sm"
+                  className="flex items-center space-x-2 bg-white hover:bg-blue-50 text-blue-950 border border-blue-800 px-3.5 py-2 text-xs font-serif font-bold transition-colors cursor-pointer shadow-2xs"
                   title="Upload & Manage Litho Cut Sheets"
                 >
-                  <FileText className="w-4 h-4 text-amber-600" />
+                  <FileText className="w-4 h-4 text-blue-700" />
                   <span>Litho Cut Sheets</span>
                   {lithoCount > 0 && (
-                    <span className="bg-amber-100 text-amber-900 text-[10px] px-1.5 py-0.5 rounded-full font-bold">
+                    <span className="bg-emerald-100 text-emerald-900 text-[10px] px-1.5 py-0.5 font-mono font-bold border border-emerald-300">
                       {lithoCount}
                     </span>
                   )}
@@ -365,27 +368,27 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
 
           {/* Search Bar */}
           <div className="relative w-full md:w-64">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-2.5" />
+            <Search className="w-4 h-4 text-emerald-800 absolute left-3.5 top-2.5" />
             <input
               type="text"
               placeholder="Search code, name, finish, interior..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-300 rounded-xl pl-10 pr-4 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-amber-500 focus:bg-white"
+              className="w-full bg-white border border-slate-400 pl-10 pr-4 py-2 text-xs font-serif text-slate-900 placeholder-slate-500 focus:outline-none focus:border-emerald-800"
             />
           </div>
         </div>
       </div>
 
       {/* Filter Row: Catalog Year, Category & Status */}
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-white p-4 rounded-xl border border-slate-200 text-xs shadow-sm">
+      <div className="flex flex-wrap items-center justify-between gap-4 bg-[#fafcfa] p-4 border border-slate-400 border-t-2 border-t-emerald-800 text-xs shadow-xs">
         <div className="flex items-center space-x-2">
-          <Calendar className="w-3.5 h-3.5 text-amber-600" />
-          <span className="text-slate-500 font-medium">Catalog Year:</span>
+          <Calendar className="w-3.5 h-3.5 text-emerald-800" />
+          <span className="text-slate-700 font-serif font-bold uppercase tracking-wider">Edition Year:</span>
           <select
             value={selectedYear}
             onChange={(e) => setSelectedYear(e.target.value)}
-            className="bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1 text-slate-800 focus:outline-none focus:border-amber-500 font-medium cursor-pointer"
+            className="bg-white border border-slate-400 px-2.5 py-1 text-slate-900 font-serif font-bold focus:outline-none focus:border-emerald-800 cursor-pointer"
           >
             {availableYears.map((y, idx) => (
               <option key={y} value={y}>
@@ -397,11 +400,11 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
         </div>
 
         <div className="flex items-center space-x-2">
-          <span className="text-slate-500 font-medium">Category:</span>
+          <span className="text-slate-700 font-serif font-bold uppercase tracking-wider">Category:</span>
           <select
             value={selectedCategory}
             onChange={(e) => handleSelectCategory(e.target.value)}
-            className="bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1 text-slate-800 focus:outline-none focus:border-amber-500 max-w-[320px] cursor-pointer"
+            className="bg-white border border-slate-400 px-2.5 py-1 text-slate-900 font-serif focus:outline-none focus:border-blue-800 max-w-[320px] cursor-pointer"
           >
             {categories.map((cat) => (
               <option key={cat} value={cat}>
@@ -412,23 +415,23 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
         </div>
 
         {/* Status Filter (All, Active, Discontinued) */}
-        <div className="flex items-center space-x-1 bg-slate-100 p-1 rounded-xl border border-slate-200 text-xs">
+        <div className="flex items-center space-x-1 bg-[#eef4f1] p-1 border border-slate-300 text-xs font-serif">
           <button
             onClick={() => setStatusFilter('all')}
-            className={`px-3 py-1.5 rounded-lg font-semibold transition-all cursor-pointer ${
+            className={`px-3 py-1 font-bold transition-all cursor-pointer ${
               statusFilter === 'all'
-                ? 'bg-white text-slate-900 shadow-sm'
-                : 'text-slate-600 hover:text-slate-900'
+                ? 'bg-blue-900 text-white shadow-2xs'
+                : 'text-slate-700 hover:text-slate-950'
             }`}
           >
             All Items ({yearScopedProducts.length})
           </button>
           <button
             onClick={() => setStatusFilter('active')}
-            className={`px-3 py-1.5 rounded-lg font-semibold transition-all cursor-pointer flex items-center space-x-1.5 ${
+            className={`px-3 py-1 font-bold transition-all cursor-pointer flex items-center space-x-1.5 ${
               statusFilter === 'active'
-                ? 'bg-emerald-600 text-white shadow-sm'
-                : 'text-emerald-700 hover:bg-emerald-50'
+                ? 'bg-emerald-800 text-white shadow-2xs'
+                : 'text-emerald-900 hover:bg-emerald-100'
             }`}
           >
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
@@ -436,10 +439,10 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
           </button>
           <button
             onClick={() => setStatusFilter('discontinued')}
-            className={`px-3 py-1.5 rounded-lg font-semibold transition-all cursor-pointer flex items-center space-x-1.5 ${
+            className={`px-3 py-1 font-bold transition-all cursor-pointer flex items-center space-x-1.5 ${
               statusFilter === 'discontinued'
-                ? 'bg-rose-600 text-white shadow-sm'
-                : 'text-rose-700 hover:bg-rose-50'
+                ? 'bg-rose-700 text-white shadow-2xs'
+                : 'text-rose-800 hover:bg-rose-50'
             }`}
           >
             <span className="w-1.5 h-1.5 rounded-full bg-rose-400"></span>
@@ -447,17 +450,17 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
           </button>
         </div>
 
-        <span className="text-slate-500">
-          Showing <strong className="text-slate-900">{sortedProducts.length}</strong> items
+        <span className="text-slate-700 font-serif italic">
+          Showing <strong className="text-emerald-900 not-italic font-mono">{sortedProducts.length}</strong> indexed items
         </span>
       </div>
 
       {/* View Mode 1: Table Grid View */}
       {viewMode === 'table' ? (
-        <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+        <div className="bg-[#fafcfa] border-2 border-slate-400 shadow-sm overflow-hidden">
           <div className="overflow-x-auto max-h-[750px] relative">
             <table className="w-full text-left text-xs border-collapse">
-              <thead className="bg-slate-50 text-slate-700 font-mono text-[11px] uppercase tracking-wider sticky top-0 z-10 border-b border-slate-200 shadow-xs">
+              <thead className="bg-[#eef4f1] text-blue-950 font-mono text-[11px] uppercase tracking-wider sticky top-0 z-10 border-b-2 border-double border-emerald-900 shadow-xs">
                 <tr>
                   <th 
                     onClick={() => handleSort('productId')}

@@ -124,53 +124,53 @@ export const LoginModal: React.FC<LoginModalProps> = ({
         onClick={onClose} 
       />
 
-      <div className="relative bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-md w-full overflow-hidden z-10 transition-all">
-        {/* Header Bar */}
-        <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 px-6 py-5 text-white flex items-center justify-between">
+      <div className="relative bg-[#fafcfa] rounded-xs shadow-2xl border-2 border-emerald-950 max-w-md w-full overflow-hidden z-10 transition-all">
+        {/* Newspaper Masthead Bar */}
+        <div className="bg-gradient-to-r from-emerald-950 via-blue-950 to-emerald-950 border-b-4 border-double border-emerald-600 px-6 py-5 text-white flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-400/30 flex items-center justify-center text-amber-400 shadow-sm">
+            <div className="w-10 h-10 rounded-xs bg-emerald-800/60 border border-emerald-400/50 flex items-center justify-center text-emerald-300 shadow-xs">
               <Lock className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="font-serif text-lg font-bold tracking-wide flex items-center space-x-2">
-                <span>{mode === 'login' ? 'Private Staff Access' : 'Update Access Password'}</span>
+              <h3 className="font-serif text-lg font-black uppercase tracking-wider flex items-center space-x-2">
+                <span>{mode === 'login' ? 'Portal Press Login' : 'Update Access Password'}</span>
               </h3>
-              <p className="text-xs text-slate-300">
+              <p className="text-xs font-serif italic text-emerald-100/90">
                 {mode === 'login' 
-                  ? 'Sign in to unlock analytics, sales, price cards & tools' 
+                  ? 'Sign in to unlock executive dispatch, sales, price cards & tools' 
                   : 'Change the password required to view restricted portal data'}
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
+            className="text-slate-300 hover:text-white p-1 rounded-xs hover:bg-emerald-900 transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Tab Switcher */}
-        <div className="flex border-b border-slate-200 bg-slate-50 text-xs font-semibold">
+        <div className="flex border-b-2 border-slate-300 bg-[#eef4f1] text-xs font-serif font-bold uppercase tracking-wider">
           <button
             type="button"
             onClick={() => { setMode('login'); setErrorMessage(null); setSuccessMessage(null); }}
             className={`flex-1 py-3 px-4 flex items-center justify-center space-x-2 border-b-2 cursor-pointer transition-colors ${
               mode === 'login' 
-                ? 'border-amber-600 text-amber-900 bg-white font-bold' 
-                : 'border-transparent text-slate-500 hover:text-slate-800'
+                ? 'border-emerald-800 text-emerald-950 bg-white font-black' 
+                : 'border-transparent text-slate-600 hover:text-blue-900'
             }`}
           >
             <LogIn className="w-3.5 h-3.5" />
-            <span>Sign In</span>
+            <span>Login</span>
           </button>
           <button
             type="button"
             onClick={() => { setMode('changePassword'); setErrorMessage(null); setSuccessMessage(null); }}
             className={`flex-1 py-3 px-4 flex items-center justify-center space-x-2 border-b-2 cursor-pointer transition-colors ${
               mode === 'changePassword' 
-                ? 'border-amber-600 text-amber-900 bg-white font-bold' 
-                : 'border-transparent text-slate-500 hover:text-slate-800'
+                ? 'border-blue-800 text-blue-950 bg-white font-black' 
+                : 'border-transparent text-slate-600 hover:text-emerald-900'
             }`}
           >
             <KeyRound className="w-3.5 h-3.5" />

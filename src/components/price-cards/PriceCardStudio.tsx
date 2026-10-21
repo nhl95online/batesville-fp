@@ -367,18 +367,21 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
 
   return (
     <div className="space-y-6">
-      {/* Studio Header Bar */}
-      <div className="no-print flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white border border-slate-200 p-6 rounded-2xl shadow-sm">
+      {/* Newspaper Studio Header Bar */}
+      <div className="no-print flex flex-col md:flex-row md:items-center justify-between gap-4 bg-[#fafcfa] border-y-4 border-double border-emerald-900 border-x border-slate-300 p-6 shadow-xs">
         <div>
           <div className="flex items-center space-x-3">
-            <div className="p-2.5 bg-amber-50 border border-amber-200 rounded-xl text-amber-700">
+            <div className="p-2.5 bg-emerald-900 border border-emerald-950 text-emerald-100">
               <Tag className="w-6 h-6" />
             </div>
             <div>
-              <h1 className="text-2xl font-serif font-bold text-slate-900 tracking-wide">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-blue-900 font-bold block">
+                § TYPESETTING PRESS • SHOWROOM DISPLAY CARDS
+              </span>
+              <h1 className="text-2xl font-serif font-black text-slate-950 tracking-wide uppercase">
                 Showroom Price Card Studio
               </h1>
-              <p className="text-sm text-slate-500">
+              <p className="text-sm font-serif italic text-slate-600">
                 Four authentic collections (Commemorative, Classic, Conventional, Basic) with custom customer retail lists.
               </p>
             </div>
@@ -388,17 +391,17 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
         <div className="flex items-center space-x-3">
           <button
             onClick={() => setIsRetailModalOpen(true)}
-            className="flex items-center space-x-2 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-300 font-semibold px-4 py-2.5 rounded-xl transition-all cursor-pointer shadow-sm"
+            className="flex items-center space-x-2 bg-white hover:bg-blue-50 text-blue-950 border border-blue-900 font-serif font-bold uppercase tracking-wider px-4 py-2.5 text-xs transition-all cursor-pointer shadow-2xs"
           >
-            <Upload className="w-4 h-4 text-amber-600" />
+            <Upload className="w-4 h-4 text-emerald-700" />
             <span>Load Customer Retails</span>
           </button>
 
           <button
             onClick={handlePrint}
-            className="flex items-center space-x-2 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-white font-bold px-5 py-2.5 rounded-xl shadow-md shadow-amber-500/20 transition-all cursor-pointer"
+            className="flex items-center space-x-2 bg-gradient-to-r from-emerald-800 to-blue-900 hover:from-emerald-700 hover:to-blue-800 text-white font-serif font-bold uppercase tracking-wider px-5 py-2.5 text-xs border border-emerald-950 shadow-sm transition-all cursor-pointer"
           >
-            <Printer className="w-4 h-4" />
+            <Printer className="w-4 h-4 text-emerald-200" />
             <span>Print / Save PDF</span>
           </button>
         </div>
@@ -408,7 +411,7 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-5 items-start">
         
         {/* Column 1: Setup & Pricing Controls (Left, 3 cols on xl) */}
-        <div className="no-print col-span-12 xl:col-span-3 space-y-4 bg-white border border-slate-200 p-4 sm:p-5 rounded-2xl shadow-sm h-fit order-1">
+        <div className="no-print col-span-12 xl:col-span-3 space-y-4 bg-[#fafcfa] border border-slate-400 border-t-4 border-t-emerald-800 p-4 sm:p-5 shadow-xs h-fit order-1">
           
           {/* 1. Format / Dimensions */}
           <div>

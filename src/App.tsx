@@ -346,26 +346,26 @@ interface NavTabItem {
     }
   };
 
-  // Only show Catalogs and Products to unauthenticated visitors
+  // Show Home, Catalogs, and Products to unauthenticated visitors; full tabs when logged in
   const visibleNavTabs = useMemo(() => {
     if (isLoggedIn) return navTabs;
-    return navTabs.filter(t => t.id === 'catalogs' || t.id === 'products');
+    return navTabs.filter(t => t.id === 'home' || t.id === 'catalogs' || t.id === 'products');
   }, [isLoggedIn, navTabs]);
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center text-slate-800">
-        <Loader2 className="w-10 h-10 text-amber-600 animate-spin mb-4" />
-        <h2 className="font-serif text-2xl font-bold text-slate-900 tracking-wide">
-          CATALOG<span className="text-amber-600"> PORTAL</span>
+      <div className="min-h-screen bg-[#f3f6f4] flex flex-col items-center justify-center text-slate-900">
+        <Loader2 className="w-10 h-10 text-emerald-700 animate-spin mb-4" />
+        <h2 className="font-serif text-2xl font-black text-slate-950 tracking-wider uppercase border-b-2 border-double border-blue-900 pb-1">
+          THE CATALOG <span className="text-emerald-800">PORTAL</span>
         </h2>
-        <p className="text-xs sm:text-sm text-slate-500 mt-1">Connecting to Cloud Database...</p>
+        <p className="text-xs sm:text-sm font-serif italic text-blue-900 mt-2">Typesetting Cloud Edition...</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col selection:bg-amber-500/20 selection:text-amber-900">
+    <div className="min-h-screen bg-[#f3f6f4] text-slate-900 flex flex-col selection:bg-emerald-200 selection:text-blue-950">
       
       {/* Top Navigation */}
       <Navbar
@@ -402,11 +402,11 @@ interface NavTabItem {
         onGoHome={() => handleNavigate(isLoggedIn ? 'home' : 'catalogs')}
       />
 
-      {/* Main Tab Navigation Bar & Dropdown Menus */}
-      <div className="no-print bg-white border-b border-slate-200 shadow-2xs sticky top-16 z-30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between py-1">
+      {/* Newspaper Section Index Bar & Dropdown Menus */}
+      <div className="no-print bg-[#eef4f1] border-b-2 border-blue-950 shadow-2xs sticky top-[88px] z-30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between py-1.5">
           
-          <div className="flex items-center space-x-1 sm:space-x-1.5 overflow-x-auto scrollbar-none py-0.5">
+          <div className="flex items-center divide-x divide-emerald-900/20 overflow-x-auto scrollbar-none py-0.5">
             {visibleNavTabs.map((tab) => {
               const isActive = activeTab === tab.id;
               const isDropdownOpen = openDropdown === tab.id;
@@ -414,7 +414,7 @@ interface NavTabItem {
               return (
                 <div 
                   key={tab.id} 
-                  className="relative shrink-0"
+                  className="relative shrink-0 px-1 first:pl-0"
                   onMouseEnter={() => {
                     if (openDropdown !== null && openDropdown !== tab.id) {
                       setOpenDropdown(tab.id);
@@ -428,29 +428,29 @@ interface NavTabItem {
                       }
                       setOpenDropdown(isDropdownOpen ? null : tab.id);
                     }}
-                    className={`flex items-center space-x-1 px-3 py-1.5 rounded-lg text-xs sm:text-[13px] font-medium transition-all cursor-pointer ${
+                    className={`flex items-center space-x-1.5 px-3 py-1 rounded-xs font-serif uppercase tracking-wider text-xs sm:text-[13px] transition-all cursor-pointer ${
                       isActive 
-                        ? 'text-amber-800 font-semibold bg-amber-50/90 border border-amber-200/80 shadow-2xs' 
+                        ? 'text-white font-bold bg-gradient-to-r from-emerald-800 to-blue-900 border border-emerald-950 shadow-xs' 
                         : isDropdownOpen
-                          ? 'text-slate-900 bg-slate-100 border border-slate-200'
-                          : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-transparent'
+                          ? 'text-blue-950 font-bold bg-blue-100/80 border border-blue-300'
+                          : 'text-slate-800 hover:text-emerald-900 hover:bg-emerald-100/60 font-semibold border border-transparent'
                     }`}
                   >
                     <span>{tab.label}</span>
-                    <ChevronDown className={`w-3 h-3 text-slate-400 transition-transform duration-150 ${isDropdownOpen ? 'rotate-180 text-slate-600' : ''}`} />
+                    <ChevronDown className={`w-3 h-3 transition-transform duration-150 ${isActive ? 'text-emerald-200' : 'text-blue-800'} ${isDropdownOpen ? 'rotate-180' : ''}`} />
                   </button>
 
-                  {/* Dropdown Menu Flyout */}
+                  {/* Newspaper Dropdown Menu Flyout */}
                   {isDropdownOpen && (
                     <>
                       <div 
                         className="fixed inset-0 z-40" 
                         onClick={() => setOpenDropdown(null)} 
                       />
-                      <div className="absolute left-0 mt-1 w-64 bg-white border border-slate-200 rounded-xl shadow-xl py-1.5 z-50 animate-fadeIn max-h-[420px] overflow-y-auto">
-                        <div className="px-3 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100 mb-1 flex items-center justify-between">
-                          <span>{tab.label}</span>
-                          <span className="text-[9px] font-normal text-slate-400">{tab.subpages.length} options</span>
+                      <div className="absolute left-0 mt-1.5 w-64 bg-[#fafcfa] border-2 border-blue-950 rounded-xs shadow-xl py-1.5 z-50 animate-fadeIn max-h-[420px] overflow-y-auto">
+                        <div className="px-3 py-1.5 text-[10px] font-serif font-bold text-blue-950 uppercase tracking-widest border-b-2 border-double border-emerald-800 mb-1 flex items-center justify-between bg-emerald-50/60">
+                          <span>§ {tab.label} Section</span>
+                          <span className="text-[9px] font-mono text-emerald-800">{tab.subpages.length} cols</span>
                         </div>
                         {tab.subpages.map(sub => {
                           const isSubActive = activeTab === tab.id && isCurrentSubpageActive(sub.id);
@@ -465,26 +465,26 @@ interface NavTabItem {
                                   handleNavigate(tab.id as typeof activeTab, sub.id);
                                 }
                               }}
-                              className={`w-full text-left px-3 py-2 flex items-center justify-between hover:bg-amber-50/70 transition-colors cursor-pointer group ${
-                                isSubActive ? 'bg-amber-50 text-amber-900 font-bold' : 'text-slate-700'
+                              className={`w-full text-left px-3 py-2 flex items-center justify-between hover:bg-emerald-50 border-b border-slate-200/70 last:border-b-0 transition-colors cursor-pointer group ${
+                                isSubActive ? 'bg-blue-50 text-blue-950 font-bold' : 'text-slate-800'
                               }`}
                             >
                               <div className="flex items-center space-x-2 min-w-0 pr-2">
-                                <span className={`w-3.5 text-xs text-center shrink-0 ${isSubActive ? 'text-amber-600 font-bold' : 'text-transparent group-hover:text-slate-300'}`}>
-                                  ✓
+                                <span className={`w-3.5 text-xs text-center shrink-0 ${isSubActive ? 'text-emerald-700 font-bold' : 'text-transparent group-hover:text-blue-400'}`}>
+                                  ▸
                                 </span>
                                 <div className="min-w-0">
-                                  <div className="text-xs font-semibold truncate">{sub.label}</div>
+                                  <div className="text-xs font-serif font-bold truncate">{sub.label}</div>
                                   {sub.description && (
-                                    <div className="text-[10px] text-slate-400 font-normal leading-tight truncate">
+                                    <div className="text-[10px] text-slate-600 font-normal leading-tight truncate">
                                       {sub.description}
                                     </div>
                                   )}
                                 </div>
                               </div>
                               {sub.badge !== undefined && (
-                                <span className={`text-[10px] font-mono px-1.5 py-0.2 rounded-full shrink-0 ${
-                                  isSubActive ? 'bg-amber-200 text-amber-900 font-semibold' : 'bg-slate-100 text-slate-600'
+                                <span className={`text-[10px] font-mono px-1.5 py-0.2 rounded-xs border shrink-0 ${
+                                  isSubActive ? 'bg-emerald-800 text-white border-emerald-950 font-semibold' : 'bg-blue-50 text-blue-900 border-blue-200'
                                 }`}>
                                   {sub.badge}
                                 </span>
@@ -505,10 +505,10 @@ interface NavTabItem {
             <div className="pl-3 shrink-0">
               <button
                 onClick={() => setIsImageModalOpen(true)}
-                className="flex items-center space-x-1.5 bg-slate-50 hover:bg-slate-100 text-slate-700 hover:text-amber-700 border border-slate-200 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer shadow-xs"
+                className="flex items-center space-x-1.5 bg-white hover:bg-blue-50 text-blue-950 hover:text-emerald-900 border border-blue-900 px-3 py-1 rounded-xs text-xs font-serif font-bold uppercase tracking-wider transition-all cursor-pointer shadow-2xs"
               >
-                <ImageIcon className="w-3.5 h-3.5 text-amber-600" />
-                <span>Casket Images</span>
+                <ImageIcon className="w-3.5 h-3.5 text-emerald-700" />
+                <span>Photo Archive</span>
               </button>
             </div>
           )}

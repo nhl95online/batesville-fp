@@ -1051,32 +1051,35 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
   return (
     <div className="space-y-6 animate-fadeIn pb-12">
       
-      {/* Top Header & Customer Selector */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-white border border-slate-200 p-6 rounded-2xl shadow-sm">
+      {/* Top Newspaper Header & Customer Selector */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-[#fafcfa] border-y-4 border-double border-blue-950 border-x border-slate-300 p-6 shadow-xs">
         <div className="flex items-center space-x-3">
-          <div className="p-3 bg-amber-50 border border-amber-200 rounded-2xl text-amber-600 shadow-sm">
+          <div className="p-3 bg-blue-950 border border-blue-900 text-blue-100 shadow-xs">
             <LayoutGrid className="w-6 h-6" />
           </div>
           <div>
-            <h1 className="text-2xl font-serif font-bold text-slate-900 tracking-wide flex items-center gap-2">
+            <span className="text-[10px] font-mono uppercase tracking-widest text-emerald-800 font-bold block">
+              § ARCHITECTURAL DRAFTING • SELECTION ROOM BLUEPRINTS
+            </span>
+            <h1 className="text-2xl font-serif font-black text-slate-950 tracking-wide uppercase flex items-center gap-2">
               Interactive Showroom Floor Plan
-              <span className="text-xs font-mono font-normal px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
-                Architectural 2D Engine
+              <span className="text-xs font-mono font-bold px-2 py-0.5 bg-emerald-50 text-emerald-900 border border-emerald-400">
+                2D CAD Engine
               </span>
             </h1>
-            <p className="text-xs sm:text-sm text-slate-500">
-              True architectural blueprint mapped to {activeCustomer?.name}'s actual 28ft × 19.5ft L-Shaped showroom & Supabase placements.
+            <p className="text-xs sm:text-sm font-serif italic text-slate-600">
+              True architectural blueprint mapped to {activeCustomer?.name}&apos;s actual 28ft × 19.5ft L-Shaped showroom &amp; Supabase placements.
             </p>
           </div>
         </div>
 
         {/* Customer Dropdown Selector, Cloud Sync & Print Buttons */}
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2.5">
           <div className="relative">
             <select
               value={selectedCustomerId}
               onChange={(e) => setSelectedCustomerId(e.target.value)}
-              className="bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-xs font-semibold text-slate-800 focus:outline-none focus:border-amber-500 focus:bg-white cursor-pointer shadow-sm pr-8"
+              className="bg-white border border-slate-400 px-4 py-2 text-xs font-serif font-bold text-slate-900 focus:outline-none focus:border-emerald-800 cursor-pointer shadow-2xs pr-8"
             >
               {customers.map(c => {
                 const acct = String(c.accountNumber || c.code || '').trim();
@@ -1094,9 +1097,9 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
             onClick={() => loadCustomerFloorPlan(true)}
             disabled={isCloudLoading}
             title="Refresh floor plan from Supabase customer_casket_locations"
-            className="flex items-center space-x-1.5 px-3.5 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-xl shadow-sm cursor-pointer transition-all disabled:opacity-50"
+            className="flex items-center space-x-1.5 px-3.5 py-2 bg-emerald-800 hover:bg-emerald-700 text-white font-serif font-bold uppercase tracking-wider text-xs border border-emerald-950 shadow-xs cursor-pointer transition-all disabled:opacity-50"
           >
-            <RefreshCw className={`w-4 h-4 ${isCloudLoading ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`w-4 h-4 text-emerald-200 ${isCloudLoading ? 'animate-spin' : ''}`} />
             <span>{isCloudLoading ? 'Syncing...' : 'Sync Cloud DB'}</span>
           </button>
 
@@ -1104,17 +1107,17 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
             onClick={handleSaveToCloud}
             disabled={isCloudSaving}
             title="Save floor plan changes to Supabase"
-            className="flex items-center space-x-1.5 px-3.5 py-2.5 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs rounded-xl shadow-sm cursor-pointer transition-all disabled:opacity-50"
+            className="flex items-center space-x-1.5 px-3.5 py-2 bg-blue-900 hover:bg-blue-800 text-white font-serif font-bold uppercase tracking-wider text-xs border border-blue-950 shadow-xs cursor-pointer transition-all disabled:opacity-50"
           >
-            <Save className={`w-4 h-4 text-emerald-400 ${isCloudSaving ? 'animate-pulse' : ''}`} />
+            <Save className={`w-4 h-4 text-blue-200 ${isCloudSaving ? 'animate-pulse' : ''}`} />
             <span>{isCloudSaving ? 'Saving...' : 'Save to Cloud'}</span>
           </button>
 
           <button
             onClick={handlePrint}
-            className="flex items-center space-x-1.5 px-3.5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow-sm cursor-pointer transition-colors"
+            className="flex items-center space-x-1.5 px-3.5 py-2 bg-white hover:bg-emerald-50 text-emerald-950 font-serif font-bold uppercase tracking-wider text-xs border border-emerald-900 shadow-2xs cursor-pointer transition-colors"
           >
-            <Printer className="w-4 h-4 text-amber-400" />
+            <Printer className="w-4 h-4 text-emerald-700" />
             <span>Print Layout</span>
           </button>
         </div>
@@ -1122,26 +1125,26 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
 
       {/* Cloud Showroom Status Banner */}
       {cloudStatusMsg && (
-        <div className={`p-4 rounded-2xl border flex items-center justify-between text-xs animate-fadeIn ${
+        <div className={`p-4 border-l-4 border flex items-center justify-between text-xs font-serif animate-fadeIn ${
           cloudStatusMsg.type === 'success' 
-            ? 'bg-emerald-50 border-emerald-200 text-emerald-900' 
+            ? 'bg-emerald-50 border-emerald-300 border-l-emerald-800 text-emerald-950' 
             : cloudStatusMsg.type === 'error'
-            ? 'bg-rose-50 border-rose-200 text-rose-900'
-            : 'bg-blue-50 border-blue-200 text-blue-900'
+            ? 'bg-rose-50 border-rose-300 border-l-rose-700 text-rose-900'
+            : 'bg-blue-50 border-blue-300 border-l-blue-800 text-blue-950'
         }`}>
           <div className="flex items-center space-x-2.5">
             {cloudStatusMsg.type === 'success' ? (
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+              <CheckCircle2 className="w-4 h-4 text-emerald-700 shrink-0" />
             ) : cloudStatusMsg.type === 'error' ? (
               <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
             ) : (
-              <Cloud className="w-4 h-4 text-blue-600 shrink-0" />
+              <Cloud className="w-4 h-4 text-blue-700 shrink-0" />
             )}
             <span className="font-medium">{cloudStatusMsg.text}</span>
           </div>
           <button 
             onClick={() => setCloudStatusMsg(null)}
-            className="text-slate-400 hover:text-slate-700 p-1 cursor-pointer"
+            className="text-slate-500 hover:text-slate-800 p-1 cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
@@ -1149,61 +1152,61 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
       )}
 
       {/* Room Specification Bar with Dynamic Dimensions & Architecture Modal Button */}
-      <div className="bg-gradient-to-r from-amber-50/80 via-white to-slate-50 border border-amber-200 p-4 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4 text-xs shadow-xs">
+      <div className="bg-[#fafcfa] border border-slate-400 border-t-2 border-t-emerald-800 p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 text-xs shadow-xs">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 rounded-2xl bg-amber-100 flex items-center justify-center text-amber-800 font-bold shadow-xs shrink-0">
+          <div className="w-10 h-10 bg-emerald-900 border border-emerald-950 flex items-center justify-center text-emerald-100 font-bold shadow-2xs shrink-0">
             <Compass className="w-5 h-5" />
           </div>
           <div>
             <div className="flex flex-wrap items-center gap-2">
-              <span className="font-bold text-slate-900 text-sm">{roomArch.roomName}</span>
-              <span className="font-mono text-[10px] px-2.5 py-0.5 rounded-full bg-amber-500 text-slate-950 font-bold uppercase tracking-wider">
+              <span className="font-serif font-black text-slate-950 text-sm uppercase">{roomArch.roomName}</span>
+              <span className="font-mono text-[10px] px-2 py-0.5 bg-blue-900 text-white font-bold uppercase tracking-wider">
                 {roomArch.shape === 'l-shaped' ? 'L-Shaped Blueprint' : roomArch.shape === 'square' ? 'Square Perimeter' : roomArch.shape === 'oval' ? 'Oval Floor' : 'Rectangular CAD'}
               </span>
-              <span className="text-xs font-semibold text-slate-700">
+              <span className="text-xs font-mono font-bold text-emerald-900">
                 {roomArch.lengthFt} ft (Length) × {roomArch.widthFt} ft (Width) • {roomArch.ceilingHeightFt} ft Ceiling
               </span>
             </div>
-            <p className="text-[11px] text-slate-600 italic mt-0.5">
+            <p className="text-[11px] font-serif italic text-slate-600 mt-0.5">
               {roomArch.notes || `Scaled architectural floor plan for ${activeCustomer?.name}. Zero peninsulas.`}
             </p>
           </div>
         </div>
 
         <div className="flex flex-wrap items-center gap-2 text-[11px] font-mono">
-          <div className="px-3 py-1 bg-white rounded-lg border border-slate-200 text-slate-700 shadow-2xs">
-            <span className="text-slate-400">North Wall: </span>
-            <span className="font-bold text-slate-900">{roomArch.lengthFt} ft</span>
+          <div className="px-3 py-1 bg-white border border-slate-300 text-slate-800 shadow-2xs">
+            <span className="text-slate-500">North Wall: </span>
+            <span className="font-bold text-emerald-950">{roomArch.lengthFt} ft</span>
           </div>
-          <div className="px-3 py-1 bg-white rounded-lg border border-slate-200 text-slate-700 shadow-2xs">
-            <span className="text-slate-400">East Wall: </span>
-            <span className="font-bold text-slate-900">{roomArch.lEastLongestFt || roomArch.widthFt} ft {roomArch.shape === 'l-shaped' ? '(Longest)' : ''}</span>
+          <div className="px-3 py-1 bg-white border border-slate-300 text-slate-800 shadow-2xs">
+            <span className="text-slate-500">East Wall: </span>
+            <span className="font-bold text-blue-950">{roomArch.lEastLongestFt || roomArch.widthFt} ft {roomArch.shape === 'l-shaped' ? '(Longest)' : ''}</span>
           </div>
           {roomArch.shape === 'l-shaped' && (
             <>
-              <div className="px-3 py-1 bg-white rounded-lg border border-slate-200 text-slate-700 shadow-2xs">
-                <span className="text-slate-400">West Wall: </span>
-                <span className="font-bold text-slate-900">{roomArch.lWestLowerFt} ft (Lower)</span>
+              <div className="px-3 py-1 bg-white border border-slate-300 text-slate-800 shadow-2xs">
+                <span className="text-slate-500">West Wall: </span>
+                <span className="font-bold text-emerald-950">{roomArch.lWestLowerFt} ft (Lower)</span>
               </div>
-              <div className="px-3 py-1 bg-white rounded-lg border border-slate-200 text-slate-700 shadow-2xs">
-                <span className="text-slate-400">Higher Area: </span>
-                <span className="font-bold text-slate-900">{roomArch.lWestUpperFt} ft</span>
+              <div className="px-3 py-1 bg-white border border-slate-300 text-slate-800 shadow-2xs">
+                <span className="text-slate-500">Higher Area: </span>
+                <span className="font-bold text-blue-950">{roomArch.lWestUpperFt} ft</span>
               </div>
             </>
           )}
-          <div className="px-3 py-1 bg-white rounded-lg border border-slate-200 text-slate-700 shadow-2xs">
-            <span className="text-slate-400">Primary Door: </span>
-            <span className="font-bold text-slate-900">{roomArch.door1Wall} Wall ({roomArch.door1WidthFt} ft)</span>
+          <div className="px-3 py-1 bg-white border border-slate-300 text-slate-800 shadow-2xs">
+            <span className="text-slate-500">Primary Door: </span>
+            <span className="font-bold text-slate-950">{roomArch.door1Wall} Wall ({roomArch.door1WidthFt} ft)</span>
           </div>
           {roomArch.hasDoor2 && (
-            <div className="px-3 py-1 bg-white rounded-lg border border-amber-200 text-amber-900 shadow-2xs">
-              <span className="text-amber-600 font-sans">Door 2: </span>
+            <div className="px-3 py-1 bg-emerald-50 border border-emerald-300 text-emerald-950 shadow-2xs">
+              <span className="text-emerald-800 font-sans">Door 2: </span>
               <span className="font-bold">{roomArch.door2Wall} Wall</span>
             </div>
           )}
           {roomArch.hasWing && (
-            <div className="px-3 py-1 bg-white rounded-lg border border-indigo-200 text-indigo-900 shadow-2xs">
-              <span className="text-indigo-600 font-sans">Wing: </span>
+            <div className="px-3 py-1 bg-blue-50 border border-blue-300 text-blue-950 shadow-2xs">
+              <span className="text-blue-800 font-sans">Wing: </span>
               <span className="font-bold">{roomArch.wingWall} ({roomArch.wingLengthFt}×{roomArch.wingWidthFt} ft)</span>
             </div>
           )}
@@ -1211,9 +1214,9 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
           <button
             type="button"
             onClick={() => setIsArchModalOpen(true)}
-            className="flex items-center space-x-1.5 px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-amber-300 font-bold text-xs rounded-xl shadow-xs cursor-pointer transition-colors shrink-0 ml-1 font-sans"
+            className="flex items-center space-x-1.5 px-3 py-1.5 bg-blue-950 hover:bg-blue-900 text-white font-serif font-bold uppercase tracking-wider text-xs border border-blue-950 shadow-2xs cursor-pointer transition-colors shrink-0 ml-1"
           >
-            <Settings2 className="w-3.5 h-3.5 text-amber-400" />
+            <Settings2 className="w-3.5 h-3.5 text-emerald-300" />
             <span>Customize Dimensions</span>
           </button>
         </div>
@@ -1221,80 +1224,80 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
 
       {/* Showroom Summary Bar */}
       <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 text-xs">
-        <div className="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
-          <span className="text-slate-500 block mb-0.5">Showroom Velocity</span>
+        <div className="bg-[#fafcfa] border border-slate-300 border-t-4 border-t-emerald-800 p-4 shadow-2xs">
+          <span className="text-slate-600 font-serif font-bold uppercase tracking-wider block mb-0.5">Showroom Velocity</span>
           <div className="flex items-baseline space-x-2">
-            <span className={`text-xl font-bold font-mono ${showroomSummary.healthScore >= 50 ? 'text-emerald-700' : 'text-amber-700'}`}>
+            <span className="text-xl font-bold font-mono text-emerald-800">
               {showroomSummary.healthScore}%
             </span>
-            <span className="text-[10px] text-slate-400">selling</span>
+            <span className="text-[10px] text-slate-500 font-serif italic">selling</span>
           </div>
         </div>
 
-        <div className="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
-          <span className="text-slate-500 block mb-0.5 flex items-center gap-1">
-            <Flame className="w-3.5 h-3.5 text-emerald-600" />
+        <div className="bg-[#fafcfa] border border-slate-300 border-t-4 border-t-emerald-700 p-4 shadow-2xs">
+          <span className="text-slate-600 font-serif font-bold uppercase tracking-wider block mb-0.5 flex items-center gap-1">
+            <Flame className="w-3.5 h-3.5 text-emerald-700" />
             <span>Top Sellers (≥5)</span>
           </span>
-          <span className="text-xl font-bold text-emerald-700 font-mono">
+          <span className="text-xl font-bold text-emerald-800 font-mono">
             {showroomSummary.topCount}
           </span>
         </div>
 
-        <div className="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
-          <span className="text-slate-500 block mb-0.5 flex items-center gap-1">
-            <Zap className="w-3.5 h-3.5 text-blue-600" />
+        <div className="bg-[#fafcfa] border border-slate-300 border-t-4 border-t-blue-800 p-4 shadow-2xs">
+          <span className="text-slate-600 font-serif font-bold uppercase tracking-wider block mb-0.5 flex items-center gap-1">
+            <Zap className="w-3.5 h-3.5 text-blue-700" />
             <span>Steady Movers (1-4)</span>
           </span>
-          <span className="text-xl font-bold text-blue-700 font-mono">
+          <span className="text-xl font-bold text-blue-800 font-mono">
             {showroomSummary.steadyCount}
           </span>
         </div>
 
-        <div className="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
-          <span className="text-slate-500 block mb-0.5 flex items-center gap-1">
-            <Snowflake className="w-3.5 h-3.5 text-rose-500" />
+        <div className="bg-[#fafcfa] border border-slate-300 border-t-4 border-t-slate-600 p-4 shadow-2xs">
+          <span className="text-slate-600 font-serif font-bold uppercase tracking-wider block mb-0.5 flex items-center gap-1">
+            <Snowflake className="w-3.5 h-3.5 text-blue-600" />
             <span>Stagnant (0 Sales)</span>
           </span>
-          <span className="text-xl font-bold text-rose-600 font-mono">
+          <span className="text-xl font-bold text-slate-800 font-mono">
             {showroomSummary.stagnantCount}
           </span>
         </div>
 
         {/* Customer Floor Inventory at Net Cost */}
-        <div className="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
-          <span className="text-slate-500 block mb-0.5 flex items-center gap-1">
-            <DollarSign className="w-3.5 h-3.5 text-emerald-600" />
+        <div className="bg-[#fafcfa] border border-slate-300 border-t-4 border-t-emerald-800 p-4 shadow-2xs">
+          <span className="text-slate-600 font-serif font-bold uppercase tracking-wider block mb-0.5 flex items-center gap-1">
+            <DollarSign className="w-3.5 h-3.5 text-emerald-700" />
             <span>Floor at Cost (Net)</span>
           </span>
-          <span className="text-base font-bold text-slate-900 font-mono block">
+          <span className="text-base font-bold text-slate-950 font-mono block">
             ${showroomSummary.totalNetCost.toLocaleString()}
           </span>
-          <span className="text-[10px] text-emerald-700 font-medium">Customer Net Investment</span>
+          <span className="text-[10px] text-emerald-800 font-serif italic">Customer Net Investment</span>
         </div>
 
         {/* Customer Showroom at Consumer Retail List */}
-        <div className="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
-          <span className="text-slate-500 block mb-0.5 flex items-center gap-1">
-            <Tag className="w-3.5 h-3.5 text-amber-600" />
+        <div className="bg-[#fafcfa] border border-slate-300 border-t-4 border-t-blue-900 p-4 shadow-2xs">
+          <span className="text-slate-600 font-serif font-bold uppercase tracking-wider block mb-0.5 flex items-center gap-1">
+            <Tag className="w-3.5 h-3.5 text-blue-800" />
             <span>Floor at Retail (List)</span>
           </span>
-          <span className="text-base font-bold text-amber-900 font-mono block">
+          <span className="text-base font-bold text-blue-950 font-mono block">
             ${showroomSummary.totalRetail.toLocaleString()}
           </span>
-          <span className="text-[10px] text-amber-700 font-medium">Showroom GPL Potential</span>
+          <span className="text-[10px] text-blue-800 font-serif italic">Showroom GPL Potential</span>
         </div>
 
         {/* Showroom Profit Margin Spread & % */}
-        <div className="bg-gradient-to-br from-emerald-50 to-white border border-emerald-200 p-4 rounded-xl shadow-sm">
-          <span className="text-emerald-800 block mb-0.5 flex items-center gap-1 font-semibold">
-            <Percent className="w-3.5 h-3.5 text-emerald-700" />
+        <div className="bg-emerald-50/70 border border-emerald-400 border-t-4 border-t-emerald-900 p-4 shadow-2xs">
+          <span className="text-emerald-950 block mb-0.5 flex items-center gap-1 font-serif font-bold uppercase tracking-wider">
+            <Percent className="w-3.5 h-3.5 text-emerald-800" />
             <span>Showroom Margin</span>
           </span>
           <span className="text-base font-black text-emerald-900 font-mono block">
             +${showroomSummary.totalProfitSpread.toLocaleString()}
           </span>
-          <span className="text-[10px] font-bold text-emerald-700 font-mono">
+          <span className="text-[10px] font-bold text-blue-900 font-mono">
             {showroomSummary.blendedMarginPercent}% Blended Margin
           </span>
         </div>

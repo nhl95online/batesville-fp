@@ -292,28 +292,28 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   };
 
   return (
-    <div className="space-y-4 animate-fadeIn pb-12 font-sans">
+    <div className="space-y-5 animate-fadeIn pb-12 font-sans">
       
-      {/* 1. Top Ribbon: File / Export / Q&A Bar (Power BI Style from Image 1) */}
-      <div className="bg-white border border-slate-200 rounded-xl px-4 py-2.5 shadow-xs flex flex-wrap items-center justify-between gap-3 text-xs">
+      {/* 1. Newspaper Front-Page Edition Banner & Press Controls */}
+      <div className="bg-[#fafcfa] border-y-4 border-double border-emerald-900 border-x border-slate-300 px-5 py-3 shadow-xs flex flex-wrap items-center justify-between gap-3 text-xs">
         
-        {/* Left actions */}
-        <div className="flex items-center space-x-1 sm:space-x-2 text-slate-700">
-          <div className="px-2.5 py-1 rounded-md bg-slate-100 font-bold text-slate-900 border border-slate-200 flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-            <span>Sales &amp; Merchandising Executive Report</span>
+        {/* Left Editorial Banner & Press Actions */}
+        <div className="flex flex-wrap items-center gap-2 text-slate-800">
+          <div className="px-3 py-1 bg-gradient-to-r from-emerald-900 to-blue-950 font-serif font-bold text-white uppercase tracking-widest border border-emerald-950 flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span>Front Page: Sales &amp; Merchandising Dispatch</span>
           </div>
 
           <button 
             onClick={() => window.print()}
-            className="px-2.5 py-1 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-md cursor-pointer transition-colors"
+            className="px-3 py-1 font-serif font-bold uppercase tracking-wider text-blue-950 hover:text-white hover:bg-blue-900 border border-blue-300 bg-blue-50/70 transition-colors cursor-pointer"
           >
-            File
+            Print Edition
           </button>
 
           <button 
             onClick={() => onOpenSalesUpload()}
-            className="px-2.5 py-1 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-md cursor-pointer transition-colors"
+            className="px-3 py-1 font-serif font-bold uppercase tracking-wider text-emerald-950 hover:text-white hover:bg-emerald-800 border border-emerald-300 bg-emerald-50/70 transition-colors cursor-pointer"
           >
             Upload Daily PDF
           </button>
@@ -321,48 +321,49 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           {onOpenPriceListImport && (
             <button 
               onClick={onOpenPriceListImport}
-              className="px-2.5 py-1 text-amber-700 hover:text-amber-900 hover:bg-amber-50 rounded-md font-medium cursor-pointer transition-colors"
+              className="px-3 py-1 font-serif font-bold uppercase tracking-wider text-blue-900 hover:text-white hover:bg-blue-800 border border-blue-300 bg-blue-50 transition-colors cursor-pointer"
             >
               Import Price Guide
             </button>
           )}
         </div>
 
-        {/* Right Status */}
-        <div className="flex items-center space-x-2 text-[11px] text-slate-500">
-          <span>Catalog Cycle: <strong className="font-mono text-slate-800">{currentYear}</strong></span>
-          <span>•</span>
-          <span>Data: <strong className="text-emerald-700 font-medium">Live IndexedDB + Supabase</strong></span>
+        {/* Right Dateline Status */}
+        <div className="flex items-center space-x-2 text-[11px] font-mono text-slate-700">
+          <span>CATALOG CYCLE: <strong className="text-blue-950 font-bold">{currentYear}</strong></span>
+          <span className="text-emerald-700">|</span>
+          <span>WIRE: <strong className="text-emerald-800 font-bold">LIVE INDEXEDDB + SUPABASE</strong></span>
         </div>
       </div>
 
-      {/* 2. Natural Language Query Bar ("Ask a question about your data") */}
-      <div className="bg-white border border-slate-200 rounded-xl p-3.5 shadow-xs space-y-2.5">
-        <div className="flex items-center space-x-2.5">
-          <div className="p-1.5 rounded-lg bg-teal-50 text-teal-700">
+      {/* 2. Editorial Newsdesk Query Bar ("Ask a question about your data") */}
+      <div className="bg-[#fafcfa] border border-slate-300 border-t-2 border-t-blue-900 p-4 shadow-xs space-y-2.5">
+        <div className="flex items-center space-x-3">
+          <div className="p-2 bg-emerald-900 text-emerald-100 border border-emerald-950 flex items-center space-x-1.5 shrink-0">
             <MessageSquare className="w-4 h-4" />
+            <span className="hidden sm:inline font-serif font-bold text-[11px] uppercase tracking-wider">Newsdesk Inquiry</span>
           </div>
           <div className="flex-1 relative">
             <input
               type="text"
-              placeholder="Ask a question about your data (e.g. 'What was total volume for 2025-26?', 'Top oak caskets')..."
+              placeholder="Query the Ledger (e.g. 'What was total volume for 2025-26?', 'Top oak caskets')..."
               value={searchQuestion}
               onChange={(e) => setSearchQuestion(e.target.value)}
               onKeyDown={(e) => { if (e.key === 'Enter') handleQuickQuestion(searchQuestion); }}
-              className="w-full bg-slate-50 border border-slate-300 rounded-xl pl-3.5 pr-10 py-1.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-teal-600 focus:bg-white"
+              className="w-full bg-white border border-slate-400 pl-3.5 pr-10 py-2 text-xs text-slate-900 placeholder-slate-500 font-serif focus:outline-none focus:border-emerald-800"
             />
             <button
               onClick={() => handleQuickQuestion(searchQuestion)}
-              className="absolute right-2 top-1.5 text-slate-400 hover:text-teal-700 cursor-pointer"
+              className="absolute right-2.5 top-2 text-blue-900 hover:text-emerald-700 cursor-pointer"
             >
               <Search className="w-4 h-4" />
             </button>
           </div>
         </div>
 
-        {/* Quick prompt pills */}
-        <div className="flex flex-wrap items-center gap-1.5 text-[11px]">
-          <span className="text-slate-400 font-medium mr-1">Suggestions:</span>
+        {/* Quick prompt headlines */}
+        <div className="flex flex-wrap items-center gap-1.5 text-[11px] pt-1 border-t border-dotted border-slate-300">
+          <span className="font-serif italic text-blue-950 font-semibold mr-1">Featured Headlines:</span>
           {[
             'What is FY 2025-26 Volume?',
             'Casket vs Urn Market Share',
@@ -372,152 +373,160 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             <button
               key={q}
               onClick={() => handleQuickQuestion(q)}
-              className="px-2.5 py-1 rounded-full bg-slate-100 hover:bg-teal-50 text-slate-600 hover:text-teal-800 border border-slate-200 hover:border-teal-300 transition-colors cursor-pointer"
+              className="px-2.5 py-0.5 bg-emerald-50/80 hover:bg-blue-900 text-emerald-950 hover:text-white border border-emerald-800/30 font-serif transition-colors cursor-pointer"
             >
-              {q}
+              § {q}
             </button>
           ))}
         </div>
 
-        {/* Dynamic Answer Card */}
+        {/* Dynamic Answer Dispatch */}
         {activeAnswer && (
-          <div className="p-3 bg-teal-50/70 border border-teal-200 rounded-xl text-xs text-teal-950 flex items-start justify-between animate-fadeIn">
+          <div className="p-3 bg-blue-50/90 border-l-4 border-emerald-800 border border-blue-200 text-xs text-blue-950 flex items-start justify-between animate-fadeIn font-serif">
             <div className="flex items-start space-x-2">
-              <Sparkles className="w-4 h-4 text-teal-600 shrink-0 mt-0.5" />
-              <span>{activeAnswer}</span>
+              <Sparkles className="w-4 h-4 text-emerald-700 shrink-0 mt-0.5" />
+              <span><strong>SPECIAL DISPATCH:</strong> {activeAnswer}</span>
             </div>
-            <button onClick={() => setActiveAnswer(null)} className="text-teal-700 font-bold ml-2">×</button>
+            <button onClick={() => setActiveAnswer(null)} className="text-blue-900 font-bold ml-2">×</button>
           </div>
         )}
       </div>
 
-      {/* 3. Main Power BI 3-Column Grid Layout (Exact Match to Image 1) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+      {/* 3. Main Broadsheet 3-Column Newspaper Grid Layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 bg-[#fafcfa] border-2 border-slate-400 p-4 sm:p-5 shadow-sm">
         
-        {/* LEFT COLUMN: Executive KPI Cards (lg:col-span-3) */}
-        <div id="overview" className="lg:col-span-3 space-y-3 flex flex-col justify-between scroll-mt-28">
-          
+        {/* LEFT COLUMN: Key Dispatch Figures (lg:col-span-3) */}
+        <div id="overview" className="lg:col-span-3 space-y-4 flex flex-col justify-between lg:border-r-2 lg:border-double lg:border-slate-300 lg:pr-4 scroll-mt-28">
+          <div className="border-b-2 border-emerald-900 pb-1">
+            <h2 className="font-serif text-xs font-black uppercase tracking-widest text-emerald-950">
+              Col. I — Key Fiscal Figures
+            </h2>
+          </div>
+
           {/* Tile 1: Total Volume */}
-          <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-xs">
-            <div className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-1">
-              Total Volume
+          <div className="bg-white border border-slate-300 border-t-4 border-t-emerald-800 p-4 shadow-2xs">
+            <div className="text-[11px] font-serif font-bold text-emerald-900 uppercase tracking-widest border-b border-dotted border-slate-300 pb-1 mb-1">
+              Total Wholesale Volume
             </div>
-            <div className="text-[10px] text-slate-400 font-mono mb-2">IN FY {currentYear}</div>
-            <div className="font-sans text-4xl sm:text-5xl font-black text-slate-900 tracking-tight">
+            <div className="text-[10px] text-blue-900 font-mono mb-2">FISCAL EDITION {currentYear}</div>
+            <div className="font-serif text-4xl sm:text-5xl font-black text-slate-950 tracking-tight">
               {metrics.curRevenue > 0 ? `$${(metrics.curRevenue / 1_000_000).toFixed(1)}M` : '$5.1M'}
             </div>
-            <div className="mt-2 text-[11px] text-emerald-700 font-medium flex items-center gap-1">
-              <TrendingUp className="w-3.5 h-3.5" />
-              <span>+{metrics.unitGrowth}% vs prior period</span>
+            <div className="mt-2 pt-2 border-t border-slate-200 text-[11px] text-emerald-800 font-serif font-bold flex items-center gap-1">
+              <TrendingUp className="w-3.5 h-3.5 text-emerald-700" />
+              <span>+{metrics.unitGrowth}% vs. prior fiscal edition</span>
             </div>
           </div>
 
           {/* Tile 2: Market Share */}
-          <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-xs">
-            <div className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-1">
+          <div className="bg-white border border-slate-300 border-t-4 border-t-blue-900 p-4 shadow-2xs">
+            <div className="text-[11px] font-serif font-bold text-blue-950 uppercase tracking-widest border-b border-dotted border-slate-300 pb-1 mb-1">
               Market Share (Casket Mix)
             </div>
-            <div className="text-[10px] text-slate-400 font-mono mb-2">LAST 12 MONTHS</div>
-            <div className="font-sans text-4xl font-black text-slate-900 tracking-tight">
+            <div className="text-[10px] text-emerald-800 font-mono mb-2">ROLLING 12 MONTHS</div>
+            <div className="font-serif text-4xl font-black text-blue-950 tracking-tight">
               {metrics.casketSharePercent}%
             </div>
-            <div className="mt-2 text-[11px] text-slate-500">
-              Caskets: <strong className="text-slate-800">{metrics.casketUnits.toLocaleString()}</strong> • Urns: <strong className="text-slate-800">{metrics.urnUnits.toLocaleString()}</strong>
+            <div className="mt-2 pt-2 border-t border-slate-200 text-[11px] font-serif text-slate-700">
+              Caskets: <strong className="text-emerald-900">{metrics.casketUnits.toLocaleString()}</strong> • Urns: <strong className="text-blue-900">{metrics.urnUnits.toLocaleString()}</strong>
             </div>
           </div>
 
           {/* Tile 3: Our Total Volume */}
-          <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-xs">
-            <div className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-1">
-              Our Total Volume
+          <div className="bg-white border border-slate-300 border-t-4 border-t-emerald-700 p-4 shadow-2xs">
+            <div className="text-[11px] font-serif font-bold text-emerald-900 uppercase tracking-widest border-b border-dotted border-slate-300 pb-1 mb-1">
+              Total Units Delivered
             </div>
-            <div className="text-[10px] text-slate-400 font-mono mb-2">IN FY {currentYear}</div>
-            <div className="font-sans text-4xl font-black text-slate-900 tracking-tight">
+            <div className="text-[10px] text-blue-900 font-mono mb-2">IN FY {currentYear}</div>
+            <div className="font-serif text-4xl font-black text-slate-950 tracking-tight">
               {metrics.curUnits > 0 ? `${(metrics.curUnits / 1000).toFixed(1)}K` : '8.2K'}
             </div>
-            <div className="mt-2 text-[11px] text-slate-500">
-              Units delivered to funeral homes
+            <div className="mt-2 pt-2 border-t border-slate-200 text-[11px] font-serif italic text-slate-600">
+              Physical units dispatched to partner homes
             </div>
           </div>
 
           {/* Tile 4: Active Selection Rooms */}
-          <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-xs">
-            <div className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-1">
+          <div className="bg-white border border-slate-300 border-t-4 border-t-blue-800 p-4 shadow-2xs">
+            <div className="text-[11px] font-serif font-bold text-blue-950 uppercase tracking-widest border-b border-dotted border-slate-300 pb-1 mb-1">
               Active Selection Rooms
             </div>
-            <div className="text-[10px] text-slate-400 font-mono mb-2">IN 109 PARTNER ACCOUNTS</div>
-            <div className="font-sans text-4xl font-black text-slate-900 tracking-tight">
+            <div className="text-[10px] text-emerald-800 font-mono mb-2">ACROSS 109 PARTNER ACCOUNTS</div>
+            <div className="font-serif text-4xl font-black text-emerald-900 tracking-tight">
               {metrics.showroomCount}
             </div>
-            <div className="mt-2 text-[11px] text-slate-500">
-              <span className="font-bold text-emerald-700">99.1%</span> showroom adoption rate
+            <div className="mt-2 pt-2 border-t border-slate-200 text-[11px] font-serif text-slate-700">
+              <span className="font-bold text-blue-900">99.1%</span> regional showroom compliance
             </div>
           </div>
 
         </div>
 
         {/* CENTER COLUMN: Trend Lines & Program Variance (lg:col-span-5) */}
-        <div className="lg:col-span-5 space-y-4">
+        <div className="lg:col-span-5 space-y-5 lg:border-r-2 lg:border-double lg:border-slate-300 lg:pr-4">
+          <div className="border-b-2 border-blue-950 pb-1">
+            <h2 className="font-serif text-xs font-black uppercase tracking-widest text-blue-950">
+              Col. II — Market Share &amp; Program Ledger
+            </h2>
+          </div>
           
           {/* Center Chart 1: Units Market Share vs Rolling 12 Months */}
-          <div id="share" className="bg-white border border-slate-200 rounded-xl p-4 shadow-xs space-y-3 scroll-mt-28">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
-                  % Units Market Share vs. % Units Market Share Rolling 12 Months
-                </h3>
-                <span className="text-[10px] text-slate-400 font-mono block">BY MONTH (BATESVILLE FISCAL CALENDAR)</span>
-              </div>
+          <div id="share" className="bg-white border border-slate-300 border-t-4 border-t-emerald-800 p-4 shadow-2xs space-y-3 scroll-mt-28">
+            <div className="border-b border-slate-200 pb-2">
+              <h3 className="text-sm font-serif font-bold text-slate-950 tracking-wide">
+                % Units Market Share vs. Rolling 12-Month Index
+              </h3>
+              <span className="text-[10px] text-blue-900 font-mono block">BY MONTH (BATESVILLE FISCAL CALENDAR)</span>
             </div>
 
             {/* Legend tags */}
-            <div className="flex items-center space-x-4 text-[11px] text-slate-600">
+            <div className="flex items-center space-x-4 text-[11px] font-serif text-slate-700">
               <span className="flex items-center gap-1.5">
-                <span className="w-3 h-3 rounded-full bg-teal-600 inline-block"></span>
-                <span>% Units Market Share</span>
+                <span className="w-3 h-3 bg-emerald-700 inline-block"></span>
+                <span>% Units Market Share (Green)</span>
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="w-3 h-3 rounded-full bg-slate-800 inline-block"></span>
-                <span>% Units Market Share R12M</span>
+                <span className="w-3 h-3 bg-blue-900 inline-block"></span>
+                <span>% Rolling 12M Share (Blue)</span>
               </span>
             </div>
 
-            {/* Recharts LineChart matching Image 1 */}
+            {/* Recharts LineChart in Green & Blue */}
             <div className="h-56 w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={monthlyTrendData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="2 2" stroke="#f1f5f9" vertical={false} />
+                  <CartesianGrid strokeDasharray="2 2" stroke="#cbd5e1" vertical={false} />
                   <XAxis 
                     dataKey="month" 
-                    tick={{ fontSize: 10, fill: '#64748b' }} 
-                    axisLine={{ stroke: '#cbd5e1' }}
+                    tick={{ fontSize: 10, fill: '#0f172a', fontFamily: 'monospace' }} 
+                    axisLine={{ stroke: '#64748b' }}
                     tickLine={false}
                   />
                   <YAxis 
-                    tick={{ fontSize: 10, fill: '#64748b' }} 
+                    tick={{ fontSize: 10, fill: '#0f172a', fontFamily: 'monospace' }} 
                     axisLine={false}
                     tickLine={false}
                     domain={[15, 45]}
                     tickFormatter={(val) => `${val}%`}
                   />
                   <Tooltip 
-                    contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', borderRadius: '8px', color: '#fff', fontSize: '11px' }}
+                    contentStyle={{ backgroundColor: '#0f172a', borderColor: '#047857', borderRadius: '2px', color: '#fff', fontSize: '11px', fontFamily: 'Georgia, serif' }}
                     formatter={(value: any) => [`${value}%`, 'Share']}
                   />
                   <Line 
                     type="monotone" 
                     dataKey="marketShare" 
-                    stroke="#0d9488" 
+                    stroke="#047857" 
                     strokeWidth={2.5} 
-                    dot={{ r: 3, fill: '#0d9488' }} 
+                    dot={{ r: 3.5, fill: '#047857' }} 
                     activeDot={{ r: 5 }} 
                   />
                   <Line 
                     type="monotone" 
                     dataKey="rolling12M" 
-                    stroke="#1e293b" 
-                    strokeWidth={2} 
-                    dot={{ r: 2.5, fill: '#1e293b' }} 
+                    stroke="#1e3a8a" 
+                    strokeWidth={2.5} 
+                    dot={{ r: 3, fill: '#1e3a8a' }} 
                   />
                 </LineChart>
               </ResponsiveContainer>
@@ -525,49 +534,47 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </div>
 
           {/* Center Chart 2: Total Units YTD Variance % By Month & Program */}
-          <div id="variance" className="bg-white border border-slate-200 rounded-xl p-4 shadow-xs space-y-3 scroll-mt-28">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
-                  Total Units YTD Variance %
-                </h3>
-                <span className="text-[10px] text-slate-400 font-mono block">BY QUARTER, PROGRAM (ARB, PLN, AMP, SPP, PA)</span>
-              </div>
+          <div id="variance" className="bg-white border border-slate-300 border-t-4 border-t-blue-900 p-4 shadow-2xs space-y-3 scroll-mt-28">
+            <div className="border-b border-slate-200 pb-2">
+              <h3 className="text-sm font-serif font-bold text-slate-950 tracking-wide">
+                Total Units YTD Variance by Partner Program
+              </h3>
+              <span className="text-[10px] text-emerald-800 font-mono block">QUARTERLY LEDGER (ARB, PLN, AMP, SPP, PA)</span>
             </div>
 
-            {/* Legend tags */}
-            <div className="flex items-center space-x-3 text-[10px] text-slate-600 flex-wrap gap-1">
-              <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-teal-600 inline-block"></span> ARB</span>
-              <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block"></span> PLN</span>
-              <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-purple-600 inline-block"></span> AMP</span>
-              <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-blue-600 inline-block"></span> SPP</span>
-              <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block"></span> PA</span>
+            {/* Legend tags in Green & Blue shades */}
+            <div className="flex items-center space-x-3 text-[10px] font-mono text-slate-800 flex-wrap gap-1">
+              <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 bg-[#065f46] inline-block"></span> ARB</span>
+              <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 bg-[#10b981] inline-block"></span> PLN</span>
+              <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 bg-[#1e3a8a] inline-block"></span> AMP</span>
+              <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 bg-[#2563eb] inline-block"></span> SPP</span>
+              <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 bg-[#0284c7] inline-block"></span> PA</span>
             </div>
 
-            {/* Recharts Clustered BarChart */}
+            {/* Recharts Clustered BarChart in Green & Blue */}
             <div className="h-56 w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={programData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="2 2" stroke="#f1f5f9" vertical={false} />
+                  <CartesianGrid strokeDasharray="2 2" stroke="#cbd5e1" vertical={false} />
                   <XAxis 
                     dataKey="month" 
-                    tick={{ fontSize: 10, fill: '#64748b' }} 
-                    axisLine={{ stroke: '#cbd5e1' }}
+                    tick={{ fontSize: 10, fill: '#0f172a', fontFamily: 'monospace' }} 
+                    axisLine={{ stroke: '#64748b' }}
                     tickLine={false}
                   />
                   <YAxis 
-                    tick={{ fontSize: 10, fill: '#64748b' }} 
+                    tick={{ fontSize: 10, fill: '#0f172a', fontFamily: 'monospace' }} 
                     axisLine={false}
                     tickLine={false}
                   />
                   <Tooltip 
-                    contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', borderRadius: '8px', color: '#fff', fontSize: '11px' }}
+                    contentStyle={{ backgroundColor: '#0f172a', borderColor: '#1e3a8a', borderRadius: '2px', color: '#fff', fontSize: '11px', fontFamily: 'Georgia, serif' }}
                   />
-                  <Bar dataKey="ARB" fill="#0d9488" radius={[3, 3, 0, 0]} />
-                  <Bar dataKey="PLN" fill="#f59e0b" radius={[3, 3, 0, 0]} />
-                  <Bar dataKey="AMP" fill="#8b5cf6" radius={[3, 3, 0, 0]} />
-                  <Bar dataKey="SPP" fill="#3b82f6" radius={[3, 3, 0, 0]} />
-                  <Bar dataKey="PA" fill="#ef4444" radius={[3, 3, 0, 0]} />
+                  <Bar dataKey="ARB" fill="#065f46" radius={[2, 2, 0, 0]} />
+                  <Bar dataKey="PLN" fill="#10b981" radius={[2, 2, 0, 0]} />
+                  <Bar dataKey="AMP" fill="#1e3a8a" radius={[2, 2, 0, 0]} />
+                  <Bar dataKey="SPP" fill="#2563eb" radius={[2, 2, 0, 0]} />
+                  <Bar dataKey="PA" fill="#0284c7" radius={[2, 2, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -576,15 +583,20 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         </div>
 
         {/* RIGHT COLUMN: Horizontal Bar Chart & Category Matrix (lg:col-span-4) */}
-        <div id="segments" className="lg:col-span-4 space-y-4 scroll-mt-28">
+        <div id="segments" className="lg:col-span-4 space-y-5 scroll-mt-28">
+          <div className="border-b-2 border-emerald-900 pb-1">
+            <h2 className="font-serif text-xs font-black uppercase tracking-widest text-emerald-950">
+              Col. III — Merchandise Segment Index
+            </h2>
+          </div>
           
-          {/* Right Chart 1: Total Units Overall by Segment (Horizontal Bar Chart from Image 1) */}
-          <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-xs space-y-3">
-            <div>
-              <h3 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
-                Total Units Overall
+          {/* Right Chart 1: Total Units Overall by Segment */}
+          <div className="bg-white border border-slate-300 border-t-4 border-t-emerald-800 p-4 shadow-2xs space-y-3">
+            <div className="border-b border-slate-200 pb-2">
+              <h3 className="text-sm font-serif font-bold text-slate-950 tracking-wide">
+                Total Units Overall by Segment
               </h3>
-              <span className="text-[10px] text-slate-400 font-mono block">BY PRODUCT SEGMENT</span>
+              <span className="text-[10px] text-blue-900 font-mono block">MATERIAL &amp; SPEC CLASSIFICATION</span>
             </div>
 
             <div className="h-56 w-full">
@@ -594,22 +606,22 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   data={segmentData} 
                   margin={{ top: 0, right: 20, left: 20, bottom: 0 }}
                 >
-                  <XAxis type="number" tick={{ fontSize: 9, fill: '#64748b' }} axisLine={false} tickLine={false} />
+                  <XAxis type="number" tick={{ fontSize: 9, fill: '#0f172a', fontFamily: 'monospace' }} axisLine={false} tickLine={false} />
                   <YAxis 
                     dataKey="segment" 
                     type="category" 
-                    tick={{ fontSize: 10, fill: '#334155' }} 
-                    width={110} 
+                    tick={{ fontSize: 10, fill: '#0f172a', fontFamily: 'Georgia, serif' }} 
+                    width={115} 
                     axisLine={false}
                     tickLine={false}
                   />
                   <Tooltip 
-                    contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', borderRadius: '8px', color: '#fff', fontSize: '11px' }}
+                    contentStyle={{ backgroundColor: '#0f172a', borderColor: '#047857', borderRadius: '2px', color: '#fff', fontSize: '11px', fontFamily: 'Georgia, serif' }}
                     formatter={(val: any) => [`${val} units`, 'Volume']}
                   />
-                  <Bar dataKey="units" fill="#0d9488" radius={[0, 4, 4, 0]}>
+                  <Bar dataKey="units" fill="#047857" radius={[0, 2, 2, 0]}>
                     {segmentData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={index === 0 ? '#0d9488' : index <= 2 ? '#14b8a6' : '#2dd4bf'} />
+                      <Cell key={`cell-${index}`} fill={index % 2 === 0 ? '#047857' : '#1d4ed8'} />
                     ))}
                   </Bar>
                 </BarChart>
@@ -617,71 +629,71 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </div>
           </div>
 
-          {/* Right Chart 2: Total Units YTD Treemap / Distribution Matrix (from Image 1) */}
-          <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-xs space-y-3">
-            <div>
-              <h3 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
-                Total Units YTD
+          {/* Right Chart 2: Total Units YTD Treemap / Distribution Matrix (Green & Blue Newspaper Edition) */}
+          <div className="bg-white border border-slate-300 border-t-4 border-t-blue-900 p-4 shadow-2xs space-y-3">
+            <div className="border-b border-slate-200 pb-2">
+              <h3 className="text-sm font-serif font-bold text-slate-950 tracking-wide">
+                Category &amp; Material Distribution Matrix
               </h3>
-              <span className="text-[10px] text-slate-400 font-mono block">BY CATEGORY &amp; MATERIAL DISTRIBUTION</span>
+              <span className="text-[10px] text-emerald-800 font-mono block">CLICK ANY BLOCK TO INSPECT CATALOG SECTION</span>
             </div>
 
-            {/* Power BI Treemap Blocks */}
-            <div className="grid grid-cols-6 grid-rows-3 gap-1.5 h-56 rounded-xl overflow-hidden text-white text-[11px] font-bold p-1 bg-slate-50 border border-slate-200">
+            {/* Green & Blue Newspaper Treemap Blocks */}
+            <div className="grid grid-cols-6 grid-rows-3 gap-1.5 h-56 overflow-hidden text-white text-[11px] font-serif font-bold p-1.5 bg-[#eef4f1] border-2 border-slate-400">
               
-              {/* Metal Caskets (Major block - Teal) */}
+              {/* Metal Caskets (Major block - Deep Emerald Green) */}
               <div 
                 onClick={() => onNavigate('products', 'metal')}
-                className="col-span-4 row-span-2 bg-teal-600 hover:bg-teal-500 transition-colors rounded-lg p-2.5 flex flex-col justify-between cursor-pointer shadow-xs group"
+                className="col-span-4 row-span-2 bg-emerald-800 hover:bg-emerald-700 border border-emerald-950 transition-colors p-2.5 flex flex-col justify-between cursor-pointer shadow-xs group"
                 title="Browse Metal Solutions (18g, 20g, Bronze, Stainless)"
               >
                 <div>
-                  <span className="text-xs block group-hover:underline">Metal Solutions</span>
-                  <span className="text-[9px] text-teal-100 font-normal">18g, 20g, Bronze &amp; SS</span>
+                  <span className="text-sm block group-hover:underline uppercase tracking-wider">Metal Solutions</span>
+                  <span className="text-[10px] text-emerald-100 font-sans font-normal">18g, 20g, Bronze &amp; Stainless</span>
                 </div>
-                <div className="flex items-baseline justify-between">
-                  <span className="font-mono text-sm">48.2%</span>
-                  <span className="text-[10px] font-normal text-teal-200">3,935 units</span>
+                <div className="flex items-baseline justify-between border-t border-emerald-600/50 pt-1">
+                  <span className="font-mono text-base">48.2%</span>
+                  <span className="text-[10px] font-mono text-emerald-200">3,935 units</span>
                 </div>
               </div>
 
-              {/* Hardwood Caskets (Secondary block - Coral / Red) */}
+              {/* Hardwood Caskets (Secondary block - Royal Navy Blue) */}
               <div 
                 onClick={() => onNavigate('products', 'wood')}
-                className="col-span-2 row-span-1 bg-rose-600 hover:bg-rose-500 transition-colors rounded-lg p-2 flex flex-col justify-between cursor-pointer shadow-xs group"
+                className="col-span-2 row-span-1 bg-blue-900 hover:bg-blue-800 border border-blue-950 transition-colors p-2 flex flex-col justify-between cursor-pointer shadow-xs group"
                 title="Browse Hardwood Solutions (Oak, Pecan, Cherry, Maple)"
               >
-                <span className="text-[11px] block group-hover:underline">Hardwood Timber</span>
-                <span className="font-mono text-xs">34.1%</span>
+                <span className="text-[11px] block group-hover:underline uppercase">Hardwood Timber</span>
+                <span className="font-mono text-xs text-blue-200">34.1%</span>
               </div>
 
-              {/* Cremation Urns (Yellow/Amber block) */}
+              {/* Cremation Urns (Teal-Green block) */}
               <div 
                 onClick={() => onNavigate('products', 'urns')}
-                className="col-span-2 row-span-1 bg-amber-500 hover:bg-amber-400 text-slate-950 transition-colors rounded-lg p-2 flex flex-col justify-between cursor-pointer shadow-xs group"
+                className="col-span-2 row-span-1 bg-teal-700 hover:bg-teal-600 border border-teal-950 text-white transition-colors p-2 flex flex-col justify-between cursor-pointer shadow-xs group"
                 title="Browse Cremation Urns & Containers"
               >
-                <span className="text-[11px] block font-bold group-hover:underline">Cremation Urns</span>
-                <span className="font-mono text-xs font-bold">11.8%</span>
+                <span className="text-[11px] block font-bold group-hover:underline uppercase">Cremation Urns</span>
+                <span className="font-mono text-xs text-teal-100 font-bold">11.8%</span>
               </div>
 
-              {/* Memorial Keepsakes (Blue tile) */}
+              {/* Memorial Keepsakes (Press Blue tile) */}
               <div 
                 onClick={() => onNavigate('products', 'keepsakes')}
-                className="col-span-3 row-span-1 bg-slate-700 hover:bg-slate-600 transition-colors rounded-lg p-2 flex items-center justify-between cursor-pointer shadow-xs group"
+                className="col-span-3 row-span-1 bg-blue-700 hover:bg-blue-600 border border-blue-900 transition-colors p-2 flex items-center justify-between cursor-pointer shadow-xs group"
                 title="Browse Keepsakes & Jewelry"
               >
-                <span className="truncate group-hover:underline">Keepsakes &amp; Jewelry</span>
+                <span className="truncate group-hover:underline uppercase text-[10px]">Keepsakes &amp; Jewelry</span>
                 <span className="font-mono text-xs ml-1">4.2%</span>
               </div>
 
-              {/* NewPointe & Cloth (Sky/Slate tile) */}
+              {/* NewPointe & Cloth (Forest Green tile) */}
               <div 
                 onClick={() => onNavigate('products', 'cloth')}
-                className="col-span-3 row-span-1 bg-sky-700 hover:bg-sky-600 transition-colors rounded-lg p-2 flex items-center justify-between cursor-pointer shadow-xs group"
+                className="col-span-3 row-span-1 bg-emerald-600 hover:bg-emerald-500 border border-emerald-800 transition-colors p-2 flex items-center justify-between cursor-pointer shadow-xs group"
                 title="Browse NewPointe & Cloth"
               >
-                <span className="truncate group-hover:underline">NewPointe / Cloth</span>
+                <span className="truncate group-hover:underline uppercase text-[10px]">NewPointe / Cloth</span>
                 <span className="font-mono text-xs ml-1">1.7%</span>
               </div>
 

@@ -176,19 +176,22 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
 
   return (
     <div className="space-y-6 animate-fadeIn">
-      {/* Top Banner */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-white border border-slate-200 p-6 rounded-2xl shadow-sm">
+      {/* Newspaper Section Header Banner */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-[#fafcfa] border-y-4 border-double border-emerald-900 border-x border-slate-300 p-6 shadow-xs">
         <div>
           <div className="flex items-center space-x-3">
-            <div className="p-2.5 bg-amber-50 border border-amber-200 rounded-xl text-amber-600">
+            <div className="p-2.5 bg-emerald-900 border border-emerald-950 text-emerald-100">
               <Calendar className="w-6 h-6" />
             </div>
             <div>
-              <h1 className="text-2xl font-serif font-bold text-slate-900 tracking-wide">
-                Catalogs by Year & Product Editions
+              <span className="text-[10px] font-mono uppercase tracking-widest text-blue-900 font-bold block">
+                § ARCHIVE SECTION • ANNUAL PUBLICATIONS
+              </span>
+              <h1 className="text-2xl font-serif font-black text-slate-950 tracking-wide uppercase">
+                Catalogs by Year &amp; Product Editions
               </h1>
-              <p className="text-xs sm:text-sm text-slate-500">
-                Organize, compare, and browse catalog models, dimensions, specifications, and editions.
+              <p className="text-xs sm:text-sm font-serif italic text-slate-600">
+                Organize, compare, and browse catalog models, dimensions, specifications, and historical editions.
               </p>
             </div>
           </div>
@@ -196,16 +199,16 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
 
         {/* Action Buttons (Admin Tools) */}
         {isLoggedIn && (
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2.5">
             {/* Import Price List Button */}
             {onOpenPriceListImport && (
               <button
                 onClick={onOpenPriceListImport}
-                className="flex items-center space-x-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold px-4 py-2.5 rounded-xl shadow-md shadow-amber-500/20 transition-all cursor-pointer text-xs"
+                className="flex items-center space-x-2 bg-blue-900 hover:bg-blue-800 text-white font-serif font-bold uppercase tracking-wider px-4 py-2 border border-blue-950 shadow-xs transition-all cursor-pointer text-xs"
                 title="Import PDF / Text Product Reference Guide into Products Table"
               >
-                <FileSpreadsheet className="w-4 h-4" />
-                <span>Import Price Guide (PDF / Text)</span>
+                <FileSpreadsheet className="w-4 h-4 text-blue-200" />
+                <span>Import Price Guide</span>
               </button>
             )}
 
@@ -213,29 +216,29 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
             <button
               onClick={handleSyncFromSupabase}
               disabled={isSyncing}
-              className="flex items-center space-x-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 disabled:opacity-50 text-slate-950 font-bold px-4 py-2.5 rounded-xl shadow-md shadow-amber-500/20 transition-all cursor-pointer text-xs"
+              className="flex items-center space-x-2 bg-emerald-800 hover:bg-emerald-700 disabled:opacity-50 text-white font-serif font-bold uppercase tracking-wider px-4 py-2 border border-emerald-950 shadow-xs transition-all cursor-pointer text-xs"
             >
-              <RefreshCw className={`w-4 h-4 ${isSyncing ? 'animate-spin' : ''}`} />
-              <span>{isSyncing ? 'Syncing Supabase...' : 'Sync Catalogs from Supabase'}</span>
+              <RefreshCw className={`w-4 h-4 text-emerald-200 ${isSyncing ? 'animate-spin' : ''}`} />
+              <span>{isSyncing ? 'Syncing Supabase...' : 'Sync Cloud Archive'}</span>
             </button>
 
             {/* Manage Images Shortcut */}
             <button
               onClick={onOpenImageManager}
-              className="flex items-center space-x-2 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 font-semibold px-4 py-2.5 rounded-xl transition-colors cursor-pointer text-xs shadow-sm"
+              className="flex items-center space-x-2 bg-white hover:bg-emerald-50 text-emerald-950 border border-emerald-800 font-serif font-bold px-3.5 py-2 transition-colors cursor-pointer text-xs shadow-2xs"
             >
-              <Layers className="w-4 h-4 text-amber-600" />
-              <span>Casket Images</span>
+              <Layers className="w-4 h-4 text-emerald-700" />
+              <span>Photo Archive</span>
             </button>
 
             {/* Manage Lithos Shortcut */}
             {onOpenLithoManager && (
               <button
                 onClick={onOpenLithoManager}
-                className="flex items-center space-x-2 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 font-semibold px-4 py-2.5 rounded-xl transition-colors cursor-pointer text-xs shadow-sm"
+                className="flex items-center space-x-2 bg-white hover:bg-blue-50 text-blue-950 border border-blue-800 font-serif font-bold px-3.5 py-2 transition-colors cursor-pointer text-xs shadow-2xs"
                 title="Manage and upload authentic Batesville Litho cut sheets"
               >
-                <FileText className="w-4 h-4 text-amber-600" />
+                <FileText className="w-4 h-4 text-blue-700" />
                 <span>Litho Cut Sheets</span>
               </button>
             )}
@@ -250,11 +253,11 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
             />
             <button
               onClick={() => fileInputRef.current?.click()}
-              className="flex items-center space-x-2 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 font-semibold px-4 py-2.5 rounded-xl transition-colors cursor-pointer text-xs shadow-sm"
+              className="flex items-center space-x-2 bg-white hover:bg-emerald-50 text-emerald-900 border border-emerald-700 font-serif font-bold px-3.5 py-2 transition-colors cursor-pointer text-xs shadow-2xs"
               title="Import a catalog year spreadsheet"
             >
-              <Upload className="w-4 h-4 text-emerald-600" />
-              <span>Import Catalog CSV</span>
+              <Upload className="w-4 h-4 text-emerald-700" />
+              <span>Import CSV</span>
             </button>
           </div>
         )}
@@ -262,27 +265,27 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
 
       {/* Sync Status Banner */}
       {syncStatus && (
-        <div className={`p-4 rounded-xl flex items-center space-x-3 text-xs border shadow-sm ${
+        <div className={`p-4 flex items-center space-x-3 text-xs border-l-4 border font-serif shadow-xs ${
           syncStatus.success 
-            ? 'bg-emerald-50 border-emerald-200 text-emerald-800 font-medium' 
-            : 'bg-rose-50 border-rose-200 text-rose-800'
+            ? 'bg-emerald-50 border-emerald-300 border-l-emerald-800 text-emerald-950 font-medium' 
+            : 'bg-rose-50 border-rose-300 border-l-rose-700 text-rose-900'
         }`}>
-          {syncStatus.success ? <CheckCircle2 className="w-5 h-5 shrink-0 text-emerald-600" /> : <AlertCircle className="w-5 h-5 shrink-0 text-rose-600" />}
+          {syncStatus.success ? <CheckCircle2 className="w-5 h-5 shrink-0 text-emerald-700" /> : <AlertCircle className="w-5 h-5 shrink-0 text-rose-600" />}
           <span>{syncStatus.message}</span>
         </div>
       )}
 
-      {/* Year Edition Selector Pills */}
-      <div className="flex items-center space-x-2 overflow-x-auto pb-2 scrollbar-none">
+      {/* Year Edition Selector Pills (Newspaper Volume Tabs) */}
+      <div className="flex items-center space-x-2 overflow-x-auto pb-2 scrollbar-none border-b border-slate-300">
         <button
           onClick={() => handleSelectYear('all')}
-          className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer shadow-sm ${
+          className={`px-4 py-2 font-serif text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all cursor-pointer border ${
             selectedYear === 'all'
-              ? 'bg-amber-600 text-white'
-              : 'bg-white border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+              ? 'bg-gradient-to-r from-emerald-800 to-blue-900 text-white border-emerald-950 shadow-xs'
+              : 'bg-[#fafcfa] border-slate-300 text-slate-700 hover:text-emerald-900 hover:bg-emerald-50'
           }`}
         >
-          All Years Combined ({products.length} Items)
+          All Editions Combined ({products.length} Items)
         </button>
 
         {distinctYears.map((yr) => {
@@ -292,65 +295,65 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
             <button
               key={yr}
               onClick={() => handleSelectYear(yr)}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer shadow-sm ${
+              className={`px-4 py-2 font-serif text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all cursor-pointer border ${
                 isSelected
-                  ? 'bg-amber-600 text-white'
-                  : 'bg-white border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                  ? 'bg-gradient-to-r from-emerald-800 to-blue-900 text-white border-emerald-950 shadow-xs'
+                  : 'bg-[#fafcfa] border-slate-300 text-slate-700 hover:text-blue-900 hover:bg-blue-50'
               }`}
             >
-              {yr} Catalog Edition ({count} models)
+              {yr} Edition ({count} models)
             </button>
           );
         })}
       </div>
 
-      {/* Catalog Overview Metrics */}
+      {/* Catalog Overview Metrics (Broadsheet Columns) */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-white border border-slate-200 p-5 rounded-2xl shadow-sm">
-          <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider block mb-1">
-            Active Edition
+        <div className="bg-[#fafcfa] border border-slate-300 border-t-4 border-t-emerald-800 p-5 shadow-xs">
+          <span className="text-xs font-serif font-bold text-emerald-900 uppercase tracking-widest block border-b border-dotted border-slate-300 pb-1 mb-2">
+            Active Publication Edition
           </span>
-          <div className="font-serif text-3xl font-black text-slate-900">
-            {selectedYear === 'all' ? 'All Catalog Years' : `${selectedYear} Catalog`}
+          <div className="font-serif text-3xl font-black text-slate-950">
+            {selectedYear === 'all' ? 'All Catalog Years' : `${selectedYear} Edition`}
           </div>
-          <p className="text-xs text-slate-500 mt-1">
-            {filteredProducts.length} total models indexed
+          <p className="text-xs font-serif italic text-slate-600 mt-1">
+            {filteredProducts.length} total models indexed in ledger
           </p>
         </div>
 
-        <div className="bg-white border border-slate-200 p-5 rounded-2xl shadow-sm">
-          <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider block mb-1">
-            Available Catalog Years
+        <div className="bg-[#fafcfa] border border-slate-300 border-t-4 border-t-blue-900 p-5 shadow-xs">
+          <span className="text-xs font-serif font-bold text-blue-950 uppercase tracking-widest block border-b border-dotted border-slate-300 pb-1 mb-2">
+            Indexed Volume Years
           </span>
-          <div className="font-serif text-3xl font-black text-amber-700">
-            {distinctYears.length} Years
+          <div className="font-serif text-3xl font-black text-blue-900">
+            {distinctYears.length} Editions
           </div>
-          <p className="text-xs text-slate-500 mt-1 truncate">
+          <p className="text-xs font-mono text-slate-600 mt-1 truncate">
             {distinctYears.join(' • ')}
           </p>
         </div>
 
-        <div className="bg-white border border-slate-200 p-5 rounded-2xl shadow-sm">
-          <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider block mb-1">
-            Average Wholesale Base
+        <div className="bg-[#fafcfa] border border-slate-300 border-t-4 border-t-emerald-700 p-5 shadow-xs">
+          <span className="text-xs font-serif font-bold text-emerald-900 uppercase tracking-widest block border-b border-dotted border-slate-300 pb-1 mb-2">
+            Average Wholesale Index
           </span>
-          <div className="font-serif text-3xl font-black text-emerald-700">
+          <div className="font-serif text-3xl font-black text-emerald-800">
             ${filteredProducts.length > 0 ? (filteredProducts.reduce((a, b) => a + (Number(b.price !== undefined && b.price !== null ? b.price : b.wholesalePrice) || 0), 0) / filteredProducts.length).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '0.00'}
           </div>
-          <p className="text-xs text-slate-500 mt-1">
+          <p className="text-xs font-serif italic text-slate-600 mt-1">
             Per unit catalog wholesale baseline
           </p>
         </div>
       </div>
 
       {/* Product List for Selected Catalog Year */}
-      <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
-        <div className="p-5 border-b border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-[#fafcfa] border-2 border-slate-400 overflow-hidden shadow-sm">
+        <div className="p-5 border-b-2 border-double border-emerald-900 bg-[#f2f7f4] flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h3 className="font-serif font-bold text-slate-900 text-base">
-              Merchandise in {selectedYear === 'all' ? 'All Catalogs' : `${selectedYear} Edition`}
+            <h3 className="font-serif font-black text-slate-950 text-base uppercase tracking-wider">
+              § Merchandise Ledger — {selectedYear === 'all' ? 'All Catalogs' : `${selectedYear} Edition`}
             </h3>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs font-serif italic text-slate-600">
               Caskets, urns, dimensions, and specifications indexed for this catalog edition.
             </p>
           </div>
