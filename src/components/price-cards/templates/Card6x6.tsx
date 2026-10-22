@@ -214,8 +214,8 @@ export const Card6x6: React.FC<Card6x6Props> = ({
     },
   ];
 
-  // Active feature list (limit to 1 or 2 for 6x6 square)
-  const activeFeatures = activeMiscFeatures && activeMiscFeatures.length > 0
+  // Active feature list (limit to 1 or 2 for 6x6 square, or empty if cleared)
+  const activeFeatures = activeMiscFeatures !== undefined
     ? availableFeatures.filter(f => activeMiscFeatures.includes(f.id) || activeMiscFeatures.includes(f.fileName))
     : availableFeatures.filter(f => f.isDefault).slice(0, 1);
 
@@ -312,47 +312,49 @@ export const Card6x6: React.FC<Card6x6Props> = ({
       </div>
 
       {/* 3. ADDITIONAL FEATURES SECTION */}
-      <div className="bg-[#f0f2f5] border-t border-b border-slate-300/80 px-4 py-2 shrink-0">
-        <div className="font-bold text-[10.5px] text-slate-900 tracking-tight mb-1 uppercase">
-          Additional Features
-        </div>
+      {activeFeatures.length > 0 && (
+        <div className="bg-[#f0f2f5] border-t border-b border-slate-300/80 px-4 py-2 shrink-0">
+          <div className="font-bold text-[10.5px] text-slate-900 tracking-tight mb-1 uppercase">
+            Additional Features
+          </div>
 
-        <div className={`grid ${activeFeatures.length > 1 ? 'grid-cols-2 gap-2' : 'grid-cols-1 max-w-[340px]'}`}>
-          {activeFeatures.map((feat) => {
-            const miscImageUrl = `${SUPABASE_MISC_BASE}/${encodeURIComponent(feat.fileName)}`;
-            const localFallback = `/misc/${feat.fileName}`;
+          <div className={`grid w-full ${activeFeatures.length >= 3 ? 'grid-cols-3 gap-2' : activeFeatures.length === 2 ? 'grid-cols-2 gap-2.5' : 'grid-cols-1 max-w-[360px] mx-auto'}`}>
+            {activeFeatures.map((feat) => {
+              const miscImageUrl = `${SUPABASE_MISC_BASE}/${encodeURIComponent(feat.fileName)}`;
+              const localFallback = `/misc/${feat.fileName}`;
 
-            return (
-              <div 
-                key={feat.id}
-                className="bg-white rounded-lg border border-slate-200/90 p-1.5 flex items-center space-x-2.5 shadow-sm"
-              >
-                <div className="w-10 h-10 shrink-0 bg-slate-50 rounded border border-slate-100 overflow-hidden flex items-center justify-center">
-                  <img 
-                    src={miscImageUrl}
-                    onError={(e) => {
-                      const target = e.currentTarget;
-                      if (target.src !== localFallback) {
-                        target.src = localFallback;
-                      }
-                    }}
-                    alt={feat.title}
-                    className="w-full h-full object-contain p-0.5"
-                  />
+              return (
+                <div 
+                  key={feat.id}
+                  className="bg-white rounded-lg border border-slate-200/90 p-1.5 flex items-center space-x-2.5 shadow-sm w-full"
+                >
+                  <div className="w-10 h-10 shrink-0 bg-slate-50 rounded border border-slate-100 overflow-hidden flex items-center justify-center">
+                    <img 
+                      src={miscImageUrl}
+                      onError={(e) => {
+                        const target = e.currentTarget;
+                        if (target.src !== localFallback) {
+                          target.src = localFallback;
+                        }
+                      }}
+                      alt={feat.title}
+                      className="w-full h-full object-contain p-0.5"
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h5 className="font-bold text-[11px] text-slate-900 leading-tight truncate">
+                      {feat.title}
+                    </h5>
+                    <p className="text-[9px] text-slate-500 italic leading-tight mt-0.5 line-clamp-2">
+                      {feat.subtitle}
+                    </p>
+                  </div>
                 </div>
-                <div className="flex-1 min-w-0">
-                  <h5 className="font-bold text-[11px] text-slate-900 leading-tight truncate">
-                    {feat.title}
-                  </h5>
-                  <p className="text-[9px] text-slate-500 italic leading-tight mt-0.5 line-clamp-2">
-                    {feat.subtitle}
-                  </p>
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* 3D Bevel Shadow & Metallic Accent Trim Line */}
       <div className="h-2 bg-gradient-to-b from-transparent to-black/20 shrink-0 -mb-2 pointer-events-none z-10" />

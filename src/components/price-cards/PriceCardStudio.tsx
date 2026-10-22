@@ -972,9 +972,21 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
                 <label className="text-xs font-semibold text-slate-600 uppercase tracking-wider block">
                   Additional Features (MISC Bucket)
                 </label>
-                <span className="text-[10px] text-slate-500 font-medium">
-                  {activeMiscFeatures.length} active
-                </span>
+                <div className="flex items-center space-x-2">
+                  {activeMiscFeatures.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => setActiveMiscFeatures([])}
+                      className="text-[10px] text-rose-600 hover:text-rose-700 hover:underline flex items-center gap-1 cursor-pointer font-medium"
+                    >
+                      <Trash2 className="w-2.5 h-2.5" />
+                      Clear All
+                    </button>
+                  )}
+                  <span className="text-[10px] text-slate-500 font-medium">
+                    {activeMiscFeatures.length} active
+                  </span>
+                </div>
               </div>
               <div className="grid grid-cols-2 gap-2 text-xs">
                 {miscFeaturesList.map((feat) => {

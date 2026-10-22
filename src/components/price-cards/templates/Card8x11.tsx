@@ -203,7 +203,7 @@ export const Card8x11: React.FC<Card8x11Props> = ({
     },
   ];
 
-  const activeFeatures = activeMiscFeatures && activeMiscFeatures.length > 0
+  const activeFeatures = activeMiscFeatures !== undefined
     ? availableFeatures.filter(f => activeMiscFeatures.includes(f.id) || activeMiscFeatures.includes(f.fileName))
     : availableFeatures.filter(f => f.isDefault).slice(0, 2);
 
@@ -233,19 +233,19 @@ export const Card8x11: React.FC<Card8x11Props> = ({
       )}
 
       {/* 2. SPECIFICATION BULLETS & RIGHT GRAPHIC (TRIBUTES / REFINED STYLING - Scaled 6x6 style, no casket image) */}
-      <div className="flex-1 bg-white flex flex-row px-9 py-5 relative overflow-hidden">
+      <div className="flex-1 bg-white flex flex-row px-10 py-6 relative overflow-hidden">
         
         {/* Left Side: Clean Specification Bullets */}
-        <div className="flex-1 pr-6 flex flex-col justify-start">
-          <div className="space-y-2.5 text-xl text-slate-800 py-1">
+        <div className="flex-1 pr-8 flex flex-col justify-center">
+          <div className="space-y-4 text-[28px] text-slate-800 py-1">
             {bullets.map((bullet, idx) => {
               const hasText = Boolean(bullet && bullet.trim().length > 0);
               if (!hasText) return null;
               return (
-                <div key={idx} className="py-1 px-1.5 flex items-center justify-between group hover:bg-amber-50/30 transition-colors rounded">
-                  <div className="flex items-center space-x-3 flex-1 min-w-0 pr-2">
-                    <span className="text-slate-900 font-bold leading-none select-none text-xl shrink-0">•</span>
-                    <span className="font-medium text-slate-800 leading-tight truncate">
+                <div key={idx} className="py-1 px-2 flex items-center justify-between group hover:bg-amber-50/30 transition-colors rounded">
+                  <div className="flex items-center space-x-4 flex-1 min-w-0 pr-2">
+                    <span className="text-slate-900 font-bold leading-none select-none text-3xl shrink-0">•</span>
+                    <span className="font-medium text-slate-800 leading-snug">
                       {bullet}
                     </span>
                   </div>
@@ -254,7 +254,7 @@ export const Card8x11: React.FC<Card8x11Props> = ({
                       type="button"
                       onClick={() => onClearBullet(idx)}
                       title="Clear bullet point"
-                      className="opacity-0 group-hover:opacity-100 text-slate-400 hover:text-red-500 font-bold text-sm px-1 no-print transition-opacity shrink-0 cursor-pointer"
+                      className="opacity-0 group-hover:opacity-100 text-slate-400 hover:text-red-500 font-bold text-lg px-1.5 no-print transition-opacity shrink-0 cursor-pointer"
                     >
                       ×
                     </button>
@@ -267,20 +267,20 @@ export const Card8x11: React.FC<Card8x11Props> = ({
 
         {/* Right Side: TRIBUTES Graphic or REFINED STYLING Medallion */}
         {rightGraphic !== 'none' && (
-          <div className="w-[340px] pl-6 flex flex-col items-center justify-center shrink-0">
+          <div className="w-[350px] pl-6 flex flex-col items-center justify-center shrink-0">
             {rightGraphic === 'refined-styling' ? (
               <img
                 src="/misc/Refined Styling.png"
                 onError={(e) => { e.currentTarget.src = `${SUPABASE_MISC_BASE}/Refined%20Styling.png`; }}
                 alt="Refined Styling Classic Collection"
-                className="w-full max-w-[310px] max-h-[290px] h-auto object-contain"
+                className="w-full max-w-[320px] max-h-[300px] h-auto object-contain"
               />
             ) : (
               <img
                 src="/misc/Tributes.png"
                 onError={(e) => { e.currentTarget.src = `${SUPABASE_MISC_BASE}/Tributes.png`; }}
                 alt="Tribute Option Categories"
-                className="w-full max-w-[310px] max-h-[290px] h-auto object-contain"
+                className="w-full max-w-[320px] max-h-[300px] h-auto object-contain"
               />
             )}
           </div>
@@ -288,46 +288,48 @@ export const Card8x11: React.FC<Card8x11Props> = ({
 
       </div>
 
-      {/* 3. ADDITIONAL FEATURES SECTION (Scaled 6x6 style) */}
-      <div className="bg-[#f0f2f5] border-t border-b border-slate-300/80 px-8 py-3 shrink-0">
-        <div className="font-bold text-xs text-slate-900 tracking-tight mb-2 uppercase">
-          Additional Features
-        </div>
-        <div className={`grid ${activeFeatures.length >= 3 ? 'grid-cols-3 gap-3.5' : activeFeatures.length === 2 ? 'grid-cols-2 gap-3.5 max-w-[760px]' : 'grid-cols-1 max-w-[460px]'}`}>
-          {activeFeatures.map((feat) => {
-            const miscImageUrl = `${SUPABASE_MISC_BASE}/${encodeURIComponent(feat.fileName)}`;
-            const localFallback = `/misc/${feat.fileName}`;
+      {/* 3. ADDITIONAL FEATURES SECTION (Evenly distributed, or clear if none applied) */}
+      {activeFeatures.length > 0 && (
+        <div className="bg-[#f0f2f5] border-t border-b border-slate-300/80 px-9 py-3.5 shrink-0">
+          <div className="font-bold text-xs text-slate-900 tracking-tight mb-2.5 uppercase">
+            Additional Features
+          </div>
+          <div className={`grid w-full ${activeFeatures.length >= 3 ? 'grid-cols-3 gap-4' : activeFeatures.length === 2 ? 'grid-cols-2 gap-6' : 'grid-cols-1 max-w-[520px] mx-auto'}`}>
+            {activeFeatures.map((feat) => {
+              const miscImageUrl = `${SUPABASE_MISC_BASE}/${encodeURIComponent(feat.fileName)}`;
+              const localFallback = `/misc/${feat.fileName}`;
 
-            return (
-              <div 
-                key={feat.id}
-                className="bg-white rounded-lg border border-slate-200/90 p-2.5 flex items-center space-x-3 shadow-sm"
-              >
-                <div className="w-14 h-14 shrink-0 bg-slate-50 rounded border border-slate-100 overflow-hidden flex items-center justify-center">
-                  <img 
-                    src={miscImageUrl}
-                    onError={(e) => {
-                      if (e.currentTarget.src !== localFallback) {
-                        e.currentTarget.src = localFallback;
-                      }
-                    }}
-                    alt={feat.title}
-                    className="w-full h-full object-contain p-0.5"
-                  />
+              return (
+                <div 
+                  key={feat.id}
+                  className="bg-white rounded-lg border border-slate-200/90 p-3 flex items-center space-x-3.5 shadow-sm w-full"
+                >
+                  <div className="w-16 h-16 shrink-0 bg-slate-50 rounded border border-slate-100 overflow-hidden flex items-center justify-center">
+                    <img 
+                      src={miscImageUrl}
+                      onError={(e) => {
+                        if (e.currentTarget.src !== localFallback) {
+                          e.currentTarget.src = localFallback;
+                        }
+                      }}
+                      alt={feat.title}
+                      className="w-full h-full object-contain p-0.5"
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h5 className="font-bold text-base text-slate-900 leading-tight truncate">
+                      {feat.title}
+                    </h5>
+                    <p className="text-xs text-slate-500 italic leading-snug mt-1 line-clamp-2">
+                      {feat.subtitle}
+                    </p>
+                  </div>
                 </div>
-                <div className="flex-1 min-w-0">
-                  <h5 className="font-bold text-sm text-slate-900 leading-tight truncate">
-                    {feat.title}
-                  </h5>
-                  <p className="text-xs text-slate-500 italic leading-tight mt-0.5 line-clamp-2">
-                    {feat.subtitle}
-                  </p>
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* 3D Bevel Shadow & Metallic Accent Trim Line */}
       <div className="h-2.5 bg-gradient-to-b from-transparent to-black/20 shrink-0 -mb-2.5 pointer-events-none z-10" />
