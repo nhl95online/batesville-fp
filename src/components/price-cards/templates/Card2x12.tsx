@@ -79,8 +79,8 @@ export const Card2x12: React.FC<Card2x12Props> = ({
       {/* 2. BODY CONTENT SECTION DIVIDED INTO DOTTED COLUMNS */}
       <div className="flex-1 flex items-center justify-between px-6 py-2 divide-x divide-dashed divide-blue-400 bg-white">
         
-        {/* Column 1: Batesville Branding & Urn Thumbnail */}
-        <div className="flex items-center space-x-4 pr-6 shrink-0 min-w-[260px]">
+        {/* Column 1: Batesville Branding */}
+        <div className="flex items-center pr-6 shrink-0">
           {/* Batesville Tree Logo Representation */}
           <div className="flex flex-col items-center justify-center shrink-0">
             <svg className="w-9 h-9 text-[#15662a]" viewBox="0 0 24 24" fill="currentColor">
@@ -90,17 +90,6 @@ export const Card2x12: React.FC<Card2x12Props> = ({
               Batesville
             </span>
           </div>
-
-          {/* Urn Photo / Preview */}
-          {product.imageUrl && (
-            <div className="w-20 h-20 bg-slate-50 rounded-md border border-slate-200 overflow-hidden flex items-center justify-center p-1">
-              <img 
-                src={product.imageUrl} 
-                alt={displayName} 
-                className="w-full h-full object-contain"
-              />
-            </div>
-          )}
         </div>
 
         {/* Column 2: Urn Model Description & Specs */}

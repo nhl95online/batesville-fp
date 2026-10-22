@@ -223,66 +223,108 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
     };
   }, [allSales, products]);
 
-  // Helper to generate default slots when neither Supabase nor localStorage has data
-  const generateDefaultLayout = useCallback((shape: RoomShape, capacity: RoomCapacity) => {
-    let casketCount = 10;
-    let urnCount = 12;
+  // Helper to match a product by code or ID reliably
+  const findProductByCodeOrId = useCallback((code?: string | number | null, id?: string | null): Product | undefined => {
+    const normCode = String(code ?? '').trim().toLowerCase();
+    return products.find(p => {
+      if (id && p.id === id) return true;
+      const pCode = String(p.code || p.product_code || '').trim().toLowerCase();
+      return normCode !== '' && pCode === normCode;
+    });
+  }, [products]);
 
-    const caskets = products.filter(p => !isUrnProduct(p));
+  // Helper to generate default slots when neither Supabase nor localStorage has data
+  const generateDefaultLayout = useCallback((
+    shape: RoomShape,
+    capacity: RoomCapacity,
+    pricingMapOverride?: Map<string, CustomerProductPricing>
+  ) => {
+    const bayCount = 5;
+    const urnCount = 12;
+    const activePricingMap = pricingMapOverride || customerPricingMap;
+
+    // Sort burial caskets so Metal & Wood burial caskets come first (avoiding cardboard cremation containers in Bay 1)
+    const allCaskets = products.filter(p => !isUrnProduct(p));
+    const burialCaskets = allCaskets
+      .filter(p => {
+        const cat = (p.category || '').toLowerCase();
+        return !cat.includes('cremation') && !cat.includes('alternative') && !cat.includes('personalization');
+      })
+      .sort((a, b) => (a.productId ?? 99999) - (b.productId ?? 99999));
+    const caskets = burialCaskets.length > 0 ? burialCaskets : allCaskets;
+
     const urns = products.filter(p => isUrnProduct(p));
     const acct = String(activeCustomer?.accountNumber || activeCustomer?.code || '').trim();
 
     const newSlots: FloorSlot[] = [];
+    let prodIdx = 0;
 
-    for (let i = 1; i <= casketCount; i++) {
-      const prod = caskets[(i - 1) % Math.max(1, caskets.length)];
-      const isDouble = true;
-      const localRetail = prod ? getCustomerRetailPrice(acct, prod.code) : null;
-      const pricing = resolveSlotPricing(activeCustomer, prod, customerPricingMap, localRetail);
+    // Create 5 Double Rack Bays (2 tiers per bay = 10 caskets total: Top & Bottom)
+    for (let bayNum = 1; bayNum <= bayCount; bayNum++) {
+      const wallZone = bayNum <= 3 ? 'North Wall' : 'East Wall';
+      const posX = bayNum === 1 ? 5.5 : bayNum === 2 ? 14.5 : bayNum === 3 ? 23.5 : 26.5;
+      const posY = bayNum <= 3 ? 16.5 : bayNum === 4 ? 6.0 : 14.5;
+      const orientDeg = bayNum <= 3 ? 180 : 270;
 
-      newSlots.push({
-        id: `casket-bay-${i}`,
-        slotNumber: i,
-        label: `Bay ${i} (Double Rack)`,
-        type: 'casket',
-        isDoubleRack: isDouble,
-        rackType: 'double',
-        levelNumber: 2,
-        tierLevel: 'Double Rack - Top',
-        productId: prod?.id,
-        productCode: prod?.code,
-        productName: prod?.name,
-        category: prod?.category,
-        wholesalePrice: pricing.masterListPrice,
-        masterListPrice: pricing.masterListPrice,
-        discountPercent: pricing.discountPercent,
-        netCost: pricing.netCost,
-        retailPrice: pricing.retailPrice,
-        profitMarginDollars: pricing.profitMarginDollars,
-        profitMarginPercent: pricing.profitMarginPercent,
-        imageUrl: prod?.imageUrl,
-      });
+      for (const lvlNum of [2, 1] as const) {
+        const prod = caskets[prodIdx % Math.max(1, caskets.length)];
+        prodIdx++;
+        const pCode = String(prod?.code || prod?.product_code || '');
+        const localRetail = pCode ? getCustomerRetailPrice(acct, pCode) : null;
+        const pricing = resolveSlotPricing(activeCustomer, prod, activePricingMap, localRetail);
+
+        newSlots.push({
+          id: `casket-bay-${bayNum}-lvl-${lvlNum}`,
+          slotNumber: bayNum,
+          label: `Bay ${bayNum} (${lvlNum === 2 ? 'Top' : 'Bottom'})`,
+          type: 'casket',
+          isDoubleRack: true,
+          rackType: 'double',
+          levelNumber: lvlNum,
+          tierLevel: lvlNum === 2 ? 'Double Rack - Top' : 'Double Rack - Bottom',
+          wallZone,
+          posX,
+          posY,
+          orientation_deg: orientDeg,
+          productId: prod?.id,
+          productCode: pCode,
+          productName: prod?.description || prod?.name || 'Unassigned',
+          category: prod?.category,
+          wholesalePrice: pricing.masterListPrice,
+          masterListPrice: pricing.masterListPrice,
+          discountPercent: pricing.discountPercent,
+          netCost: pricing.netCost,
+          retailPrice: pricing.retailPrice,
+          profitMarginDollars: pricing.profitMarginDollars,
+          profitMarginPercent: pricing.profitMarginPercent,
+          imageUrl: prod?.imageUrl,
+        });
+      }
     }
 
     for (let j = 1; j <= urnCount; j++) {
       const urn = urns[(j - 1) % Math.max(1, urns.length)];
       const shelfLvl = ((j - 1) % 3) + 1;
-      const localRetail = urn ? getCustomerRetailPrice(acct, urn.code) : null;
-      const pricing = resolveSlotPricing(activeCustomer, urn, customerPricingMap, localRetail);
+      const uCode = String(urn?.code || urn?.product_code || '');
+      const localRetail = uCode ? getCustomerRetailPrice(acct, uCode) : null;
+      const pricing = resolveSlotPricing(activeCustomer, urn, activePricingMap, localRetail);
 
       newSlots.push({
         id: `urn-shelf-${j}`,
         slotNumber: j,
-        label: `Urn Shelf #${j}`,
+        label: `Urn Shelf #${j} (Tier ${shelfLvl})`,
         type: 'urn',
         isDoubleRack: false,
         rackType: 'urn-shelf',
         levelNumber: shelfLvl,
         tierLevel: `Shelf ${shelfLvl}`,
-        shelfSlotPosition: ((j - 1) % 2) + 1,
+        shelfSlotPosition: Math.ceil(j / 3),
+        wallZone: 'South Wall',
+        posX: 14.5,
+        posY: 2.0,
         productId: urn?.id,
-        productCode: urn?.code,
-        productName: urn?.name,
+        productCode: uCode,
+        productName: urn?.description || urn?.name || 'Unassigned',
         category: urn?.category,
         wholesalePrice: pricing.masterListPrice,
         masterListPrice: pricing.masterListPrice,
@@ -299,7 +341,7 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
     if (newSlots.length > 0) {
       setSelectedSlotId(newSlots[0].id);
     }
-  }, [products, activeCustomer, customerPricingMap]);
+  }, [products, activeCustomer]);
 
   // Load customer floor plan directly from Supabase, falling back to local cache or defaults
   const loadCustomerFloorPlan = useCallback(async (forceCloud = false) => {
@@ -412,11 +454,11 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
           ) && !rackTypeStr.includes('single');
 
           // Find product in catalog if available
-          const matchedProd = products.find(p => p.code === loc.product_code);
+          const matchedProd = findProductByCodeOrId(loc.product_code);
 
           const slotId = isUrn
             ? `urn-shelf-${bayNum}-lvl-${lvlNum}-${loc.shelf_slot_position || 1}-${loc.product_code || idx}`
-            : `casket-bay-${bayNum}-lvl-${lvlNum}`;
+            : `casket-bay-${bayNum}-lvl-${lvlNum}-${idx}`;
 
           let posX = loc.pos_x_ft !== null && loc.pos_x_ft !== undefined ? Number(loc.pos_x_ft) : undefined;
           let posY = loc.pos_y_ft !== null && loc.pos_y_ft !== undefined ? Number(loc.pos_y_ft) : undefined;
@@ -444,7 +486,7 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
             if (orientDeg === undefined || orientDeg === 0) orientDeg = 0;
           }
 
-          const prodCode = loc.product_code || matchedProd?.code;
+          const prodCode = String(loc.product_code || matchedProd?.code || matchedProd?.product_code || '');
           const localRetail = prodCode ? getCustomerRetailPrice(acct, prodCode) : null;
           const pricing = resolveSlotPricing(
             activeCustomer,
@@ -469,8 +511,8 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
             orientation_deg: orientDeg ?? (bayNum <= 3 ? 180 : bayNum <= 5 ? 270 : 180),
             notes: loc.notes,
             productId: matchedProd?.id,
-            productCode: loc.product_code || matchedProd?.code,
-            productName: loc.product_name || matchedProd?.name || 'Unassigned',
+            productCode: prodCode,
+            productName: loc.product_name || matchedProd?.description || matchedProd?.name || 'Unassigned',
             category: loc.category || matchedProd?.category || (isUrn ? 'Urns & Keepsakes' : 'Burial'),
             wholesalePrice: pricing.masterListPrice,
             masterListPrice: pricing.masterListPrice,
@@ -488,7 +530,7 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
         setSlots(newSlots);
         if (newSlots.length > 0) {
           // Default selection to Bay 1 Top or first slot
-          const topSlot = newSlots.find(s => s.slotNumber === 1 && s.levelNumber === 2) || newSlots[0];
+          const topSlot = newSlots.find(s => s.type === 'casket' && s.slotNumber === 1 && s.levelNumber === 2) || newSlots[0];
           setSelectedSlotId(topSlot.id);
         }
 
@@ -544,41 +586,51 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
         if (saved) {
           try {
             const parsed: CustomerFloorPlan = JSON.parse(saved);
-            setRoomShape(parsed.roomShape || 'rectangle');
-            setRoomCapacity(parsed.roomCapacity || 'medium');
-            const enriched = (parsed.slots || []).map(s => {
-              const pCode = s.productCode;
-              const matchedP = products.find(p => p.code === pCode);
-              const localRetail = pCode ? getCustomerRetailPrice(acct, pCode) : null;
-              const pricing = resolveSlotPricing(
-                activeCustomer,
-                matchedP || { product_code: pCode, category: s.category, wholesalePrice: s.wholesalePrice },
-                pricingMap,
-                s.retailPrice || localRetail
-              );
-              return {
-                ...s,
-                wholesalePrice: pricing.masterListPrice,
-                masterListPrice: pricing.masterListPrice,
-                discountPercent: pricing.discountPercent,
-                netCost: pricing.netCost,
-                retailPrice: pricing.retailPrice,
-                profitMarginDollars: pricing.profitMarginDollars,
-                profitMarginPercent: pricing.profitMarginPercent,
-              };
-            });
-            setSlots(enriched);
-            if (enriched.length > 0) {
+            const savedSlots = parsed.slots || [];
+            // Detect legacy broken 10-bay single-tier auto-generated layout where all bottoms were empty
+            const casketSlots = savedSlots.filter(s => s.type === 'casket');
+            const isLegacyBrokenDefault =
+              casketSlots.length >= 10 &&
+              casketSlots.every(s => s.levelNumber === 2 && /^casket-bay-\d+$/.test(s.id));
+
+            if (!isLegacyBrokenDefault && savedSlots.length > 0) {
+              setRoomShape(parsed.roomShape || 'rectangle');
+              setRoomCapacity(parsed.roomCapacity || 'medium');
+              const enriched = savedSlots.map(s => {
+                const pCode = s.productCode;
+                const matchedP = findProductByCodeOrId(pCode, s.productId);
+                const localRetail = pCode ? getCustomerRetailPrice(acct, String(pCode)) : null;
+                const pricing = resolveSlotPricing(
+                  activeCustomer,
+                  matchedP || { product_code: pCode, category: s.category, wholesalePrice: s.wholesalePrice },
+                  pricingMap,
+                  s.retailPrice || localRetail
+                );
+                return {
+                  ...s,
+                  productId: s.productId || matchedP?.id,
+                  productName: s.productName || matchedP?.description || matchedP?.name || 'Unassigned',
+                  imageUrl: s.imageUrl || matchedP?.imageUrl,
+                  wholesalePrice: pricing.masterListPrice,
+                  masterListPrice: pricing.masterListPrice,
+                  discountPercent: pricing.discountPercent,
+                  netCost: pricing.netCost,
+                  retailPrice: pricing.retailPrice,
+                  profitMarginDollars: pricing.profitMarginDollars,
+                  profitMarginPercent: pricing.profitMarginPercent,
+                };
+              });
+              setSlots(enriched);
               setSelectedSlotId(enriched[0].id);
+              return;
             }
-            return;
           } catch (e) {
             console.warn('Failed to parse saved floor plan:', e);
           }
         }
       }
 
-      generateDefaultLayout('rectangle', roomCapacity);
+      generateDefaultLayout('rectangle', roomCapacity, pricingMap);
     } catch (err: any) {
       console.error('Error loading cloud showroom:', err);
       generateDefaultLayout(roomShape, roomCapacity);
@@ -589,20 +641,32 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
     } finally {
       setIsCloudLoading(false);
     }
-  }, [activeCustomer, products, roomShape, roomCapacity, generateDefaultLayout, onRoomShapeChange]);
+  }, [activeCustomer, products, findProductByCodeOrId, generateDefaultLayout]);
 
   useEffect(() => {
     if (activeCustomer) {
       loadCustomerFloorPlan();
     }
-  }, [activeCustomer?.id, loadCustomerFloorPlan]);
+  }, [activeCustomer?.id]);
 
-  // Handle changing shape or capacity
+  // Handle changing shape or capacity without wiping existing showroom slots
   const handleConfigChange = (newShape: RoomShape, newCapacity: RoomCapacity) => {
     setRoomShape(newShape);
     setRoomArch(prev => ({ ...prev, shape: newShape }));
     setRoomCapacity(newCapacity);
-    generateDefaultLayout(newShape, newCapacity);
+    if (slots.length === 0) {
+      generateDefaultLayout(newShape, newCapacity);
+    } else if (activeCustomer) {
+      const plan: CustomerFloorPlan = {
+        customerId: activeCustomer.id,
+        customerName: activeCustomer.name,
+        roomShape: newShape,
+        roomCapacity: newCapacity,
+        slots,
+        updatedAt: new Date().toISOString(),
+      };
+      localStorage.setItem(`batesville_floorplan_${activeCustomer.id}`, JSON.stringify(plan));
+    }
     onRoomShapeChange?.(newShape);
   };
 
@@ -907,10 +971,10 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
     return { units, floorUnits, salesUnits, revenue, lastDate, status };
   };
 
-  const activeSlot = slots.find(s => s.id === selectedSlotId);
+  const activeSlot = slots.find(s => s.id === selectedSlotId) || slots[0] || null;
   const activeSlotStats = activeSlot ? getSlotSalesStats(activeSlot) : null;
-  const activeSlotProduct = activeSlot?.productId 
-    ? products.find(p => p.id === activeSlot.productId || p.code === activeSlot.productCode) 
+  const activeSlotProduct = activeSlot
+    ? (findProductByCodeOrId(activeSlot.productCode, activeSlot.productId) || null)
     : null;
 
   // Find siblings in the same bay
@@ -1033,19 +1097,75 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
     window.print();
   };
 
-  // Helper to select a bay on the blueprint
-  const handleSelectBay = (bayNumber: number) => {
-    const baySlots = slots.filter(s => s.slotNumber === bayNumber);
-    if (baySlots.length > 0) {
-      // Pick top rack (level 2) or first
-      const top = baySlots.find(s => s.levelNumber === 2) || baySlots[0];
-      setSelectedSlotId(top.id);
+  // Helper to select a casket bay (and optionally a specific rack tier: 2 = Top, 1 = Bottom)
+  const handleSelectBayTier = (bayNumber: number, targetLevel?: 1 | 2) => {
+    const baySlots = slots.filter(s => s.type === 'casket' && s.slotNumber === bayNumber);
+    if (baySlots.length === 0) return;
+
+    if (targetLevel !== undefined) {
+      const exact = baySlots.find(s => Number(s.levelNumber) === targetLevel);
+      if (exact) {
+        setSelectedSlotId(exact.id);
+        return;
+      }
+
+      // If this is a double rack bay and the companion tier slot doesn't exist yet, create & select it
+      const refSlot = baySlots[0];
+      if (refSlot && (refSlot.isDoubleRack || targetLevel === 1 || targetLevel === 2)) {
+        const allCaskets = products.filter(p => !isUrnProduct(p));
+        const fallbackProd = allCaskets[(bayNumber * 2 + targetLevel) % Math.max(1, allCaskets.length)];
+        const acct = String(activeCustomer?.accountNumber || activeCustomer?.code || '').trim();
+        const pCode = String(fallbackProd?.code || fallbackProd?.product_code || '');
+        const localRetail = pCode ? getCustomerRetailPrice(acct, pCode) : null;
+        const pricing = resolveSlotPricing(activeCustomer, fallbackProd, customerPricingMap, localRetail);
+
+        const newCompanion: FloorSlot = {
+          ...refSlot,
+          id: `casket-bay-${bayNumber}-lvl-${targetLevel}`,
+          label: `Bay ${bayNumber} (${targetLevel === 2 ? 'Top' : 'Bottom'})`,
+          isDoubleRack: true,
+          rackType: 'double',
+          levelNumber: targetLevel,
+          tierLevel: targetLevel === 2 ? 'Double Rack - Top' : 'Double Rack - Bottom',
+          productId: fallbackProd?.id,
+          productCode: pCode,
+          productName: fallbackProd?.description || fallbackProd?.name || 'Unassigned',
+          category: fallbackProd?.category || 'Burial',
+          wholesalePrice: pricing.masterListPrice,
+          masterListPrice: pricing.masterListPrice,
+          discountPercent: pricing.discountPercent,
+          netCost: pricing.netCost,
+          retailPrice: pricing.retailPrice,
+          profitMarginDollars: pricing.profitMarginDollars,
+          profitMarginPercent: pricing.profitMarginPercent,
+          imageUrl: fallbackProd?.imageUrl,
+        };
+
+        setSlots(prev => {
+          const updated = [
+            ...prev.map(s => (s.type === 'casket' && s.slotNumber === bayNumber ? { ...s, isDoubleRack: true, rackType: 'double' as const } : s)),
+            newCompanion
+          ];
+          savePlan(updated);
+          return updated;
+        });
+        setSelectedSlotId(newCompanion.id);
+        return;
+      }
     }
+
+    // Default: pick top rack (level 2) or first casket slot in that bay
+    const top = baySlots.find(s => Number(s.levelNumber) === 2) || baySlots[0];
+    setSelectedSlotId(top.id);
   };
 
-  // Helper to find slots for bay number
+  const handleSelectBay = (bayNumber: number) => {
+    handleSelectBayTier(bayNumber);
+  };
+
+  // Helper to find casket slots for bay number
   const getBaySlots = (bayNum: number) => {
-    return slots.filter(s => s.slotNumber === bayNum);
+    return slots.filter(s => s.type === 'casket' && s.slotNumber === bayNum);
   };
 
   return (
@@ -1794,26 +1914,30 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
                                 </text>
 
                                 {/* Top Tier */}
-                                <rect x={rx + 8} y={ry + 24} width={rackW - 16} height="18" rx="3" fill="#fafaf9" stroke="#e7e5e4" />
-                                <rect x={rx + 10} y={ry + 26} width="26" height="14" rx="2" fill="#d97706" />
-                                <text x={rx + 23} y={ry + 36} textAnchor="middle" fill="#ffffff" fontSize="8" fontWeight="bold">TOP</text>
-                                <text x={rx + 42} y={ry + 37} fill="#1c1917" fontSize="9" fontWeight="bold">
-                                  {top?.productName?.slice(0, 18) || 'Unassigned'}
-                                </text>
-                                <text x={rx + rackW - 14} y={ry + 37} textAnchor="end" fill="#78716c" fontSize="8" fontFamily="monospace">
-                                  {top?.productCode || ''}
-                                </text>
+                                <g onClick={(e) => { e.stopPropagation(); handleSelectBayTier(bayNumber, 2); }}>
+                                  <rect x={rx + 8} y={ry + 24} width={rackW - 16} height="18" rx="3" fill={selectedSlotId === top?.id ? "#fef3c7" : "#fafaf9"} stroke={selectedSlotId === top?.id ? "#d97706" : "#e7e5e4"} />
+                                  <rect x={rx + 10} y={ry + 26} width="26" height="14" rx="2" fill="#d97706" />
+                                  <text x={rx + 23} y={ry + 36} textAnchor="middle" fill="#ffffff" fontSize="8" fontWeight="bold">TOP</text>
+                                  <text x={rx + 42} y={ry + 37} fill="#1c1917" fontSize="9" fontWeight="bold">
+                                    {top?.productName?.slice(0, 18) || 'Unassigned'}
+                                  </text>
+                                  <text x={rx + rackW - 14} y={ry + 37} textAnchor="end" fill="#78716c" fontSize="8" fontFamily="monospace">
+                                    {top?.productCode || ''}
+                                  </text>
+                                </g>
 
                                 {/* Bottom Tier */}
-                                <rect x={rx + 8} y={ry + 44} width={rackW - 16} height="18" rx="3" fill="#f8fafc" stroke="#e2e8f0" />
-                                <rect x={rx + 10} y={ry + 46} width="26" height="14" rx="2" fill="#334155" />
-                                <text x={rx + 23} y={ry + 56} textAnchor="middle" fill="#ffffff" fontSize="8" fontWeight="bold">BTM</text>
-                                <text x={rx + 42} y={ry + 57} fill="#1e293b" fontSize="8.5" fontWeight="bold">
-                                  {btm?.productName?.slice(0, 18) || 'Empty Bottom'}
-                                </text>
-                                <text x={rx + rackW - 14} y={ry + 57} textAnchor="end" fill="#64748b" fontSize="8" fontFamily="monospace">
-                                  {btm?.productCode || ''}
-                                </text>
+                                <g onClick={(e) => { e.stopPropagation(); handleSelectBayTier(bayNumber, 1); }}>
+                                  <rect x={rx + 8} y={ry + 44} width={rackW - 16} height="18" rx="3" fill={btm && selectedSlotId === btm.id ? "#fef3c7" : "#f8fafc"} stroke={btm && selectedSlotId === btm.id ? "#d97706" : "#e2e8f0"} />
+                                  <rect x={rx + 10} y={ry + 46} width="26" height="14" rx="2" fill="#334155" />
+                                  <text x={rx + 23} y={ry + 56} textAnchor="middle" fill="#ffffff" fontSize="8" fontWeight="bold">BTM</text>
+                                  <text x={rx + 42} y={ry + 57} fill="#1e293b" fontSize="8.5" fontWeight="bold">
+                                    {btm?.productName?.slice(0, 18) || 'Click to Assign'}
+                                  </text>
+                                  <text x={rx + rackW - 14} y={ry + 57} textAnchor="end" fill="#64748b" fontSize="8" fontFamily="monospace">
+                                    {btm?.productCode || ''}
+                                  </text>
+                                </g>
                               </>
                             ) : (
                               /* Single Rack Horizontal */
@@ -1855,8 +1979,8 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
                                 </text>
 
                                 {/* Top Tier */}
-                                <g transform={`translate(${rx + 5}, ${ry + 26})`}>
-                                  <rect width={rackW - 10} height={(rackH - 36) / 2} rx="4" fill="#fafaf9" stroke="#e7e5e4" />
+                                <g transform={`translate(${rx + 5}, ${ry + 26})`} onClick={(e) => { e.stopPropagation(); handleSelectBayTier(bayNumber, 2); }}>
+                                  <rect width={rackW - 10} height={(rackH - 36) / 2} rx="4" fill={selectedSlotId === top?.id ? "#fef3c7" : "#fafaf9"} stroke={selectedSlotId === top?.id ? "#d97706" : "#e7e5e4"} />
                                   <rect x="4" y="4" width="24" height="12" rx="2" fill="#d97706" />
                                   <text x="16" y="13" textAnchor="middle" fill="#ffffff" fontSize="7.5" fontWeight="bold">TOP</text>
                                   <text x="4" y="30" fill="#1c1917" fontSize="8" fontWeight="bold">
@@ -1868,12 +1992,12 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
                                 </g>
 
                                 {/* Bottom Tier */}
-                                <g transform={`translate(${rx + 5}, ${ry + 26 + (rackH - 36) / 2 + 4})`}>
-                                  <rect width={rackW - 10} height={(rackH - 36) / 2} rx="4" fill="#f8fafc" stroke="#e2e8f0" />
+                                <g transform={`translate(${rx + 5}, ${ry + 26 + (rackH - 36) / 2 + 4})`} onClick={(e) => { e.stopPropagation(); handleSelectBayTier(bayNumber, 1); }}>
+                                  <rect width={rackW - 10} height={(rackH - 36) / 2} rx="4" fill={btm && selectedSlotId === btm.id ? "#fef3c7" : "#f8fafc"} stroke={btm && selectedSlotId === btm.id ? "#d97706" : "#e2e8f0"} />
                                   <rect x="4" y="4" width="24" height="12" rx="2" fill="#334155" />
                                   <text x="16" y="13" textAnchor="middle" fill="#ffffff" fontSize="7.5" fontWeight="bold">BTM</text>
                                   <text x="4" y="30" fill="#1e293b" fontSize="8" fontWeight="bold">
-                                    {btm?.productName?.slice(0, 13) || 'Empty Bottom'}
+                                    {btm?.productName?.slice(0, 13) || 'Click to Assign'}
                                   </text>
                                   <text x="4" y="43" fill="#64748b" fontSize="7.5" fontFamily="monospace">
                                     {btm?.productCode || ''}
@@ -1951,25 +2075,31 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
                           </text>
 
                           {/* Shelf 3 (Top) */}
-                          <rect x={ux + 4} y={uy + 24} width={unitW - 8} height="13" rx="2" fill="#f3e8ff" />
-                          <text x={ux + 8} y={uy + 33} fill="#6b21a8" fontSize="7.5" fontWeight="bold">TIER 3 (TOP):</text>
-                          <text x={ux + unitW - 8} y={uy + 33} textAnchor="end" fill="#7e22ce" fontSize="7.5" fontWeight="bold">
-                            {urnShelves.level3.length || 4} Urns
-                          </text>
+                          <g onClick={(e) => { e.stopPropagation(); const u = urnShelves.level3[0] || firstUrn; if (u) setSelectedSlotId(u.id); }}>
+                            <rect x={ux + 4} y={uy + 24} width={unitW - 8} height="13" rx="2" fill="#f3e8ff" />
+                            <text x={ux + 8} y={uy + 33} fill="#6b21a8" fontSize="7.5" fontWeight="bold">TIER 3 (TOP):</text>
+                            <text x={ux + unitW - 8} y={uy + 33} textAnchor="end" fill="#7e22ce" fontSize="7.5" fontWeight="bold">
+                              {urnShelves.level3.length || 4} Urns
+                            </text>
+                          </g>
 
                           {/* Shelf 2 (Middle) */}
-                          <rect x={ux + 4} y={uy + 40} width={unitW - 8} height="13" rx="2" fill="#ede9fe" />
-                          <text x={ux + 8} y={uy + 49} fill="#5b21b6" fontSize="7.5" fontWeight="bold">TIER 2 (MID):</text>
-                          <text x={ux + unitW - 8} y={uy + 49} textAnchor="end" fill="#6d28d9" fontSize="7.5" fontWeight="bold">
-                            {urnShelves.level2.length || 5} Urns
-                          </text>
+                          <g onClick={(e) => { e.stopPropagation(); const u = urnShelves.level2[0] || firstUrn; if (u) setSelectedSlotId(u.id); }}>
+                            <rect x={ux + 4} y={uy + 40} width={unitW - 8} height="13" rx="2" fill="#ede9fe" />
+                            <text x={ux + 8} y={uy + 49} fill="#5b21b6" fontSize="7.5" fontWeight="bold">TIER 2 (MID):</text>
+                            <text x={ux + unitW - 8} y={uy + 49} textAnchor="end" fill="#6d28d9" fontSize="7.5" fontWeight="bold">
+                              {urnShelves.level2.length || 5} Urns
+                            </text>
+                          </g>
 
                           {/* Shelf 1 (Bottom) */}
-                          <rect x={ux + 4} y={uy + 56} width={unitW - 8} height="13" rx="2" fill="#ddd6fe" />
-                          <text x={ux + 8} y={uy + 65} fill="#4c1d95" fontSize="7.5" fontWeight="bold">TIER 1 (BTM):</text>
-                          <text x={ux + unitW - 8} y={uy + 65} textAnchor="end" fill="#5b21b6" fontSize="7.5" fontWeight="bold">
-                            {urnShelves.level1.length || 5} Urns
-                          </text>
+                          <g onClick={(e) => { e.stopPropagation(); const u = urnShelves.level1[0] || firstUrn; if (u) setSelectedSlotId(u.id); }}>
+                            <rect x={ux + 4} y={uy + 56} width={unitW - 8} height="13" rx="2" fill="#ddd6fe" />
+                            <text x={ux + 8} y={uy + 65} fill="#4c1d95" fontSize="7.5" fontWeight="bold">TIER 1 (BTM):</text>
+                            <text x={ux + unitW - 8} y={uy + 65} textAnchor="end" fill="#5b21b6" fontSize="7.5" fontWeight="bold">
+                              {urnShelves.level1.length || 5} Urns
+                            </text>
+                          </g>
                         </g>
                       );
                     })()}
@@ -2274,7 +2404,7 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
               </div>
 
               {/* Quick Switcher for Sibling Levels in Double Rack */}
-              {baySiblingSlots.length > 1 && (
+              {activeSlot.type === 'casket' && (activeSlot.isDoubleRack || baySiblingSlots.length > 1) && (
                 <div className="p-3 bg-amber-50/80 border border-amber-200 rounded-xl space-y-2">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-1.5 text-amber-900">
@@ -2286,26 +2416,87 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
                     </span>
                   </div>
                   <div className="grid grid-cols-2 gap-2">
-                    {baySiblingSlots
-                      .sort((a, b) => (Number(b.levelNumber) || 1) - (Number(a.levelNumber) || 1))
-                      .map(sib => (
+                    {([2, 1] as const).map(lvl => {
+                      const sib = baySiblingSlots.find(s => Number(s.levelNumber) === lvl);
+                      const isCurr = Number(activeSlot.levelNumber) === lvl;
+                      return (
                         <button
-                          key={sib.id}
-                          onClick={() => setSelectedSlotId(sib.id)}
+                          key={`bay-${activeSlot.slotNumber}-lvl-${lvl}`}
+                          onClick={() => handleSelectBayTier(activeSlot.slotNumber, lvl)}
                           className={`p-2 rounded-lg text-left transition-all cursor-pointer border ${
-                            selectedSlotId === sib.id
+                            isCurr
                               ? 'bg-amber-700 text-white border-amber-800 shadow-sm'
                               : 'bg-white text-slate-800 border-amber-200 hover:bg-amber-100/50'
                           }`}
                         >
                           <div className="flex items-center justify-between text-[10px] font-bold mb-0.5">
-                            <span>{sib.levelNumber === 2 ? 'TOP RACK' : 'BOTTOM RACK'}</span>
-                            <span className={`font-mono text-[9px] ${selectedSlotId === sib.id ? 'text-amber-200' : 'text-slate-500'}`}>
-                              {sib.productCode || 'N/A'}
+                            <span>{lvl === 2 ? 'TOP RACK' : 'BOTTOM RACK'}</span>
+                            <span className={`font-mono text-[9px] ${isCurr ? 'text-amber-200' : 'text-slate-500'}`}>
+                              {sib?.productCode || 'Assign'}
                             </span>
                           </div>
                           <div className="text-xs font-serif font-bold truncate">
-                            {sib.productName || 'Unassigned'}
+                            {sib?.productName || 'Click to Load'}
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* Quick Switcher for Urn Gallery Shelves */}
+              {activeSlot.type === 'urn' && urnShelves.all.length > 1 && (
+                <div className="p-3 bg-purple-50/80 border border-purple-200 rounded-xl space-y-2">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-1.5 text-purple-900">
+                      <Sparkles className="w-4 h-4 text-purple-700" />
+                      <span className="text-[11px] font-bold uppercase tracking-wider">Urn Gallery ({urnShelves.totalCount} Urns)</span>
+                    </div>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-200/60 text-purple-900 font-bold">
+                      Tier {activeSlot.levelNumber || 1}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-3 gap-1.5">
+                    {([3, 2, 1] as const).map(lvl => {
+                      const tierUrns = lvl === 3 ? urnShelves.level3 : lvl === 2 ? urnShelves.level2 : urnShelves.level1;
+                      const isCurrTier = Number(activeSlot.levelNumber || 1) === lvl;
+                      return (
+                        <button
+                          key={`urn-tier-${lvl}`}
+                          onClick={() => {
+                            if (tierUrns.length > 0) setSelectedSlotId(tierUrns[0].id);
+                          }}
+                          className={`py-1.5 px-2 rounded-lg text-[10px] font-bold transition-all cursor-pointer border ${
+                            isCurrTier
+                              ? 'bg-purple-700 text-white border-purple-800 shadow-xs'
+                              : 'bg-white text-purple-900 border-purple-200 hover:bg-purple-100/60'
+                          }`}
+                        >
+                          Tier {lvl} ({tierUrns.length})
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <div className="grid grid-cols-2 gap-1.5 max-h-36 overflow-y-auto pt-1">
+                    {urnShelves.all
+                      .filter(u => Number(u.levelNumber || 1) === Number(activeSlot.levelNumber || 1))
+                      .map((u, idx) => (
+                        <button
+                          key={u.id}
+                          onClick={() => setSelectedSlotId(u.id)}
+                          className={`p-1.5 rounded-lg text-left transition-all cursor-pointer border ${
+                            selectedSlotId === u.id
+                              ? 'bg-purple-700 text-white border-purple-800 shadow-xs'
+                              : 'bg-white text-slate-800 border-purple-200 hover:bg-purple-100/40'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between text-[9px] font-mono">
+                            <span>Pos #{idx + 1}</span>
+                            <span className={selectedSlotId === u.id ? 'text-purple-200' : 'text-slate-400'}>{u.productCode}</span>
+                          </div>
+                          <div className="text-[11px] font-serif font-bold truncate">
+                            {u.productName || 'Unassigned'}
                           </div>
                         </button>
                       ))}
@@ -2316,26 +2507,26 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
               {/* Product Preview Card */}
               <div className="space-y-3">
                 <div className="relative w-full h-44 rounded-2xl bg-slate-100 overflow-hidden border border-slate-200 flex items-center justify-center">
-                  {activeSlot.imageUrl ? (
+                  {(activeSlot.imageUrl || activeSlotProduct?.imageUrl) ? (
                     <img 
-                      src={activeSlot.imageUrl} 
-                      alt={activeSlot.productName} 
+                      src={activeSlot.imageUrl || activeSlotProduct?.imageUrl} 
+                      alt={activeSlot.productName || activeSlotProduct?.name} 
                       className="w-full h-full object-contain p-3" 
                     />
                   ) : (
                     <Box className="w-8 h-8 text-slate-400" />
                   )}
                   <div className="absolute top-2 right-2 bg-slate-900/80 backdrop-blur-sm text-white font-mono text-[10px] px-2 py-0.5 rounded">
-                    SKU: {activeSlot.productCode || 'Unassigned'}
+                    SKU: {activeSlot.productCode || activeSlotProduct?.code || 'Unassigned'}
                   </div>
                 </div>
 
                 <div>
                   <h4 className="font-serif text-lg font-bold text-slate-900">
-                    {activeSlot.productName || 'Unassigned Model'}
+                    {activeSlot.productName || activeSlotProduct?.description || activeSlotProduct?.name || 'Unassigned Model'}
                   </h4>
                   <p className="text-xs text-slate-500 italic mt-0.5">
-                    {activeSlot.category || 'Selection Room Display'}
+                    {activeSlot.category || activeSlotProduct?.category || 'Selection Room Display'}
                   </p>
                   {activeSlot.notes && (
                     <p className="text-[11px] text-amber-800 bg-amber-50 px-2 py-1 rounded border border-amber-200 mt-1 font-mono">
@@ -2550,10 +2741,7 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
                         </span>
                         <div className="grid grid-cols-2 gap-2">
                           <button
-                            onClick={() => handleUpdateSlotRackConfig(activeSlot.id, {
-                              levelNumber: 2,
-                              tierLevel: 'Double Rack - Top'
-                            })}
+                            onClick={() => handleSelectBayTier(activeSlot.slotNumber, 2)}
                             className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                               activeSlot.levelNumber === 2
                                 ? 'bg-amber-700 text-white shadow-xs'
@@ -2563,10 +2751,7 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
                             Top Rack (Level 2)
                           </button>
                           <button
-                            onClick={() => handleUpdateSlotRackConfig(activeSlot.id, {
-                              levelNumber: 1,
-                              tierLevel: 'Double Rack - Bottom'
-                            })}
+                            onClick={() => handleSelectBayTier(activeSlot.slotNumber, 1)}
                             className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                               activeSlot.levelNumber === 1
                                 ? 'bg-amber-700 text-white shadow-xs'

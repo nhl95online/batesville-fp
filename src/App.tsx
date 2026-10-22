@@ -596,7 +596,7 @@ interface NavTabItem {
         {activeTab === 'cards' && isLoggedIn && (
           <PriceCardStudio
             customers={customers}
-            products={currentYearProducts}
+            products={products}
             initialCustomerId={targetCustomerId}
             initialProductId={targetProductId}
             initialDimension={cardSubpage}
@@ -626,7 +626,7 @@ interface NavTabItem {
 
         {activeTab === 'products' && (
           <ProductCatalog
-            products={currentYearProducts}
+            products={products}
             onSelectProductForCard={handleSelectProductForCard}
             onOpenImageManager={() => {
               if (!isLoggedIn) {
@@ -663,7 +663,7 @@ interface NavTabItem {
         {activeTab === 'floorplans' && isLoggedIn && (
           <ShowroomFloorPlan
             customers={customers}
-            products={currentYearProducts}
+            products={products}
             initialCustomerId={targetFloorPlanCustomerId}
             initialRoomShape={floorplanSubpage}
             onRoomShapeChange={(shape) => setFloorplanSubpage(shape)}

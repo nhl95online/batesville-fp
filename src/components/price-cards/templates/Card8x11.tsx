@@ -20,8 +20,6 @@ const SUPABASE_MISC_BASE = 'https://yrprtpqwojpeskccerec.supabase.co/storage/v1/
 
 export const Card8x11: React.FC<Card8x11Props> = ({
   product,
-  customer,
-  config,
   retailPrice,
   collectionType = 'commemorative',
   productNameOverride,
@@ -29,12 +27,11 @@ export const Card8x11: React.FC<Card8x11Props> = ({
   activeMiscFeatures,
   rightGraphic = collectionType === 'classic' ? 'refined-styling' : (collectionType === 'basic' ? 'none' : 'tributes'),
   onClearBullet,
-  onUpdateBullet,
 }) => {
-  // Collection Theme Styling
+  // Collection Theme Styling (Matching 6x6)
   const themeConfig = {
     'commemorative': {
-      bannerBg: 'bg-[#15662a]', // Emerald Green
+      bannerBg: 'bg-[#15662a]', // Rich Batesville Emerald Green
       accentBorder: 'border-emerald-600',
       titlePrimary: 'Commemorative',
       titleSecondary: 'Collection',
@@ -60,7 +57,7 @@ export const Card8x11: React.FC<Card8x11Props> = ({
       bottomRightCodeColor: 'text-slate-900',
     },
     'conventional': {
-      bannerBg: 'bg-[#006cb8]', // Royal Blue
+      bannerBg: 'bg-[#006cb8]', // Batesville Royal Blue
       accentBorder: 'border-blue-600',
       titlePrimary: 'Conventional',
       titleSecondary: 'Collection',
@@ -73,7 +70,7 @@ export const Card8x11: React.FC<Card8x11Props> = ({
       bottomRightCodeColor: 'text-slate-900',
     },
     'basic': {
-      bannerBg: 'bg-white border-b-2 border-slate-300', // Crisp White
+      bannerBg: 'bg-white border-b-2 border-slate-300', // Crisp Showroom White
       accentBorder: 'border-slate-300',
       titlePrimary: 'Basic',
       titleSecondary: 'Collection',
@@ -208,7 +205,7 @@ export const Card8x11: React.FC<Card8x11Props> = ({
 
   const activeFeatures = activeMiscFeatures && activeMiscFeatures.length > 0
     ? availableFeatures.filter(f => activeMiscFeatures.includes(f.id) || activeMiscFeatures.includes(f.fileName))
-    : availableFeatures.filter(f => f.isDefault).slice(0, 3);
+    : availableFeatures.filter(f => f.isDefault).slice(0, 2);
 
   const displayName = productNameOverride || product.description || product.name;
 
@@ -222,17 +219,12 @@ export const Card8x11: React.FC<Card8x11Props> = ({
         fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif'
       }}
     >
-      {/* 1. TOP HEADER BANNER */}
-      <div className={`${themeConfig.bannerBg} px-8 py-4 flex items-center justify-between shadow-sm shrink-0`}>
-        <div className={`flex items-baseline space-x-2 tracking-tight ${themeConfig.isLight ? 'text-slate-900' : 'text-white'}`}>
-          <span className="font-bold text-3xl tracking-normal">{themeConfig.titlePrimary}</span>
-          <span className="font-normal text-3xl tracking-normal opacity-90">{themeConfig.titleSecondary}</span>
+      {/* 1. TOP HEADER BANNER (Scaled 6x6 style) */}
+      <div className={`${themeConfig.bannerBg} px-9 py-5 flex items-center justify-between shadow-sm shrink-0`}>
+        <div className={`flex items-baseline space-x-2.5 tracking-tight ${themeConfig.isLight ? 'text-slate-900' : 'text-white'}`}>
+          <span className="font-bold text-4xl tracking-normal">{themeConfig.titlePrimary}</span>
+          <span className="font-normal text-4xl tracking-normal opacity-90">{themeConfig.titleSecondary}</span>
         </div>
-        {customer && (
-          <div className={`text-sm font-semibold tracking-wider uppercase ${themeConfig.isLight ? 'text-slate-600' : 'text-white/85'}`}>
-            {customer.name}
-          </div>
-        )}
       </div>
 
       {/* Gold Trim Line for Classic Collection */}
@@ -240,90 +232,68 @@ export const Card8x11: React.FC<Card8x11Props> = ({
         <div className="h-1.5 bg-gradient-to-r from-[#b38728] via-[#fbf5b7] to-[#aa771c] shrink-0" />
       )}
 
-      {/* 2. MAIN BODY (HORIZONTAL LANDSCAPE SPLIT) */}
-      <div className="flex-1 flex flex-row px-8 py-4 gap-6 overflow-hidden bg-white">
+      {/* 2. SPECIFICATION BULLETS & RIGHT GRAPHIC (TRIBUTES / REFINED STYLING - Scaled 6x6 style, no casket image) */}
+      <div className="flex-1 bg-white flex flex-row px-9 py-5 relative overflow-hidden">
         
-        {/* Left Half: 6 Bullet Points on Ledger Grid + Right-Side Graphic */}
-        <div className="w-[58%] flex flex-row border-r border-slate-200 pr-5">
-          
-          {/* Bullets List (clean without divider lines) */}
-          <div className="flex-1 flex flex-col justify-start">
-            <div className="space-y-1.5 text-sm text-slate-800 py-1">
-              {bullets.map((bullet, idx) => {
-                const hasText = Boolean(bullet && bullet.trim().length > 0);
-                if (!hasText) return null;
-                return (
-                  <div key={idx} className="py-1 px-1 flex items-center justify-between group hover:bg-amber-50/20 rounded">
-                    <div className="flex items-center space-x-2 flex-1 min-w-0 pr-2">
-                      <span className="text-slate-900 font-bold leading-none select-none text-base shrink-0">•</span>
-                      <span className="font-medium text-slate-800 leading-tight truncate">
-                        {bullet}
-                      </span>
-                    </div>
-                    {onClearBullet && (
-                      <button
-                        type="button"
-                        onClick={() => onClearBullet(idx)}
-                        className="opacity-0 group-hover:opacity-100 text-slate-400 hover:text-red-500 font-bold text-xs no-print shrink-0 cursor-pointer"
-                      >
-                        ×
-                      </button>
-                    )}
+        {/* Left Side: Clean Specification Bullets */}
+        <div className="flex-1 pr-6 flex flex-col justify-start">
+          <div className="space-y-2.5 text-xl text-slate-800 py-1">
+            {bullets.map((bullet, idx) => {
+              const hasText = Boolean(bullet && bullet.trim().length > 0);
+              if (!hasText) return null;
+              return (
+                <div key={idx} className="py-1 px-1.5 flex items-center justify-between group hover:bg-amber-50/30 transition-colors rounded">
+                  <div className="flex items-center space-x-3 flex-1 min-w-0 pr-2">
+                    <span className="text-slate-900 font-bold leading-none select-none text-xl shrink-0">•</span>
+                    <span className="font-medium text-slate-800 leading-tight truncate">
+                      {bullet}
+                    </span>
                   </div>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Right Graphic in Left Box */}
-          {rightGraphic !== 'none' && (
-            <div className="w-[230px] pl-3 flex flex-col items-center justify-center shrink-0">
-              {rightGraphic === 'refined-styling' ? (
-                <img
-                  src="/misc/Refined Styling.png"
-                  onError={(e) => { e.currentTarget.src = `${SUPABASE_MISC_BASE}/Refined%20Styling.png`; }}
-                  alt="Refined Styling"
-                  className="w-full max-w-[215px] max-h-[260px] h-auto object-contain"
-                />
-              ) : (
-                <img
-                  src="/misc/Tributes.png"
-                  onError={(e) => { e.currentTarget.src = `${SUPABASE_MISC_BASE}/Tributes.png`; }}
-                  alt="Tributes"
-                  className="w-full max-w-[215px] max-h-[260px] h-auto object-contain"
-                />
-              )}
-            </div>
-          )}
-
-        </div>
-
-        {/* Right Half: Large Showcase Product Image */}
-        <div className="w-[42%] flex flex-col items-center justify-center p-3 bg-slate-50/80 rounded-xl border border-slate-200">
-          {product.imageUrl ? (
-            <img 
-              src={product.imageUrl} 
-              alt={displayName} 
-              className="max-w-full max-h-[290px] object-contain drop-shadow-md"
-            />
-          ) : (
-            <div className="text-center text-slate-400 italic text-sm">
-              Product Image Placeholder
-            </div>
-          )}
-          <div className="text-xs font-mono text-slate-500 mt-2">
-            Model #{product.code}
+                  {onClearBullet && (
+                    <button
+                      type="button"
+                      onClick={() => onClearBullet(idx)}
+                      title="Clear bullet point"
+                      className="opacity-0 group-hover:opacity-100 text-slate-400 hover:text-red-500 font-bold text-sm px-1 no-print transition-opacity shrink-0 cursor-pointer"
+                    >
+                      ×
+                    </button>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
+
+        {/* Right Side: TRIBUTES Graphic or REFINED STYLING Medallion */}
+        {rightGraphic !== 'none' && (
+          <div className="w-[340px] pl-6 flex flex-col items-center justify-center shrink-0">
+            {rightGraphic === 'refined-styling' ? (
+              <img
+                src="/misc/Refined Styling.png"
+                onError={(e) => { e.currentTarget.src = `${SUPABASE_MISC_BASE}/Refined%20Styling.png`; }}
+                alt="Refined Styling Classic Collection"
+                className="w-full max-w-[310px] max-h-[290px] h-auto object-contain"
+              />
+            ) : (
+              <img
+                src="/misc/Tributes.png"
+                onError={(e) => { e.currentTarget.src = `${SUPABASE_MISC_BASE}/Tributes.png`; }}
+                alt="Tribute Option Categories"
+                className="w-full max-w-[310px] max-h-[290px] h-auto object-contain"
+              />
+            )}
+          </div>
+        )}
 
       </div>
 
-      {/* 3. ADDITIONAL FEATURES BAR */}
-      <div className="bg-[#f0f2f5] border-t border-b border-slate-300/80 px-8 py-2.5 shrink-0">
-        <div className="font-bold text-xs text-slate-900 tracking-tight mb-1.5 uppercase">
+      {/* 3. ADDITIONAL FEATURES SECTION (Scaled 6x6 style) */}
+      <div className="bg-[#f0f2f5] border-t border-b border-slate-300/80 px-8 py-3 shrink-0">
+        <div className="font-bold text-xs text-slate-900 tracking-tight mb-2 uppercase">
           Additional Features
         </div>
-        <div className="grid grid-cols-3 gap-3">
+        <div className={`grid ${activeFeatures.length >= 3 ? 'grid-cols-3 gap-3.5' : activeFeatures.length === 2 ? 'grid-cols-2 gap-3.5 max-w-[760px]' : 'grid-cols-1 max-w-[460px]'}`}>
           {activeFeatures.map((feat) => {
             const miscImageUrl = `${SUPABASE_MISC_BASE}/${encodeURIComponent(feat.fileName)}`;
             const localFallback = `/misc/${feat.fileName}`;
@@ -331,9 +301,9 @@ export const Card8x11: React.FC<Card8x11Props> = ({
             return (
               <div 
                 key={feat.id}
-                className="bg-white rounded-lg border border-slate-200 p-2 flex items-center space-x-2.5 shadow-sm"
+                className="bg-white rounded-lg border border-slate-200/90 p-2.5 flex items-center space-x-3 shadow-sm"
               >
-                <div className="w-12 h-12 shrink-0 bg-slate-50 rounded border border-slate-100 overflow-hidden flex items-center justify-center">
+                <div className="w-14 h-14 shrink-0 bg-slate-50 rounded border border-slate-100 overflow-hidden flex items-center justify-center">
                   <img 
                     src={miscImageUrl}
                     onError={(e) => {
@@ -346,10 +316,10 @@ export const Card8x11: React.FC<Card8x11Props> = ({
                   />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h5 className="font-bold text-xs text-slate-900 leading-tight truncate">
+                  <h5 className="font-bold text-sm text-slate-900 leading-tight truncate">
                     {feat.title}
                   </h5>
-                  <p className="text-[10px] text-slate-500 italic leading-tight mt-0.5 line-clamp-2">
+                  <p className="text-xs text-slate-500 italic leading-tight mt-0.5 line-clamp-2">
                     {feat.subtitle}
                   </p>
                 </div>
@@ -363,29 +333,34 @@ export const Card8x11: React.FC<Card8x11Props> = ({
       <div className="h-2.5 bg-gradient-to-b from-transparent to-black/20 shrink-0 -mb-2.5 pointer-events-none z-10" />
       <div className={`h-1.5 ${themeConfig.bottomAccentTrim} shrink-0 z-10 shadow-xs`} />
 
-      {/* 4. BOTTOM BANNER WITH COLOR-TO-WHITE HORIZONTAL GRADIENT */}
-      <div className={`${themeConfig.bottomBannerBg} px-8 py-3 flex items-center justify-between shrink-0 relative overflow-hidden`}>
-        <div>
-          <div className={`font-sans text-2xl font-normal tracking-wide truncate ${themeConfig.bottomTextColor} drop-shadow-[0_1px_1px_rgba(0,0,0,0.3)]`}>
-            {displayName}
-          </div>
-          <div className={`font-sans font-bold text-5xl tracking-tight my-0.5 ${themeConfig.bottomTextColor} drop-shadow-[0_1px_2px_rgba(0,0,0,0.35)]`}>
-            ${retailPrice.toLocaleString()}
-          </div>
-          <div className={`font-sans text-lg font-semibold tracking-normal ${themeConfig.bottomSubtextColor} drop-shadow-[0_1px_1px_rgba(0,0,0,0.25)]`}>
-            {product.code}
-          </div>
-          <div className={`text-[10px] font-sans tracking-tight mt-1 ${themeConfig.bottomCopyrightColor}`}>
-            © 2025 Batesville Services, LLC
-          </div>
+      {/* 4. BOTTOM BANNER WITH COLOR-TO-WHITE HORIZONTAL GRADIENT (Scaled 6x6 style) */}
+      <div className={`${themeConfig.bottomBannerBg} px-9 pt-3.5 pb-3 flex flex-col justify-between shrink-0 relative overflow-hidden`}>
+        
+        {/* Product Name from Description */}
+        <div className={`font-sans text-2xl font-normal tracking-wide truncate ${themeConfig.bottomTextColor} drop-shadow-[0_1px_1px_rgba(0,0,0,0.3)]`}>
+          {displayName}
         </div>
 
-        {/* Right side in clean white gradient area */}
-        <div className="text-right flex flex-col items-end justify-end h-full self-end pb-1">
+        {/* Large Retail Price */}
+        <div className={`font-sans font-bold text-6xl tracking-tight my-1 ${themeConfig.bottomTextColor} drop-shadow-[0_1px_2px_rgba(0,0,0,0.35)]`}>
+          ${retailPrice.toLocaleString()}
+        </div>
+
+        {/* Product SKU/Code directly below price */}
+        <div className={`font-sans text-xl font-semibold tracking-normal -mt-0.5 ${themeConfig.bottomSubtextColor} drop-shadow-[0_1px_1px_rgba(0,0,0,0.25)]`}>
+          {product.code}
+        </div>
+
+        {/* Bottom Bar: Copyright on left, Item Code on right in white gradient zone */}
+        <div className="flex items-center justify-between pt-1.5 mt-0.5">
+          <span className={`text-xs font-sans tracking-tight ${themeConfig.bottomCopyrightColor}`}>
+            © 2025 Batesville Services, LLC
+          </span>
           <span className={`text-xs font-mono font-bold tracking-wider ${themeConfig.bottomRightCodeColor}`}>
             {product.code ? `13060${product.code}`.slice(0, 10) : '1306000082'}
           </span>
         </div>
+
       </div>
 
     </div>

@@ -385,9 +385,17 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
         <div className="flex items-center space-x-2">
           <Calendar className="w-3.5 h-3.5 text-emerald-800" />
           <span className="text-slate-700 font-serif font-bold uppercase tracking-wider">Edition Year:</span>
-          <span className="bg-emerald-50 border border-emerald-300 px-2.5 py-1 text-emerald-950 font-serif font-bold">
-            {selectedYear} Edition (Current)
-          </span>
+          <select
+            value={selectedYear}
+            onChange={(e) => setSelectedYear(e.target.value)}
+            className="bg-emerald-50 border border-emerald-300 px-2.5 py-1 text-emerald-950 font-serif font-bold focus:outline-none focus:border-emerald-800 cursor-pointer"
+          >
+            {availableYears.map((y, idx) => (
+              <option key={y} value={y}>
+                {idx === 0 ? `${y} Edition (Current)` : `${y} Edition`}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className="flex items-center space-x-2">
@@ -454,21 +462,6 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
               <thead className="bg-[#eef4f1] text-blue-950 font-mono text-[11px] uppercase tracking-wider sticky top-0 z-10 border-b-2 border-double border-emerald-900 shadow-xs">
                 <tr>
                   <th 
-                    onClick={() => handleSort('productId')}
-                    className="py-3 px-3 font-semibold whitespace-nowrap cursor-pointer hover:bg-slate-100 select-none transition-colors group/th"
-                    title="Sort by Product ID (Default catalog order: Caskets first)"
-                  >
-                    product_id
-                    {sortField === 'productId' ? (sortAsc ? <ArrowUp className="w-3 h-3 text-amber-600 inline ml-1" /> : <ArrowDown className="w-3 h-3 text-amber-600 inline ml-1" />) : <ArrowUpDown className="w-3 h-3 text-slate-300 inline ml-1 opacity-0 group-hover/th:opacity-100" />}
-                  </th>
-                  <th 
-                    onClick={() => handleSort('year')}
-                    className="py-3 px-3 font-semibold whitespace-nowrap cursor-pointer hover:bg-slate-100 select-none transition-colors group/th"
-                  >
-                    year
-                    {sortField === 'year' ? (sortAsc ? <ArrowUp className="w-3 h-3 text-amber-600 inline ml-1" /> : <ArrowDown className="w-3 h-3 text-amber-600 inline ml-1" />) : <ArrowUpDown className="w-3 h-3 text-slate-300 inline ml-1 opacity-0 group-hover/th:opacity-100" />}
-                  </th>
-                  <th 
                     onClick={() => handleSort('status')}
                     className="py-3 px-3 font-semibold whitespace-nowrap cursor-pointer hover:bg-slate-100 select-none transition-colors group/th"
                     title="Sort by Active / Discontinued Status"
@@ -533,8 +526,6 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                   const hasLifeview = Boolean(p.lifeview && p.lifeview !== 'FALSE' && p.lifeview !== 'false' && p.lifeview !== '0');
                   const hasDual = Boolean((p.dual_disposition && p.dual_disposition !== 'FALSE' && p.dual_disposition !== 'false' && p.dual_disposition !== '0') || p.dualDisposition);
                   const hasOversize = Boolean(p.oversize && p.oversize !== 'FALSE' && p.oversize !== 'false' && p.oversize !== '0');
-                  const hasDiscontinued = Boolean(p.discountinued && p.discountinued !== 'FALSE' && p.discountinued !== 'false' && p.discountinued !== '0') ||
-                                          Boolean(p.discontinued && p.discontinued !== 'FALSE' && p.discontinued !== 'false' && p.discontinued !== '0');
 
                   return (
                     <tr
@@ -542,21 +533,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                       className="hover:bg-amber-50/50 transition-colors group cursor-pointer"
                       onClick={() => setActiveModalProduct(p)}
                     >
-                      {/* 1. product_id */}
-                      <td className="py-2.5 px-3 text-slate-500 font-mono">
-                        {p.productId ?? p.product_id ?? ''}
-                      </td>
-
-                      {/* 2. year */}
-                      <td className="py-2.5 px-3">
-                        {p.year || p.catalogYear ? (
-                          <span className="px-1.5 py-0.5 rounded bg-slate-100 font-bold text-slate-700 text-[11px]">
-                            {p.year || p.catalogYear}
-                          </span>
-                        ) : ''}
-                      </td>
-
-                      {/* 3. status */}
+                      {/* 1. status */}
                       <td className="py-2.5 px-3">
                         {isProductDiscontinued(p) ? (
                           <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-rose-100 text-rose-700 font-bold text-[10px] tracking-wide uppercase border border-rose-200 shadow-xs">
@@ -571,7 +548,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                         )}
                       </td>
 
-                      {/* 4. category */}
+                      {/* 2. category */}
                       <td className="py-2.5 px-3 font-sans">
                         {p.category ? (
                           <span className="text-slate-800 font-medium truncate block max-w-[160px]" title={p.category}>
@@ -580,7 +557,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                         ) : ''}
                       </td>
 
-                      {/* 5. subcategory */}
+                      {/* 3. subcategory */}
                       <td className="py-2.5 px-3 font-sans">
                         {p.subcategory ? (
                           <span className="text-slate-700 truncate block max-w-[140px]" title={p.subcategory}>
@@ -589,7 +566,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                         ) : ''}
                       </td>
 
-                      {/* 6. product_code */}
+                      {/* 4. product_code */}
                       <td className="py-2.5 px-3">
                         {p.product_code || p.code ? (
                           <span className="text-amber-700 font-bold font-mono">
@@ -598,7 +575,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                         ) : ''}
                       </td>
 
-                      {/* 7. description */}
+                      {/* 5. description */}
                       <td className="py-2.5 px-3">
                         {p.description || p.name ? (
                           <div className="flex items-center space-x-2">
@@ -631,7 +608,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                         ) : ''}
                       </td>
 
-                      {/* 8. interior */}
+                      {/* 6. interior */}
                       <td className="py-2.5 px-3 font-sans">
                         {hasInterior ? (
                           <span className="text-slate-800 font-medium truncate block max-w-[130px]" title={p.interior!}>
@@ -640,17 +617,17 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                         ) : ''}
                       </td>
 
-                      {/* 9. order_qty */}
+                      {/* 7. order_qty */}
                       <td className="py-2.5 px-3">
                         {p.order_qty !== undefined && p.order_qty !== null ? p.order_qty : (p.orderQty !== undefined && p.orderQty !== null ? p.orderQty : '')}
                       </td>
 
-                      {/* 10. accessories */}
+                      {/* 8. accessories */}
                       <td className="py-2.5 px-3">
                         {p.accessories !== undefined && p.accessories !== null && String(p.accessories).trim() !== '' ? String(p.accessories) : ''}
                       </td>
 
-                      {/* 11. lifeview */}
+                      {/* 9. lifeview */}
                       <td className="py-2.5 px-3">
                         {hasLifeview ? (
                           <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-purple-50 text-purple-700 font-bold border border-purple-200 text-[10px]">
@@ -659,7 +636,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                         ) : ''}
                       </td>
 
-                      {/* 12. dual_disposition */}
+                      {/* 10. dual_disposition */}
                       <td className="py-2.5 px-3">
                         {hasDual ? (
                           <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 font-bold border border-emerald-200 text-[10px]">
@@ -668,7 +645,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                         ) : ''}
                       </td>
 
-                      {/* 13. top */}
+                      {/* 11. top */}
                       <td className="py-2.5 px-3 font-sans">
                         {hasTop ? (
                           <span className="text-slate-800 truncate block max-w-[110px]" title={p.top!}>
@@ -677,7 +654,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                         ) : ''}
                       </td>
 
-                      {/* 14. finish */}
+                      {/* 12. finish */}
                       <td className="py-2.5 px-3 font-sans">
                         {hasFinish ? (
                           <span className="text-slate-800 font-medium truncate block max-w-[140px]" title={p.finish || p.exteriorFinish}>
@@ -686,7 +663,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                         ) : ''}
                       </td>
 
-                      {/* 15. oversize */}
+                      {/* 13. oversize */}
                       <td className="py-2.5 px-3">
                         {hasOversize ? (
                           <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-rose-50 text-rose-700 font-bold border border-rose-200 text-[10px]">
@@ -695,24 +672,24 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                         ) : ''}
                       </td>
 
-                      {/* 16. ext_width */}
+                      {/* 14. ext_width */}
                       <td className="py-2.5 px-3">
                         {(p.ext_width || p.extWidth) ? `${p.ext_width || p.extWidth}"` : ''}
                       </td>
 
-                      {/* 17. ext_length */}
+                      {/* 15. ext_length */}
                       <td className="py-2.5 px-3">
                         {(p.ext_length || p.extLength) ? `${p.ext_length || p.extLength}"` : ''}
                       </td>
 
-                      {/* 18. int_width */}
+                      {/* 16. int_width */}
                       <td className="py-2.5 px-3">
                         {(p.int_width || p.intWidth) ? (
                           <span className="text-amber-700 font-bold">{p.int_width || p.intWidth}"</span>
                         ) : ''}
                       </td>
 
-                      {/* 19. weight_capacity */}
+                      {/* 17. weight_capacity */}
                       <td className="py-2.5 px-3">
                         {(p.weight_capacity || p.weightCapacity || p.capacity) ? (p.weight_capacity || p.weightCapacity || p.capacity) : ''}
                       </td>
@@ -814,11 +791,6 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                 {isProductDiscontinued(product) && (product.product_code || product.code) && (
                   <div className="absolute bottom-2 left-2 bg-white/90 backdrop-blur-sm border border-slate-200 text-slate-700 text-[9px] font-mono px-1.5 py-0.5 rounded shadow-xs">
                     {product.product_code || product.code}
-                  </div>
-                )}
-                {(product.year || product.catalogYear) && (
-                  <div className="absolute top-2 right-2 bg-slate-900/80 backdrop-blur-sm text-white text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded shadow-xs">
-                    Year: {product.year || product.catalogYear}
                   </div>
                 )}
                 {product.lithoUrl && (
