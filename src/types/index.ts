@@ -37,6 +37,7 @@ export interface Customer {
   customerType?: string; // Customer Type
   attitudeTowardsBatesville?: string; // Attitude towards Batesville
   primaryBurialProductsCompetitor?: string; // Primary Burial Products Competitor
+  inTerritory?: boolean; // in_territory: false = removed from territory (hidden from lists, sales still counted)
 
   // Legacy & convenience aliases for app compatibility
   code: string; // Account Number as string

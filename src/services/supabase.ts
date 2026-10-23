@@ -391,6 +391,7 @@ export async function syncFromSupabase(): Promise<{
         rebate: c.rebate !== null && c.rebate !== undefined ? Number(c.rebate) : undefined,
         selectionRoom: Boolean(c.selectionroom || digitalShowroomMigrationPriority),
         selectionRoomStyle: c.selectionroom_style || (c.selectionroom ? 'Full Size' : 'None'),
+        inTerritory: c.in_territory !== false,
         defaultMarkupPercent: markup,
         notes: `Program: ${customerPurchaseProgram || 'N/A'} • Type: ${customerType || 'Standard'} • Delivery: ${deliveryDays || 'N/A'}`,
         createdAt: c.createdAt || new Date().toISOString(),

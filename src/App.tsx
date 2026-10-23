@@ -108,7 +108,7 @@ export function App() {
       setIsAutoSyncing(true);
       const res = await syncFromSupabase();
       if (res.success) {
-        const freshCustomers = await db.customers.toArray();
+        const freshCustomers = (await db.customers.toArray()).filter(c => c.inTerritory !== false);
         const freshProducts = await db.products.toArray();
         const freshSalesCount = await db.sales.count();
         setCustomers(freshCustomers);
@@ -146,10 +146,10 @@ export function App() {
         runAutoSync();
       }
 
-      setCustomers(allCustomers);
+      setCustomers(allCustomers.filter(c => c.inTerritory !== false));
       setProducts(allProducts);
       setCounts({
-        customers: allCustomers.length,
+        customers: allCustomers.filter(c => c.inTerritory !== false).length,
         products: allProducts.length,
         sales: salesCount,
       });

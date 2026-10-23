@@ -206,12 +206,18 @@ export const DailySalesUploadModal: React.FC<DailySalesUploadModalProps> = ({
                 .replace(/^(ARB|PLN|PA|SPP|AMP|OBB)\d*\s+/i, '')
                 .trim();
               nameByAcct.set(a, stubName);
-              newCusts.push({ customer_id: ++maxCustId, 'Account Number': a, Name: stubName });
+              newCusts.push({ customer_id: ++maxCustId, 'Account Number': a, Name: stubName, in_territory: false });
               return { ...s, accountNumber: String(a), accountName: stubName, customerId: `cust-${a}` };
             });
 
             if (newCusts.length > 0) {
-              const { error: custErr } = await client.from('customers').insert(newCusts);
+              let { error: custErr } = await client.from('customers').insert(newCusts);
+              if (custErr && /in_territory/i.test(custErr.message || '')) {
+                // in_territory column not created yet — insert without it
+                ({ error: custErr } = await client.from('customers').insert(
+                  newCusts.map(({ in_territory, ...rest }) => rest)
+                ));
+              }
               if (custErr) console.warn('Could not auto-create customers for new accounts:', custErr);
             }
           }
