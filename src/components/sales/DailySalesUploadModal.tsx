@@ -173,20 +173,28 @@ export const DailySalesUploadModal: React.FC<DailySalesUploadModalProps> = ({
           saleId: currentMaxId + idx + 1
         }));
 
+        // Supabase columns account_#, product_code and qty are int8 — send clean integers or NULL
+        const toInt8 = (v: unknown): number | null => {
+          const digits = String(v ?? '').replace(/[^0-9]/g, '');
+          if (!digits) return null;
+          const n = parseInt(digits, 10);
+          return Number.isFinite(n) ? n : null;
+        };
+
         const remotePayload = saleRecords.map(s => ({
           sales_id: s.saleId,
-          year: s.year,
-          month: s.month,
+          year: String(s.year),
+          month: String(s.month),
           day: String(s.day),
-          program: s.program,
-          account_name: s.accountName || String(s.accountNumber),
-          'account_#': Number(s.accountNumber) || s.accountNumber,
-          product_code: Number(s.productCode) || s.productCode,
-          category: s.category,
+          program: s.program || 'Daily Sales Upload',
+          account_name: s.accountName || String(s.accountNumber || 'Unknown Funeral Home'),
+          'account_#': toInt8(s.accountNumber),
+          product_code: toInt8(s.productCode),
+          category: s.category || '',
           subcategory: s.subcategory || '',
-          description: s.description,
-          qty: s.quantity,
-          cost: s.cost
+          description: s.description || '',
+          qty: Math.max(0, Math.round(Number(s.quantity) || 1)),
+          cost: Number(s.cost) || 0
         }));
 
         const { error: insertError } = await client.from('sales').insert(remotePayload);
@@ -195,7 +203,20 @@ export const DailySalesUploadModal: React.FC<DailySalesUploadModalProps> = ({
           if (insertError.code === '42501') {
             supabaseErrorMsg = 'Supabase rejected the insert: Row-Level Security (RLS) is active on the "sales" table. Please run the SQL command below in your Supabase SQL Editor to allow inserts.';
           } else {
-            supabaseErrorMsg = `Supabase error (${insertError.code}): ${insertError.message}`;
+            // Batch rejected — retry row by row so one bad row doesn't block the whole report
+            let failed = 0;
+            let lastErr = insertError.message;
+            for (const row of remotePayload) {
+              const { error: rowErr } = await client.from('sales').insert(row);
+              if (rowErr) {
+                failed++;
+                lastErr = rowErr.message;
+                console.error('Supabase row insert error:', row, rowErr);
+              }
+            }
+            if (failed > 0) {
+              supabaseErrorMsg = `Supabase rejected ${failed} of ${remotePayload.length} rows: ${lastErr}`;
+            }
           }
         }
       } catch (remoteErr: any) {

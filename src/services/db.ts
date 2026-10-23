@@ -252,10 +252,10 @@ export function getSaleSignature(s: SaleRecord): string {
     String(s.year || '').trim(),
     String(s.month || '').toUpperCase().trim(),
     String(s.day ?? '').trim(),
-    String(s.accountNumber ?? '').trim(),
-    String(s.productCode ?? '').trim(),
+    String(s.accountNumber ?? '').replace(/[^0-9]/g, ''),
+    String(s.productCode ?? '').replace(/[^0-9]/g, ''),
     Number(s.cost || 0).toFixed(2),
-    Number(s.quantity || 0)
+    Math.round(Number(s.quantity) || 0)
   ].join('|');
 }
 
