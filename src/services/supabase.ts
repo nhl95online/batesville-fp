@@ -421,8 +421,10 @@ export async function syncFromSupabase(): Promise<{
 
     // Seed with authentic Batesville multi-year catalog (all models across all editions)
     BATESVILLE_FULL_CATALOG.forEach((p) => {
-      productMap.set(p.id, { ...p });
-      distinctYears.add(String(p.catalogYear || '2026-27'));
+      const yr = String(p.catalogYear || p.year || '2026-27');
+      const key = `${p.code}-${yr}`;
+      productMap.set(key, { ...p });
+      distinctYears.add(yr);
     });
 
     // Also enrich from sales records for historical catalog years
@@ -433,7 +435,7 @@ export async function syncFromSupabase(): Promise<{
 
       const compositeKey = `${prodCode}-${yr}`;
       if (!productMap.has(compositeKey)) {
-        const base = productMap.get(`prod-${prodCode}-${yr}`) || productMap.get(prodCode);
+        const base = productMap.get(`${prodCode}-2026-27`) || productMap.get(`prod-${prodCode}-${yr}`) || productMap.get(prodCode);
         if (base) {
           productMap.set(compositeKey, {
             ...base,
@@ -483,12 +485,25 @@ export async function syncFromSupabase(): Promise<{
       }
     });
 
-    // Ingest and prioritize remote 'products' table from Supabase (all 19 exact columns)
-    const { data: remoteProducts } = await client.from('products').select('*');
-    if (remoteProducts && remoteProducts.length > 0) {
+    // Ingest and prioritize remote 'products' table from Supabase (paginated in batches of 1000)
+    let remoteProducts: any[] = [];
+    let prodPage = 0;
+    while (true) {
+      const { data: prodBatch, error: prodErr } = await client
+        .from('products')
+        .select('*')
+        .range(prodPage * pageSize, (prodPage + 1) * pageSize - 1);
+      if (prodErr || !prodBatch || prodBatch.length === 0) break;
+      remoteProducts.push(...prodBatch);
+      if (prodBatch.length < pageSize) break;
+      prodPage++;
+    }
+
+    if (remoteProducts.length > 0) {
       remoteProducts.forEach((p: any) => {
         const prodCode = String(p.product_code || p.code || p.product_id);
-        const yr = String(p.year || '2025');
+        const yr = String(p.year || '2026-27');
+        distinctYears.add(yr);
         const key = `${prodCode}-${yr}`;
         const cost = Number(p.price || p.cost || p.wholesale_price || 0);
 
@@ -511,12 +526,9 @@ export async function syncFromSupabase(): Promise<{
         const weightCap = p.weight_capacity !== undefined && p.weight_capacity !== null 
           ? Number(p.weight_capacity) 
           : (p.capacity !== undefined && p.capacity !== null ? Number(p.capacity) : undefined);
-        const isDiscontinued = p.discountinued !== undefined && p.discountinued !== null
-          ? p.discountinued
-          : (p.discontinued !== undefined ? p.discontinued : undefined);
 
         productMap.set(key, {
-          id: `prod-${p.product_id || prodCode}-${yr}`,
+          id: `prod-${prodCode}-${yr}`,
           productId: p.product_id ? Number(p.product_id) : undefined,
           product_id: p.product_id ? Number(p.product_id) : undefined,
           category: p.category || 'Caskets & Containers - Metal',
@@ -552,8 +564,8 @@ export async function syncFromSupabase(): Promise<{
           weightCapacity: weightCap,
           capacity: weightCap,
           weightLbs: weightCap,
-          discountinued: isDiscontinued,
-          discontinued: isDiscontinued,
+          discountinued: 'FALSE',
+          discontinued: false,
           lifestories: Boolean(p.lifestories),
           lifesymbols: Boolean(p.lifesymbols),
           year: yr,
@@ -566,6 +578,39 @@ export async function syncFromSupabase(): Promise<{
           updatedAt: new Date().toISOString()
         });
       });
+    }
+
+    // Automatically determine Discontinued status by comparing catalog editions year-over-year:
+    // - Any product present in the current edition (2026-27) is Active.
+    // - Any product in an earlier year (e.g. 2022-23) that does NOT appear in the next year (2023-24) or in 2026-27 is Discontinued.
+    const sortedYearsAsc = Array.from(distinctYears).sort((a, b) => a.localeCompare(b));
+    const latestYear = sortedYearsAsc[sortedYearsAsc.length - 1] || '2026-27';
+    const codesPerYear = new Map<string, Set<string>>();
+    for (const prod of productMap.values()) {
+      const y = String(prod.catalogYear || prod.year || '2026-27');
+      if (!codesPerYear.has(y)) codesPerYear.set(y, new Set());
+      codesPerYear.get(y)!.add(normalizeProductCode(prod.code));
+    }
+    const latestYearCodes = codesPerYear.get('2026-27') || codesPerYear.get(latestYear) || new Set<string>();
+
+    for (const prod of productMap.values()) {
+      const y = String(prod.catalogYear || prod.year || '2026-27');
+      const normCode = normalizeProductCode(prod.code);
+      if (y === '2026-27' || y === latestYear) {
+        prod.discontinued = false;
+        prod.discountinued = 'FALSE';
+        prod.isActive = true;
+      } else {
+        const yrIdx = sortedYearsAsc.indexOf(y);
+        const nextYr = yrIdx >= 0 && yrIdx + 1 < sortedYearsAsc.length ? sortedYearsAsc[yrIdx + 1] : latestYear;
+        const nextYrCodes = codesPerYear.get(nextYr);
+        const inNextYear = nextYrCodes ? nextYrCodes.has(normCode) : true;
+        const inCurrentYear = latestYearCodes.size > 0 ? latestYearCodes.has(normCode) : true;
+        const isDropped = !inNextYear || !inCurrentYear;
+        prod.discontinued = isDropped;
+        prod.discountinued = isDropped ? 'TRUE' : 'FALSE';
+        prod.isActive = !isDropped;
+      }
     }
 
     const mappedProducts: Product[] = Array.from(productMap.values());

@@ -3,7 +3,7 @@ import { Product } from '../../types';
 import { ProductDetailModal } from './ProductDetailModal';
 import { ProductLithoModal } from './ProductLithoModal';
 import { isUrnProduct, getLithoPublicUrl } from '../../services/supabase';
-import { toggleProductDiscontinued } from '../../services/db';
+import { toggleProductDiscontinued, isProductLimited } from '../../services/db';
 import { 
   Search, 
   Tag, 
@@ -26,9 +26,14 @@ import {
 } from 'lucide-react';
 
 /**
- * Checks whether a product is discontinued
+ * Checks whether a product is discontinued.
+ * Items in the current 2026-27 edition are Active unless manually toggled.
  */
 export function isProductDiscontinued(p: Product): boolean {
+  const yr = String(p.catalogYear || p.year || '').trim();
+  if ((yr === '2026-27' || yr.startsWith('2026')) && !(p as any).manuallyDiscontinued) {
+    return false;
+  }
   if (p.isActive === false) return true;
   const d = p.discontinued ?? p.discountinued;
   if (d === true) return true;
@@ -186,31 +191,91 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
     return pCat.includes(f);
   };
 
-  // Products scoped strictly to the selected year & category
+  // Build year-over-year code lookup so discontinued status is automatically detected
+  // when a product appears in an earlier year (e.g. 2022-23) and disappears in the next year (2023-24) or current year (2026-27)
+  const { checkIsDiscontinued, droppedProductsForSelectedYear } = useMemo(() => {
+    const codesByYear = new Map<string, Set<string>>();
+    const sortedAscYears = [...availableYears].sort((a, b) => a.localeCompare(b));
+    const latestYr = sortedAscYears[sortedAscYears.length - 1] || '2026-27';
+
+    for (const p of localProducts) {
+      const y = String(p.catalogYear || p.year || '').trim();
+      const c = String(p.product_code || p.code || '').trim().toLowerCase();
+      if (!y || !c) continue;
+      if (!codesByYear.has(y)) codesByYear.set(y, new Set());
+      codesByYear.get(y)!.add(c);
+    }
+
+    const latestYearCodes = codesByYear.get('2026-27') || codesByYear.get(latestYr) || new Set<string>();
+
+    const checkFn = (p: Product): boolean => {
+      if ((p as any).manuallyDiscontinued !== undefined) {
+        return Boolean((p as any).manuallyDiscontinued);
+      }
+      const y = String(p.catalogYear || p.year || '').trim();
+      const c = String(p.product_code || p.code || '').trim().toLowerCase();
+      // If product is in current 2026-27 edition, it is Active
+      if (y === '2026-27' || y === latestYr) {
+        return false;
+      }
+      // If product was in an earlier year (e.g. 2022-23), check if it exists in the next year (2023-24) and current year (2026-27)
+      const yrIdx = sortedAscYears.indexOf(y);
+      const nextYr = yrIdx >= 0 && yrIdx + 1 < sortedAscYears.length ? sortedAscYears[yrIdx + 1] : latestYr;
+      const nextCodes = codesByYear.get(nextYr);
+      const inNextYear = nextCodes && nextCodes.size > 0 ? nextCodes.has(c) : true;
+      const inCurrentYear = latestYearCodes.size > 0 ? latestYearCodes.has(c) : true;
+      if (!inNextYear || !inCurrentYear) {
+        return true;
+      }
+      return isProductDiscontinued(p);
+    };
+
+    // Also collect products from prior years that dropped off before `selectedYear`
+    const selectedCodes = codesByYear.get(selectedYear) || new Set<string>();
+    const droppedMap = new Map<string, Product>();
+    for (const p of localProducts) {
+      const y = String(p.catalogYear || p.year || '').trim();
+      const c = String(p.product_code || p.code || '').trim().toLowerCase();
+      if (!y || !c || y >= selectedYear) continue;
+      if (selectedCodes.size > 0 && !selectedCodes.has(c)) {
+        const existing = droppedMap.get(c);
+        if (!existing || String(existing.catalogYear || existing.year || '') < y) {
+          droppedMap.set(c, {
+            ...p,
+            discontinued: true,
+            discountinued: 'TRUE',
+            isActive: false,
+          });
+        }
+      }
+    }
+
+    return {
+      checkIsDiscontinued: checkFn,
+      droppedProductsForSelectedYear: Array.from(droppedMap.values()),
+    };
+  }, [localProducts, availableYears, selectedYear]);
+
+  // Products scoped strictly to the selected year & category (plus prior-year dropped items when viewing Discontinued)
   const yearScopedProducts = useMemo(() => {
-    return localProducts.filter(p => matchesYear(p, selectedYear) && checkCategoryMatch(p, selectedCategory));
-  }, [localProducts, selectedYear, selectedCategory]);
+    const currentList = localProducts.filter(p => matchesYear(p, selectedYear) && checkCategoryMatch(p, selectedCategory));
+    const droppedList = droppedProductsForSelectedYear.filter(p => checkCategoryMatch(p, selectedCategory));
+    return [...currentList, ...droppedList];
+  }, [localProducts, selectedYear, selectedCategory, droppedProductsForSelectedYear]);
 
   // Status counts strictly for the selected year
-  const activeCount = useMemo(() => yearScopedProducts.filter(p => !isProductDiscontinued(p)).length, [yearScopedProducts]);
-  const discontinuedCount = useMemo(() => yearScopedProducts.filter(p => isProductDiscontinued(p)).length, [yearScopedProducts]);
+  const activeCount = useMemo(() => yearScopedProducts.filter(p => !checkIsDiscontinued(p)).length, [yearScopedProducts, checkIsDiscontinued]);
+  const discontinuedCount = useMemo(() => yearScopedProducts.filter(p => checkIsDiscontinued(p)).length, [yearScopedProducts, checkIsDiscontinued]);
 
   const filteredProducts = useMemo(() => {
     const term = searchTerm.toLowerCase().trim();
-    return localProducts.filter((p) => {
-      // 1. Year filter: strictly only include items for the selected year (unless 'all' is selected)
-      const matchYear = matchesYear(p, selectedYear);
-      if (!matchYear) return false;
+    return yearScopedProducts.filter((p) => {
+      // 1. Status filter
+      const isDisc = checkIsDiscontinued(p);
+      if (statusFilter === 'active' && isDisc) return false;
+      if (statusFilter === 'discontinued' && !isDisc) return false;
 
-      // 2. Status filter: discontinued items are only for that selected year
-      if (statusFilter === 'active' && isProductDiscontinued(p)) return false;
-      if (statusFilter === 'discontinued' && !isProductDiscontinued(p)) return false;
-
-      // 3. Category filter
-      const matchesCategory = checkCategoryMatch(p, selectedCategory);
-      if (!matchesCategory) return false;
-
-      // 4. Search term match
+      // 2. Search term match
       const matchesSearch = 
         !term ||
         (p.name && p.name.toLowerCase().includes(term)) ||
@@ -225,7 +290,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
         (p.interior && p.interior.toLowerCase().includes(term));
       return matchesSearch;
     });
-  }, [localProducts, statusFilter, selectedCategory, selectedYear, searchTerm]);
+  }, [yearScopedProducts, statusFilter, searchTerm, checkIsDiscontinued]);
 
   // Sort products: By default sorts by productId ascending (Caskets IDs 1-180 are displayed first!)
   const sortedProducts = useMemo(() => {
@@ -236,8 +301,8 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
         return sortAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
       }
       if (sortField === 'status') {
-        const isDiscA = isProductDiscontinued(a);
-        const isDiscB = isProductDiscontinued(b);
+        const isDiscA = checkIsDiscontinued(a);
+        const isDiscB = checkIsDiscontinued(b);
         return sortAsc ? (isDiscA === isDiscB ? 0 : isDiscA ? -1 : 1) : (isDiscA === isDiscB ? 0 : isDiscA ? 1 : -1);
       }
       if (sortField === 'category') {
@@ -535,11 +600,21 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                     >
                       {/* 1. status */}
                       <td className="py-2.5 px-3">
-                        {isProductDiscontinued(p) ? (
+                        {checkIsDiscontinued(p) ? (
                           <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-rose-100 text-rose-700 font-bold text-[10px] tracking-wide uppercase border border-rose-200 shadow-xs">
                             <Ban className="w-3 h-3 text-rose-600 shrink-0" />
                             Discontinued
                           </span>
+                        ) : isProductLimited(p) ? (
+                          <div className="inline-flex items-center gap-1">
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-semibold text-[10px] border border-emerald-200/60 shadow-xs">
+                              <CheckCircle2 className="w-3 h-3 text-emerald-600 shrink-0" />
+                              Active
+                            </span>
+                            <span className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-800 font-bold text-[9px] uppercase border border-amber-300 shadow-xs" title="Extended Delivery / Limited Availability">
+                              Limited
+                            </span>
+                          </div>
                         ) : (
                           <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-semibold text-[10px] border border-emerald-200/60 shadow-xs">
                             <CheckCircle2 className="w-3 h-3 text-emerald-600 shrink-0" />
@@ -587,7 +662,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                               />
                             ) : null}
                             <div className="flex items-center gap-1.5 min-w-0">
-                              {isProductDiscontinued(p) && (
+                              {checkIsDiscontinued(p) && (
                                 <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-rose-600 text-white font-bold text-[9px] uppercase tracking-wider shrink-0 shadow-xs">
                                   <Ban className="w-2.5 h-2.5" />
                                   DISCONTINUED
@@ -595,7 +670,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                               )}
                               <span 
                                 className={`font-serif font-bold transition-colors truncate max-w-[220px] ${
-                                  isProductDiscontinued(p) 
+                                  checkIsDiscontinued(p) 
                                     ? 'text-slate-500 line-through decoration-rose-400 group-hover:text-rose-700' 
                                     : 'text-slate-900 group-hover:text-amber-700'
                                 }`}
@@ -735,12 +810,12 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                                 handleToggleDiscontinued(p);
                               }}
                               className={`w-7 h-7 rounded-lg flex items-center justify-center border transition-all cursor-pointer shadow-xs ${
-                                isProductDiscontinued(p)
+                                checkIsDiscontinued(p)
                                   ? 'bg-rose-50 hover:bg-rose-100 text-rose-700 border-rose-300'
                                   : 'bg-slate-50 hover:bg-slate-100 text-slate-500 border-slate-200 hover:text-rose-600'
                               }`}
-                              title={isProductDiscontinued(p) ? 'Mark as Active' : 'Mark as Discontinued'}
-                              aria-label={isProductDiscontinued(p) ? 'Mark as Active' : 'Mark as Discontinued'}
+                              title={checkIsDiscontinued(p) ? 'Mark as Active' : 'Mark as Discontinued'}
+                              aria-label={checkIsDiscontinued(p) ? 'Mark as Active' : 'Mark as Discontinued'}
                             >
                               <Ban className="w-3.5 h-3.5" />
                             </button>
@@ -778,7 +853,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                     <ImageIcon className="w-10 h-10" />
                   </div>
                 )}
-                {isProductDiscontinued(product) ? (
+                {checkIsDiscontinued(product) ? (
                   <div className="absolute top-2 left-2 bg-rose-600 text-white text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md shadow-md flex items-center gap-1 z-10 border border-rose-700">
                     <Ban className="w-3 h-3" />
                     DISCONTINUED
@@ -788,7 +863,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                     {product.product_code || product.code}
                   </div>
                 ) : null}
-                {isProductDiscontinued(product) && (product.product_code || product.code) && (
+                {checkIsDiscontinued(product) && (product.product_code || product.code) && (
                   <div className="absolute bottom-2 left-2 bg-white/90 backdrop-blur-sm border border-slate-200 text-slate-700 text-[9px] font-mono px-1.5 py-0.5 rounded shadow-xs">
                     {product.product_code || product.code}
                   </div>
@@ -820,7 +895,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                   <h3 
                     onClick={() => setActiveModalProduct(product)}
                     className={`font-serif text-sm sm:text-[15px] font-bold transition-colors cursor-pointer leading-snug line-clamp-2 h-10 mt-0.5 ${
-                      isProductDiscontinued(product)
+                      checkIsDiscontinued(product)
                         ? 'text-slate-500 line-through decoration-rose-400 group-hover:text-rose-700'
                         : 'text-slate-900 group-hover:text-amber-700'
                     }`}
@@ -925,12 +1000,12 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                           handleToggleDiscontinued(product);
                         }}
                         className={`w-8 h-8 rounded-lg flex items-center justify-center border transition-all cursor-pointer shadow-xs hover:scale-105 active:scale-95 ${
-                          isProductDiscontinued(product)
+                          checkIsDiscontinued(product)
                             ? 'bg-rose-50 hover:bg-rose-100 text-rose-700 border-rose-300'
                             : 'bg-slate-50 hover:bg-slate-100 text-slate-500 border-slate-200 hover:text-rose-600'
                         }`}
-                        title={isProductDiscontinued(product) ? 'Mark as Active' : 'Mark as Discontinued'}
-                        aria-label={isProductDiscontinued(product) ? 'Mark as Active' : 'Mark as Discontinued'}
+                        title={checkIsDiscontinued(product) ? 'Mark as Active' : 'Mark as Discontinued'}
+                        aria-label={checkIsDiscontinued(product) ? 'Mark as Active' : 'Mark as Discontinued'}
                       >
                         <Ban className="w-4 h-4" />
                       </button>

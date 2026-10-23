@@ -43,6 +43,7 @@ export async function initializeDatabase(): Promise<void> {
     const sampleProd = await db.products.toCollection().first();
     const sampleUrn = await db.products.where('category').equals('Urns & Keepsakes - Full Size Urns').first();
     const sample2026 = await db.products.where('catalogYear').equals('2026-27').first();
+    const sample2026DiscCount = await db.products.where('catalogYear').equals('2026-27').filter(p => Boolean(p.discontinued === true || p.discountinued === 'TRUE' || p.isActive === false)).count();
     const sample2021Disc = await db.products.where('catalogYear').equals('2021-22').filter(p => isProductDiscontinued(p)).toArray();
     const count2021 = await db.products.where('catalogYear').equals('2021-22').count();
     const sample2021Item = await db.products.where('catalogYear').equals('2021-22').and(p => p.code === '147959').first();
@@ -52,6 +53,7 @@ export async function initializeDatabase(): Promise<void> {
     const needsCatalogRefresh = !sampleProd || 
       prodCount < 2000 || // Ensures full multi-year catalog is loaded across all editions
       !sample2026 ||
+      sample2026DiscCount > 0 ||
       hasBad2021Data ||
       sampleProd.catalogYear !== '2026-27' ||
       sampleProd.year !== '2026-27' ||
@@ -109,10 +111,33 @@ export async function initializeDatabase(): Promise<void> {
 }
 
 /**
- * Helper to determine if a product is discontinued
+ * Helper to determine if a product has Limited / Extended Delivery status
+ */
+export function isProductLimited(p: any): boolean {
+  if (!p) return false;
+  const cat = String(p.category || '').toLowerCase();
+  const sub = String(p.subcategory || '').toLowerCase();
+  const mat = String(p.material || '').toLowerCase();
+  return (
+    cat.includes('extended delivery') ||
+    sub.includes('extended delivery') ||
+    mat.includes('extended delivery') ||
+    cat.includes('limited') ||
+    sub.includes('limited')
+  );
+}
+
+/**
+ * Helper to determine if a product is discontinued.
+ * Products present in the current 2026-27 edition are Active unless manually toggled.
  */
 export function isProductDiscontinued(p: any): boolean {
   if (!p) return false;
+  const yr = String(p.catalogYear || p.year || '').trim();
+  // If product is in the current 2026-27 edition, it is active unless manually overridden in UI
+  if ((yr === '2026-27' || yr.startsWith('2026')) && !p.manuallyDiscontinued) {
+    return false;
+  }
   if (p.isActive === false) return true;
   const d = p.discontinued ?? p.discountinued;
   if (d === true) return true;
@@ -133,6 +158,7 @@ export async function toggleProductDiscontinued(productId: string, isDiscontinue
   prod.discontinued = nextStatus;
   prod.discountinued = nextStatus ? 'TRUE' : 'FALSE';
   prod.isActive = !nextStatus;
+  (prod as any).manuallyDiscontinued = nextStatus;
   await db.products.put(prod);
   return prod;
 }

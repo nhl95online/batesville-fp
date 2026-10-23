@@ -2746,9 +2746,9 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
       "Living Memorial® Tree Planting Program"
     ],
     "imageUrl": "https://images.unsplash.com/photo-1544457070-4cd773b4d71e?w=800&auto=format&fit=crop&q=80",
-    "isActive": false,
-    "discontinued": true,
-    "discountinued": "TRUE",
+    "isActive": true,
+    "discontinued": false,
+    "discountinued": "FALSE",
     "createdAt": "2025-01-01T00:00:00.000Z",
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
@@ -2792,9 +2792,9 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
       "Living Memorial® Tree Planting Program"
     ],
     "imageUrl": "https://images.unsplash.com/photo-1544457070-4cd773b4d71e?w=800&auto=format&fit=crop&q=80",
-    "isActive": false,
-    "discontinued": true,
-    "discountinued": "TRUE",
+    "isActive": true,
+    "discontinued": false,
+    "discountinued": "FALSE",
     "createdAt": "2025-01-01T00:00:00.000Z",
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
@@ -2838,9 +2838,9 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
       "Living Memorial® Tree Planting Program"
     ],
     "imageUrl": "https://images.unsplash.com/photo-1544457070-4cd773b4d71e?w=800&auto=format&fit=crop&q=80",
-    "isActive": false,
-    "discontinued": true,
-    "discountinued": "TRUE",
+    "isActive": true,
+    "discontinued": false,
+    "discountinued": "FALSE",
     "createdAt": "2025-01-01T00:00:00.000Z",
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
@@ -2884,9 +2884,9 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
       "Living Memorial® Tree Planting Program"
     ],
     "imageUrl": "https://images.unsplash.com/photo-1544457070-4cd773b4d71e?w=800&auto=format&fit=crop&q=80",
-    "isActive": false,
-    "discontinued": true,
-    "discountinued": "TRUE",
+    "isActive": true,
+    "discontinued": false,
+    "discountinued": "FALSE",
     "createdAt": "2025-01-01T00:00:00.000Z",
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
@@ -2930,9 +2930,9 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
       "Living Memorial® Tree Planting Program"
     ],
     "imageUrl": "https://images.unsplash.com/photo-1544457070-4cd773b4d71e?w=800&auto=format&fit=crop&q=80",
-    "isActive": false,
-    "discontinued": true,
-    "discountinued": "TRUE",
+    "isActive": true,
+    "discontinued": false,
+    "discountinued": "FALSE",
     "createdAt": "2025-01-01T00:00:00.000Z",
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
@@ -2976,9 +2976,9 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
       "Living Memorial® Tree Planting Program"
     ],
     "imageUrl": "https://images.unsplash.com/photo-1544457070-4cd773b4d71e?w=800&auto=format&fit=crop&q=80",
-    "isActive": false,
-    "discontinued": true,
-    "discountinued": "TRUE",
+    "isActive": true,
+    "discontinued": false,
+    "discountinued": "FALSE",
     "createdAt": "2025-01-01T00:00:00.000Z",
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
@@ -3022,9 +3022,9 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
       "Living Memorial® Tree Planting Program"
     ],
     "imageUrl": "https://images.unsplash.com/photo-1544457070-4cd773b4d71e?w=800&auto=format&fit=crop&q=80",
-    "isActive": false,
-    "discontinued": true,
-    "discountinued": "TRUE",
+    "isActive": true,
+    "discontinued": false,
+    "discountinued": "FALSE",
     "createdAt": "2025-01-01T00:00:00.000Z",
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
@@ -3068,9 +3068,9 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
       "Living Memorial® Tree Planting Program"
     ],
     "imageUrl": "https://images.unsplash.com/photo-1544457070-4cd773b4d71e?w=800&auto=format&fit=crop&q=80",
-    "isActive": false,
-    "discontinued": true,
-    "discountinued": "TRUE",
+    "isActive": true,
+    "discontinued": false,
+    "discountinued": "FALSE",
     "createdAt": "2025-01-01T00:00:00.000Z",
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
@@ -6650,9 +6650,9 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
       "Living Memorial® Tree Planting Program"
     ],
     "imageUrl": "https://images.unsplash.com/photo-1538688525198-9b88f6f53126?w=800&auto=format&fit=crop&q=80",
-    "isActive": false,
-    "discontinued": true,
-    "discountinued": "TRUE",
+    "isActive": true,
+    "discontinued": false,
+    "discountinued": "FALSE",
     "createdAt": "2025-01-01T00:00:00.000Z",
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
@@ -6696,9 +6696,9 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
       "Living Memorial® Tree Planting Program"
     ],
     "imageUrl": "https://images.unsplash.com/photo-1538688525198-9b88f6f53126?w=800&auto=format&fit=crop&q=80",
-    "isActive": false,
-    "discontinued": true,
-    "discountinued": "TRUE",
+    "isActive": true,
+    "discontinued": false,
+    "discountinued": "FALSE",
     "createdAt": "2025-01-01T00:00:00.000Z",
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
@@ -6742,9 +6742,9 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
       "Living Memorial® Tree Planting Program"
     ],
     "imageUrl": "https://images.unsplash.com/photo-1538688525198-9b88f6f53126?w=800&auto=format&fit=crop&q=80",
-    "isActive": false,
-    "discontinued": true,
-    "discountinued": "TRUE",
+    "isActive": true,
+    "discontinued": false,
+    "discountinued": "FALSE",
     "createdAt": "2025-01-01T00:00:00.000Z",
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
@@ -6788,9 +6788,9 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
       "Living Memorial® Tree Planting Program"
     ],
     "imageUrl": "https://images.unsplash.com/photo-1538688525198-9b88f6f53126?w=800&auto=format&fit=crop&q=80",
-    "isActive": false,
-    "discontinued": true,
-    "discountinued": "TRUE",
+    "isActive": true,
+    "discontinued": false,
+    "discountinued": "FALSE",
     "createdAt": "2025-01-01T00:00:00.000Z",
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
@@ -7953,9 +7953,9 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
       "Living Memorial® Tree Planting Program"
     ],
     "imageUrl": "https://images.unsplash.com/photo-1544457070-4cd773b4d71e?w=800&auto=format&fit=crop&q=80",
-    "isActive": false,
-    "discontinued": true,
-    "discountinued": "TRUE",
+    "isActive": true,
+    "discontinued": false,
+    "discountinued": "FALSE",
     "createdAt": "2025-01-01T00:00:00.000Z",
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
@@ -8000,9 +8000,9 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
       "Living Memorial® Tree Planting Program"
     ],
     "imageUrl": "https://images.unsplash.com/photo-1544457070-4cd773b4d71e?w=800&auto=format&fit=crop&q=80",
-    "isActive": false,
-    "discontinued": true,
-    "discountinued": "TRUE",
+    "isActive": true,
+    "discontinued": false,
+    "discountinued": "FALSE",
     "createdAt": "2025-01-01T00:00:00.000Z",
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
@@ -8047,9 +8047,9 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
       "Living Memorial® Tree Planting Program"
     ],
     "imageUrl": "https://images.unsplash.com/photo-1544457070-4cd773b4d71e?w=800&auto=format&fit=crop&q=80",
-    "isActive": false,
-    "discontinued": true,
-    "discountinued": "TRUE",
+    "isActive": true,
+    "discontinued": false,
+    "discountinued": "FALSE",
     "createdAt": "2025-01-01T00:00:00.000Z",
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
@@ -8094,9 +8094,9 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
       "Living Memorial® Tree Planting Program"
     ],
     "imageUrl": "https://images.unsplash.com/photo-1544457070-4cd773b4d71e?w=800&auto=format&fit=crop&q=80",
-    "isActive": false,
-    "discontinued": true,
-    "discountinued": "TRUE",
+    "isActive": true,
+    "discontinued": false,
+    "discountinued": "FALSE",
     "createdAt": "2025-01-01T00:00:00.000Z",
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
@@ -9711,9 +9711,9 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
       "Living Memorial® Tree Planting Program"
     ],
     "imageUrl": "https://images.unsplash.com/photo-1544457070-4cd773b4d71e?w=800&auto=format&fit=crop&q=80",
-    "isActive": false,
-    "discontinued": true,
-    "discountinued": "TRUE",
+    "isActive": true,
+    "discontinued": false,
+    "discountinued": "FALSE",
     "createdAt": "2025-01-01T00:00:00.000Z",
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
@@ -9757,9 +9757,9 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
       "Living Memorial® Tree Planting Program"
     ],
     "imageUrl": "https://images.unsplash.com/photo-1544457070-4cd773b4d71e?w=800&auto=format&fit=crop&q=80",
-    "isActive": false,
-    "discontinued": true,
-    "discountinued": "TRUE",
+    "isActive": true,
+    "discontinued": false,
+    "discountinued": "FALSE",
     "createdAt": "2025-01-01T00:00:00.000Z",
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
@@ -9805,9 +9805,9 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
       "Living Memorial® Tree Planting Program"
     ],
     "imageUrl": "https://images.unsplash.com/photo-1544457070-4cd773b4d71e?w=800&auto=format&fit=crop&q=80",
-    "isActive": false,
-    "discontinued": true,
-    "discountinued": "TRUE",
+    "isActive": true,
+    "discontinued": false,
+    "discountinued": "FALSE",
     "createdAt": "2025-01-01T00:00:00.000Z",
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
@@ -9852,9 +9852,9 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
       "Living Memorial® Tree Planting Program"
     ],
     "imageUrl": "https://images.unsplash.com/photo-1544457070-4cd773b4d71e?w=800&auto=format&fit=crop&q=80",
-    "isActive": false,
-    "discontinued": true,
-    "discountinued": "TRUE",
+    "isActive": true,
+    "discontinued": false,
+    "discountinued": "FALSE",
     "createdAt": "2025-01-01T00:00:00.000Z",
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
@@ -9900,9 +9900,9 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
       "Living Memorial® Tree Planting Program"
     ],
     "imageUrl": "https://images.unsplash.com/photo-1544457070-4cd773b4d71e?w=800&auto=format&fit=crop&q=80",
-    "isActive": false,
-    "discontinued": true,
-    "discountinued": "TRUE",
+    "isActive": true,
+    "discontinued": false,
+    "discountinued": "FALSE",
     "createdAt": "2025-01-01T00:00:00.000Z",
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
@@ -9948,9 +9948,9 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
       "Living Memorial® Tree Planting Program"
     ],
     "imageUrl": "https://images.unsplash.com/photo-1544457070-4cd773b4d71e?w=800&auto=format&fit=crop&q=80",
-    "isActive": false,
-    "discontinued": true,
-    "discountinued": "TRUE",
+    "isActive": true,
+    "discontinued": false,
+    "discountinued": "FALSE",
     "createdAt": "2025-01-01T00:00:00.000Z",
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
@@ -9995,9 +9995,9 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
       "Living Memorial® Tree Planting Program"
     ],
     "imageUrl": "https://images.unsplash.com/photo-1544457070-4cd773b4d71e?w=800&auto=format&fit=crop&q=80",
-    "isActive": false,
-    "discontinued": true,
-    "discountinued": "TRUE",
+    "isActive": true,
+    "discontinued": false,
+    "discountinued": "FALSE",
     "createdAt": "2025-01-01T00:00:00.000Z",
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
@@ -10042,9 +10042,9 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
       "Living Memorial® Tree Planting Program"
     ],
     "imageUrl": "https://images.unsplash.com/photo-1544457070-4cd773b4d71e?w=800&auto=format&fit=crop&q=80",
-    "isActive": false,
-    "discontinued": true,
-    "discountinued": "TRUE",
+    "isActive": true,
+    "discontinued": false,
+    "discountinued": "FALSE",
     "createdAt": "2025-01-01T00:00:00.000Z",
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
@@ -10088,9 +10088,9 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
       "Living Memorial® Tree Planting Program"
     ],
     "imageUrl": "https://images.unsplash.com/photo-1544457070-4cd773b4d71e?w=800&auto=format&fit=crop&q=80",
-    "isActive": false,
-    "discontinued": true,
-    "discountinued": "TRUE",
+    "isActive": true,
+    "discontinued": false,
+    "discountinued": "FALSE",
     "createdAt": "2025-01-01T00:00:00.000Z",
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
@@ -10134,9 +10134,9 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
       "Living Memorial® Tree Planting Program"
     ],
     "imageUrl": "https://images.unsplash.com/photo-1544457070-4cd773b4d71e?w=800&auto=format&fit=crop&q=80",
-    "isActive": false,
-    "discontinued": true,
-    "discountinued": "TRUE",
+    "isActive": true,
+    "discontinued": false,
+    "discountinued": "FALSE",
     "createdAt": "2025-01-01T00:00:00.000Z",
     "updatedAt": "2026-09-21T20:32:49.614Z"
   },
@@ -41259,9 +41259,9 @@ export const BATESVILLE_CASKET_CATALOG: Product[] = [
       "Precision Crafted Artisan Memorial"
     ],
     "imageUrl": "https://images.unsplash.com/photo-1590736969955-71cc94801759?w=800&auto=format&fit=crop&q=80",
-    "isActive": false,
-    "discontinued": true,
-    "discountinued": "TRUE",
+    "isActive": true,
+    "discontinued": false,
+    "discountinued": "FALSE",
     "createdAt": "2025-01-01T00:00:00.000Z",
     "updatedAt": "2026-09-21T20:32:49.617Z"
   }
