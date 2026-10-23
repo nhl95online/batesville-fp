@@ -181,6 +181,44 @@ export const DailySalesUploadModal: React.FC<DailySalesUploadModalProps> = ({
           return Number.isFinite(n) ? n : null;
         };
 
+        // Pull funeral home names from Supabase customers by Account Number,
+        // and create any unknown accounts so the sales -> customers foreign key accepts the rows
+        try {
+          const { data: remoteCusts } = await client
+            .from('customers')
+            .select('customer_id,"Account Number","Name"');
+          if (Array.isArray(remoteCusts)) {
+            const nameByAcct = new Map<number, string>();
+            let maxCustId = 0;
+            for (const c of remoteCusts as any[]) {
+              const a = toInt8(c['Account Number']);
+              if (a !== null) nameByAcct.set(a, String(c['Name'] || ''));
+              maxCustId = Math.max(maxCustId, Number(c.customer_id) || 0);
+            }
+
+            const newCusts: any[] = [];
+            saleRecords = saleRecords.map(s => {
+              const a = toInt8(s.accountNumber);
+              if (a === null) return s;
+              const known = nameByAcct.get(a);
+              if (known) return { ...s, accountNumber: String(a), accountName: known, customerId: `cust-${a}` };
+              const stubName = String(s.accountName && s.accountName !== String(s.accountNumber) ? s.accountName : `Account ${a}`)
+                .replace(/^(ARB|PLN|PA|SPP|AMP|OBB)\d*\s+/i, '')
+                .trim();
+              nameByAcct.set(a, stubName);
+              newCusts.push({ customer_id: ++maxCustId, 'Account Number': a, Name: stubName });
+              return { ...s, accountNumber: String(a), accountName: stubName, customerId: `cust-${a}` };
+            });
+
+            if (newCusts.length > 0) {
+              const { error: custErr } = await client.from('customers').insert(newCusts);
+              if (custErr) console.warn('Could not auto-create customers for new accounts:', custErr);
+            }
+          }
+        } catch (custLookupErr) {
+          console.warn('Customer lookup skipped:', custLookupErr);
+        }
+
         const remotePayload = saleRecords.map(s => ({
           sales_id: s.saleId,
           year: String(s.year),
