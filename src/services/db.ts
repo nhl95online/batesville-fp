@@ -37,34 +37,26 @@ export async function initializeDatabase(): Promise<void> {
   const prodCount = await db.products.count();
   if (prodCount === 0) {
     console.log('[DB] Loading authentic Batesville multi-year casket catalogs (2026-27 current + historical editions)...');
-    await db.products.bulkAdd(BATESVILLE_FULL_CATALOG);
+    await db.products.bulkPut(BATESVILLE_FULL_CATALOG);
   } else {
-    // Check if cached products need 2026-27 edition or full multi-year catalog upgrade
-    const sampleProd = await db.products.toCollection().first();
-    const sampleUrn = await db.products.where('category').equals('Urns & Keepsakes - Full Size Urns').first();
-    const sample2026 = await db.products.where('catalogYear').equals('2026-27').first();
-    const sample2026DiscCount = await db.products.where('catalogYear').equals('2026-27').filter(p => Boolean(p.discontinued === true || p.discountinued === 'TRUE' || p.isActive === false)).count();
-    const sample2021Disc = await db.products.where('catalogYear').equals('2021-22').filter(p => isProductDiscontinued(p)).toArray();
-    const count2021 = await db.products.where('catalogYear').equals('2021-22').count();
-    const sample2021Item = await db.products.where('catalogYear').equals('2021-22').and(p => p.code === '147959').first();
-    const hasDiscountedWholesale = sample2021Item && Number(sample2021Item.wholesalePrice) !== 8206.91;
-    const hasBad2021Data = sample2021Disc.length !== 0 || count2021 === 918 || count2021 === 0 || hasDiscountedWholesale;
+    // Check if cached products have the updated year-over-year discontinued catalog and active Extended Delivery items
+    const hercules2026 = await db.products.get('prod-274283-2026-27');
+    const droppedSample2026 = await db.products.get('prod-272045-2026-27');
+    const droppedSample2023 = await db.products.get('prod-239390-2023-24');
 
-    const needsCatalogRefresh = !sampleProd || 
-      prodCount < 2000 || // Ensures full multi-year catalog is loaded across all editions
-      !sample2026 ||
-      sample2026DiscCount > 0 ||
-      hasBad2021Data ||
-      sampleProd.catalogYear !== '2026-27' ||
-      sampleProd.year !== '2026-27' ||
-      (sampleProd.description && sampleProd.name !== sampleProd.description) ||
-      sampleProd.discontinued === undefined ||
-      (sampleUrn && Boolean(sampleUrn.top));
+    const needsCatalogRefresh =
+      prodCount < 5000 ||
+      !hercules2026 ||
+      Boolean(hercules2026.discontinued) ||
+      !droppedSample2026 ||
+      !droppedSample2026.discontinued ||
+      !droppedSample2023 ||
+      !droppedSample2023.discontinued;
 
     if (needsCatalogRefresh) {
-      console.log('[DB] Refreshing catalog with 2026-27 Batesville current edition and authentic exact wholesale costs matching CSV price column across all historical catalog years...');
+      console.log('[DB] Refreshing catalog with year-over-year discontinued tracking and active Extended Delivery items...');
       await db.products.clear();
-      await db.products.bulkAdd(BATESVILLE_FULL_CATALOG);
+      await db.products.bulkPut(BATESVILLE_FULL_CATALOG);
     }
   }
 
@@ -129,13 +121,11 @@ export function isProductLimited(p: any): boolean {
 
 /**
  * Helper to determine if a product is discontinued.
- * Products present in the current 2026-27 edition are Active unless manually toggled.
+ * Extended Delivery items are never discontinued unless manually toggled.
  */
 export function isProductDiscontinued(p: any): boolean {
   if (!p) return false;
-  const yr = String(p.catalogYear || p.year || '').trim();
-  // If product is in the current 2026-27 edition, it is active unless manually overridden in UI
-  if ((yr === '2026-27' || yr.startsWith('2026')) && !p.manuallyDiscontinued) {
+  if (isProductLimited(p) && !p.manuallyDiscontinued) {
     return false;
   }
   if (p.isActive === false) return true;

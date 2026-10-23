@@ -427,10 +427,13 @@ export async function syncFromSupabase(): Promise<{
       distinctYears.add(yr);
     });
 
-    // Also enrich from sales records for historical catalog years
+    // Also enrich from sales records for historical catalog years (skipping invalid #N/A rows)
     allSalesRaw.forEach((s: any) => {
-      const prodCode = String(s.product_code);
-      const yr = String(s.year || '2026-27');
+      const prodCode = String(s.product_code || '').trim();
+      const desc = String(s.description || '').trim();
+      const cat = String(s.category || '').trim();
+      if (!prodCode || !desc || desc === '#N/A' || desc === 'N/A' || cat === '#N/A') return;
+      const yr = String(s.year || '2026-27').trim();
       distinctYears.add(yr);
 
       const compositeKey = `${prodCode}-${yr}`;
@@ -444,6 +447,9 @@ export async function syncFromSupabase(): Promise<{
             year: yr,
             wholesalePrice: Number(s.cost) || base.wholesalePrice,
             price: Number(s.cost) || base.wholesalePrice,
+            discontinued: false,
+            discountinued: 'FALSE',
+            isActive: true,
           });
         } else {
           const parsed = parseBatesvilleDescription(s.description, s.category);
@@ -454,7 +460,7 @@ export async function syncFromSupabase(): Promise<{
             code: prodCode,
             name: parsed.name,
             description: s.description || parsed.name,
-            category: s.category || (isUrn ? 'Cremation Options - Full Size Urns' : 'Caskets & Containers - Metal'),
+            category: s.category || (isUrn ? 'Urns & Keepsakes - Full Size Urns' : 'Caskets & Containers - Metal'),
             material: parsed.material,
             catalogYear: yr,
             year: yr,
@@ -477,6 +483,8 @@ export async function syncFromSupabase(): Promise<{
             wholesalePrice: cost,
             price: cost,
             imageUrl: getFallbackImage(s.category, prodCode),
+            discontinued: false,
+            discountinued: 'FALSE',
             isActive: true,
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString()
@@ -580,36 +588,40 @@ export async function syncFromSupabase(): Promise<{
       });
     }
 
-    // Automatically determine Discontinued status by comparing catalog editions year-over-year:
-    // - Any product present in the current edition (2026-27) is Active.
-    // - Any product in an earlier year (e.g. 2022-23) that does NOT appear in the next year (2023-24) or in 2026-27 is Discontinued.
+    // Place any older product from year Y_prev that does NOT show up in year Y as Discontinued for year Y
+    // (while ensuring Extended Delivery items are never discontinued)
     const sortedYearsAsc = Array.from(distinctYears).sort((a, b) => a.localeCompare(b));
-    const latestYear = sortedYearsAsc[sortedYearsAsc.length - 1] || '2026-27';
-    const codesPerYear = new Map<string, Set<string>>();
-    for (const prod of productMap.values()) {
-      const y = String(prod.catalogYear || prod.year || '2026-27');
-      if (!codesPerYear.has(y)) codesPerYear.set(y, new Set());
-      codesPerYear.get(y)!.add(normalizeProductCode(prod.code));
-    }
-    const latestYearCodes = codesPerYear.get('2026-27') || codesPerYear.get(latestYear) || new Set<string>();
+    const activeByYear = new Map<string, Map<string, Product>>();
+    const base2026Codes = new Set(BATESVILLE_CASKET_CATALOG.map(p => String(p.code).trim()));
 
     for (const prod of productMap.values()) {
       const y = String(prod.catalogYear || prod.year || '2026-27');
-      const normCode = normalizeProductCode(prod.code);
-      if (y === '2026-27' || y === latestYear) {
-        prod.discontinued = false;
-        prod.discountinued = 'FALSE';
-        prod.isActive = true;
-      } else {
-        const yrIdx = sortedYearsAsc.indexOf(y);
-        const nextYr = yrIdx >= 0 && yrIdx + 1 < sortedYearsAsc.length ? sortedYearsAsc[yrIdx + 1] : latestYear;
-        const nextYrCodes = codesPerYear.get(nextYr);
-        const inNextYear = nextYrCodes ? nextYrCodes.has(normCode) : true;
-        const inCurrentYear = latestYearCodes.size > 0 ? latestYearCodes.has(normCode) : true;
-        const isDropped = !inNextYear || !inCurrentYear;
-        prod.discontinued = isDropped;
-        prod.discountinued = isDropped ? 'TRUE' : 'FALSE';
-        prod.isActive = !isDropped;
+      if (!activeByYear.has(y)) activeByYear.set(y, new Map());
+      if (!prod.discontinued) {
+        activeByYear.get(y)!.set(String(prod.code).trim(), prod);
+      }
+    }
+
+    for (let i = 1; i < sortedYearsAsc.length; i++) {
+      const prevY = sortedYearsAsc[i - 1];
+      const curY = sortedYearsAsc[i];
+      const prevMap = activeByYear.get(prevY);
+      const curMap = activeByYear.get(curY) || new Map<string, Product>();
+      if (!prevMap) continue;
+
+      for (const [code, oldProd] of prevMap.entries()) {
+        const key = `${code}-${curY}`;
+        if (!curMap.has(code) && !base2026Codes.has(code) && !productMap.has(key)) {
+          productMap.set(key, {
+            ...oldProd,
+            id: `prod-${code}-${curY}`,
+            year: curY,
+            catalogYear: curY,
+            discontinued: true,
+            discountinued: 'TRUE',
+            isActive: false,
+          });
+        }
       }
     }
 
@@ -729,20 +741,20 @@ export async function syncFromSupabase(): Promise<{
     await db.transaction('rw', [db.customers, db.products, db.sales, db.images], async () => {
       if (mappedCustomers.length > 0) {
         await db.customers.clear();
-        await db.customers.bulkAdd(mappedCustomers);
+        await db.customers.bulkPut(mappedCustomers);
       }
       if (mappedProducts.length > 0) {
         await db.products.clear();
-        await db.products.bulkAdd(mappedProducts);
+        await db.products.bulkPut(mappedProducts);
       }
       if (mappedSales.length > 0) {
         await db.sales.clear();
-        await db.sales.bulkAdd(mappedSales);
+        await db.sales.bulkPut(mappedSales);
       } else {
         const curCount = await db.sales.count();
         if (curCount === 0) {
           const { generateSeedSales } = await import('./seedData');
-          await db.sales.bulkAdd(generateSeedSales());
+          await db.sales.bulkPut(generateSeedSales());
         }
       }
     });

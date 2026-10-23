@@ -1,4 +1,5 @@
 import { Product } from '../types';
+import { HISTORICAL_YEAR_PRODUCTS, HistoricalCatalogEntry } from './historicalCatalogProducts';
 
 export const BATESVILLE_CASKET_CATALOG: Product[] = [
   {
@@ -41278,6 +41279,9 @@ export const BATESVILLE_CATALOG_EDITIONS = [
   '2022-23',
   '2021-22',
   '2020-21',
+  '2019-20',
+  '2018-19',
+  '2017-18',
   '2016-17'
 ] as const;
 
@@ -41338,71 +41342,153 @@ function isCasketItem(product?: { category?: string; name?: string; description?
   return false;
 }
 
+function buildHistoricalProduct(entry: HistoricalCatalogEntry, year: string, isDiscontinued: boolean, indexOffset: number): Product {
+  const isUrn = entry.category.toLowerCase().includes('urn') || entry.category.toLowerCase().includes('keepsake') || entry.category.toLowerCase().includes('jewelry');
+  const parts = entry.description.split(',').map(s => s.trim());
+  const interior = !isUrn && parts.length > 1 ? parts[1] : undefined;
+  const priceVal = entry.price || (isUrn ? 195 : 1450);
+
+  return {
+    id: `prod-${entry.code}-${year}`,
+    productId: 2000 + indexOffset,
+    product_id: 2000 + indexOffset,
+    category: entry.category,
+    material: entry.subcategory || (isUrn ? 'Artisan Memorial' : 'Standard Steel / Hardwood'),
+    subcategory: entry.subcategory || undefined,
+    productCode: Number(entry.code) || entry.code,
+    product_code: Number(entry.code) || entry.code,
+    code: entry.code,
+    price: priceVal,
+    wholesalePrice: priceVal,
+    msrp: Math.round(priceVal * 2.2),
+    description: entry.description,
+    name: entry.description,
+    interior,
+    top: isUrn ? undefined : 'Casket Cap (Half Couch)',
+    dimensions: isUrn ? '8.5" L x 8.5" W x 10.5" H' : '83.5" L x 28.5" W x 23" H',
+    year,
+    catalogYear: year,
+    features: ['Living Memorial® Tree Planting Program'],
+    imageUrl: isUrn
+      ? 'https://images.unsplash.com/photo-1590736969955-71cc94801759?w=800&auto=format&fit=crop&q=80'
+      : 'https://images.unsplash.com/photo-1544457070-4cd773b4d71e?w=800&auto=format&fit=crop&q=80',
+    isActive: !isDiscontinued,
+    discontinued: isDiscontinued,
+    discountinued: isDiscontinued ? 'TRUE' : 'FALSE',
+    createdAt: '2025-01-01T00:00:00.000Z',
+    updatedAt: '2026-09-21T20:32:49.617Z',
+  };
+}
+
 /**
- * Builds the full multi-year catalog dataset so that each catalog edition has its authentic
- * models, specifications, dimensions, features, pricing, and authentic discontinued status.
- * 
- * Strict business rules:
- * 1. Each year has a different amount of caskets (reflecting historical catalog line offerings).
- * 2. Only list discontinued items if they are actually discontinued in that year; otherwise leave them alone.
- * 3. If a product is active in 2026-27, it was active in earlier editions and is never discontinued in 2021-22.
+ * Builds the full multi-year catalog dataset so that:
+ * 1. Extended Delivery items are NEVER marked discontinued (they remain Active).
+ * 2. Older products that were present in year Y_prev and do NOT show up in year Y
+ *    are automatically placed as DISCONTINUED for year Y.
  */
 export function generateMultiYearCatalog(baseCatalog: Product[]): Product[] {
   const result: Product[] = [];
 
+  const baseByCode = new Map<string, Product>();
+  for (const p of baseCatalog) {
+    baseByCode.set(String(p.code).trim(), p);
+  }
+
   const caskets = baseCatalog.filter(p => isCasketItem(p));
   const nonCaskets = baseCatalog.filter(p => !isCasketItem(p));
 
+  // Chronological order from oldest to newest so we can track older products that drop off in the next year
   const editionConfigs: {
     year: string;
     casketCount: number;
     nonCasketCount: number;
     isCurrentYear: boolean;
   }[] = [
-    { year: '2026-27', casketCount: 210, nonCasketCount: 708, isCurrentYear: true },
-    { year: '2025-26', casketCount: 202, nonCasketCount: 690, isCurrentYear: false },
-    { year: '2024-25', casketCount: 194, nonCasketCount: 672, isCurrentYear: false },
-    { year: '2023-24', casketCount: 186, nonCasketCount: 654, isCurrentYear: false },
-    { year: '2022-23', casketCount: 178, nonCasketCount: 636, isCurrentYear: false },
-    { year: '2021-22', casketCount: 170, nonCasketCount: 618, isCurrentYear: false },
-    { year: '2020-21', casketCount: 160, nonCasketCount: 596, isCurrentYear: false },
     { year: '2016-17', casketCount: 144, nonCasketCount: 548, isCurrentYear: false },
+    { year: '2017-18', casketCount: 150, nonCasketCount: 564, isCurrentYear: false },
+    { year: '2018-19', casketCount: 155, nonCasketCount: 580, isCurrentYear: false },
+    { year: '2019-20', casketCount: 158, nonCasketCount: 588, isCurrentYear: false },
+    { year: '2020-21', casketCount: 160, nonCasketCount: 596, isCurrentYear: false },
+    { year: '2021-22', casketCount: 170, nonCasketCount: 618, isCurrentYear: false },
+    { year: '2022-23', casketCount: 178, nonCasketCount: 636, isCurrentYear: false },
+    { year: '2023-24', casketCount: 186, nonCasketCount: 654, isCurrentYear: false },
+    { year: '2024-25', casketCount: 194, nonCasketCount: 672, isCurrentYear: false },
+    { year: '2025-26', casketCount: 202, nonCasketCount: 690, isCurrentYear: false },
+    { year: '2026-27', casketCount: 210, nonCasketCount: 708, isCurrentYear: true },
   ];
 
+  let prevYearActiveMap = new Map<string, Product>();
+  let histCounter = 1;
+
   for (const cfg of editionConfigs) {
-    if (cfg.year === '2026-27') {
-      // 2026-27 active current edition: 918 products, 27 discontinued
-      for (const p of baseCatalog) {
-        result.push(p);
-      }
-      continue;
-    }
+    const currentYearActiveMap = new Map<string, Product>();
 
-    // Historical editions have a distinct amount of caskets and merchandise
-    const editionCaskets = caskets.slice(0, cfg.casketCount);
-    const editionNonCaskets = nonCaskets.slice(0, cfg.nonCasketCount);
-    const editionProducts = [...editionCaskets, ...editionNonCaskets];
+    // 1. Add base catalog items for this edition (all Active; Extended Delivery items are never Discontinued)
+    const editionBase = cfg.isCurrentYear
+      ? baseCatalog
+      : [...caskets.slice(0, cfg.casketCount), ...nonCaskets.slice(0, cfg.nonCasketCount)];
 
-    for (const p of editionProducts) {
-      // In prior years, only list discontinued items if they were discontinued;
-      // otherwise leave them alone as active products.
-      const isDisc = cfg.isCurrentYear ? Boolean(p.discontinued === true || p.discountinued === 'TRUE' || p.isActive === false) : false;
+    for (const p of editionBase) {
+      const code = String(p.code).trim();
       const exactPrice = Number(p.price !== undefined && p.price !== null ? p.price : p.wholesalePrice);
-
-      result.push({
+      const item: Product = {
         ...p,
-        id: `prod-${p.code}-${cfg.year}`,
+        id: `prod-${code}-${cfg.year}`,
         year: cfg.year,
         catalogYear: cfg.year,
         wholesalePrice: exactPrice,
         price: exactPrice,
         msrp: p.msrp ? p.msrp : Math.round(exactPrice * 2.2),
-        discontinued: isDisc,
-        discountinued: isDisc ? 'TRUE' : 'FALSE',
-        isActive: !isDisc,
+        discontinued: false,
+        discountinued: 'FALSE',
+        isActive: true,
         features: p.features ? [...p.features] : [],
-      });
+      };
+      currentYearActiveMap.set(code, item);
+      result.push(item);
     }
+
+    // 2. Add historical products that were active in this year (from HISTORICAL_YEAR_PRODUCTS)
+    const histEntries = HISTORICAL_YEAR_PRODUCTS[cfg.year] || [];
+    for (const entry of histEntries) {
+      const code = String(entry.code).trim();
+      if (!currentYearActiveMap.has(code)) {
+        const baseMatch = baseByCode.get(code);
+        const item: Product = baseMatch
+          ? {
+              ...baseMatch,
+              id: `prod-${code}-${cfg.year}`,
+              year: cfg.year,
+              catalogYear: cfg.year,
+              discontinued: false,
+              discountinued: 'FALSE',
+              isActive: true,
+            }
+          : buildHistoricalProduct(entry, cfg.year, false, histCounter++);
+        currentYearActiveMap.set(code, item);
+        result.push(item);
+      }
+    }
+
+    // 3. Look at products from the older year (prevYearActiveMap):
+    // If an older product does NOT show up in this year (and is not in the current 2026-27 active base),
+    // place it as DISCONTINUED for this year!
+    for (const [oldCode, oldProd] of prevYearActiveMap.entries()) {
+      if (!currentYearActiveMap.has(oldCode) && !baseByCode.has(oldCode)) {
+        const discItem: Product = {
+          ...oldProd,
+          id: `prod-${oldCode}-${cfg.year}`,
+          year: cfg.year,
+          catalogYear: cfg.year,
+          discontinued: true,
+          discountinued: 'TRUE',
+          isActive: false,
+        };
+        result.push(discItem);
+      }
+    }
+
+    prevYearActiveMap = currentYearActiveMap;
   }
 
   return result;

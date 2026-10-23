@@ -27,11 +27,10 @@ import {
 
 /**
  * Checks whether a product is discontinued.
- * Items in the current 2026-27 edition are Active unless manually toggled.
+ * Extended Delivery items are never discontinued unless manually toggled.
  */
 export function isProductDiscontinued(p: Product): boolean {
-  const yr = String(p.catalogYear || p.year || '').trim();
-  if ((yr === '2026-27' || yr.startsWith('2026')) && !(p as any).manuallyDiscontinued) {
+  if (isProductLimited(p) && !(p as any).manuallyDiscontinued) {
     return false;
   }
   if (p.isActive === false) return true;
@@ -191,57 +190,48 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
     return pCat.includes(f);
   };
 
-  // Build year-over-year code lookup so discontinued status is automatically detected
-  // when a product appears in an earlier year (e.g. 2022-23) and disappears in the next year (2023-24) or current year (2026-27)
+  // Build year-over-year code lookup so any product from the preceding year that does not show up
+  // in `selectedYear` is placed as Discontinued for `selectedYear`, and Extended Delivery items are never discontinued.
   const { checkIsDiscontinued, droppedProductsForSelectedYear } = useMemo(() => {
-    const codesByYear = new Map<string, Set<string>>();
     const sortedAscYears = [...availableYears].sort((a, b) => a.localeCompare(b));
-    const latestYr = sortedAscYears[sortedAscYears.length - 1] || '2026-27';
+    const codesInYear = new Map<string, Set<string>>();
 
     for (const p of localProducts) {
       const y = String(p.catalogYear || p.year || '').trim();
       const c = String(p.product_code || p.code || '').trim().toLowerCase();
       if (!y || !c) continue;
-      if (!codesByYear.has(y)) codesByYear.set(y, new Set());
-      codesByYear.get(y)!.add(c);
+      if (!codesInYear.has(y)) codesInYear.set(y, new Set());
+      codesInYear.get(y)!.add(c);
     }
-
-    const latestYearCodes = codesByYear.get('2026-27') || codesByYear.get(latestYr) || new Set<string>();
 
     const checkFn = (p: Product): boolean => {
       if ((p as any).manuallyDiscontinued !== undefined) {
         return Boolean((p as any).manuallyDiscontinued);
       }
-      const y = String(p.catalogYear || p.year || '').trim();
-      const c = String(p.product_code || p.code || '').trim().toLowerCase();
-      // If product is in current 2026-27 edition, it is Active
-      if (y === '2026-27' || y === latestYr) {
+      if (isProductLimited(p)) {
         return false;
-      }
-      // If product was in an earlier year (e.g. 2022-23), check if it exists in the next year (2023-24) and current year (2026-27)
-      const yrIdx = sortedAscYears.indexOf(y);
-      const nextYr = yrIdx >= 0 && yrIdx + 1 < sortedAscYears.length ? sortedAscYears[yrIdx + 1] : latestYr;
-      const nextCodes = codesByYear.get(nextYr);
-      const inNextYear = nextCodes && nextCodes.size > 0 ? nextCodes.has(c) : true;
-      const inCurrentYear = latestYearCodes.size > 0 ? latestYearCodes.has(c) : true;
-      if (!inNextYear || !inCurrentYear) {
-        return true;
       }
       return isProductDiscontinued(p);
     };
 
-    // Also collect products from prior years that dropped off before `selectedYear`
-    const selectedCodes = codesByYear.get(selectedYear) || new Set<string>();
+    // If an older product in the preceding catalog year is not yet present in `selectedYear` at all,
+    // place it into `selectedYear` as Discontinued for that year.
+    const selectedIdx = sortedAscYears.indexOf(selectedYear);
+    const prevYr = selectedIdx > 0 ? sortedAscYears[selectedIdx - 1] : null;
+    const selectedCodes = codesInYear.get(selectedYear) || new Set<string>();
     const droppedMap = new Map<string, Product>();
-    for (const p of localProducts) {
-      const y = String(p.catalogYear || p.year || '').trim();
-      const c = String(p.product_code || p.code || '').trim().toLowerCase();
-      if (!y || !c || y >= selectedYear) continue;
-      if (selectedCodes.size > 0 && !selectedCodes.has(c)) {
-        const existing = droppedMap.get(c);
-        if (!existing || String(existing.catalogYear || existing.year || '') < y) {
+
+    if (prevYr) {
+      for (const p of localProducts) {
+        const y = String(p.catalogYear || p.year || '').trim();
+        const c = String(p.product_code || p.code || '').trim().toLowerCase();
+        if (y !== prevYr || !c || isProductDiscontinued(p) || isProductLimited(p)) continue;
+        if (!selectedCodes.has(c)) {
           droppedMap.set(c, {
             ...p,
+            id: `prod-${c}-${selectedYear}-disc`,
+            year: selectedYear,
+            catalogYear: selectedYear,
             discontinued: true,
             discountinued: 'TRUE',
             isActive: false,
@@ -605,16 +595,6 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                             <Ban className="w-3 h-3 text-rose-600 shrink-0" />
                             Discontinued
                           </span>
-                        ) : isProductLimited(p) ? (
-                          <div className="inline-flex items-center gap-1">
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-semibold text-[10px] border border-emerald-200/60 shadow-xs">
-                              <CheckCircle2 className="w-3 h-3 text-emerald-600 shrink-0" />
-                              Active
-                            </span>
-                            <span className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-800 font-bold text-[9px] uppercase border border-amber-300 shadow-xs" title="Extended Delivery / Limited Availability">
-                              Limited
-                            </span>
-                          </div>
                         ) : (
                           <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-semibold text-[10px] border border-emerald-200/60 shadow-xs">
                             <CheckCircle2 className="w-3 h-3 text-emerald-600 shrink-0" />
