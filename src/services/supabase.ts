@@ -1,6 +1,6 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { jsPDF } from 'jspdf';
-import { db, invalidateSalesCache, saveLithoItem } from './db';
+import { db, invalidateSalesCache, saveLithoItem, isUploadedSale, getSaleSignature, getUploadedSalesBackup, setUploadedSalesBackup } from './db';
 import { Customer, Product, SaleRecord, SupabaseConfig, CasketImageItem, LithoItem, FloorSlot, CustomerProductPricing } from '../types';
 import { BATESVILLE_CASKET_CATALOG, BATESVILLE_FULL_CATALOG } from './batesvilleCatalogData';
 
@@ -737,6 +737,21 @@ export async function syncFromSupabase(): Promise<{
       console.warn('Logo storage sync warning:', logoErr);
     }
 
+    // 7a. Preserve locally uploaded Daily Sales Report records that are not (yet) in Supabase
+    const remoteSignatures = new Set(mappedSales.map(getSaleSignature));
+    const localUploadsById = new Map<string, SaleRecord>();
+    for (const s of getUploadedSalesBackup()) localUploadsById.set(String(s.id), s);
+    try {
+      const localDbUploads = await db.sales.filter(isUploadedSale).toArray();
+      for (const s of localDbUploads) localUploadsById.set(String(s.id), s);
+    } catch (e) {
+      console.warn('Could not read local uploaded sales:', e);
+    }
+    const preservedUploads = Array.from(localUploadsById.values())
+      .filter(s => !remoteSignatures.has(getSaleSignature(s)));
+    // Keep backup trimmed to only those not yet confirmed in Supabase
+    setUploadedSalesBackup(preservedUploads);
+
     // 7. Store in local IndexedDB
     await db.transaction('rw', [db.customers, db.products, db.sales, db.images], async () => {
       if (mappedCustomers.length > 0) {
@@ -750,6 +765,9 @@ export async function syncFromSupabase(): Promise<{
       if (mappedSales.length > 0) {
         await db.sales.clear();
         await db.sales.bulkPut(mappedSales);
+        if (preservedUploads.length > 0) {
+          await db.sales.bulkPut(preservedUploads);
+        }
       } else {
         const curCount = await db.sales.count();
         if (curCount === 0) {

@@ -63,18 +63,30 @@ export async function initializeDatabase(): Promise<void> {
   // Purge any previously seeded synthetic 2026-27 October sales so FY 2026-27 starts at 0 until real October sales are uploaded
   const synthetic2026Sales = await db.sales
     .filter(s =>
+      !isUploadedSale(s) && (
       String(s.id || '').startsWith('sale-2026-10-') ||
       String(s.id || '').startsWith('sale-vescio-2026-27-') ||
       (String(s.year) === '2026-27' && (
         String(s.notes || '').includes('Live October delivery') ||
         String(s.notes || '').includes('Distributor showroom delivery') ||
         String(s.productCode || '').startsWith('BV-')
-      ))
+      )))
     )
     .primaryKeys();
   if (synthetic2026Sales.length > 0) {
     await db.sales.bulkDelete(synthetic2026Sales);
     invalidateSalesCache();
+  }
+
+  // Restore any uploaded Daily Sales Report records that are missing from IndexedDB
+  const uploadedBackup = getUploadedSalesBackup();
+  if (uploadedBackup.length > 0) {
+    const existingIds = new Set((await db.sales.toCollection().primaryKeys()).map(String));
+    const missing = uploadedBackup.filter(s => !existingIds.has(String(s.id)));
+    if (missing.length > 0) {
+      await db.sales.bulkPut(missing);
+      invalidateSalesCache();
+    }
   }
 
   // Only seed fallback historical sales if db.sales is completely empty (before Supabase sync)
@@ -226,12 +238,67 @@ export async function getCachedSales(forceRefresh = false): Promise<SaleRecord[]
   return cachedSalesPromise;
 }
 
+// Durable backup of Daily Sales Report uploads so they survive Supabase syncs / page reloads
+export const UPLOADED_SALES_STORAGE_KEY = 'batesville_uploaded_daily_sales_v1';
+
+/** True if the record came from a Daily Sales PDF / pasted report upload */
+export function isUploadedSale(s: SaleRecord): boolean {
+  return String(s.id || '').startsWith('sale-upload-') || s.program === 'Daily Sales Upload';
+}
+
+/** Signature used to detect the same sale coming back from Supabase */
+export function getSaleSignature(s: SaleRecord): string {
+  return [
+    String(s.year || '').trim(),
+    String(s.month || '').toUpperCase().trim(),
+    String(s.day ?? '').trim(),
+    String(s.accountNumber ?? '').trim(),
+    String(s.productCode ?? '').trim(),
+    Number(s.cost || 0).toFixed(2),
+    Number(s.quantity || 0)
+  ].join('|');
+}
+
+export function getUploadedSalesBackup(): SaleRecord[] {
+  try {
+    const raw = typeof localStorage !== 'undefined' ? localStorage.getItem(UPLOADED_SALES_STORAGE_KEY) : null;
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+export function setUploadedSalesBackup(sales: SaleRecord[]): void {
+  try {
+    if (typeof localStorage === 'undefined') return;
+    if (sales.length === 0) {
+      localStorage.removeItem(UPLOADED_SALES_STORAGE_KEY);
+    } else {
+      localStorage.setItem(UPLOADED_SALES_STORAGE_KEY, JSON.stringify(sales));
+    }
+  } catch (e) {
+    console.warn('Could not persist uploaded sales backup:', e);
+  }
+}
+
+function backupUploadedSales(newSales: SaleRecord[]): void {
+  const uploads = newSales.filter(isUploadedSale);
+  if (uploads.length === 0) return;
+  const byId = new Map<string, SaleRecord>();
+  for (const s of getUploadedSalesBackup()) byId.set(s.id, s);
+  for (const s of uploads) byId.set(s.id, s);
+  setUploadedSalesBackup(Array.from(byId.values()));
+}
+
 /**
  * Add or append bulk sales records (e.g. from Daily Sales PDF uploads)
  */
 export async function addBulkSales(newSales: SaleRecord[]): Promise<number> {
   if (!newSales || newSales.length === 0) return 0;
   await db.sales.bulkPut(newSales);
+  backupUploadedSales(newSales);
   invalidateSalesCache();
   await getCachedSales();
 
