@@ -320,7 +320,7 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-col items-stretch lg:items-end gap-2 lg:ml-auto">
           {/* View Toggle */}
           <div className="flex items-center space-x-1 bg-[#eef4f1] p-1 border border-slate-400 font-serif">
             <button
@@ -361,6 +361,7 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
             </button>
           </div>
 
+          <div className="flex flex-wrap items-center lg:justify-end gap-2">
           {/* Upload Daily Sales PDF Button */}
           <button
             onClick={() => setIsUploadModalOpen(true)}
@@ -378,6 +379,7 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
             <Download className="w-3.5 h-3.5 text-blue-800" />
             <span>Export CSV</span>
           </button>
+          </div>
         </div>
       </div>
 

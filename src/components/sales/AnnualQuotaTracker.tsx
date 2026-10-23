@@ -59,8 +59,14 @@ export const AnnualQuotaTracker: React.FC<AnnualQuotaTrackerProps> = ({
   initialYear = '2024-25',
   onRefreshSales
 }) => {
-  // Select active fiscal year (e.g. '2024-25', '2025-26')
-  const [selectedYear, setSelectedYear] = useState<string>(initialYear);
+  // Select active fiscal year — defaults to the current Batesville fiscal year (Oct 1 – Sep 30)
+  const currentFiscalYear = useMemo(() => {
+    const now = new Date();
+    const y = now.getFullYear();
+    const start = now.getMonth() + 1 >= 10 ? y : y - 1;
+    return `${start}-${String(start + 1).slice(-2)}`;
+  }, []);
+  const [selectedYear, setSelectedYear] = useState<string>(currentFiscalYear);
   const [quotas, setQuotas] = useState<SalesQuotaItem[]>([]);
   const [isEditingQuotas, setIsEditingQuotas] = useState(false);
   const [isSqlModalOpen, setIsSqlModalOpen] = useState(false);
@@ -82,14 +88,14 @@ export const AnnualQuotaTracker: React.FC<AnnualQuotaTrackerProps> = ({
   // Distinct available fiscal years (covering 2016-17 to present and future years)
   const allYears = useMemo(() => {
     const generated: string[] = [];
-    for (let start = 2026; start >= 2016; start--) {
+    for (let start = Math.max(2026, parseInt(currentFiscalYear, 10)); start >= 2016; start--) {
       generated.push(`${start}-${String(start + 1).slice(-2)}`);
     }
     const merged = Array.from(new Set([...availableYears, ...generated]))
       .filter(Boolean)
       .sort((a, b) => b.localeCompare(a, undefined, { numeric: true }));
     return merged;
-  }, [availableYears]);
+  }, [availableYears, currentFiscalYear]);
 
   // Load quotas for selected year (check Supabase first, fallback to local storage / default)
   const loadQuotas = async (year: string) => {
@@ -344,7 +350,7 @@ ORDER BY fiscal_year, fiscal_month;`;
   return (
     <div className="space-y-6 animate-fadeIn pb-12">
       {/* Top Banner & Controls */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-white border border-slate-200 p-6 rounded-2xl shadow-sm">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 bg-white border border-slate-200 px-5 py-3.5 rounded-2xl shadow-sm">
         <div>
           <div className="flex items-center space-x-3">
             <div className="p-2.5 bg-gradient-to-tr from-amber-600 to-amber-500 rounded-xl text-white shadow-md shadow-amber-500/20">
@@ -367,7 +373,7 @@ ORDER BY fiscal_year, fiscal_month;`;
         </div>
 
         {/* Action Controls */}
-        <div className="flex flex-wrap items-center gap-2.5">
+        <div className="flex flex-wrap items-center lg:justify-end gap-2 lg:ml-auto">
           {/* Year Selector */}
           <div className="flex items-center space-x-2 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-xl">
             <Calendar className="w-4 h-4 text-slate-500" />
@@ -456,7 +462,7 @@ ORDER BY fiscal_year, fiscal_month;`;
             Enter FY27 Quota
           </button>
         </div>
-      ) : HISTORICAL_PERFORMANCE_CONFIG[selectedYear] ? (
+      ) : HISTORICAL_PERFORMANCE_CONFIG[selectedYear] && selectedYear !== currentFiscalYear ? (
         <div className="flex items-center justify-between bg-slate-50 border border-slate-200 px-4 py-3 rounded-xl text-xs text-slate-700 shadow-xs">
           <div className="flex items-center space-x-2.5">
             <Check className="w-4 h-4 text-emerald-600 shrink-0" />
@@ -496,126 +502,93 @@ ORDER BY fiscal_year, fiscal_month;`;
         </div>
       )}
 
-      {/* 5 Executive KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-        {/* Card 1: Annual Quota */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs flex flex-col justify-between">
+      {/* Compact Dashboard KPI Tiles */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+        {/* Annual Quota */}
+        <div className="bg-white border border-slate-200 border-l-4 border-l-amber-500 rounded-xl px-3.5 py-2.5 shadow-xs">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Annual Quota</span>
-            <div className="p-2 bg-amber-50 text-amber-600 rounded-lg">
-              <Target className="w-4 h-4" />
-            </div>
+            <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Annual Quota</span>
+            <Target className="w-3.5 h-3.5 text-amber-600" />
           </div>
-          <div className="mt-3">
-            <div className="text-2xl font-bold font-serif text-slate-900">
-              {metrics.annualQuota > 0 ? formatCurrency(metrics.annualQuota) : 'TBD'}
-            </div>
-            <div className="text-xs text-slate-500 mt-1">
-              {metrics.annualQuota > 0 ? `Sum of All 12 Quota Months (${selectedYear})` : 'Awaiting FY27 Quota Assignment'}
-            </div>
+          <div className="text-lg font-bold font-serif text-slate-900 leading-tight mt-0.5">
+            {metrics.annualQuota > 0 ? formatCurrency(metrics.annualQuota) : 'TBD'}
+          </div>
+          <div className="text-[10px] text-slate-400 truncate">
+            {metrics.annualQuota > 0 ? `FY ${selectedYear} target` : 'Awaiting quota'}
           </div>
         </div>
 
-        {/* Card 2: Actual Sales to Date */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs flex flex-col justify-between">
+        {/* Actual Revenue */}
+        <div className="bg-white border border-slate-200 border-l-4 border-l-blue-500 rounded-xl px-3.5 py-2.5 shadow-xs">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Actual Revenue</span>
-            <div className="p-2 bg-blue-50 text-blue-600 rounded-lg">
-              <DollarSign className="w-4 h-4" />
-            </div>
+            <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Actual Revenue</span>
+            <DollarSign className="w-3.5 h-3.5 text-blue-600" />
           </div>
-          <div className="mt-3">
-            <div className="text-2xl font-bold font-serif text-slate-900">
-              {formatCurrency(metrics.totalActualSales)}
-            </div>
-            <div className="text-xs text-slate-500 mt-1">
-              {selectedYear === '2026-27' ? 'Incoming actual sales (Oct to Date)' : 'Cumulative actual sales across 12M'}
-            </div>
+          <div className="text-lg font-bold font-serif text-slate-900 leading-tight mt-0.5">
+            {formatCurrency(metrics.totalActualSales)}
+          </div>
+          <div className="text-[10px] text-slate-400 truncate">
+            {selectedYear === currentFiscalYear ? 'Fiscal year to date' : 'Full fiscal year'}
           </div>
         </div>
 
-        {/* Card 3: Pacing Variance */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs flex flex-col justify-between">
+        {/* Full Year (+/-) */}
+        <div className={`bg-white border border-slate-200 border-l-4 rounded-xl px-3.5 py-2.5 shadow-xs ${
+          metrics.annualQuota === 0 ? 'border-l-slate-400' : metrics.totalVariance >= 0 ? 'border-l-emerald-500' : 'border-l-rose-500'
+        }`}>
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Full Year (+/-)</span>
-            <div className={`p-2 rounded-lg ${metrics.annualQuota === 0 ? 'bg-blue-50 text-blue-600' : metrics.totalVariance >= 0 ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
-              {metrics.annualQuota === 0 ? <TrendingUp className="w-4 h-4" /> : metrics.totalVariance >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
-            </div>
+            <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Full Year (+/-)</span>
+            {metrics.annualQuota > 0 && metrics.totalVariance < 0
+              ? <TrendingDown className="w-3.5 h-3.5 text-rose-600" />
+              : <TrendingUp className="w-3.5 h-3.5 text-emerald-600" />}
           </div>
-          <div className="mt-3">
-            <div className={`text-2xl font-bold font-serif ${metrics.annualQuota === 0 ? 'text-slate-700' : metrics.totalVariance >= 0 ? 'text-emerald-700' : 'text-rose-700'}`}>
-              {metrics.annualQuota > 0 ? formatCurrency(metrics.totalVariance) : 'Tracking'}
-            </div>
-            <div className="text-xs text-slate-500 mt-1">
-              {metrics.annualQuota === 0 ? 'Tracking incoming actual sales' : metrics.totalVariance >= 0 ? 'Ahead of Annual Target' : 'Behind Annual Quota Pace'}
-            </div>
+          <div className={`text-lg font-bold font-serif leading-tight mt-0.5 ${
+            metrics.annualQuota === 0 ? 'text-slate-700' : metrics.totalVariance >= 0 ? 'text-emerald-700' : 'text-rose-700'
+          }`}>
+            {metrics.annualQuota > 0 ? formatCurrency(metrics.totalVariance) : 'Tracking'}
+          </div>
+          <div className="text-[10px] text-slate-400 truncate">
+            {metrics.annualQuota === 0 ? 'Pending quota' : metrics.totalVariance >= 0 ? 'Ahead of target' : 'Remaining to quota'}
           </div>
         </div>
 
-        {/* Card 4: Attainment % */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs flex flex-col justify-between">
+        {/* Attainment */}
+        <div className="bg-white border border-slate-200 border-l-4 border-l-indigo-500 rounded-xl px-3.5 py-2.5 shadow-xs">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Annual Attainment</span>
-            <span className={`text-xs px-2 py-0.5 rounded-full font-bold ${
-              metrics.annualQuota === 0
-                ? 'bg-blue-100 text-blue-800'
-                : metrics.overallAttainmentPercent >= 100 
-                ? 'bg-emerald-100 text-emerald-800' 
-                : metrics.overallAttainmentPercent >= 90
-                ? 'bg-amber-100 text-amber-800'
-                : 'bg-rose-100 text-rose-800'
+            <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Attainment</span>
+            <span className={`text-[10px] font-bold ${
+              metrics.annualQuota === 0 ? 'text-slate-400'
+                : metrics.overallAttainmentPercent >= 100 ? 'text-emerald-600'
+                : metrics.overallAttainmentPercent >= 90 ? 'text-amber-600' : 'text-rose-600'
             }`}>
-              {metrics.annualQuota === 0 ? 'Pending Quota' : `${metrics.overallAttainmentPercent}%`}
+              {metrics.annualQuota > 0 ? 'of 100%' : ''}
             </span>
           </div>
-          <div className="mt-3">
-            {metrics.annualQuota > 0 ? (
-              <>
-                <div className="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden mb-2">
-                  <div 
-                    className={`h-full rounded-full transition-all duration-500 ${
-                      metrics.overallAttainmentPercent >= 100 
-                        ? 'bg-emerald-500' 
-                        : metrics.overallAttainmentPercent >= 90 
-                        ? 'bg-amber-500' 
-                        : 'bg-rose-500'
-                    }`}
-                    style={{ width: `${Math.min(metrics.overallAttainmentPercent, 100)}%` }}
-                  />
-                </div>
-                <div className="text-xs text-slate-500 flex justify-between">
-                  <span>Goal: 100%</span>
-                  <span className="font-semibold text-slate-700">{metrics.overallAttainmentPercent}% Achieved</span>
-                </div>
-              </>
-            ) : (
-              <div className="text-xs text-slate-500 py-1">
-                Attainment % will calculate automatically upon entering FY27 quota.
-              </div>
-            )}
+          <div className="text-lg font-bold font-serif text-slate-900 leading-tight mt-0.5">
+            {metrics.annualQuota > 0 ? `${metrics.overallAttainmentPercent}%` : 'TBD'}
+          </div>
+          <div className="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden mt-1">
+            <div
+              className={`h-full rounded-full transition-all duration-500 ${
+                metrics.overallAttainmentPercent >= 100 ? 'bg-emerald-500'
+                  : metrics.overallAttainmentPercent >= 90 ? 'bg-amber-500' : 'bg-indigo-500'
+              }`}
+              style={{ width: `${Math.min(metrics.annualQuota > 0 ? metrics.overallAttainmentPercent : 0, 100)}%` }}
+            />
           </div>
         </div>
 
-        {/* Card 5: Daily Pace */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs flex flex-col justify-between">
+        {/* Daily Pace */}
+        <div className="bg-white border border-slate-200 border-l-4 border-l-violet-500 rounded-xl px-3.5 py-2.5 shadow-xs">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Daily Pace Avg</span>
-            <div className="p-2 bg-indigo-50 text-indigo-600 rounded-lg">
-              <TrendingUp className="w-4 h-4" />
-            </div>
+            <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Daily Pace</span>
+            <TrendingUp className="w-3.5 h-3.5 text-violet-600" />
           </div>
-          <div className="mt-3">
-            <div className="text-2xl font-bold font-serif text-slate-900">
-              {formatCurrency(avgDailySales)}
-              <span className="text-xs font-normal text-slate-500 font-sans ml-1">/ day</span>
-            </div>
-            <div className="text-xs text-slate-500 mt-1">
-              {metrics.annualQuota > 0 ? (
-                <>Req'd Pace: <strong className="text-slate-700">{formatCurrency(avgRequiredDaily)}</strong> / day</>
-              ) : (
-                <>Req'd Pace: <strong className="text-slate-700">TBD</strong> (Pending Quota)</>
-              )}
-            </div>
+          <div className="text-lg font-bold font-serif text-slate-900 leading-tight mt-0.5">
+            {formatCurrency(avgDailySales)}<span className="text-[10px] font-normal text-slate-400 font-sans ml-1">/day</span>
+          </div>
+          <div className="text-[10px] text-slate-400 truncate">
+            Req'd: {metrics.annualQuota > 0 ? `${formatCurrency(avgRequiredDaily)}/day` : 'TBD'}
           </div>
         </div>
       </div>
