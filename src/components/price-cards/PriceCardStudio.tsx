@@ -202,6 +202,26 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
   // Product search filter state
   const [productSearch, setProductSearch] = useState<string>('');
 
+  // Funeral home search filter (name, account #, city, program)
+  const [customerSearch, setCustomerSearch] = useState<string>('');
+  const filteredCustomers = useMemo(() => {
+    const q = customerSearch.trim().toLowerCase();
+    if (!q) return customers;
+    return customers.filter(c =>
+      (c.name || '').toLowerCase().includes(q) ||
+      String(c.accountNumber ?? c.code ?? '').toLowerCase().includes(q) ||
+      (c.city || '').toLowerCase().includes(q) ||
+      (c.program || c.customerPurchaseProgram || '').toLowerCase().includes(q)
+    );
+  }, [customers, customerSearch]);
+
+  // Auto-select the first match while typing if the current funeral home is filtered out
+  useEffect(() => {
+    if (customerSearch.trim() && filteredCustomers.length > 0 && !filteredCustomers.some(c => c.id === selectedCustomerId)) {
+      setSelectedCustomerId(filteredCustomers[0].id);
+    }
+  }, [customerSearch, filteredCustomers, selectedCustomerId]);
+
   const selectedCustomer = customers.find(c => c.id === selectedCustomerId) || customers[0];
   
   // Filter products for Urns if 2x12 is active (strictly current year)
@@ -498,12 +518,35 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
               </span>
               <span className="text-[11px] text-amber-700 font-medium">Program: {selectedCustomer?.program || 'Standard'}</span>
             </label>
+            <div className="relative mb-2">
+              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5 pointer-events-none" />
+              <input
+                type="text"
+                value={customerSearch}
+                onChange={(e) => setCustomerSearch(e.target.value)}
+                placeholder="Search funeral home, account #, city..."
+                className="w-full bg-white border border-slate-300 rounded-xl pl-9 pr-8 py-2 text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 shadow-xs transition-all"
+              />
+              {customerSearch && (
+                <button
+                  type="button"
+                  onClick={() => setCustomerSearch('')}
+                  className="absolute right-2.5 top-2.5 p-0.5 text-slate-400 hover:text-slate-700 cursor-pointer"
+                  title="Clear search"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
             <select
               value={selectedCustomerId}
               onChange={(e) => setSelectedCustomerId(e.target.value)}
               className="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500"
             >
-              {customers.map((c) => (
+              {filteredCustomers.length === 0 && (
+                <option value={selectedCustomerId} disabled>No funeral homes matching "{customerSearch}"</option>
+              )}
+              {filteredCustomers.map((c) => (
                 <option key={c.id} value={c.id}>
                   #{c.accountNumber || c.code} - {c.name} ({c.program || 'Std'} • {c.burialDiscount || 0}% Burial Disc)
                 </option>
