@@ -8,7 +8,9 @@ import {
   saveCustomerShowroomToSupabase,
   fetchCustomerPricingFromSupabase,
   saveCustomerPricingToSupabase,
-  resolveSlotPricing
+  resolveSlotPricing,
+  buildCustomerPricingMap,
+  getCurrentPricingYear
 } from '../../services/supabase';
 import { getCustomerRetailPrice, saveCustomerRetails } from '../../services/customerRetails';
 import { 
@@ -356,10 +358,7 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
         fetchCustomerPricingFromSupabase(acct)
       ]);
 
-      const pricingMap = new Map<string, CustomerProductPricing>();
-      pricingList.forEach(p => {
-        pricingMap.set(String(p.product_code), p);
-      });
+      const pricingMap = buildCustomerPricingMap(pricingList);
       setCustomerPricingMap(pricingMap);
 
       if (cloudRes.success && (cloudRes.locations.length > 0 || cloudRes.room)) {
@@ -878,7 +877,7 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
       await saveCustomerPricingToSupabase([{
         account_number: acct,
         product_code: slot.productCode,
-        catalog_year: '2024-25',
+        catalog_year: getCurrentPricingYear(),
         master_list_price: slot.masterListPrice || slot.wholesalePrice || 1200,
         discount_percent: slot.discountPercent || (slot.type === 'urn' ? activeCustomer.cremationDiscount : activeCustomer.burialDiscount) || 0,
         net_cost: slot.netCost || Math.round((slot.wholesalePrice || 1200) * (1 - ((slot.discountPercent || 0) / 100))),
@@ -892,7 +891,7 @@ export const ShowroomFloorPlan: React.FC<ShowroomFloorPlanProps> = ({
         const existing = next.get(String(slot.productCode)) || {
           account_number: acct,
           product_code: slot.productCode!,
-          catalog_year: '2024-25',
+          catalog_year: getCurrentPricingYear(),
           master_list_price: slot.masterListPrice || slot.wholesalePrice || 1200,
           discount_percent: slot.discountPercent || 0,
           net_cost: slot.netCost || 0,

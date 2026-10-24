@@ -12,6 +12,8 @@ import {
   getLithoPublicUrl
 } from '../../services/supabase';
 import { saveLithoItem, db } from '../../services/db';
+import { getCustomerCost } from '../../services/customerCosts';
+import { getCustomerRetailPrice } from '../../services/customerRetails';
 import { 
   Printer, 
   X, 
@@ -104,7 +106,13 @@ export const ProductLithoModal: React.FC<ProductLithoModalProps> = ({
 
   // Suggested retail calculation based on customer markup or default 2.5x
   const markupMultiplier = customer?.defaultMarkupPercent ? (1 + customer.defaultMarkupPercent / 100) : 2.5;
-  const defaultRetail = Math.round((product.price || product.wholesalePrice || 1200) * markupMultiplier);
+  // Priority: loaded funeral home retail -> funeral home cost x markup -> list price x markup
+  const acctKey = customer ? String(customer.accountNumber ?? customer.code ?? '') : '';
+  const loadedRetail = acctKey ? getCustomerRetailPrice(acctKey, product.code) : null;
+  const loadedCost = acctKey ? getCustomerCost(acctKey, product.code) : null;
+  const defaultRetail = loadedRetail !== null
+    ? loadedRetail
+    : Math.round((loadedCost ? loadedCost.cost : (product.price || product.wholesalePrice || 1200)) * markupMultiplier);
   const activeRetailPrice = customRetailPrice !== '' ? Number(customRetailPrice) : defaultRetail;
 
   // Print Action - STRICTLY prints 1 single sheet of paper

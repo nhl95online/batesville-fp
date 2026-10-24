@@ -1741,6 +1741,40 @@ export async function fetchCustomerPricingFromSupabase(
   }
 }
 
+/** Current Batesville fiscal year (Oct 1 – Sep 30), e.g. "2026-27" */
+export function getCurrentPricingYear(date = new Date()): string {
+  const y = date.getFullYear();
+  const start = date.getMonth() + 1 >= 10 ? y : y - 1;
+  return `${start}-${String(start + 1).slice(-2)}`;
+}
+
+/**
+ * Build a product_code -> pricing map for one customer across catalog years.
+ * Uses the current fiscal year where available, otherwise the most recent earlier year.
+ * net_cost and retail_price are each taken from the latest year that has a value.
+ */
+export function buildCustomerPricingMap(
+  list: CustomerProductPricing[],
+  fiscalYear: string = getCurrentPricingYear()
+): Map<string, CustomerProductPricing> {
+  const map = new Map<string, CustomerProductPricing>();
+  const sorted = [...list]
+    .filter(p => !p.catalog_year || String(p.catalog_year) <= fiscalYear)
+    .sort((a, b) => String(a.catalog_year || '').localeCompare(String(b.catalog_year || '')));
+  for (const row of sorted) {
+    const key = String(row.product_code);
+    const prev = map.get(key);
+    const merged: CustomerProductPricing = { ...(prev || {}), ...row } as CustomerProductPricing;
+    if (prev) {
+      if (!(Number(row.net_cost) > 0) && Number(prev.net_cost) > 0) merged.net_cost = prev.net_cost;
+      if (!(Number(row.retail_price) > 0) && Number(prev.retail_price) > 0) merged.retail_price = prev.retail_price;
+      if (!(Number(row.master_list_price) > 0) && Number(prev.master_list_price) > 0) merged.master_list_price = prev.master_list_price;
+    }
+    map.set(key, merged);
+  }
+  return map;
+}
+
 /**
  * Save / Upsert customer product pricing records into Supabase
  */
@@ -1819,13 +1853,13 @@ export function resolveSlotPricing(
     ? Number(customer?.cremationDiscount || 0)
     : Number(customer?.burialDiscount || 0);
 
-  const discountPercent = override?.discount_percent !== undefined 
-    ? Number(override.discount_percent) 
+  const discountPercent = Number(override?.discount_percent) > 0
+    ? Number(override!.discount_percent)
     : defaultDiscount;
 
-  // 3. Calculate Customer Net Cost
-  let netCost = override?.net_cost !== undefined
-    ? Number(override.net_cost)
+  // 3. Customer Net Cost: loaded funeral home cost wins, otherwise list less discount
+  let netCost = Number(override?.net_cost) > 0
+    ? Number(override!.net_cost)
     : Math.round(masterList * (1 - (discountPercent / 100)) * 100) / 100;
 
   if (netCost <= 0 && masterList > 0) {
