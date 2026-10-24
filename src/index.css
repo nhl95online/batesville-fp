@@ -116,6 +116,15 @@
     break-inside: avoid !important;
   }
 
+  .printing-4x6 {
+    width: 6in !important;
+    height: 4in !important;
+    max-width: 6in !important;
+    max-height: 4in !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
   .printing-2x12 {
     width: 12in !important;
     height: 2in !important;

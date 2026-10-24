@@ -151,7 +151,7 @@ export interface SaleRecord {
   notes?: string;
 }
 
-export type CardDimension = '6x6' | '2x12' | '8.5x11' | '11x17';
+export type CardDimension = '6x6' | '4x6' | '2x12' | '8.5x11' | '11x17';
 
 export type CardTheme = 
   | 'classic-burgundy' 

@@ -231,6 +231,7 @@ export function App() {
 
   const cardSubpages: SubpageItem[] = useMemo(() => [
     { id: '6x6', label: '6" x 6" Cap Cards', description: 'Standard showroom casket cap cards' },
+    { id: '4x6', label: '4" x 6" Tent Cards', description: 'Compact showroom tent / ledge cards' },
     { id: '2x12', label: '2" x 12" Urn Rails', description: 'Shelf rail strips for cremation urns' },
     { id: '8.5x11', label: '8.5" x 11" Full Sheet', description: 'Letter size cap cards / display sheets' },
     { id: '11x17', label: '11" x 17" Posters', description: 'Large format showroom display posters' },

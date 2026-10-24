@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Customer, Product, CardDimension, CardTheme, PriceCardConfig } from '../../types';
 import { Card6x6, CardCollectionType, RightGraphicType } from './templates/Card6x6';
+import { Card4x6, get4x6DefaultBullets } from './templates/Card4x6';
 import { Card2x12 } from './templates/Card2x12';
 import { Card8x11 } from './templates/Card8x11';
 import { Card11x17 } from './templates/Card11x17';
@@ -255,13 +256,17 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
 
   const selectedProduct = availableProducts.find(p => p.id === selectedProductId) || availableProducts[0] || currentYearProducts[0];
 
+  // 4x6 tent cards default to material + interior bullets; other sizes use collection bullets
+  const getBulletsFor = (prod: Product | undefined, coll: CardCollectionType): string[] =>
+    dimension === '4x6' ? get4x6DefaultBullets(prod) : getInitialBullets(prod as Product, coll);
+
   // Auto-initialize collection, name, bullets, and misc features on product change
   useEffect(() => {
     if (selectedProduct) {
       const coll = getInitialCollection(selectedProduct);
       setCollection(coll);
       setProductName(selectedProduct.description || selectedProduct.name || '');
-      setBullets(getInitialBullets(selectedProduct, coll));
+      setBullets(getBulletsFor(selectedProduct, coll));
       setActiveMiscFeatures(getInitialMiscFeatures(selectedProduct));
       if (coll === 'classic') {
         setRightGraphic('refined-styling');
@@ -280,6 +285,16 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
       setCustomPriceOverride('');
     }
   }, [selectedCustomerId, selectedCustomer]);
+
+  // Switching into / out of 4x6 swaps to the matching default bullets
+  const prevDimensionRef = React.useRef(dimension);
+  useEffect(() => {
+    const prev = prevDimensionRef.current;
+    prevDimensionRef.current = dimension;
+    if (selectedProduct && prev !== dimension && (prev === '4x6' || dimension === '4x6')) {
+      setBullets(getBulletsFor(selectedProduct, collection));
+    }
+  }, [dimension]);
 
   // Adjust zoom for landscape / format
   useEffect(() => {
@@ -344,12 +359,12 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
   };
 
   const handleResetBullets = () => {
-    setBullets(getInitialBullets(selectedProduct, collection));
+    setBullets(getBulletsFor(selectedProduct, collection));
   };
 
   const handleSelectCollection = (newColl: CardCollectionType) => {
     setCollection(newColl);
-    setBullets(getInitialBullets(selectedProduct, newColl));
+    setBullets(getBulletsFor(selectedProduct, newColl));
     if (newColl === 'classic') {
       setRightGraphic('refined-styling');
     } else if (newColl === 'basic') {
@@ -361,6 +376,7 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
 
   const dimensionLabels: { id: CardDimension; name: string; desc: string }[] = [
     { id: '6x6', name: '6" × 6" Square', desc: 'Authentic 4-Collection Showroom Card' },
+    { id: '4x6', name: '4" × 6" Tent Card', desc: 'Name, bullets, price & feature icons' },
     { id: '2x12', name: '2" × 12" Urn Strip', desc: 'Ledge / Rail Card (Urns & Cremation)' },
     { id: '8.5x11', name: '8.5" × 11" Horizontal', desc: 'Landscape Showroom Display Sheet' },
     { id: '11x17', name: '11" × 17" Horizontal', desc: 'Landscape Selection Room Display Board' },
@@ -703,6 +719,7 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
               <span className="font-semibold">Live Card Preview:</span>
               <span className="text-amber-800 font-mono font-medium">
                 {dimension === '6x6' && `6" × 6" Square Cap Card (${collection.toUpperCase()})`}
+                {dimension === '4x6' && `4" × 6" Showroom Tent Card`}
                 {dimension === '2x12' && `2" × 12" Urn Rail Strip (${collection.toUpperCase()})`}
                 {dimension === '8.5x11' && `8.5" × 11" Horizontal Sheet (${collection.toUpperCase()})`}
                 {dimension === '11x17' && `11" × 17" Horizontal Display Board (${collection.toUpperCase()})`}
@@ -763,6 +780,19 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
                   activeMiscFeatures={activeMiscFeatures}
                   rightGraphic={rightGraphic}
                   onClearBullet={handleClearBullet}
+                />
+              )}
+
+              {dimension === '4x6' && selectedProduct && (
+                <Card4x6
+                  product={selectedProduct}
+                  customer={selectedCustomer}
+                  config={cardConfig}
+                  retailPrice={finalRetailPrice}
+                  productNameOverride={productName.trim() || undefined}
+                  customBullets={bullets}
+                  activeMiscFeatures={activeMiscFeatures}
+                  showModelCode={showModelCode}
                 />
               )}
 
@@ -836,7 +866,7 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
           </div>
 
           {/* 6. RIGHT-SIDE IMAGE (MISC BUCKET: TRIBUTES / REFINED STYLING) */}
-          {dimension !== '2x12' && (
+          {dimension !== '2x12' && dimension !== '4x6' && (
             <div className="space-y-2">
               <label className="text-xs font-semibold text-slate-600 uppercase tracking-wider block">
                 Right-Side Image (from MISC Bucket)
