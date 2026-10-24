@@ -7,6 +7,8 @@ import { Card8x11 } from './templates/Card8x11';
 import { Card11x17 } from './templates/Card11x17';
 import { CustomerRetailModal } from './CustomerRetailModal';
 import { getCustomerRetailPrice } from '../../services/customerRetails';
+import { CustomerCostModal } from './CustomerCostModal';
+import { getCustomerCost, syncCustomerCostsFromSupabase } from '../../services/customerCosts';
 import { 
   Printer, Eye, RefreshCw, ZoomIn, ZoomOut, Check, Building2, 
   Tag, DollarSign, Upload, FileText, CheckCircle2, X, Trash2, Award, Search
@@ -165,6 +167,13 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
   // Customer retail modal & trigger
   const [isRetailModalOpen, setIsRetailModalOpen] = useState<boolean>(false);
   const [retailVersion, setRetailVersion] = useState<number>(0);
+  const [isCostModalOpen, setIsCostModalOpen] = useState<boolean>(false);
+  const [costVersion, setCostVersion] = useState<number>(0);
+
+  // Pull customer cost pricing from Supabase once on open
+  useEffect(() => {
+    syncCustomerCostsFromSupabase().then(n => { if (n > 0) setCostVersion(v => v + 1); });
+  }, []);
 
   // 4 Collections: Commemorative (Green), Classic (Slate/Gold), Conventional (Royal Blue), Basic (White)
   const [collection, setCollection] = useState<CardCollectionType>('commemorative');
@@ -316,10 +325,15 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
     return getCustomerRetailPrice(customerIdOrCode, selectedProduct.code);
   }, [customerIdOrCode, selectedProduct?.code, retailVersion]);
 
-  // Calculate Retail Price
-  const calculatedRetailPrice = Math.round(
-    (selectedProduct?.wholesalePrice || 0) * (1 + markupPercent / 100)
-  );
+  // Funeral home's own COST for this product (loaded customer pricing, by fiscal year)
+  const customerCost = useMemo(() => {
+    if (!selectedCustomer || !selectedProduct) return null;
+    return getCustomerCost(selectedCustomer.accountNumber ?? selectedCustomer.code, selectedProduct.code);
+  }, [selectedCustomer?.accountNumber, selectedCustomer?.code, selectedProduct?.code, costVersion]);
+
+  // Calculate Retail Price: customer cost × markup when loaded, otherwise list price × markup
+  const baseCost = customerCost ? customerCost.cost : (selectedProduct?.wholesalePrice || 0);
+  const calculatedRetailPrice = Math.round(baseCost * (1 + markupPercent / 100));
 
   const finalRetailPrice = customPriceOverride && !isNaN(Number(customPriceOverride))
     ? Number(customPriceOverride)
@@ -570,6 +584,28 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
               </button>
             </div>
 
+            {/* Customer Cost (what the funeral home pays) */}
+            <div className="flex items-center justify-between bg-white border border-slate-200 rounded-lg p-2">
+              <div className="text-[11px]">
+                <span className="text-slate-500 block">Funeral Home Cost</span>
+                {customerCost ? (
+                  <span className="font-mono font-bold text-slate-900">
+                    ${customerCost.cost.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                    <span className="font-sans font-normal text-slate-400 ml-1">FY {customerCost.fiscalYear}</span>
+                  </span>
+                ) : (
+                  <span className="text-slate-400">Not loaded — using list ${(selectedProduct?.wholesalePrice || 0).toLocaleString()}</span>
+                )}
+              </div>
+              <button
+                onClick={() => setIsCostModalOpen(true)}
+                className="text-[11px] text-emerald-700 hover:text-emerald-800 hover:underline flex items-center gap-1 cursor-pointer font-medium shrink-0"
+              >
+                <Upload className="w-3 h-3" />
+                Load Costs
+              </button>
+            </div>
+
             {/* Loaded Customer Retail Indicator */}
             {customerLoadedRetail !== null ? (
               <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-2.5 flex items-center justify-between">
@@ -590,7 +626,7 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
               </div>
             ) : (
               <div className="text-[11px] text-slate-500 bg-white border border-slate-200 rounded-lg p-2">
-                No custom retail loaded for this item. Using default markup (+{markupPercent}%).
+                No custom retail loaded for this item. Retail = {customerCost ? 'funeral home cost' : 'list price'} + {markupPercent}% markup.
               </div>
             )}
 
@@ -1053,6 +1089,15 @@ export const PriceCardStudio: React.FC<PriceCardStudioProps> = ({
       </div>
 
       {/* Customer Retail Price List Modal */}
+      {isCostModalOpen && (
+        <CustomerCostModal
+          isOpen={isCostModalOpen}
+          onClose={() => setIsCostModalOpen(false)}
+          customers={customers}
+          onSaved={() => setCostVersion(v => v + 1)}
+        />
+      )}
+
       {isRetailModalOpen && (
         <CustomerRetailModal
           isOpen={isRetailModalOpen}
