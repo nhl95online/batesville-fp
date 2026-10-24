@@ -57,6 +57,14 @@ export const CustomerCostModal: React.FC<CustomerCostModalProps> = ({ isOpen, on
 
   const distinctAccounts = useMemo(() => Array.from(new Set(rows.map(r => r.accountNumber))), [rows]);
   const unknownAccounts = distinctAccounts.filter(a => !nameByAcct.has(a));
+  const duplicateCodes = useMemo(() => {
+    const seen = new Map<string, number>();
+    for (const r of rows) {
+      const k = `${r.accountNumber}|${r.productCode}`;
+      seen.set(k, (seen.get(k) || 0) + 1);
+    }
+    return Array.from(seen.entries()).filter(([, n]) => n > 1).map(([k]) => k.split('|')[1]);
+  }, [rows]);
 
   const handleSave = async () => {
     if (rows.length === 0) return;
@@ -148,6 +156,11 @@ export const CustomerCostModal: React.FC<CustomerCostModalProps> = ({ isOpen, on
                 <span className="px-2 py-1 rounded bg-emerald-50 border border-emerald-200 text-emerald-800 font-semibold">{rows.length} prices</span>
                 <span className="px-2 py-1 rounded bg-blue-50 border border-blue-200 text-blue-800 font-semibold">{distinctAccounts.length} funeral homes</span>
                 {skipped > 0 && <span className="px-2 py-1 rounded bg-amber-50 border border-amber-200 text-amber-800">{skipped} lines skipped</span>}
+                {duplicateCodes.length > 0 && (
+                  <span className="px-2 py-1 rounded bg-amber-50 border border-amber-200 text-amber-800" title={duplicateCodes.join(', ')}>
+                    {duplicateCodes.length} duplicate product code(s) — last line used: {duplicateCodes.slice(0, 5).join(', ')}{duplicateCodes.length > 5 ? '…' : ''}
+                  </span>
+                )}
                 {unknownAccounts.length > 0 && (
                   <span className="px-2 py-1 rounded bg-rose-50 border border-rose-200 text-rose-800" title={unknownAccounts.join(', ')}>
                     {unknownAccounts.length} account(s) not in customers

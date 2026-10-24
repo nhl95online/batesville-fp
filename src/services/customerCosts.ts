@@ -173,15 +173,21 @@ export async function saveCustomerCosts(
         .eq('source', COST_SOURCE);
     }
     // product_code is int8 in Supabase — only numeric codes can be stored in the cloud
-    const payload = rows
-      .map(r => ({
+    // De-duplicate (same account + product in one file): the last line wins
+    const byKey = new Map<string, any>();
+    for (const r of rows) {
+      const row = {
         account_number: parseInt(r.accountNumber, 10),
         product_code: parseInt(String(r.productCode).replace(/[^0-9]/g, ''), 10),
         catalog_year: fiscalYear,
         net_cost: r.cost,
         source: COST_SOURCE,
-      }))
-      .filter(r => Number.isFinite(r.account_number) && Number.isFinite(r.product_code));
+      };
+      if (Number.isFinite(row.account_number) && Number.isFinite(row.product_code)) {
+        byKey.set(`${row.account_number}|${row.product_code}`, row);
+      }
+    }
+    const payload = Array.from(byKey.values());
     for (let i = 0; i < payload.length; i += 500) {
       const { error } = await client
         .from('customer_product_pricing')
