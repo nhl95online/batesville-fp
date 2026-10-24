@@ -67,7 +67,7 @@ export const CustomerCostModal: React.FC<CustomerCostModalProps> = ({ isOpen, on
     if (res.cloudError) {
       setMessage({
         type: 'warning',
-        text: `Saved ${res.saved} costs on this computer. Supabase sync failed: ${res.cloudError}. Run supabase/customer_pricing.sql in the Supabase SQL Editor, then load again.`,
+        text: `Saved ${res.saved} costs on this computer. Supabase sync failed: ${res.cloudError}. Check that the customer_product_pricing table exists in Supabase, then load again.`,
       });
     } else {
       setMessage({ type: 'success', text: `Saved ${res.saved} customer costs for FY ${fiscalYear} to Supabase.` });

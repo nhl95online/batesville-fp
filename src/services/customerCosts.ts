@@ -2,11 +2,12 @@
  * Customer Cost Pricing Service
  * Stores each funeral home's COST (net price they pay) per product, per fiscal year.
  * - Local cache in localStorage for instant lookups
- * - Persisted to Supabase table public.customer_pricing
+ * - Persisted to Supabase table public.customer_product_pricing (net_cost column, by catalog_year)
  */
 import { getSupabaseClient } from './supabase';
 
 const STORAGE_KEY = 'batesville_customer_costs_v1';
+const COST_SOURCE = 'customer_cost_upload';
 
 export interface CustomerCostRow {
   accountNumber: string;
@@ -144,7 +145,7 @@ export function parseCustomerCostText(text: string): { rows: CustomerCostRow[]; 
   return { rows, skipped };
 }
 
-/** Save costs locally and upsert to Supabase public.customer_pricing */
+/** Save costs locally and upsert net_cost into Supabase public.customer_product_pricing */
 export async function saveCustomerCosts(
   fiscalYear: string,
   rows: CustomerCostRow[],
@@ -164,19 +165,28 @@ export async function saveCustomerCosts(
   try {
     const client = getSupabaseClient();
     if (replaceYear) {
-      await client.from('customer_pricing').delete().eq('fiscal_year', fiscalYear);
+      // Only remove rows created by previous cost uploads (keeps manually entered retails)
+      await client
+        .from('customer_product_pricing')
+        .delete()
+        .eq('catalog_year', fiscalYear)
+        .eq('source', COST_SOURCE);
     }
-    const payload = rows.map(r => ({
-      fiscal_year: fiscalYear,
-      'account_#': parseInt(r.accountNumber, 10),
-      product_code: String(r.productCode).trim(),
-      cost: r.cost,
-      updated_at: new Date().toISOString(),
-    }));
+    // product_code is int8 in Supabase — only numeric codes can be stored in the cloud
+    const payload = rows
+      .map(r => ({
+        account_number: parseInt(r.accountNumber, 10),
+        product_code: parseInt(String(r.productCode).replace(/[^0-9]/g, ''), 10),
+        catalog_year: fiscalYear,
+        net_cost: r.cost,
+        source: COST_SOURCE,
+        updated_at: new Date().toISOString(),
+      }))
+      .filter(r => Number.isFinite(r.account_number) && Number.isFinite(r.product_code));
     for (let i = 0; i < payload.length; i += 500) {
       const { error } = await client
-        .from('customer_pricing')
-        .upsert(payload.slice(i, i + 500), { onConflict: 'fiscal_year,account_#,product_code' });
+        .from('customer_product_pricing')
+        .upsert(payload.slice(i, i + 500), { onConflict: 'account_number,product_code,catalog_year' });
       if (error) {
         cloudError = error.message;
         break;
@@ -195,8 +205,9 @@ export async function syncCustomerCostsFromSupabase(): Promise<number> {
     const all: any[] = [];
     for (let from = 0; ; from += 1000) {
       const { data, error } = await client
-        .from('customer_pricing')
-        .select('fiscal_year,"account_#",product_code,cost')
+        .from('customer_product_pricing')
+        .select('catalog_year,account_number,product_code,net_cost')
+        .gt('net_cost', 0)
         .range(from, from + 999);
       if (error || !data) break;
       all.push(...data);
@@ -205,12 +216,12 @@ export async function syncCustomerCostsFromSupabase(): Promise<number> {
     if (all.length === 0) return 0;
     const store: CostStore = {};
     for (const r of all) {
-      const y = String(r.fiscal_year);
-      const a = norm(r['account_#']);
+      const y = String(r.catalog_year);
+      const a = norm(r.account_number);
       const c = norm(r.product_code);
       if (!store[y]) store[y] = {};
       if (!store[y][a]) store[y][a] = {};
-      store[y][a][c] = Number(r.cost) || 0;
+      store[y][a][c] = Number(r.net_cost) || 0;
     }
     writeStore(store);
     return all.length;
