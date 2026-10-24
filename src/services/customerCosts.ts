@@ -180,7 +180,6 @@ export async function saveCustomerCosts(
         catalog_year: fiscalYear,
         net_cost: r.cost,
         source: COST_SOURCE,
-        updated_at: new Date().toISOString(),
       }))
       .filter(r => Number.isFinite(r.account_number) && Number.isFinite(r.product_code));
     for (let i = 0; i < payload.length; i += 500) {

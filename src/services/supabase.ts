@@ -1795,8 +1795,7 @@ export async function saveCustomerPricingToSupabase(
       discount_percent: Number(p.discount_percent) || 0,
       net_cost: Number(p.net_cost) || 0,
       retail_price: p.retail_price !== undefined && p.retail_price !== null ? Number(p.retail_price) : null,
-      source: p.source || 'custom_override',
-      updated_at: new Date().toISOString()
+      source: p.source || 'custom_override'
     }));
 
     const { error } = await client
