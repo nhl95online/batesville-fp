@@ -77,6 +77,11 @@
 }
 
 /* Print Optimization for Price Cards */
+/* Zero page margins removes the browser's printed header/footer (URL, date, page title) */
+@page {
+  margin: 0;
+}
+
 @media print {
   body {
     background: transparent !important;
