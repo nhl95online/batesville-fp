@@ -275,74 +275,40 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
         </div>
       )}
 
-      {/* Year Edition Selector Pills (Newspaper Volume Tabs) */}
-      <div className="flex items-center space-x-2 overflow-x-auto pb-2 scrollbar-none border-b border-slate-300">
-        <button
-          onClick={() => handleSelectYear('all')}
-          className={`px-4 py-2 font-serif text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all cursor-pointer border ${
-            selectedYear === 'all'
-              ? 'bg-gradient-to-r from-emerald-800 to-blue-900 text-white border-emerald-950 shadow-xs'
-              : 'bg-[#fafcfa] border-slate-300 text-slate-700 hover:text-emerald-900 hover:bg-emerald-50'
-          }`}
-        >
-          All Editions Combined ({products.length} Items)
-        </button>
-
-        {distinctYears.map((yr) => {
-          const count = products.filter(p => matchesYear(p.catalogYear || p.year, yr)).length;
-          const isSelected = selectedYear === yr || (selectedYear !== 'all' && matchesYear(yr, selectedYear));
-          return (
-            <button
-              key={yr}
-              onClick={() => handleSelectYear(yr)}
-              className={`px-4 py-2 font-serif text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all cursor-pointer border ${
-                isSelected
-                  ? 'bg-gradient-to-r from-emerald-800 to-blue-900 text-white border-emerald-950 shadow-xs'
-                  : 'bg-[#fafcfa] border-slate-300 text-slate-700 hover:text-blue-900 hover:bg-blue-50'
-              }`}
-            >
-              {yr} Edition ({count} models)
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Catalog Overview Metrics (Broadsheet Columns) */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-[#fafcfa] border border-slate-300 border-t-4 border-t-emerald-800 p-5 shadow-xs">
-          <span className="text-xs font-serif font-bold text-emerald-900 uppercase tracking-widest block border-b border-dotted border-slate-300 pb-1 mb-2">
-            Active Publication Edition
-          </span>
-          <div className="font-serif text-3xl font-black text-slate-950">
-            {selectedYear === 'all' ? 'All Catalog Years' : `${selectedYear} Edition`}
-          </div>
-          <p className="text-xs font-serif italic text-slate-600 mt-1">
-            {filteredProducts.length} total models indexed in ledger
-          </p>
+      {/* Year Edition Dropdown Selector */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#fafcfa] border border-slate-300 border-l-4 border-l-emerald-800 px-4 py-3 shadow-xs">
+        <div className="flex items-center space-x-3">
+          <label
+            htmlFor="catalog-year-select"
+            className="text-xs font-serif font-bold uppercase tracking-wider text-emerald-950 whitespace-nowrap"
+          >
+            Select Catalog Edition:
+          </label>
+          <select
+            id="catalog-year-select"
+            value={
+              selectedYear === 'all'
+                ? 'all'
+                : distinctYears.find((yr) => selectedYear === yr || matchesYear(yr, selectedYear)) || selectedYear
+            }
+            onChange={(e) => handleSelectYear(e.target.value)}
+            className="bg-white border border-slate-300 hover:border-emerald-700 focus:border-emerald-800 focus:outline-none px-3.5 py-2 font-serif text-xs font-bold uppercase tracking-wider text-slate-900 shadow-2xs cursor-pointer min-w-[260px]"
+          >
+            <option value="all">All Editions Combined ({products.length} Items)</option>
+            {distinctYears.map((yr) => {
+              const count = products.filter((p) => matchesYear(p.catalogYear || p.year, yr)).length;
+              return (
+                <option key={yr} value={yr}>
+                  {yr} Edition ({count} models)
+                </option>
+              );
+            })}
+          </select>
         </div>
 
-        <div className="bg-[#fafcfa] border border-slate-300 border-t-4 border-t-blue-900 p-5 shadow-xs">
-          <span className="text-xs font-serif font-bold text-blue-950 uppercase tracking-widest block border-b border-dotted border-slate-300 pb-1 mb-2">
-            Indexed Volume Years
-          </span>
-          <div className="font-serif text-3xl font-black text-blue-900">
-            {distinctYears.length} Editions
-          </div>
-          <p className="text-xs font-mono text-slate-600 mt-1 truncate">
-            {distinctYears.join(' • ')}
-          </p>
-        </div>
-
-        <div className="bg-[#fafcfa] border border-slate-300 border-t-4 border-t-emerald-700 p-5 shadow-xs">
-          <span className="text-xs font-serif font-bold text-emerald-900 uppercase tracking-widest block border-b border-dotted border-slate-300 pb-1 mb-2">
-            Personalization &amp; Dual Disp.
-          </span>
-          <div className="font-serif text-3xl font-black text-emerald-800">
-            {filteredProducts.filter(p => Boolean(p.lifesymbols || p.lifestories || p.dualDisposition || p.dual_disposition)).length} Models
-          </div>
-          <p className="text-xs font-serif italic text-slate-600 mt-1">
-            LifeSymbols®, LifeStories® &amp; Dual Disposition
-          </p>
+        <div className="text-xs font-serif italic text-slate-600">
+          Showing <span className="font-bold not-italic text-emerald-900">{filteredProducts.length}</span> indexed models
+          {selectedYear !== 'all' ? ` for the ${selectedYear} Edition` : ` across ${distinctYears.length} catalog editions`}
         </div>
       </div>
 
