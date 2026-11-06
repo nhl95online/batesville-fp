@@ -237,7 +237,7 @@ export const DailySalesUploadModal: React.FC<DailySalesUploadModalProps> = ({
           category: s.category || '',
           subcategory: s.subcategory || '',
           description: s.description || '',
-          qty: Math.max(0, Math.round(Number(s.quantity) || 1)),
+          qty: Number.isFinite(Number(s.quantity)) ? Math.round(Number(s.quantity)) : (Number(s.cost) < 0 ? -1 : 1),
           cost: Number(s.cost) || 0
         }));
 
@@ -294,6 +294,8 @@ export const DailySalesUploadModal: React.FC<DailySalesUploadModalProps> = ({
 
   const totalCalculatedRevenue = editableRows.reduce((sum, r) => sum + (Number(r.cost) || Number(r.totalAmount) || 0), 0);
   const totalCalculatedUnits = editableRows.reduce((sum, r) => sum + Number(r.quantity || 0), 0);
+  const creditRows = editableRows.filter(r => Number(r.cost) < 0 || Number(r.totalAmount) < 0 || Number(r.quantity) < 0);
+  const totalCreditsAmount = creditRows.reduce((sum, r) => sum + (Number(r.cost) || Number(r.totalAmount) || 0), 0);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fadeIn">
@@ -465,25 +467,31 @@ ALTER TABLE sales ALTER COLUMN sales_id SET DEFAULT nextval('sales_sales_id_seq'
             <div className="space-y-4">
               
               {/* Summary Cards */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+              <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 text-xs">
                 <div className="bg-slate-50 border border-slate-200 p-3 rounded-xl shadow-sm">
                   <span className="text-slate-500 block mb-0.5">Parsed Transactions</span>
                   <span className="text-base font-bold text-slate-900 font-mono">{editableRows.length}</span>
                 </div>
                 <div className="bg-slate-50 border border-slate-200 p-3 rounded-xl shadow-sm">
-                  <span className="text-slate-500 block mb-0.5">Total Units</span>
-                  <span className="text-base font-bold text-amber-700 font-mono">{totalCalculatedUnits}</span>
+                  <span className="text-slate-500 block mb-0.5">Total Units (Net)</span>
+                  <span className={`text-base font-bold font-mono ${totalCalculatedUnits < 0 ? 'text-rose-600' : 'text-amber-700'}`}>{totalCalculatedUnits}</span>
+                </div>
+                <div className="bg-rose-50/70 border border-rose-200 p-3 rounded-xl shadow-sm">
+                  <span className="text-rose-700 font-medium block mb-0.5">Credits / Negative ({creditRows.length})</span>
+                  <span className="text-base font-bold text-rose-600 font-mono">
+                    {totalCreditsAmount < 0 ? '-' : ''}${Math.abs(totalCreditsAmount).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  </span>
                 </div>
                 <div className="bg-slate-50 border border-slate-200 p-3 rounded-xl shadow-sm">
-                  <span className="text-slate-500 block mb-0.5">Total Revenue</span>
-                  <span className="text-base font-bold text-emerald-700 font-mono">
-                    ${totalCalculatedRevenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  <span className="text-slate-500 block mb-0.5">Net Total Revenue</span>
+                  <span className={`text-base font-bold font-mono ${totalCalculatedRevenue < 0 ? 'text-rose-600' : 'text-emerald-700'}`}>
+                    {totalCalculatedRevenue < 0 ? '-' : ''}${Math.abs(totalCalculatedRevenue).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </span>
                 </div>
                 <div className="bg-slate-50 border border-slate-200 p-3 rounded-xl shadow-sm flex items-center justify-between">
                   <div>
                     <span className="text-slate-500 block mb-0.5">Source Document</span>
-                    <span className="text-xs font-semibold text-slate-800 truncate block max-w-[130px]" title={parseResult?.fileName}>
+                    <span className="text-xs font-semibold text-slate-800 truncate block max-w-[110px]" title={parseResult?.fileName}>
                       {parseResult?.fileName}
                     </span>
                   </div>
@@ -521,7 +529,12 @@ ALTER TABLE sales ALTER COLUMN sales_id SET DEFAULT nextval('sales_sales_id_seq'
                     </thead>
                     <tbody className="divide-y divide-slate-100 text-slate-700">
                       {editableRows.map((row) => (
-                        <tr key={row.id} className="hover:bg-slate-50 transition-colors">
+                        <tr
+                          key={row.id}
+                          className={`transition-colors ${
+                            row.cost < 0 || row.quantity < 0 ? 'bg-rose-50/60 hover:bg-rose-50' : 'hover:bg-slate-50'
+                          }`}
+                        >
                           
                           {/* Year (e.g. 2026-27) */}
                           <td className="px-2.5 py-2 whitespace-nowrap">
@@ -602,10 +615,14 @@ ALTER TABLE sales ALTER COLUMN sales_id SET DEFAULT nextval('sales_sales_id_seq'
                           <td className="px-3 py-2 text-center whitespace-nowrap">
                             <input
                               type="number"
-                              min="1"
                               value={row.quantity}
-                              onChange={(e) => handleRowChange(row.id, 'quantity', parseInt(e.target.value, 10) || 1)}
-                              className="bg-white border border-slate-300 rounded px-1.5 py-0.5 text-xs text-center font-mono w-12 focus:outline-none focus:border-amber-600"
+                              onChange={(e) => {
+                                const parsed = parseFloat(e.target.value);
+                                handleRowChange(row.id, 'quantity', Number.isFinite(parsed) ? parsed : 0);
+                              }}
+                              className={`bg-white border border-slate-300 rounded px-1.5 py-0.5 text-xs text-center font-mono w-14 focus:outline-none focus:border-amber-600 ${
+                                row.quantity < 0 ? 'text-rose-600 font-bold' : ''
+                              }`}
                             />
                           </td>
 
@@ -613,15 +630,23 @@ ALTER TABLE sales ALTER COLUMN sales_id SET DEFAULT nextval('sales_sales_id_seq'
                           <td className="px-3 py-2 text-right whitespace-nowrap">
                             <input
                               type="number"
+                              step="0.01"
                               value={row.cost}
-                              onChange={(e) => handleRowChange(row.id, 'cost', parseFloat(e.target.value) || 0)}
-                              className="bg-white border border-slate-300 rounded px-1.5 py-0.5 text-xs text-right font-mono w-20 text-emerald-700 focus:outline-none focus:border-amber-600 font-semibold"
+                              onChange={(e) => {
+                                const parsed = parseFloat(e.target.value);
+                                handleRowChange(row.id, 'cost', Number.isFinite(parsed) ? parsed : 0);
+                              }}
+                              className={`bg-white border border-slate-300 rounded px-1.5 py-0.5 text-xs text-right font-mono w-24 focus:outline-none focus:border-amber-600 font-semibold ${
+                                row.cost < 0 ? 'text-rose-600' : 'text-emerald-700'
+                              }`}
                             />
                           </td>
 
                           {/* Total */}
-                          <td className="px-3 py-2 text-right font-mono font-semibold text-emerald-700 whitespace-nowrap">
-                            ${row.totalAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                          <td className={`px-3 py-2 text-right font-mono font-semibold whitespace-nowrap ${
+                            row.totalAmount < 0 ? 'text-rose-600' : 'text-emerald-700'
+                          }`}>
+                            {row.totalAmount < 0 ? '-' : ''}${Math.abs(row.totalAmount).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                           </td>
 
                           {/* Delete */}

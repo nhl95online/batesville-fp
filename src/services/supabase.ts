@@ -446,15 +446,15 @@ export async function syncFromSupabase(): Promise<{
             id: `prod-${prodCode}-${yr}`,
             catalogYear: yr,
             year: yr,
-            wholesalePrice: Number(s.cost) || base.wholesalePrice,
-            price: Number(s.cost) || base.wholesalePrice,
+            wholesalePrice: Number(s.cost) > 0 ? Number(s.cost) : base.wholesalePrice,
+            price: Number(s.cost) > 0 ? Number(s.cost) : base.wholesalePrice,
             discontinued: false,
             discountinued: 'FALSE',
             isActive: true,
           });
         } else {
           const parsed = parseBatesvilleDescription(s.description, s.category);
-          const cost = Number(s.cost) || 1200;
+          const cost = Math.abs(Number(s.cost)) || 1200;
           const isUrn = parsed.isUrn || isUrnProduct({ category: s.category, name: parsed.name, description: s.description });
           productMap.set(compositeKey, {
             id: `prod-${prodCode}-${yr}`,
@@ -681,7 +681,7 @@ export async function syncFromSupabase(): Promise<{
         customerId: `cust-${acctNumberStr || s['account_#'] || s.account_name}`,
         productId: `prod-${s.product_code}-${yr}`,
         orderNumber: `ORD-${yr}-${s.sale_id || idx}`,
-        unitPrice: qty > 0 ? Number((cost / qty).toFixed(2)) : cost,
+        unitPrice: qty !== 0 ? Number((cost / Math.abs(qty)).toFixed(2)) : cost,
         totalAmount: cost,
         saleDate,
         fiscalMonth,

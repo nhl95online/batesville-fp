@@ -294,7 +294,7 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
       );
     }
 
-    return list;
+    return [...list].sort((a, b) => (Number(b.saleId) || 0) - (Number(a.saleId) || 0));
   }, [rawSales, selectedTableYear, selectedCustomerId, selectedProductId, selectedCustomer, salesSearch]);
 
   return (
@@ -739,7 +739,7 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
               </thead>
               <tbody className="divide-y divide-slate-100 text-slate-700 font-mono">
                 {filteredRawSales.slice(0, tableDisplayLimit).map((s) => (
-                  <tr key={s.id} className="hover:bg-slate-50 transition-colors">
+                  <tr key={s.id} className={`transition-colors ${s.cost < 0 || s.quantity < 0 ? 'bg-rose-50/60 hover:bg-rose-50' : 'hover:bg-slate-50'}`}>
                     <td className="py-2.5 px-3.5 text-slate-400">{s.saleId || s.id.replace('sale-', '')}</td>
                     <td className="py-2.5 px-3.5 text-amber-700 font-bold">{s.year}</td>
                     <td className="py-2.5 px-3.5 text-slate-600">{s.month}</td>
@@ -757,8 +757,8 @@ export const SalesDashboard: React.FC<SalesDashboardProps> = ({
                     <td className="py-2.5 px-3.5 font-sans text-slate-600 truncate max-w-[160px]">{s.category}</td>
                     <td className="py-2.5 px-3.5 font-sans text-slate-500 truncate max-w-[140px]">{s.subcategory || '—'}</td>
                     <td className="py-2.5 px-3.5 font-sans text-slate-700 truncate max-w-[260px]">{s.description}</td>
-                    <td className="py-2.5 px-3.5 font-bold text-slate-900">{s.quantity}</td>
-                    <td className="py-2.5 px-3.5 font-bold text-emerald-700">${s.cost.toLocaleString()}</td>
+                    <td className={`py-2.5 px-3.5 font-bold ${s.quantity < 0 ? 'text-rose-600' : 'text-slate-900'}`}>{s.quantity}</td>
+                    <td className={`py-2.5 px-3.5 font-bold ${s.cost < 0 ? 'text-rose-600' : 'text-emerald-700'}`}>{s.cost < 0 ? '-' : ''}${Math.abs(s.cost).toLocaleString()}</td>
                   </tr>
                 ))}
               </tbody>
