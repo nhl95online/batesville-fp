@@ -13,6 +13,8 @@ import { LithoManagerModal } from './components/catalogs/LithoManagerModal';
 import { DailySalesUploadModal } from './components/sales/DailySalesUploadModal';
 import { PriceListImportModal } from './components/products/PriceListImportModal';
 import { ShowroomFloorPlan } from './components/floorplan/ShowroomFloorPlan';
+import { ExtrasHub, loadCustomExtras } from './components/extras/ExtrasHub';
+import { DEFAULT_EXTRAS, EXTRA_CATEGORIES } from './services/extrasData';
 import { syncFromSupabase } from './services/supabase';
 import { isAuthenticated, logoutUser } from './services/auth';
 import { LoginModal } from './components/auth/LoginModal';
@@ -27,7 +29,9 @@ import {
   Loader2, 
   LayoutGrid,
   ChevronDown,
-  Lock
+  ChevronRight,
+  Lock,
+  Sparkles
 } from 'lucide-react';
 
 interface SubpageItem {
@@ -42,7 +46,7 @@ export function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => isAuthenticated());
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [loginModalMode, setLoginModalMode] = useState<'login' | 'changePassword'>('login');
-  const [activeTab, setActiveTab] = useState<'home' | 'catalogs' | 'cards' | 'sales' | 'customers' | 'products' | 'floorplans'>(() => {
+  const [activeTab, setActiveTab] = useState<'home' | 'catalogs' | 'cards' | 'sales' | 'customers' | 'products' | 'floorplans' | 'extras'>(() => {
     return isAuthenticated() ? 'home' : 'catalogs';
   });
   const [customers, setCustomers] = useState<Customer[]>([]);
@@ -63,9 +67,20 @@ export function App() {
   const [salesSubpage, setSalesSubpage] = useState<'analytics' | 'quota' | 'units' | 'table'>('quota');
   const [floorplanSubpage, setFloorplanSubpage] = useState<RoomShape>('rectangle');
   const [homeSubpage, setHomeSubpage] = useState<string>('overview');
+  const [extrasSubpage, setExtrasSubpage] = useState<string>('all');
+  const [extrasVersion, setExtrasVersion] = useState(0);
+
+  // Refresh Extras dropdown badges when custom extras are added/removed
+  useEffect(() => {
+    const bump = () => setExtrasVersion(v => v + 1);
+    window.addEventListener('portal_extras_changed', bump);
+    return () => window.removeEventListener('portal_extras_changed', bump);
+  }, []);
 
   // Navigation dropdown popover state
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  // Which child section is highlighted inside a grouped dropdown (e.g. Catalogs group)
+  const [groupHoverChild, setGroupHoverChild] = useState<string | null>(null);
 
   // Close dropdown on Escape key
   useEffect(() => {
@@ -260,8 +275,21 @@ export function App() {
     { id: 'segments', label: 'Segment Breakdown', description: 'Total units by material & treemap matrix' },
   ], []);
 
+  const extrasSubpages: SubpageItem[] = useMemo(() => {
+    const all = [...DEFAULT_EXTRAS, ...loadCustomExtras()];
+    return [
+      { id: 'all', label: 'All Extras', badge: all.length, description: 'Catalogs, selection rooms, personalization & more' },
+      ...EXTRA_CATEGORIES.map(c => ({
+        id: c.id,
+        label: c.label,
+        badge: all.filter(i => i.category === c.id).length,
+        description: c.description,
+      })),
+    ];
+  }, [extrasVersion]);
+
 interface NavTabItem {
-  id: 'home' | 'catalogs' | 'cards' | 'sales' | 'customers' | 'products' | 'floorplans';
+  id: 'home' | 'catalogs' | 'cards' | 'sales' | 'customers' | 'products' | 'floorplans' | 'extras';
   label: string;
   icon: React.ComponentType<{ className?: string }>;
   badge?: string | number;
@@ -277,11 +305,12 @@ interface NavTabItem {
     { id: 'customers', label: 'Customers', icon: Building2, subpages: customerSubpages },
     { id: 'products', label: 'Products', icon: Layers, subpages: productSubpages },
     { id: 'floorplans', label: 'Floor Plans', icon: LayoutGrid, subpages: floorplanSubpages },
+    { id: 'extras', label: 'Extras', icon: Sparkles, subpages: extrasSubpages },
   ];
 
   // Unified Navigation Handler supporting Tab + Subpage
   const handleNavigate = (tab: typeof activeTab, subpageId?: string) => {
-    if (!isLoggedIn && tab !== 'catalogs' && tab !== 'products') {
+    if (!isLoggedIn && tab !== 'catalogs' && tab !== 'products' && tab !== 'extras') {
       setLoginModalMode('login');
       setIsLoginModalOpen(true);
       return;
@@ -310,6 +339,8 @@ interface NavTabItem {
       }
     } else if (tab === 'home') {
       setHomeSubpage(subpageId);
+    } else if (tab === 'extras') {
+      setExtrasSubpage(subpageId);
     }
   };
 
@@ -352,6 +383,7 @@ interface NavTabItem {
       case 'sales': return salesSubpage === subId;
       case 'floorplans': return floorplanSubpage === subId || (subId === 'interactive' && !floorplanSubpage);
       case 'home': return homeSubpage === subId;
+      case 'extras': return extrasSubpage === subId;
       default: return false;
     }
   };
@@ -359,8 +391,91 @@ interface NavTabItem {
   // Show Home, Catalogs, and Products to unauthenticated visitors; full tabs when logged in
   const visibleNavTabs = useMemo(() => {
     if (isLoggedIn) return navTabs;
-    return navTabs.filter(t => t.id === 'home' || t.id === 'catalogs' || t.id === 'products');
+    return navTabs.filter(t => t.id === 'home' || t.id === 'catalogs' || t.id === 'products' || t.id === 'extras');
   }, [isLoggedIn, navTabs]);
+
+  // Related tabs combined under a single header tab with a section dropdown
+  const NAV_GROUPS: { id: string; label: string; tabIds: NavTabItem['id'][] }[] = [
+    { id: 'catalog-group', label: 'Catalogs', tabIds: ['catalogs', 'products', 'cards'] },
+    { id: 'customer-group', label: 'Customers', tabIds: ['customers', 'floorplans'] },
+  ];
+  const GROUPED_CHILD_LABELS: Partial<Record<NavTabItem['id'], string>> = {
+    catalogs: 'Catalog Editions',
+    customers: 'Customer Accounts',
+  };
+
+  type NavEntry =
+    | { kind: 'tab'; id: string; tab: NavTabItem }
+    | { kind: 'group'; id: string; label: string; children: NavTabItem[] };
+
+  const navEntries: NavEntry[] = (() => {
+    const entries: NavEntry[] = [];
+    const insertedGroups = new Set<string>();
+    visibleNavTabs.forEach(tab => {
+      const group = NAV_GROUPS.find(g => g.tabIds.includes(tab.id));
+      if (!group) {
+        entries.push({ kind: 'tab', id: tab.id, tab });
+        return;
+      }
+      if (insertedGroups.has(group.id)) return;
+      insertedGroups.add(group.id);
+      const children = group.tabIds
+        .map(id => visibleNavTabs.find(t => t.id === id))
+        .filter((t): t is NavTabItem => Boolean(t));
+      entries.push({ kind: 'group', id: group.id, label: group.label, children });
+    });
+    return entries;
+  })();
+
+  const tabButtonClass = (isActive: boolean, isOpen: boolean) =>
+    `flex items-center space-x-1.5 px-3 py-1 rounded-xs font-serif uppercase tracking-wider text-xs sm:text-[13px] transition-all cursor-pointer ${
+      isActive
+        ? 'text-white font-bold bg-gradient-to-r from-emerald-800 to-blue-900 border border-emerald-950 shadow-xs'
+        : isOpen
+          ? 'text-blue-950 font-bold bg-blue-100/80 border border-blue-300'
+          : 'text-slate-800 hover:text-emerald-900 hover:bg-emerald-100/60 font-semibold border border-transparent'
+    }`;
+
+  const renderSubpageButton = (tab: NavTabItem, sub: SubpageItem) => {
+    const isSubActive = activeTab === tab.id && isCurrentSubpageActive(sub.id);
+    return (
+      <button
+        key={sub.id}
+        onClick={() => {
+          if (sub.action) {
+            sub.action();
+            setOpenDropdown(null);
+          } else {
+            handleNavigate(tab.id as typeof activeTab, sub.id);
+          }
+        }}
+        className={`w-full text-left px-3 py-2 flex items-center justify-between hover:bg-emerald-50 border-b border-slate-200/70 last:border-b-0 transition-colors cursor-pointer group ${
+          isSubActive ? 'bg-blue-50 text-blue-950 font-bold' : 'text-slate-800'
+        }`}
+      >
+        <div className="flex items-center space-x-2 min-w-0 pr-2">
+          <span className={`w-3.5 text-xs text-center shrink-0 ${isSubActive ? 'text-emerald-700 font-bold' : 'text-transparent group-hover:text-blue-400'}`}>
+            ▸
+          </span>
+          <div className="min-w-0">
+            <div className="text-xs font-serif font-bold truncate">{sub.label}</div>
+            {sub.description && (
+              <div className="text-[10px] text-slate-600 font-normal leading-tight truncate">
+                {sub.description}
+              </div>
+            )}
+          </div>
+        </div>
+        {sub.badge !== undefined && (
+          <span className={`text-[10px] font-mono px-1.5 py-0.2 rounded-xs border shrink-0 ${
+            isSubActive ? 'bg-emerald-800 text-white border-emerald-950 font-semibold' : 'bg-blue-50 text-blue-900 border-blue-200'
+          }`}>
+            {sub.badge}
+          </span>
+        )}
+      </button>
+    );
+  };
 
   if (loading) {
     return (
@@ -417,36 +532,46 @@ interface NavTabItem {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between py-1.5">
           
           <div className="flex items-center divide-x divide-emerald-900/20 overflow-x-auto scrollbar-none py-0.5">
-            {visibleNavTabs.map((tab) => {
-              const isActive = activeTab === tab.id;
-              const isDropdownOpen = openDropdown === tab.id;
+            {navEntries.map((entry) => {
+              const isDropdownOpen = openDropdown === entry.id;
+              const childIds = entry.kind === 'group' ? entry.children.map(c => c.id as string) : [entry.id];
+              const isActive = childIds.includes(activeTab);
+              const label = entry.kind === 'group' ? entry.label : entry.tab.label;
+
+              // Child section highlighted in a grouped dropdown: hovered > active > first
+              const focusedChild = entry.kind === 'group'
+                ? (entry.children.find(c => c.id === groupHoverChild)
+                  || entry.children.find(c => c.id === activeTab)
+                  || entry.children[0])
+                : undefined;
 
               return (
                 <div 
-                  key={tab.id} 
+                  key={entry.id} 
                   className="relative shrink-0 px-1 first:pl-0"
                   onMouseEnter={() => {
-                    if (openDropdown !== null && openDropdown !== tab.id) {
-                      setOpenDropdown(tab.id);
+                    if (openDropdown !== null && openDropdown !== entry.id) {
+                      setGroupHoverChild(null);
+                      setOpenDropdown(entry.id);
                     }
                   }}
                 >
                   <button
                     onClick={() => {
-                      if (activeTab !== tab.id) {
-                        handleNavigate(tab.id as typeof activeTab);
+                      if (entry.kind === 'tab' && activeTab !== entry.id) {
+                        handleNavigate(entry.id as typeof activeTab);
                       }
-                      setOpenDropdown(isDropdownOpen ? null : tab.id);
+                      setGroupHoverChild(null);
+                      setOpenDropdown(isDropdownOpen ? null : entry.id);
                     }}
-                    className={`flex items-center space-x-1.5 px-3 py-1 rounded-xs font-serif uppercase tracking-wider text-xs sm:text-[13px] transition-all cursor-pointer ${
-                      isActive 
-                        ? 'text-white font-bold bg-gradient-to-r from-emerald-800 to-blue-900 border border-emerald-950 shadow-xs' 
-                        : isDropdownOpen
-                          ? 'text-blue-950 font-bold bg-blue-100/80 border border-blue-300'
-                          : 'text-slate-800 hover:text-emerald-900 hover:bg-emerald-100/60 font-semibold border border-transparent'
-                    }`}
+                    className={tabButtonClass(isActive, isDropdownOpen)}
                   >
-                    <span>{tab.label}</span>
+                    <span>{label}</span>
+                    {entry.kind === 'group' && isActive && (
+                      <span className="hidden md:inline text-[10px] normal-case font-normal text-emerald-200 tracking-normal">
+                        · {GROUPED_CHILD_LABELS[activeTab as NavTabItem['id']] || entry.children.find(c => c.id === activeTab)?.label}
+                      </span>
+                    )}
                     <ChevronDown className={`w-3 h-3 transition-transform duration-150 ${isActive ? 'text-emerald-200' : 'text-blue-800'} ${isDropdownOpen ? 'rotate-180' : ''}`} />
                   </button>
 
@@ -457,52 +582,54 @@ interface NavTabItem {
                         className="fixed inset-0 z-40" 
                         onClick={() => setOpenDropdown(null)} 
                       />
-                      <div className="absolute left-0 mt-1.5 w-64 bg-[#fafcfa] border-2 border-blue-950 rounded-xs shadow-xl py-1.5 z-50 animate-fadeIn max-h-[420px] overflow-y-auto">
-                        <div className="px-3 py-1.5 text-[10px] font-serif font-bold text-blue-950 uppercase tracking-widest border-b-2 border-double border-emerald-800 mb-1 flex items-center justify-between bg-emerald-50/60">
-                          <span>§ {tab.label} Section</span>
-                          <span className="text-[9px] font-mono text-emerald-800">{tab.subpages.length} cols</span>
+
+                      {entry.kind === 'tab' ? (
+                        <div className="absolute left-0 mt-1.5 w-64 bg-[#fafcfa] border-2 border-blue-950 rounded-xs shadow-xl py-1.5 z-50 animate-fadeIn max-h-[420px] overflow-y-auto">
+                          <div className="px-3 py-1.5 text-[10px] font-serif font-bold text-blue-950 uppercase tracking-widest border-b-2 border-double border-emerald-800 mb-1 flex items-center justify-between bg-emerald-50/60">
+                            <span>§ {entry.tab.label} Section</span>
+                            <span className="text-[9px] font-mono text-emerald-800">{entry.tab.subpages.length} cols</span>
+                          </div>
+                          {entry.tab.subpages.map(sub => renderSubpageButton(entry.tab, sub))}
                         </div>
-                        {tab.subpages.map(sub => {
-                          const isSubActive = activeTab === tab.id && isCurrentSubpageActive(sub.id);
-                          return (
-                            <button
-                              key={sub.id}
-                              onClick={() => {
-                                if (sub.action) {
-                                  sub.action();
-                                  setOpenDropdown(null);
-                                } else {
-                                  handleNavigate(tab.id as typeof activeTab, sub.id);
-                                }
-                              }}
-                              className={`w-full text-left px-3 py-2 flex items-center justify-between hover:bg-emerald-50 border-b border-slate-200/70 last:border-b-0 transition-colors cursor-pointer group ${
-                                isSubActive ? 'bg-blue-50 text-blue-950 font-bold' : 'text-slate-800'
-                              }`}
-                            >
-                              <div className="flex items-center space-x-2 min-w-0 pr-2">
-                                <span className={`w-3.5 text-xs text-center shrink-0 ${isSubActive ? 'text-emerald-700 font-bold' : 'text-transparent group-hover:text-blue-400'}`}>
-                                  ▸
-                                </span>
-                                <div className="min-w-0">
-                                  <div className="text-xs font-serif font-bold truncate">{sub.label}</div>
-                                  {sub.description && (
-                                    <div className="text-[10px] text-slate-600 font-normal leading-tight truncate">
-                                      {sub.description}
-                                    </div>
-                                  )}
-                                </div>
-                              </div>
-                              {sub.badge !== undefined && (
-                                <span className={`text-[10px] font-mono px-1.5 py-0.2 rounded-xs border shrink-0 ${
-                                  isSubActive ? 'bg-emerald-800 text-white border-emerald-950 font-semibold' : 'bg-blue-50 text-blue-900 border-blue-200'
-                                }`}>
-                                  {sub.badge}
-                                </span>
-                              )}
-                            </button>
-                          );
-                        })}
-                      </div>
+                      ) : focusedChild && (
+                        /* Grouped flyout: section picker (left) + that section's pages (right) */
+                        <div className="absolute left-0 mt-1.5 w-[540px] max-w-[92vw] bg-[#fafcfa] border-2 border-blue-950 rounded-xs shadow-xl z-50 animate-fadeIn flex">
+                          <div className="w-44 shrink-0 border-r-2 border-double border-emerald-800 bg-emerald-50/60 py-1.5">
+                            <div className="px-3 py-1.5 text-[10px] font-serif font-bold text-blue-950 uppercase tracking-widest border-b border-emerald-800/40 mb-1">
+                              § {entry.label}
+                            </div>
+                            {entry.children.map(child => {
+                              const ChildIcon = child.icon;
+                              const isFocused = focusedChild.id === child.id;
+                              const isChildActive = activeTab === child.id;
+                              return (
+                                <button
+                                  key={child.id}
+                                  onMouseEnter={() => setGroupHoverChild(child.id)}
+                                  onClick={() => handleNavigate(child.id as typeof activeTab)}
+                                  className={`w-full text-left px-3 py-2 flex items-center justify-between gap-2 text-xs font-serif font-bold transition-colors cursor-pointer ${
+                                    isFocused ? 'bg-white text-blue-950 border-y border-emerald-800/30' : 'text-slate-800 hover:bg-white/70 border-y border-transparent'
+                                  }`}
+                                >
+                                  <span className="flex items-center gap-2 min-w-0">
+                                    <ChildIcon className={`w-3.5 h-3.5 shrink-0 ${isChildActive ? 'text-emerald-700' : 'text-blue-800'}`} />
+                                    <span className="truncate">{GROUPED_CHILD_LABELS[child.id] || child.label}</span>
+                                    {isChildActive && <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 shrink-0" />}
+                                  </span>
+                                  <ChevronRight className={`w-3 h-3 shrink-0 ${isFocused ? 'text-emerald-700' : 'text-slate-400'}`} />
+                                </button>
+                              );
+                            })}
+                          </div>
+                          <div className="flex-1 min-w-0 py-1.5 max-h-[420px] overflow-y-auto">
+                            <div className="px-3 py-1.5 text-[10px] font-serif font-bold text-blue-950 uppercase tracking-widest border-b-2 border-double border-emerald-800 mb-1 flex items-center justify-between bg-emerald-50/60">
+                              <span>{GROUPED_CHILD_LABELS[focusedChild.id] || focusedChild.label}</span>
+                              <span className="text-[9px] font-mono text-emerald-800">{focusedChild.subpages.length} cols</span>
+                            </div>
+                            {focusedChild.subpages.map(sub => renderSubpageButton(focusedChild, sub))}
+                          </div>
+                        </div>
+                      )}
                     </>
                   )}
                 </div>
@@ -543,7 +670,7 @@ interface NavTabItem {
         )}
 
         {/* Unauthenticated fallback if guest tries to view a protected tab */}
-        {!isLoggedIn && activeTab !== 'catalogs' && activeTab !== 'products' && (
+        {!isLoggedIn && activeTab !== 'catalogs' && activeTab !== 'products' && activeTab !== 'extras' && (
           <CatalogYearManager
             products={products}
             onSelectProductForCard={handleSelectProductForCard}
@@ -673,6 +800,14 @@ interface NavTabItem {
               setTargetProductId(pId);
               setActiveTab('cards');
             }}
+          />
+        )}
+
+        {activeTab === 'extras' && (
+          <ExtrasHub
+            selectedCategory={extrasSubpage}
+            onCategoryChange={(cat) => setExtrasSubpage(cat)}
+            isLoggedIn={isLoggedIn}
           />
         )}
       </main>
