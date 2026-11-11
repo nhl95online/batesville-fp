@@ -13,8 +13,8 @@ import { LithoManagerModal } from './components/catalogs/LithoManagerModal';
 import { DailySalesUploadModal } from './components/sales/DailySalesUploadModal';
 import { PriceListImportModal } from './components/products/PriceListImportModal';
 import { ShowroomFloorPlan } from './components/floorplan/ShowroomFloorPlan';
-import { ExtrasHub, loadCustomExtras } from './components/extras/ExtrasHub';
-import { DEFAULT_EXTRAS, EXTRA_CATEGORIES } from './services/extrasData';
+import { ExtrasHub } from './components/extras/ExtrasHub';
+import { EXTRA_CATEGORIES } from './services/extrasData';
 import { syncFromSupabase } from './services/supabase';
 import { isAuthenticated, logoutUser } from './services/auth';
 import { LoginModal } from './components/auth/LoginModal';
@@ -68,14 +68,6 @@ export function App() {
   const [floorplanSubpage, setFloorplanSubpage] = useState<RoomShape>('rectangle');
   const [homeSubpage, setHomeSubpage] = useState<string>('overview');
   const [extrasSubpage, setExtrasSubpage] = useState<string>('all');
-  const [extrasVersion, setExtrasVersion] = useState(0);
-
-  // Refresh Extras dropdown badges when custom extras are added/removed
-  useEffect(() => {
-    const bump = () => setExtrasVersion(v => v + 1);
-    window.addEventListener('portal_extras_changed', bump);
-    return () => window.removeEventListener('portal_extras_changed', bump);
-  }, []);
 
   // Navigation dropdown popover state
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
@@ -275,18 +267,15 @@ export function App() {
     { id: 'segments', label: 'Segment Breakdown', description: 'Total units by material & treemap matrix' },
   ], []);
 
-  const extrasSubpages: SubpageItem[] = useMemo(() => {
-    const all = [...DEFAULT_EXTRAS, ...loadCustomExtras()];
-    return [
-      { id: 'all', label: 'All Extras', badge: all.length, description: 'Catalogs, selection rooms, personalization & more' },
-      ...EXTRA_CATEGORIES.map(c => ({
-        id: c.id,
-        label: c.label,
-        badge: all.filter(i => i.category === c.id).length,
-        description: c.description,
-      })),
-    ];
-  }, [extrasVersion]);
+  // Catalog files load from Supabase Storage, so the Extras dropdown omits counts
+  const extrasSubpages: SubpageItem[] = useMemo(() => [
+    { id: 'all', label: 'All Extras', description: 'Catalogs, selection rooms, personalization & more' },
+    ...EXTRA_CATEGORIES.map(c => ({
+      id: c.id,
+      label: c.label,
+      description: c.description,
+    })),
+  ], []);
 
 interface NavTabItem {
   id: 'home' | 'catalogs' | 'cards' | 'sales' | 'customers' | 'products' | 'floorplans' | 'extras';

@@ -9,8 +9,15 @@ import {
   Trash2,
   X,
   ExternalLink,
+  FileText,
+  Download,
+  Camera,
+  ChevronLeft,
+  ChevronRight,
+  Loader2,
 } from 'lucide-react';
 import { DEFAULT_EXTRAS, EXTRA_CATEGORIES, ExtraCategory, ExtraItem } from '../../services/extrasData';
+import { loadExtrasStorage, ExtrasStorageContent, EXTRAS_BUCKET, FAMILY_CHOICE_ROOM_FOLDER } from '../../services/extrasStorage';
 
 const CUSTOM_EXTRAS_KEY = 'portal_custom_extras';
 const VALID_CATEGORIES = EXTRA_CATEGORIES.map(c => c.id);
@@ -71,6 +78,42 @@ export const ExtrasHub: React.FC<ExtrasHubProps> = ({
     return () => window.removeEventListener('portal_extras_changed', sync);
   }, []);
 
+  // Supabase Storage content (catalog PDFs + Family Choice Room photos)
+  const [storage, setStorage] = useState<ExtrasStorageContent>({ catalogs: [], familyChoiceRoomImages: [] });
+  const [storageLoading, setStorageLoading] = useState(true);
+  const [storageError, setStorageError] = useState<string | null>(null);
+  const [selectedEditions, setSelectedEditions] = useState<Record<string, string>>({});
+  const [roomViewerIndex, setRoomViewerIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    loadExtrasStorage()
+      .then(res => { if (!cancelled) setStorage(res); })
+      .catch(err => { if (!cancelled) setStorageError(err?.message || 'Unable to load files from storage.'); })
+      .finally(() => { if (!cancelled) setStorageLoading(false); });
+    return () => { cancelled = true; };
+  }, []);
+
+  // Keyboard navigation for the Family Choice Room viewer
+  useEffect(() => {
+    if (roomViewerIndex === null) return;
+    const total = storage.familyChoiceRoomImages.length;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setRoomViewerIndex(null);
+      if (e.key === 'ArrowRight' && total) setRoomViewerIndex(i => (i === null ? 0 : (i + 1) % total));
+      if (e.key === 'ArrowLeft' && total) setRoomViewerIndex(i => (i === null ? 0 : (i - 1 + total) % total));
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [roomViewerIndex, storage.familyChoiceRoomImages.length]);
+
+  const filteredCatalogs = useMemo(() => {
+    const q = searchTerm.trim().toLowerCase();
+    return storage.catalogs.filter(doc =>
+      !q || doc.title.toLowerCase().includes(q) || doc.editions.some(e => e.year.includes(q))
+    );
+  }, [storage.catalogs, searchTerm]);
+
   const allExtras = useMemo(() => [...DEFAULT_EXTRAS, ...customExtras], [customExtras]);
 
   const filtered = useMemo(() => {
@@ -88,15 +131,19 @@ export const ExtrasHub: React.FC<ExtrasHubProps> = ({
 
   // Category -> Group -> Items (preserving data order)
   const grouped = useMemo(() => {
-    return EXTRA_CATEGORIES.map(cat => {
-      const groups = new Map<string, ExtraItem[]>();
-      filtered.filter(i => i.category === cat.id).forEach(i => {
-        if (!groups.has(i.group)) groups.set(i.group, []);
-        groups.get(i.group)!.push(i);
-      });
-      return { cat, groups: Array.from(groups.entries()) };
-    }).filter(c => c.groups.length > 0);
-  }, [filtered]);
+    return EXTRA_CATEGORIES
+      .filter(cat => selectedCategory === 'all' || selectedCategory === cat.id)
+      .map(cat => {
+        const groups = new Map<string, ExtraItem[]>();
+        filtered.filter(i => i.category === cat.id).forEach(i => {
+          if (!groups.has(i.group)) groups.set(i.group, []);
+          groups.get(i.group)!.push(i);
+        });
+        return { cat, groups: Array.from(groups.entries()) };
+      })
+      // Catalogs & Selection Rooms always render (storage-driven content / Family Choice Room button)
+      .filter(c => c.groups.length > 0 || (!searchTerm.trim() && (c.cat.id === 'catalogs' || c.cat.id === 'selection-rooms')) || (c.cat.id === 'catalogs' && filteredCatalogs.length > 0));
+  }, [filtered, selectedCategory, searchTerm, filteredCatalogs]);
 
   const existingGroups = useMemo(
     () => Array.from(new Set(allExtras.filter(i => i.category === draft.category).map(i => i.group))),
@@ -144,7 +191,8 @@ export const ExtrasHub: React.FC<ExtrasHubProps> = ({
         <div className="flex flex-wrap items-center gap-1.5 flex-1 md:justify-center">
           {[{ id: 'all', label: 'All' }, ...EXTRA_CATEGORIES].map(c => {
             const isActive = selectedCategory === c.id;
-            const count = c.id === 'all' ? allExtras.length : allExtras.filter(i => i.category === c.id).length;
+            const storageCount = c.id === 'all' || c.id === 'catalogs' ? storage.catalogs.length : 0;
+            const count = (c.id === 'all' ? allExtras.length : allExtras.filter(i => i.category === c.id).length) + storageCount;
             return (
               <button
                 key={c.id}
@@ -193,7 +241,99 @@ export const ExtrasHub: React.FC<ExtrasHubProps> = ({
               <Icon className="w-4 h-4 text-emerald-800" />
               <h2 className="font-serif font-black uppercase tracking-wider text-slate-950 text-sm">{cat.label}</h2>
               <span className="text-[11px] font-serif italic text-slate-600 hidden sm:inline">— {cat.description}</span>
+              {cat.id === 'selection-rooms' && (
+                <button
+                  onClick={() => setRoomViewerIndex(0)}
+                  className="ml-auto flex items-center gap-1.5 bg-gradient-to-r from-emerald-800 to-blue-900 hover:from-emerald-900 hover:to-blue-950 text-white border border-emerald-950 px-3 py-1 rounded-xs text-[11px] font-serif font-black uppercase tracking-widest cursor-pointer shadow-2xs"
+                  title="View Family Choice Room design photos"
+                >
+                  <Camera className="w-3.5 h-3.5" />
+                  <span>Family Choice Room</span>
+                  {storage.familyChoiceRoomImages.length > 0 && (
+                    <span className="font-mono text-[10px] text-emerald-200">{storage.familyChoiceRoomImages.length}</span>
+                  )}
+                </button>
+              )}
             </div>
+
+            {/* Catalog Library — loaded from the Supabase "extras" bucket */}
+            {cat.id === 'catalogs' && (
+              <div className="bg-[#fafcfa] border border-slate-300 shadow-2xs">
+                <div className="px-3 py-1.5 bg-emerald-50/70 border-b border-slate-300 flex items-center justify-between">
+                  <h3 className="text-xs font-serif font-black uppercase tracking-wider text-blue-950">Catalog Library</h3>
+                  <span className="text-[10px] font-mono text-emerald-800">{filteredCatalogs.length}</span>
+                </div>
+                {storageLoading ? (
+                  <div className="flex items-center gap-2 p-4 text-xs font-serif italic text-slate-600">
+                    <Loader2 className="w-3.5 h-3.5 animate-spin text-emerald-700" /> Loading catalogs…
+                  </div>
+                ) : storageError ? (
+                  <div className="p-4 text-xs font-serif text-red-700">
+                    Couldn't load the "{EXTRAS_BUCKET}" storage bucket: {storageError}
+                  </div>
+                ) : filteredCatalogs.length === 0 ? (
+                  <div className="p-4 text-xs font-serif italic text-slate-600">
+                    {searchTerm.trim()
+                      ? 'No catalogs match your search.'
+                      : <>No catalogs yet. Upload files to the Supabase <b>"{EXTRAS_BUCKET}"</b> bucket named like <b>"Cremation Options Catalog 2026.pdf"</b>.</>}
+                  </div>
+                ) : (
+                  <ul className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 divide-y md:divide-y-0 divide-slate-200">
+                    {filteredCatalogs.map(doc => {
+                      const year = selectedEditions[doc.title] || doc.editions[0].year;
+                      const edition = doc.editions.find(e => e.year === year) || doc.editions[0];
+                      return (
+                        <li key={doc.title} className="flex items-center gap-3 p-2.5 md:border-b md:border-r border-slate-200">
+                          <a
+                            href={edition.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-12 h-14 shrink-0 bg-white border border-slate-200 flex items-center justify-center overflow-hidden hover:border-emerald-700"
+                            title={`Open ${edition.fileName}`}
+                          >
+                            {edition.isImage
+                              ? <img src={edition.url} alt={doc.title} className="max-h-full max-w-full object-contain" />
+                              : <FileText className="w-6 h-6 text-blue-900" />}
+                          </a>
+                          <div className="min-w-0 flex-1">
+                            <h4 className="font-serif font-bold text-slate-950 text-xs leading-tight truncate" title={doc.title}>{doc.title}</h4>
+                            <div className="flex items-center gap-1.5 mt-1">
+                              {doc.editions.length > 1 ? (
+                                <select
+                                  value={edition.year}
+                                  onChange={e => setSelectedEditions(prev => ({ ...prev, [doc.title]: e.target.value }))}
+                                  className="text-[11px] font-mono border border-slate-300 rounded-xs bg-white px-1 py-0.5"
+                                  title="Select edition year"
+                                >
+                                  {doc.editions.map(ed => <option key={ed.fileName} value={ed.year}>{ed.year}</option>)}
+                                </select>
+                              ) : (
+                                <span className="text-[11px] font-mono text-slate-600 border border-slate-200 bg-white px-1.5 py-0.5 rounded-xs">{edition.year}</span>
+                              )}
+                              <a
+                                href={edition.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 text-[11px] font-serif font-bold text-blue-900 hover:text-emerald-800 px-1"
+                              >
+                                <ExternalLink className="w-3 h-3" /> Open
+                              </a>
+                              <a
+                                href={`${edition.url}?download=${encodeURIComponent(edition.fileName)}`}
+                                className="inline-flex items-center gap-1 text-[11px] font-serif font-bold text-slate-600 hover:text-emerald-800 px-1"
+                                title="Download"
+                              >
+                                <Download className="w-3 h-3" />
+                              </a>
+                            </div>
+                          </div>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+              </div>
+            )}
 
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
               {groups.map(([groupName, items]) => (
@@ -265,6 +405,81 @@ export const ExtrasHub: React.FC<ExtrasHubProps> = ({
           No extras match your search.
         </div>
       )}
+
+      {/* Family Choice Room Photo Viewer */}
+      {roomViewerIndex !== null && (() => {
+        const images = storage.familyChoiceRoomImages;
+        const current = images[roomViewerIndex];
+        const go = (delta: number) => setRoomViewerIndex(i => (i === null ? 0 : (i + delta + images.length) % images.length));
+        return (
+          <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4" onClick={() => setRoomViewerIndex(null)}>
+            <div
+              onClick={e => e.stopPropagation()}
+              className="bg-[#fafcfa] border-2 border-blue-950 rounded-xs shadow-2xl w-full max-w-5xl max-h-[92vh] flex flex-col"
+            >
+              <div className="flex items-center justify-between px-4 py-2 border-b-2 border-double border-emerald-800">
+                <div className="flex items-center gap-2">
+                  <Camera className="w-4 h-4 text-emerald-800" />
+                  <h3 className="font-serif font-black uppercase tracking-widest text-slate-950 text-sm">Family Choice Room</h3>
+                  {images.length > 0 && (
+                    <span className="text-[11px] font-mono text-slate-600">{roomViewerIndex + 1} / {images.length}</span>
+                  )}
+                </div>
+                <button onClick={() => setRoomViewerIndex(null)} className="text-slate-500 hover:text-slate-900 cursor-pointer" title="Close">
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {storageLoading ? (
+                <div className="flex items-center justify-center gap-2 p-16 text-sm font-serif italic text-slate-600">
+                  <Loader2 className="w-4 h-4 animate-spin text-emerald-700" /> Loading photos…
+                </div>
+              ) : !current ? (
+                <div className="p-12 text-center text-sm font-serif italic text-slate-600">
+                  No room photos yet. Upload images to the <b>"{FAMILY_CHOICE_ROOM_FOLDER}"</b> folder in the Supabase <b>"{EXTRAS_BUCKET}"</b> bucket.
+                </div>
+              ) : (
+                <>
+                  <div className="relative flex-1 min-h-0 bg-slate-950 flex items-center justify-center">
+                    <img src={current.url} alt={current.name} className="max-h-[68vh] max-w-full object-contain" />
+                    {images.length > 1 && (
+                      <>
+                        <button
+                          onClick={() => go(-1)}
+                          className="absolute left-2 top-1/2 -translate-y-1/2 p-2 bg-white/85 hover:bg-white rounded-full shadow cursor-pointer"
+                          title="Previous"
+                        >
+                          <ChevronLeft className="w-5 h-5 text-slate-900" />
+                        </button>
+                        <button
+                          onClick={() => go(1)}
+                          className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-white/85 hover:bg-white rounded-full shadow cursor-pointer"
+                          title="Next"
+                        >
+                          <ChevronRight className="w-5 h-5 text-slate-900" />
+                        </button>
+                      </>
+                    )}
+                  </div>
+                  {images.length > 1 && (
+                    <div className="flex gap-2 p-2 overflow-x-auto border-t border-slate-300 justify-center">
+                      {images.map((img, idx) => (
+                        <button
+                          key={img.url}
+                          onClick={() => setRoomViewerIndex(idx)}
+                          className={`w-24 h-16 shrink-0 border-2 overflow-hidden cursor-pointer ${idx === roomViewerIndex ? 'border-emerald-700' : 'border-transparent opacity-70 hover:opacity-100'}`}
+                        >
+                          <img src={img.url} alt={img.name} className="w-full h-full object-cover" />
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Add Extra Modal */}
       {isAdding && (

@@ -26,35 +26,8 @@ export const EXTRA_CATEGORIES: { id: ExtraCategory; label: string; description: 
 
 export const DEFAULT_EXTRAS: ExtraItem[] = [
   // ---- Catalogs & Literature ----
-  {
-    id: 'cat-main-2026',
-    title: '2026–27 Product Catalog',
-    category: 'catalogs',
-    group: 'Product Catalogs',
-    description: 'Full-line casket, urn & keepsake catalog for arrangement conferences.',
-    details: ['Metal, hardwood & NewPointe lines', 'Pairs with current price list'],
-  },
-  {
-    id: 'cat-cremation',
-    title: 'Cremation Options Catalog',
-    category: 'catalogs',
-    group: 'Product Catalogs',
-    description: 'Urns, keepsakes, rental caskets and cremation containers.',
-  },
-  {
-    id: 'cat-price-guide',
-    title: 'Reference Guide & Price List',
-    category: 'catalogs',
-    group: 'Pricing & Take-Home',
-    description: 'Model codes, dimensions and program pricing. Import via "Import Price List".',
-  },
-  {
-    id: 'cat-family-brochure',
-    title: 'Family Take-Home Brochures',
-    category: 'catalogs',
-    group: 'Pricing & Take-Home',
-    description: 'Compact brochures families can take home after the conference.',
-  },
+  // Catalogs are loaded automatically from the Supabase Storage bucket "extras".
+  // Name files "<Title> <Year>.pdf" (e.g. "Cremation Options Catalog 2026.pdf") — see services/extrasStorage.ts
 
   // ---- Selection Room Setups ----
   {
