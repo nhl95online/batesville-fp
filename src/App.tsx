@@ -299,7 +299,7 @@ interface NavTabItem {
 
   // Unified Navigation Handler supporting Tab + Subpage
   const handleNavigate = (tab: typeof activeTab, subpageId?: string) => {
-    if (!isLoggedIn && tab !== 'catalogs' && tab !== 'products' && tab !== 'extras') {
+    if (!isLoggedIn && tab !== 'catalogs' && tab !== 'products') {
       setLoginModalMode('login');
       setIsLoginModalOpen(true);
       return;
@@ -380,7 +380,7 @@ interface NavTabItem {
   // Show Home, Catalogs, and Products to unauthenticated visitors; full tabs when logged in
   const visibleNavTabs = useMemo(() => {
     if (isLoggedIn) return navTabs;
-    return navTabs.filter(t => t.id === 'home' || t.id === 'catalogs' || t.id === 'products' || t.id === 'extras');
+    return navTabs.filter(t => t.id === 'home' || t.id === 'catalogs' || t.id === 'products');
   }, [isLoggedIn, navTabs]);
 
   // Related tabs combined under a single header tab with a section dropdown
@@ -659,7 +659,7 @@ interface NavTabItem {
         )}
 
         {/* Unauthenticated fallback if guest tries to view a protected tab */}
-        {!isLoggedIn && activeTab !== 'catalogs' && activeTab !== 'products' && activeTab !== 'extras' && (
+        {!isLoggedIn && activeTab !== 'catalogs' && activeTab !== 'products' && (
           <CatalogYearManager
             products={products}
             onSelectProductForCard={handleSelectProductForCard}
@@ -792,7 +792,7 @@ interface NavTabItem {
           />
         )}
 
-        {activeTab === 'extras' && (
+        {activeTab === 'extras' && isLoggedIn && (
           <ExtrasHub
             selectedCategory={extrasSubpage}
             onCategoryChange={(cat) => setExtrasSubpage(cat)}
