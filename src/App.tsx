@@ -520,7 +520,8 @@ interface NavTabItem {
       <div className="no-print bg-[#eef4f1] border-b-2 border-blue-950 shadow-2xs sticky top-[88px] z-30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between py-1.5">
           
-          <div className="flex items-center divide-x divide-emerald-900/20 overflow-x-auto scrollbar-none py-0.5">
+          {/* No overflow clipping here: overflow-x-auto would cut off the dropdown flyouts */}
+          <div className="flex flex-wrap items-center divide-x divide-emerald-900/20 py-0.5">
             {navEntries.map((entry) => {
               const isDropdownOpen = openDropdown === entry.id;
               const childIds = entry.kind === 'group' ? entry.children.map(c => c.id as string) : [entry.id];
@@ -549,6 +550,9 @@ interface NavTabItem {
                     onClick={() => {
                       if (entry.kind === 'tab' && activeTab !== entry.id) {
                         handleNavigate(entry.id as typeof activeTab);
+                      } else if (entry.kind === 'group' && !isActive && entry.children[0]) {
+                        // Open the group's first section directly (e.g. Catalogs, Customers)
+                        handleNavigate(entry.children[0].id as typeof activeTab);
                       }
                       setGroupHoverChild(null);
                       setOpenDropdown(isDropdownOpen ? null : entry.id);
