@@ -1,6 +1,7 @@
 import { getSupabaseClient } from './supabase';
 
-const AUTH_STORAGE_KEY = 'portal_auth_session';
+// v2: sessions created with the old shared passwords are no longer valid
+const AUTH_STORAGE_KEY = 'portal_auth_session_v2';
 const PASSWORD_STORAGE_KEY = 'portal_admin_password';
 const DEFAULT_PASSWORD = 'admin'; // Initial clean default password
 
@@ -74,48 +75,28 @@ export function getCurrentSession(): AuthSession | null {
   return null;
 }
 
+// SHA-256 of the owner's password; only this password unlocks the portal
+const OWNER_PASSWORD_SHA256 = '79bee0d5ab7149c3ff8633760e39f6c49ca25f033b14e557b5ca99c27c174950';
+
+async function sha256Hex(text: string): Promise<string> {
+  const bytes = new TextEncoder().encode(text);
+  const digest = await crypto.subtle.digest('SHA-256', bytes);
+  return Array.from(new Uint8Array(digest)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
 /**
- * Logs in with password or Supabase email/password.
+ * Logs in with the owner's password (single-user portal).
+ * The email parameter is kept for compatibility but no longer used.
  */
 export async function loginWithCredentials(
   password: string,
-  email?: string
+  _email?: string
 ): Promise<{ success: boolean; message: string }> {
-  const trimmedPassword = password.trim();
-
-  // 1. Try Supabase Auth if an email is provided
-  if (email && email.trim()) {
-    try {
-      const supabase = getSupabaseClient();
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: email.trim(),
-        password: trimmedPassword,
-      });
-
-      if (!error && data?.user) {
-        const session: AuthSession = {
-          isLoggedIn: true,
-          userRole: 'admin',
-          username: data.user.email || 'Administrator',
-          loginTime: new Date().toISOString(),
-        };
-        localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(session));
-        window.dispatchEvent(new CustomEvent('portal_auth_changed', { detail: session }));
-        return { success: true, message: 'Successfully signed in via Supabase.' };
-      }
-    } catch (supaErr) {
-      console.warn('Supabase auth attempt error:', supaErr);
-      // Fall through to password check
-    }
-  }
-
-  // 2. Validate against portal password
-  const currentAdminPassword = getAdminPassword();
-  if (trimmedPassword === currentAdminPassword || trimmedPassword === 'admin' || trimmedPassword === 'Studio2025!') {
+  if ((await sha256Hex(password.trim())) === OWNER_PASSWORD_SHA256) {
     const session: AuthSession = {
       isLoggedIn: true,
       userRole: 'admin',
-      username: 'Staff Admin',
+      username: 'Owner',
       loginTime: new Date().toISOString(),
     };
     if (typeof localStorage !== 'undefined') {

@@ -115,7 +115,8 @@ export const LoginModal: React.FC<LoginModalProps> = ({
     }
   };
 
-  const isUsingDefault = getAdminPassword() === 'admin';
+  // Single-owner password is fixed in code; no default-password hint
+  const isUsingDefault = false;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-xs animate-fadeIn">
@@ -164,18 +165,6 @@ export const LoginModal: React.FC<LoginModalProps> = ({
             <LogIn className="w-3.5 h-3.5" />
             <span>Login</span>
           </button>
-          <button
-            type="button"
-            onClick={() => { setMode('changePassword'); setErrorMessage(null); setSuccessMessage(null); }}
-            className={`flex-1 py-3 px-4 flex items-center justify-center space-x-2 border-b-2 cursor-pointer transition-colors ${
-              mode === 'changePassword' 
-                ? 'border-blue-800 text-blue-950 bg-white font-black' 
-                : 'border-transparent text-slate-600 hover:text-emerald-900'
-            }`}
-          >
-            <KeyRound className="w-3.5 h-3.5" />
-            <span>Change Password</span>
-          </button>
         </div>
 
         {/* Form Body */}
@@ -218,13 +207,6 @@ export const LoginModal: React.FC<LoginModalProps> = ({
                     <KeyRound className="w-3.5 h-3.5 text-slate-400" />
                     <span>Password</span>
                   </span>
-                  <button
-                    type="button"
-                    onClick={() => setShowEmailField(!showEmailField)}
-                    className="text-[11px] text-amber-700 hover:text-amber-800 cursor-pointer font-normal underline"
-                  >
-                    {showEmailField ? 'Use password only' : 'Sign in with email'}
-                  </button>
                 </label>
                 <div className="relative">
                   <input

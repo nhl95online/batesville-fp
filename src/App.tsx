@@ -493,10 +493,6 @@ interface NavTabItem {
           logoutUser();
           setActiveTab('catalogs');
         }}
-        onChangePassword={() => {
-          setLoginModalMode('changePassword');
-          setIsLoginModalOpen(true);
-        }}
         onOpenSalesUpload={() => {
           if (!isLoggedIn) {
             setLoginModalMode('login');
