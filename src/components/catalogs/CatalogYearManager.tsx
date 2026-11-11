@@ -462,13 +462,13 @@ export const CatalogYearManager: React.FC<CatalogYearManagerProps> = ({
                   </td>
                   <td className="py-2.5 px-4 text-right">
                     <button
-                      onClick={() => isLoggedIn ? onSelectProductForCard(prod.id) : (onRequireLogin ? onRequireLogin() : onSelectProductForCard(prod.id))}
+                      onClick={() => onSelectProductForCard(prod.id)}
                       className="inline-flex items-center space-x-1 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 px-2.5 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer shadow-sm"
-                      title={isLoggedIn ? "Create Showroom Price Card" : "Staff sign in required to generate price cards"}
+                      title="Create Showroom Price Card"
                     >
                       <Tag className="w-3 h-3 text-amber-600" />
                       <span>Price Card</span>
-                      {!isLoggedIn && <Lock className="w-2.5 h-2.5 ml-0.5 text-amber-600" />}
+                      
                     </button>
                   </td>
                 </tr>

@@ -299,7 +299,7 @@ interface NavTabItem {
 
   // Unified Navigation Handler supporting Tab + Subpage
   const handleNavigate = (tab: typeof activeTab, subpageId?: string) => {
-    if (!isLoggedIn && tab !== 'catalogs' && tab !== 'products') {
+    if (!isLoggedIn && tab !== 'catalogs' && tab !== 'products' && tab !== 'cards') {
       setLoginModalMode('login');
       setIsLoginModalOpen(true);
       return;
@@ -334,11 +334,6 @@ interface NavTabItem {
   };
 
   const handleSelectProductForCard = (productId: string) => {
-    if (!isLoggedIn) {
-      setLoginModalMode('login');
-      setIsLoginModalOpen(true);
-      return;
-    }
     setTargetProductId(productId);
     setActiveTab('cards');
   };
@@ -380,7 +375,7 @@ interface NavTabItem {
   // Show Home, Catalogs, and Products to unauthenticated visitors; full tabs when logged in
   const visibleNavTabs = useMemo(() => {
     if (isLoggedIn) return navTabs;
-    return navTabs.filter(t => t.id === 'home' || t.id === 'catalogs' || t.id === 'products');
+    return navTabs.filter(t => t.id === 'home' || t.id === 'catalogs' || t.id === 'products' || t.id === 'cards');
   }, [isLoggedIn, navTabs]);
 
   // Related tabs combined under a single header tab with a section dropdown
@@ -659,7 +654,7 @@ interface NavTabItem {
         )}
 
         {/* Unauthenticated fallback if guest tries to view a protected tab */}
-        {!isLoggedIn && activeTab !== 'catalogs' && activeTab !== 'products' && (
+        {!isLoggedIn && activeTab !== 'catalogs' && activeTab !== 'products' && activeTab !== 'cards' && (
           <CatalogYearManager
             products={products}
             onSelectProductForCard={handleSelectProductForCard}
@@ -710,7 +705,8 @@ interface NavTabItem {
           />
         )}
 
-        {activeTab === 'cards' && isLoggedIn && (
+        {/* Price Card editor + PDF export are open to everyone (no login needed) */}
+        {activeTab === 'cards' && (
           <PriceCardStudio
             customers={customers}
             products={products}

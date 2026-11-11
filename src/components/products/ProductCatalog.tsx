@@ -774,14 +774,11 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                             <Printer className={`w-3.5 h-3.5 ${p.lithoUrl ? 'text-emerald-400' : 'text-amber-400'}`} />
                           </button>
                           <button
-                            onClick={() => isLoggedIn ? onSelectProductForCard(p.id) : (onRequireLogin ? onRequireLogin() : onSelectProductForCard(p.id))}
+                            onClick={() => onSelectProductForCard(p.id)}
                             className="w-7 h-7 rounded-lg flex items-center justify-center bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 transition-all cursor-pointer shadow-xs relative"
-                            title={isLoggedIn ? "Card - Generate Showroom Price Card" : "Staff sign in required to generate price cards"}
+                            title="Card - Generate Showroom Price Card"
                           >
                             <Tag className="w-3.5 h-3.5 text-amber-600" />
-                            {!isLoggedIn && (
-                              <Lock className="w-2 h-2 text-amber-700 absolute bottom-0.5 right-0.5" />
-                            )}
                           </button>
                           {isLoggedIn && (
                             <button
@@ -962,15 +959,12 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                     </button>
 
                     <button
-                      onClick={() => isLoggedIn ? onSelectProductForCard(product.id) : (onRequireLogin ? onRequireLogin() : onSelectProductForCard(product.id))}
+                      onClick={() => onSelectProductForCard(product.id)}
                       className="w-8 h-8 rounded-lg flex items-center justify-center bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 hover:border-amber-400 transition-all cursor-pointer shadow-xs hover:scale-105 active:scale-95 relative"
-                      title={isLoggedIn ? "Card - Generate Showroom Price Card" : "Staff sign in required to generate price cards"}
+                      title="Card - Generate Showroom Price Card"
                       aria-label="Generate Price Card"
                     >
                       <Tag className="w-4 h-4 text-amber-600" />
-                      {!isLoggedIn && (
-                        <Lock className="w-2.5 h-2.5 text-amber-700 absolute bottom-0.5 right-0.5" />
-                      )}
                     </button>
 
                     {isLoggedIn && (
