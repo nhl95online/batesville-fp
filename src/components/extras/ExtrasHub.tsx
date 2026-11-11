@@ -37,6 +37,8 @@ const CATEGORY_ICONS: Record<ExtraCategory, React.ComponentType<{ className?: st
   personalization: Heart,
 };
 
+const VIDEO_EXT = /\.(mp4|webm|mov|m4v|ogg|ogv)$/i;
+
 const EMPTY_CONTENT: ExtrasStorageContent = {
   sections: { catalogs: [], 'selection-rooms': [], personalization: [] },
   familyChoiceRoomImages: [],
@@ -198,6 +200,45 @@ export const ExtrasHub: React.FC<ExtrasHubProps> = ({
     const updateSel = (patch: EditionSelection) =>
       setSelectedEditions(prev => ({ ...prev, [key]: { ...prev[key], ...patch } }));
     const openImages = () => asset.images.length && setViewer({ title: asset.title, images: asset.images, index: 0 });
+
+    // Video files: show a small inline player box with the video loaded
+    if (hasDocs && VIDEO_EXT.test(edition.fileName)) {
+      return (
+        <li key={key} className="p-2.5 md:border-b md:border-r border-slate-200">
+          <div className="bg-white border border-slate-200 overflow-hidden">
+            <video
+              src={edition.url}
+              poster={thumb?.url}
+              controls
+              preload="metadata"
+              playsInline
+              className="w-full aspect-video bg-black object-contain"
+            />
+            <div className="flex items-center justify-between gap-2 px-2 py-1.5">
+              <h4 className="font-serif font-bold text-slate-950 text-xs leading-tight truncate" title={asset.title}>{asset.title}</h4>
+              <div className="flex items-center gap-2 shrink-0">
+                <a
+                  href={`${edition.url}?download=${encodeURIComponent(edition.fileName)}`}
+                  className="text-slate-600 hover:text-emerald-800"
+                  title="Download"
+                >
+                  <Download className="w-3 h-3" />
+                </a>
+                {isLoggedIn && (
+                  <button
+                    onClick={() => handleDeleteAsset(asset)}
+                    className="text-slate-400 hover:text-red-700 cursor-pointer"
+                    title="Delete from storage"
+                  >
+                    <Trash2 className="w-3 h-3" />
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        </li>
+      );
+    }
 
     return (
       <li key={key} className="flex items-center gap-3 p-2.5 md:border-b md:border-r border-slate-200">
@@ -539,7 +580,7 @@ export const ExtrasHub: React.FC<ExtrasHubProps> = ({
               <input
                 type="file"
                 multiple
-                accept=".pdf,image/*,.doc,.docx,.ppt,.pptx,.xls,.xlsx"
+                accept=".pdf,image/*,video/*,.doc,.docx,.ppt,.pptx,.xls,.xlsx"
                 onChange={e => setUploadFiles(Array.from(e.target.files || []))}
                 className="mt-1 block w-full text-xs"
               />
