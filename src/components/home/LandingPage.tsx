@@ -11,7 +11,6 @@ import {
   Image as ImageIcon,
   UploadCloud,
   ArrowRight,
-  Sparkles,
   TrendingUp,
   TrendingDown,
   ShieldCheck,
@@ -20,8 +19,6 @@ import {
   Printer,
   FileSpreadsheet,
   LayoutGrid,
-  Search,
-  MessageSquare,
   HelpCircle,
   ExternalLink,
   ChevronRight,
@@ -64,8 +61,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 }) => {
   const [sales, setSales] = useState<SaleRecord[]>([]);
   const [loading, setLoading] = useState(true);
-  const [searchQuestion, setSearchQuestion] = useState('');
-  const [activeAnswer, setActiveAnswer] = useState<string | null>(null);
 
   // Fetch sales records
   useEffect(() => {
@@ -275,22 +270,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({
     ];
   }, []);
 
-  // Quick Questions handler
-  const handleQuickQuestion = (q: string) => {
-    setSearchQuestion(q);
-    if (q.includes('Volume') || q.includes('2025-26')) {
-      setActiveAnswer(`In FY ${currentYear}, total wholesale volume reached $${(metrics.curRevenue / 1_000_000).toFixed(2)}M across ${metrics.curUnits.toLocaleString()} units delivered (+${metrics.unitGrowth}% YoY).`);
-    } else if (q.includes('Casket vs Urn')) {
-      setActiveAnswer(`Caskets represent ${metrics.casketSharePercent}% of total showroom orders, with full-size urns and keepsakes comprising ${metrics.urnSharePercent}% across funeral home partners.`);
-    } else if (q.includes('ARB')) {
-      setActiveAnswer(`ARB accounts represent 16 partner funeral homes generating steady quarterly volume with high selection room compliance (100% full-size).`);
-    } else if (q.includes('Selection Rooms')) {
-      setActiveAnswer(`108 out of 109 accounts (99.1%) operate active selection rooms, with 108 featuring full-size casket floor displays.`);
-    } else {
-      setActiveAnswer(`Analysis for "${q}": Metric values updated across all visual report panels below.`);
-    }
-  };
-
   return (
     <div className="space-y-5 animate-fadeIn pb-12 font-sans">
       
@@ -334,62 +313,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           <span className="text-emerald-700">|</span>
           <span>WIRE: <strong className="text-emerald-800 font-bold">LIVE INDEXEDDB + SUPABASE</strong></span>
         </div>
-      </div>
-
-      {/* 2. Editorial Newsdesk Query Bar ("Ask a question about your data") */}
-      <div className="bg-[#fafcfa] border border-slate-300 border-t-2 border-t-blue-900 p-4 shadow-xs space-y-2.5">
-        <div className="flex items-center space-x-3">
-          <div className="p-2 bg-emerald-900 text-emerald-100 border border-emerald-950 flex items-center space-x-1.5 shrink-0">
-            <MessageSquare className="w-4 h-4" />
-            <span className="hidden sm:inline font-serif font-bold text-[11px] uppercase tracking-wider">Newsdesk Inquiry</span>
-          </div>
-          <div className="flex-1 relative">
-            <input
-              type="text"
-              placeholder="Query the Ledger (e.g. 'What was total volume for 2025-26?', 'Top oak caskets')..."
-              value={searchQuestion}
-              onChange={(e) => setSearchQuestion(e.target.value)}
-              onKeyDown={(e) => { if (e.key === 'Enter') handleQuickQuestion(searchQuestion); }}
-              className="w-full bg-white border border-slate-400 pl-3.5 pr-10 py-2 text-xs text-slate-900 placeholder-slate-500 font-serif focus:outline-none focus:border-emerald-800"
-            />
-            <button
-              onClick={() => handleQuickQuestion(searchQuestion)}
-              className="absolute right-2.5 top-2 text-blue-900 hover:text-emerald-700 cursor-pointer"
-            >
-              <Search className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-
-        {/* Quick prompt headlines */}
-        <div className="flex flex-wrap items-center gap-1.5 text-[11px] pt-1 border-t border-dotted border-slate-300">
-          <span className="font-serif italic text-blue-950 font-semibold mr-1">Featured Headlines:</span>
-          {[
-            'What is FY 2025-26 Volume?',
-            'Casket vs Urn Market Share',
-            'ARB Program Volume',
-            'Active Selection Rooms'
-          ].map(q => (
-            <button
-              key={q}
-              onClick={() => handleQuickQuestion(q)}
-              className="px-2.5 py-0.5 bg-emerald-50/80 hover:bg-blue-900 text-emerald-950 hover:text-white border border-emerald-800/30 font-serif transition-colors cursor-pointer"
-            >
-              § {q}
-            </button>
-          ))}
-        </div>
-
-        {/* Dynamic Answer Dispatch */}
-        {activeAnswer && (
-          <div className="p-3 bg-blue-50/90 border-l-4 border-emerald-800 border border-blue-200 text-xs text-blue-950 flex items-start justify-between animate-fadeIn font-serif">
-            <div className="flex items-start space-x-2">
-              <Sparkles className="w-4 h-4 text-emerald-700 shrink-0 mt-0.5" />
-              <span><strong>SPECIAL DISPATCH:</strong> {activeAnswer}</span>
-            </div>
-            <button onClick={() => setActiveAnswer(null)} className="text-blue-900 font-bold ml-2">×</button>
-          </div>
-        )}
       </div>
 
       {/* 3. Main Broadsheet 3-Column Newspaper Grid Layout */}
