@@ -4,9 +4,10 @@ import { getSupabaseClient } from './supabase';
 export const EXTRAS_BUCKET = 'extras';
 
 // Family Choice Room photos: either inside this folder in the bucket,
-// or at the bucket root with a name starting with "Family Choice Room" (e.g. "Family Choice Room 1.jpg")
+// or at the bucket root with a name starting with "Family Choice(s)"
+// (e.g. "Family Choices Physical Showroom 1.png" or "Family Choice Room 1.jpg")
 export const FAMILY_CHOICE_ROOM_FOLDER = 'Family Choice Room';
-const FAMILY_CHOICE_PREFIX = /^family[\s_-]*choice[\s_-]*room/i;
+const FAMILY_CHOICE_PREFIX = /^family[\s_-]*choices?\b/i;
 
 const IMAGE_EXT = /\.(png|jpe?g|webp|gif|avif)$/i;
 
@@ -65,7 +66,7 @@ export async function loadExtrasStorage(): Promise<ExtrasStorageContent> {
     ...rootFiles
       .filter(f => FAMILY_CHOICE_PREFIX.test(f.name) && IMAGE_EXT.test(f.name))
       .map(f => ({ name: f.name, url: publicUrl(f.name) })),
-  ];
+  ].sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }));
 
   // Catalogs: "<Title> <Year>.<ext>" grouped by title
   const byTitle = new Map<string, CatalogDocument>();
