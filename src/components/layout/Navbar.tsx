@@ -121,48 +121,6 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
           )}
 
-          {/* Top-Right LOGIN Button: GREEN when logged in, RED when not logged in */}
-          {isLoggedIn ? (
-            <div className="flex items-center space-x-1">
-              <button
-                onClick={onChangePassword || onLogout}
-                className="flex items-center space-x-1.5 bg-emerald-700 hover:bg-emerald-800 text-white font-serif font-black tracking-widest uppercase px-4 py-1.5 rounded-xs border-2 border-emerald-950 shadow-sm transition-all cursor-pointer text-xs"
-                title="Logged In — Click to manage password or session"
-              >
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-200" />
-                <span>LOGIN</span>
-              </button>
-
-              {onChangePassword && (
-                <button
-                  onClick={onChangePassword}
-                  className="p-1.5 text-blue-900 hover:text-white hover:bg-blue-800 bg-blue-50 border border-blue-300 rounded-xs transition-colors cursor-pointer"
-                  title="Change Access Password"
-                >
-                  <KeyRound className="w-3.5 h-3.5" />
-                </button>
-              )}
-
-              {onLogout && (
-                <button
-                  onClick={onLogout}
-                  className="p-1.5 text-slate-700 hover:text-white hover:bg-red-700 bg-white border border-slate-300 rounded-xs transition-all cursor-pointer"
-                  title="Sign out"
-                >
-                  <LogOut className="w-3.5 h-3.5" />
-                </button>
-              )}
-            </div>
-          ) : (
-            <button
-              onClick={onOpenLogin}
-              className="flex items-center space-x-1.5 bg-red-600 hover:bg-red-700 text-white font-serif font-black tracking-widest uppercase px-4 py-1.5 rounded-xs border-2 border-red-900 shadow-sm transition-all cursor-pointer text-xs"
-              title="Not Logged In — Click to sign in"
-            >
-              <Lock className="w-3.5 h-3.5 text-red-100" />
-              <span>LOGIN</span>
-            </button>
-          )}
 
         </div>
 

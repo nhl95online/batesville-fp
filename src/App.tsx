@@ -16,8 +16,6 @@ import { ShowroomFloorPlan } from './components/floorplan/ShowroomFloorPlan';
 import { ExtrasHub } from './components/extras/ExtrasHub';
 import { EXTRA_CATEGORIES } from './services/extrasData';
 import { syncFromSupabase } from './services/supabase';
-import { isAuthenticated, logoutUser } from './services/auth';
-import { LoginModal } from './components/auth/LoginModal';
 import { 
   Home, 
   Tag, 
@@ -43,12 +41,11 @@ interface SubpageItem {
 }
 
 export function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => isAuthenticated());
+  // Single-user portal: login removed, full access always
+  const isLoggedIn = true;
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [loginModalMode, setLoginModalMode] = useState<'login' | 'changePassword'>('login');
-  const [activeTab, setActiveTab] = useState<'home' | 'catalogs' | 'cards' | 'sales' | 'customers' | 'products' | 'floorplans' | 'extras'>(() => {
-    return isAuthenticated() ? 'home' : 'catalogs';
-  });
+  const [activeTab, setActiveTab] = useState<'home' | 'catalogs' | 'cards' | 'sales' | 'customers' | 'products' | 'floorplans' | 'extras'>('home');
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [counts, setCounts] = useState<{ customers: number; products: number; sales: number }>({
@@ -85,18 +82,6 @@ export function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Sync auth state changes across windows/tabs
-  useEffect(() => {
-    const handleAuthChange = () => {
-      const authState = isAuthenticated();
-      setIsLoggedIn(authState);
-      if (!authState) {
-        setActiveTab('catalogs');
-      }
-    };
-    window.addEventListener('portal_auth_changed', handleAuthChange);
-    return () => window.removeEventListener('portal_auth_changed', handleAuthChange);
-  }, []);
 
   // Pre-selected IDs when transitioning into PriceCardStudio or ShowroomFloorPlan
   const [targetCustomerId, setTargetCustomerId] = useState<string | undefined>(undefined);
@@ -485,18 +470,6 @@ interface NavTabItem {
       <Navbar
         isAutoSyncing={isAutoSyncing}
         isLoggedIn={isLoggedIn}
-        onOpenLogin={() => {
-          setLoginModalMode('login');
-          setIsLoginModalOpen(true);
-        }}
-        onLogout={() => {
-          logoutUser();
-          setActiveTab('catalogs');
-        }}
-        onChangePassword={() => {
-          setLoginModalMode('changePassword');
-          setIsLoginModalOpen(true);
-        }}
         onOpenSalesUpload={() => {
           if (!isLoggedIn) {
             setLoginModalMode('login');
@@ -840,16 +813,6 @@ interface NavTabItem {
           }}
         />
       )}
-
-      {/* Private Staff Access Login & Password Modal */}
-      <LoginModal
-        isOpen={isLoginModalOpen}
-        initialMode={loginModalMode}
-        onClose={() => setIsLoginModalOpen(false)}
-        onSuccess={() => {
-          setIsLoggedIn(true);
-        }}
-      />
 
     </div>
   );
