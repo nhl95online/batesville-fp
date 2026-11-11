@@ -13,6 +13,8 @@ const IMAGE_EXT = /\.(png|jpe?g|webp|gif|avif)$/i;
 
 export interface CatalogEdition {
   year: string;
+  priced: boolean;      // file name contains "with Prices" / "with Pricing"
+  tag?: string;         // extra label after the year, e.g. "AMP" in "Batesville Price List 2027 AMP"
   fileName: string;
   url: string;
   isImage: boolean;
@@ -30,15 +32,37 @@ export interface ExtrasStorageContent {
 
 const stripExtension = (name: string) => name.replace(/\.[a-z0-9]{2,5}$/i, '');
 
-// "Cremation Options Catalog 2026" -> { title: "Cremation Options Catalog", year: "2026" }
-// Also supports "… 2026-27", "… 2026_2027", "…-2026"
-const parseTitleAndYear = (fileName: string): { title: string; year: string } | null => {
-  const base = stripExtension(fileName).trim();
-  const match = base.match(/^(.*?)[\s_-]+((?:19|20)\d{2}(?:\s*[-–_]\s*(?:\d{4}|\d{2}))?)$/);
-  if (!match) return null;
-  const title = match[1].replace(/[_]+/g, ' ').replace(/\s+/g, ' ').trim();
-  const year = match[2].replace(/\s+/g, '').replace(/[–_]/g, '-');
-  return title ? { title, year } : null;
+const WITH_PRICES = /\b(?:with|w\/?)\s*(?:prices?|pricing)\b|\bpriced\b/i;
+const WITHOUT_PRICES = /\b(?:without|w\/o|no)\s*(?:prices?|pricing)\b|\bunpriced\b/i;
+const YEAR = /(?:19|20)\d{2}(?:\s*[-–_]\s*(?:20\d{2}|\d{2}))?/g;
+
+const tidy = (s: string) => s.replace(/[_]+/g, ' ').replace(/\s*[-–]\s*$/, '').replace(/^\s*[-–]\s*/, '').replace(/\s+/g, ' ').trim();
+
+// Parses catalog file names (extension ignored):
+//   "Cremation Options Catalog 2027"             -> title "Cremation Options Catalog", year 2027
+//   "Cremation Options Catalog with Prices 2027" -> same title, priced
+//   "Batesville Price List 2027 AMP"             -> title "Batesville Price List", year 2027, tag "AMP"
+//   Years may also be written "2026-27" or "2026_2027".
+const parseCatalogName = (fileName: string): Omit<CatalogEdition, 'fileName' | 'url' | 'isImage'> & { title: string } | null => {
+  let base = stripExtension(fileName).trim();
+
+  const yearMatches = Array.from(base.matchAll(YEAR));
+  const yearMatch = yearMatches[yearMatches.length - 1];
+  if (!yearMatch || yearMatch.index === undefined) return null;
+
+  const year = yearMatch[0].replace(/\s+/g, '').replace(/[–_]/g, '-');
+  let before = base.slice(0, yearMatch.index);
+  let after = base.slice(yearMatch.index + yearMatch[0].length);
+
+  const priced = WITH_PRICES.test(base) && !WITHOUT_PRICES.test(base);
+  const stripPricing = (s: string) => s.replace(WITHOUT_PRICES, ' ').replace(WITH_PRICES, ' ');
+  before = tidy(stripPricing(before));
+  after = tidy(stripPricing(after));
+
+  const title = before || after;
+  const tag = before ? after : '';
+  if (!title) return null;
+  return { title, year, priced, tag: tag || undefined };
 };
 
 const isRealFile = (f: { name: string; id: string | null }) =>
@@ -68,17 +92,19 @@ export async function loadExtrasStorage(): Promise<ExtrasStorageContent> {
       .map(f => ({ name: f.name, url: publicUrl(f.name) })),
   ].sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }));
 
-  // Catalogs: "<Title> <Year>.<ext>" grouped by title
+  // Catalogs: "<Title> [with Prices] <Year> [Tag].<ext>" grouped by title
   const byTitle = new Map<string, CatalogDocument>();
   rootFiles
     .filter(f => !FAMILY_CHOICE_PREFIX.test(f.name))
     .forEach(f => {
-      const parsed = parseTitleAndYear(f.name);
+      const parsed = parseCatalogName(f.name);
       if (!parsed) return;
       const key = parsed.title.toLowerCase();
       if (!byTitle.has(key)) byTitle.set(key, { title: parsed.title, editions: [] });
       byTitle.get(key)!.editions.push({
         year: parsed.year,
+        priced: parsed.priced,
+        tag: parsed.tag,
         fileName: f.name,
         url: publicUrl(f.name),
         isImage: IMAGE_EXT.test(f.name),

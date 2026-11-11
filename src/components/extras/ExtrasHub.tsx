@@ -82,7 +82,7 @@ export const ExtrasHub: React.FC<ExtrasHubProps> = ({
   const [storage, setStorage] = useState<ExtrasStorageContent>({ catalogs: [], familyChoiceRoomImages: [] });
   const [storageLoading, setStorageLoading] = useState(true);
   const [storageError, setStorageError] = useState<string | null>(null);
-  const [selectedEditions, setSelectedEditions] = useState<Record<string, string>>({});
+  const [selectedEditions, setSelectedEditions] = useState<Record<string, { year?: string; priced?: boolean; tag?: string }>>({});
   const [roomViewerIndex, setRoomViewerIndex] = useState<number | null>(null);
 
   useEffect(() => {
@@ -280,8 +280,22 @@ export const ExtrasHub: React.FC<ExtrasHubProps> = ({
                 ) : (
                   <ul className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 divide-y md:divide-y-0 divide-slate-200">
                     {filteredCatalogs.map(doc => {
-                      const year = selectedEditions[doc.title] || doc.editions[0].year;
-                      const edition = doc.editions.find(e => e.year === year) || doc.editions[0];
+                      // Resolve selected edition: Year -> Pricing version -> Tag (e.g. program)
+                      const sel = selectedEditions[doc.title] || {};
+                      const years = Array.from(new Set(doc.editions.map(e => e.year)));
+                      const year = sel.year && years.includes(sel.year) ? sel.year : years[0];
+                      const yearEds = doc.editions.filter(e => e.year === year);
+                      const hasBothPricing = yearEds.some(e => e.priced) && yearEds.some(e => !e.priced);
+                      const pricedChoice = hasBothPricing ? Boolean(sel.priced) : yearEds[0].priced;
+                      const pool = yearEds.filter(e => e.priced === pricedChoice);
+                      const tags = Array.from(new Set(pool.map(e => e.tag || '')));
+                      const tag = sel.tag !== undefined && tags.includes(sel.tag) ? sel.tag : tags[0];
+                      const edition = pool.find(e => (e.tag || '') === tag) || pool[0];
+                      const updateSel = (patch: { year?: string; priced?: boolean; tag?: string }) =>
+                        setSelectedEditions(prev => ({ ...prev, [doc.title]: { ...prev[doc.title], ...patch } }));
+                      const chip = 'text-[11px] font-mono text-slate-600 border border-slate-200 bg-white px-1.5 py-0.5 rounded-xs';
+                      const select = 'text-[11px] font-mono border border-slate-300 rounded-xs bg-white px-1 py-0.5';
+
                       return (
                         <li key={doc.title} className="flex items-center gap-3 p-2.5 md:border-b md:border-r border-slate-200">
                           <a
@@ -297,33 +311,56 @@ export const ExtrasHub: React.FC<ExtrasHubProps> = ({
                           </a>
                           <div className="min-w-0 flex-1">
                             <h4 className="font-serif font-bold text-slate-950 text-xs leading-tight truncate" title={doc.title}>{doc.title}</h4>
-                            <div className="flex items-center gap-1.5 mt-1">
-                              {doc.editions.length > 1 ? (
-                                <select
-                                  value={edition.year}
-                                  onChange={e => setSelectedEditions(prev => ({ ...prev, [doc.title]: e.target.value }))}
-                                  className="text-[11px] font-mono border border-slate-300 rounded-xs bg-white px-1 py-0.5"
-                                  title="Select edition year"
-                                >
-                                  {doc.editions.map(ed => <option key={ed.fileName} value={ed.year}>{ed.year}</option>)}
+                            <div className="flex flex-wrap items-center gap-1.5 mt-1">
+                              {years.length > 1 ? (
+                                <select value={year} onChange={e => updateSel({ year: e.target.value })} className={select} title="Edition year">
+                                  {years.map(y => <option key={y} value={y}>{y}</option>)}
                                 </select>
                               ) : (
-                                <span className="text-[11px] font-mono text-slate-600 border border-slate-200 bg-white px-1.5 py-0.5 rounded-xs">{edition.year}</span>
+                                <span className={chip}>{year}</span>
                               )}
+
+                              {hasBothPricing ? (
+                                <div className="inline-flex border border-slate-300 rounded-xs overflow-hidden" title="Choose version">
+                                  {[false, true].map(p => (
+                                    <button
+                                      key={String(p)}
+                                      onClick={() => updateSel({ priced: p })}
+                                      className={`px-1.5 py-0.5 text-[10px] font-serif font-bold uppercase tracking-wide cursor-pointer ${
+                                        pricedChoice === p ? 'bg-emerald-800 text-white' : 'bg-white text-slate-700 hover:bg-emerald-50'
+                                      }`}
+                                    >
+                                      {p ? 'With Prices' : 'No Prices'}
+                                    </button>
+                                  ))}
+                                </div>
+                              ) : edition.priced ? (
+                                <span className="text-[10px] font-serif font-bold uppercase tracking-wide text-emerald-800 border border-emerald-300 bg-emerald-50 px-1.5 py-0.5 rounded-xs">With Prices</span>
+                              ) : null}
+
+                              {tags.length > 1 ? (
+                                <select value={tag} onChange={e => updateSel({ tag: e.target.value })} className={select} title="Version">
+                                  {tags.map(t => <option key={t} value={t}>{t || 'Standard'}</option>)}
+                                </select>
+                              ) : tag ? (
+                                <span className="text-[10px] font-mono font-bold text-blue-900 border border-blue-200 bg-blue-50 px-1.5 py-0.5 rounded-xs">{tag}</span>
+                              ) : null}
+                            </div>
+                            <div className="flex items-center gap-2 mt-1">
                               <a
                                 href={edition.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1 text-[11px] font-serif font-bold text-blue-900 hover:text-emerald-800 px-1"
+                                className="inline-flex items-center gap-1 text-[11px] font-serif font-bold text-blue-900 hover:text-emerald-800"
                               >
                                 <ExternalLink className="w-3 h-3" /> Open
                               </a>
                               <a
                                 href={`${edition.url}?download=${encodeURIComponent(edition.fileName)}`}
-                                className="inline-flex items-center gap-1 text-[11px] font-serif font-bold text-slate-600 hover:text-emerald-800 px-1"
+                                className="inline-flex items-center gap-1 text-[11px] font-serif font-bold text-slate-600 hover:text-emerald-800"
                                 title="Download"
                               >
-                                <Download className="w-3 h-3" />
+                                <Download className="w-3 h-3" /> Download
                               </a>
                             </div>
                           </div>
