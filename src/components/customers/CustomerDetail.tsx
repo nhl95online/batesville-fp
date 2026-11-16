@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Customer, SaleRecord } from '../../types';
-import { getCustomerMetrics, db } from '../../services/db';
+import { getCustomerMetrics, getSaleFiscalYearAndMonth, db } from '../../services/db';
 import { 
   Building2, 
   Mail, 
@@ -25,6 +25,50 @@ interface CustomerDetailProps {
   onOpenFloorPlan?: (customerId: string) => void;
 }
 
+function getSaleDateParts(sale: SaleRecord): { year: number; month: number; day: number } {
+  if (sale.saleDate) {
+    const match = String(sale.saleDate).trim().match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+    if (match) {
+      return {
+        year: parseInt(match[1], 10),
+        month: parseInt(match[2], 10),
+        day: parseInt(match[3], 10),
+      };
+    }
+    const parsed = new Date(sale.saleDate);
+    if (!isNaN(parsed.getTime())) {
+      return {
+        year: parsed.getFullYear(),
+        month: parsed.getMonth() + 1,
+        day: parsed.getDate(),
+      };
+    }
+  }
+
+  const { fiscalYear, fiscalMonth } = getSaleFiscalYearAndMonth(sale);
+  const baseYear = parseInt(fiscalYear.split('-')[0], 10) || 2024;
+  const calYear = fiscalMonth <= 3 ? baseYear : baseYear + 1;
+  const calMonth = fiscalMonth <= 3 ? fiscalMonth + 9 : fiscalMonth - 3;
+  const day = Math.max(1, Math.min(31, parseInt(String(sale.day || 1), 10) || 1));
+
+  return { year: calYear, month: calMonth, day };
+}
+
+function getSaleTimestamp(sale: SaleRecord): number {
+  const { year, month, day } = getSaleDateParts(sale);
+  return Date.UTC(year, month - 1, day);
+}
+
+function formatSaleDate(sale: SaleRecord): string {
+  const { year, month, day } = getSaleDateParts(sale);
+  const date = new Date(year, month - 1, day);
+  return date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+}
+
 export const CustomerDetail: React.FC<CustomerDetailProps> = ({
   customer,
   onBack,
@@ -46,7 +90,7 @@ export const CustomerDetail: React.FC<CustomerDetailProps> = ({
       setMetrics(m);
 
       const custAcct = String(customer.accountNumber || customer.code || '');
-      const orders = await db.sales
+      const matchingOrders = await db.sales
         .filter(s => {
           const sAcct = String(s.accountNumber || '');
           if (custAcct && (sAcct === custAcct || s.customerId === `cust-${custAcct}`)) return true;
@@ -54,11 +98,15 @@ export const CustomerDetail: React.FC<CustomerDetailProps> = ({
           if (s.accountName && customer.name && s.accountName.toLowerCase() === customer.name.toLowerCase()) return true;
           return false;
         })
-        .reverse()
-        .limit(20)
         .toArray();
-      
-      setRecentOrders(orders);
+
+      matchingOrders.sort((a, b) => {
+        const diff = getSaleTimestamp(b) - getSaleTimestamp(a);
+        if (diff !== 0) return diff;
+        return (Number(b.saleId) || 0) - (Number(a.saleId) || 0);
+      });
+
+      setRecentOrders(matchingOrders.slice(0, 20));
     }
     loadData();
   }, [customer]);
@@ -320,7 +368,7 @@ export const CustomerDetail: React.FC<CustomerDetailProps> = ({
               <thead className="bg-slate-100 text-slate-600 uppercase tracking-wider border-b border-slate-200 font-mono text-[11px]">
                 <tr>
                   <th className="py-3 px-4 font-semibold">Order #</th>
-                  <th className="py-3 px-4 font-semibold">Year</th>
+                  <th className="py-3 px-4 font-semibold">Date</th>
                   <th className="py-3 px-4 font-semibold">Product Code</th>
                   <th className="py-3 px-4 font-semibold">Description</th>
                   <th className="py-3 px-4 font-semibold">Quantity</th>
@@ -332,7 +380,10 @@ export const CustomerDetail: React.FC<CustomerDetailProps> = ({
                 {recentOrders.map((ord) => (
                   <tr key={ord.id} className="hover:bg-slate-50 transition-colors">
                     <td className="py-3 px-4 font-mono font-semibold text-amber-700">{ord.orderNumber}</td>
-                    <td className="py-3 px-4 font-mono">{ord.year}</td>
+                    <td className="py-3 px-4 font-mono whitespace-nowrap">
+                      <div className="text-slate-900 font-semibold">{formatSaleDate(ord)}</div>
+                      {ord.year && <div className="text-[10px] text-slate-400">FY {ord.year}</div>}
+                    </td>
                     <td className="py-3 px-4 font-mono text-slate-600">{ord.productCode}</td>
                     <td className="py-3 px-4 text-slate-900 font-sans truncate max-w-[260px]">{ord.description || ord.notes || '—'}</td>
                     <td className="py-3 px-4 font-mono">{ord.quantity}</td>

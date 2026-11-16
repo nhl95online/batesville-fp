@@ -373,6 +373,40 @@ export function parseSalesLines(
       .filter(Boolean)
   );
 
+  const knownProductSet = new Set(
+    products
+      .flatMap(p => [String(p.code || '').trim(), String(p.productCode || '').trim()])
+      .filter(Boolean)
+      .map(code => code.toLowerCase())
+  );
+
+  const isProgramPrefixToken = (token: string) =>
+    /^(?:ARB|PLN|PA|SPP|AMP|OBB)\d+$/i.test(token.trim()) &&
+    !knownProductSet.has(token.trim().toLowerCase());
+
+  const isSubtotalBlockStart = (startIndex: number, candidateRemainder: string): boolean => {
+    const trimmed = candidateRemainder.trim();
+    const hasNumericItemSku = /\b(?:\d{4,8}|\d{2,4}-\d{2,5}(?:-\d{1,4})?)\b/.test(trimmed);
+    const isJustProgramPrefix = isProgramPrefixToken(trimmed);
+    if (hasNumericItemSku && !isJustProgramPrefix) return false;
+
+    for (let j = startIndex + 1; j < Math.min(lines.length, startIndex + 8); j++) {
+      const nextNorm = normalizeReportLine(lines[j]);
+      if (!nextNorm) continue;
+      if (/\bTotal\b/i.test(nextNorm) && !/Grand Total|Report Total/i.test(nextNorm)) {
+        return true;
+      }
+      if (
+        TRAILING_QTY_COST_REGEX.test(nextNorm) ||
+        SINGLE_TRAILING_CURR_REGEX.test(nextNorm) ||
+        /\b(37\d{6}|\d{8,10})\b/.test(nextNorm)
+      ) {
+        return false;
+      }
+    }
+    return false;
+  };
+
   const flushBlock = (blockAcct: string, blockShipTo: string) => {
     if (currentBlockItems.length === 0) return;
 
@@ -571,6 +605,24 @@ export function parseSalesLines(
         beforeQty = line.slice(0, singleTrailingCurr!.index).trim();
       }
 
+      // Check for wrapped grey subtotal row BEFORE stitching pendingPrefixText from a previous wrapped line
+      if (!/\b(37\d{6}|\d{8,10})\b/.test(beforeQty) && isSubtotalBlockStart(i, beforeQty)) {
+        pendingPrefixText = '';
+        if (currentBlockItems.length === 0 && (cost < 0 || qty < 0)) {
+          currentBlockItems.push({
+            orderNumber: activeOrderNumber,
+            itemNumber: '0',
+            description: 'Credit / Billing Adjustment',
+            quantity: qty,
+            cost,
+            lineDate: activeDate,
+            customerShipTo: activeCustomerShipTo || beforeQty,
+            accountNumber: activeAccountNumber
+          });
+        }
+        continue;
+      }
+
       // If this line only had the numbers (or wrapped description tail) and the previous line had the Order/Item prefix, stitch them
       if (pendingPrefixText && !/\b\d{4,10}\b/.test(beforeQty)) {
         beforeQty = `${pendingPrefixText} ${beforeQty}`.trim();
@@ -609,6 +661,24 @@ export function parseSalesLines(
 
         remainder = afterOrder;
       } else {
+        // Skip wrapped grey subtotal rows (e.g. "ARB130 8.0 1,280.32 1,280.32" followed by wrapped name + "134309 Total")
+        if (isSubtotalBlockStart(i, remainder)) {
+          if (currentBlockItems.length === 0 && (cost < 0 || qty < 0)) {
+            // Preserve negative-only customer credit if no detail item line was captured
+            currentBlockItems.push({
+              orderNumber: activeOrderNumber,
+              itemNumber: '0',
+              description: 'Credit / Billing Adjustment',
+              quantity: qty,
+              cost,
+              lineDate: activeDate,
+              customerShipTo: activeCustomerShipTo || remainder,
+              accountNumber: activeAccountNumber
+            });
+          }
+          continue;
+        }
+
         // No 8-10 digit order number on this line: strip any leading Customer Ship-To so Account # is not mistaken for Item #
         if (custMatch) {
           const custIdx = remainder.indexOf(custMatch[0]);
@@ -619,13 +689,23 @@ export function parseSalesLines(
           // Check if remainder starts with [Funeral Home Name + 5-7 digit Account #] followed by [Order/Item #]
           const namedAcctMatch = remainder.match(/^([A-Za-z][^\n\r]*?)\s+(\d{5,7})\s+(.*)$/);
           if (namedAcctMatch) {
-            const detectedAcct = namedAcctMatch[2];
-            if (currentBlockItems.length > 0 && activeAccountNumber && activeAccountNumber !== detectedAcct) {
-              flushBlock(activeAccountNumber, activeCustomerShipTo);
+            const candidateNum = namedAcctMatch[2];
+            const trailingText = namedAcctMatch[3].trim();
+            const trailingStartsWithItemOrOrder = /^(?:\d{4,8}|\d{2,4}-\d{2,5}|[A-Z]{1,3}-?\d{3,6})\b/i.test(trailingText);
+            const isKnownAcct = knownAcctSet.has(candidateNum);
+            const isKnownProd = knownProductSet.has(candidateNum.toLowerCase());
+
+            if ((isKnownAcct && !isKnownProd) || trailingStartsWithItemOrOrder) {
+              if (currentBlockItems.length > 0 && activeAccountNumber && activeAccountNumber !== candidateNum) {
+                flushBlock(activeAccountNumber, activeCustomerShipTo);
+              }
+              activeAccountNumber = candidateNum;
+              activeCustomerShipTo = `${namedAcctMatch[1].trim()} ${candidateNum}`;
+              remainder = trailingText;
+            } else {
+              // Candidate number is the Item Number (e.g. "BROWN FH-URN 284109 VERTICAL MARBLE"); strip the wrapped customer name prefix
+              remainder = `${candidateNum} ${trailingText}`.trim();
             }
-            activeAccountNumber = detectedAcct;
-            activeCustomerShipTo = `${namedAcctMatch[1].trim()} ${detectedAcct}`;
-            remainder = namedAcctMatch[3].trim();
           } else {
             // Bare [5-7 digit Account #] followed by [5-7 digit Item #] (e.g. pasted lines "2025-04-12 134700 271819 M39...")
             const bareAcctThenItem = remainder.match(/^(\d{5,7})\s+(?:([A-Z0-9-]{6,12})\s+)?(\d{5,7})\b\s*(.*)$/i);
@@ -668,7 +748,7 @@ export function parseSalesLines(
         remainder.match(/^(\d{4,8}|\d{2,4}-\d{2,5}(?:-\d{1,4})?|[A-Z]{1,3}-?\d{3,6})\b(?:\s+(.*))?$/i) ||
         remainder.match(/\b(\d{4,8}|\d{2,4}-\d{2,5}(?:-\d{1,4})?)\b(?:\s+(.*))?$/);
       
-      if (itemAndDescMatch && !knownAcctSet.has(itemAndDescMatch[1])) {
+      if (itemAndDescMatch && !knownAcctSet.has(itemAndDescMatch[1]) && !isProgramPrefixToken(itemAndDescMatch[1])) {
         const itemNumber = itemAndDescMatch[1].trim();
         let rawDesc = (itemAndDescMatch[2] || '').trim();
 
