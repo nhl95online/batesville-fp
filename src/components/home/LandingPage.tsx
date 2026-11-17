@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Customer, Product, SaleRecord } from '../../types';
-import { getCachedSales } from '../../services/db';
+import { getCachedSales, getSaleFiscalYearAndMonth } from '../../services/db';
 import { isUrnProduct } from '../../services/supabase';
 import {
   Tag,
@@ -61,6 +61,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 }) => {
   const [sales, setSales] = useState<SaleRecord[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedYear, setSelectedYear] = useState<string>('2026-27');
+  const [segmentMode, setSegmentMode] = useState<'ytd' | 'rolling12m'>('ytd');
 
   // Fetch sales records
   useEffect(() => {
@@ -89,27 +91,98 @@ export const LandingPage: React.FC<LandingPageProps> = ({
     }
   }, [selectedSection]);
 
-  // Distinct Years
-  const availableYears = useMemo(() => {
-    const years = Array.from(new Set(sales.map(s => String(s.year))))
-      .filter(Boolean)
-      .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
-    return years.length > 0 ? years : ['2023-24', '2024-25', '2025-26'];
+  // Normalize every sale's fiscal year & fiscal month (1=Oct .. 12=Sep) once
+  const normalizedSales = useMemo(() => {
+    return sales.map(s => {
+      const { fiscalYear, fiscalMonth } = getSaleFiscalYearAndMonth(s);
+      return { sale: s, fiscalYear, fiscalMonth };
+    });
   }, [sales]);
 
-  const currentYear = availableYears[availableYears.length - 1] || '2025-26';
-  const previousYear = availableYears[availableYears.length - 2] || '2024-25';
+  // Distinct Years (sorted ascending, always including 2026-27 if present or as active cycle)
+  const availableYears = useMemo(() => {
+    const years = Array.from(new Set(normalizedSales.map(x => x.fiscalYear)))
+      .filter(Boolean)
+      .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+    if (years.length === 0) return ['2024-25', '2025-26', '2026-27'];
+    return years;
+  }, [normalizedSales]);
+
+  // Ensure selectedYear stays valid when sales load
+  useEffect(() => {
+    if (availableYears.length === 0) return;
+    if (!availableYears.includes(selectedYear)) {
+      setSelectedYear(availableYears[availableYears.length - 1]);
+    }
+  }, [availableYears, selectedYear]);
+
+  const currentYear = availableYears.includes(selectedYear)
+    ? selectedYear
+    : (availableYears[availableYears.length - 1] || '2026-27');
+
+  const currentYearIdx = availableYears.indexOf(currentYear);
+  const previousYear = useMemo(() => {
+    if (currentYearIdx > 0) return availableYears[currentYearIdx - 1];
+    const startY = parseInt(currentYear.split('-')[0], 10);
+    if (!isNaN(startY)) return `${startY - 1}-${String(startY).slice(-2)}`;
+    return '2025-26';
+  }, [availableYears, currentYear, currentYearIdx]);
 
   // Current & Previous Year Sales records
-  const currentSales = useMemo(() => sales.filter(s => String(s.year) === currentYear), [sales, currentYear]);
-  const previousSales = useMemo(() => sales.filter(s => String(s.year) === previousYear), [sales, previousYear]);
+  const currentYearEntries = useMemo(
+    () => normalizedSales.filter(x => x.fiscalYear === currentYear),
+    [normalizedSales, currentYear]
+  );
+  const previousYearEntries = useMemo(
+    () => normalizedSales.filter(x => x.fiscalYear === previousYear),
+    [normalizedSales, previousYear]
+  );
 
-  // KPI Metrics
+  // Max fiscal month reached in currentYear (for apples-to-apples YTD comparison on in-progress years like 2026-27)
+  const maxFiscalMonthInCurrent = useMemo(() => {
+    if (currentYearEntries.length === 0) return 12;
+    return currentYearEntries.reduce((maxM, x) => Math.max(maxM, x.fiscalMonth), 1);
+  }, [currentYearEntries]);
+
+  const isPartialYear = maxFiscalMonthInCurrent < 12;
+
+  const currentSales = useMemo(() => currentYearEntries.map(x => x.sale), [currentYearEntries]);
+  const previousSales = useMemo(() => previousYearEntries.map(x => x.sale), [previousYearEntries]);
+  const previousSamePeriodSales = useMemo(
+    () => previousYearEntries.filter(x => x.fiscalMonth <= maxFiscalMonthInCurrent).map(x => x.sale),
+    [previousYearEntries, maxFiscalMonthInCurrent]
+  );
+
+  // Rolling 12-Month (R12M) and Prior 12-Month windows based on latest saleDate
+  const rollingWindows = useMemo(() => {
+    const now = new Date();
+    const anchor = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const r12Start = new Date(anchor);
+    r12Start.setFullYear(r12Start.getFullYear() - 1);
+    const p12Start = new Date(r12Start);
+    p12Start.setFullYear(p12Start.getFullYear() - 1);
+
+    const curR12: SaleRecord[] = [];
+    const prevR12: SaleRecord[] = [];
+
+    for (const { sale } of normalizedSales) {
+      if (!sale.saleDate) continue;
+      const d = new Date(sale.saleDate);
+      if (isNaN(d.getTime())) continue;
+      if (d > r12Start && d <= anchor) curR12.push(sale);
+      else if (d > p12Start && d <= r12Start) prevR12.push(sale);
+    }
+
+    return { curR12, prevR12 };
+  }, [normalizedSales]);
+
+  // KPI Metrics (uses apples-to-apples same-period comparison when currentYear is in progress)
   const metrics = useMemo(() => {
     const curRevenue = currentSales.reduce((acc, s) => acc + (Number(s.cost) || Number(s.totalAmount) || 0), 0);
-    const prevRevenue = previousSales.reduce((acc, s) => acc + (Number(s.cost) || Number(s.totalAmount) || 0), 0);
-    const curUnits = currentSales.reduce((acc, s) => acc + (Number(s.quantity) || 1), 0);
-    const prevUnits = previousSales.reduce((acc, s) => acc + (Number(s.quantity) || 1), 0);
+    const prevCompareSales = isPartialYear ? previousSamePeriodSales : previousSales;
+    const prevRevenue = prevCompareSales.reduce((acc, s) => acc + (Number(s.cost) || Number(s.totalAmount) || 0), 0);
+    const curUnits = currentSales.reduce((acc, s) => acc + (Number(s.quantity) ?? 0), 0);
+    const prevUnits = prevCompareSales.reduce((acc, s) => acc + (Number(s.quantity) ?? 0), 0);
 
     const revenueGrowth = prevRevenue > 0 ? ((curRevenue - prevRevenue) / prevRevenue) * 100 : 0;
     const unitGrowth = prevUnits > 0 ? ((curUnits - prevUnits) / prevUnits) * 100 : 0;
@@ -119,7 +192,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
     let urnUnits = 0;
     currentSales.forEach(s => {
       const isUrn = isUrnProduct({ category: s.category, description: s.description });
-      const q = Number(s.quantity) || 1;
+      const q = Number(s.quantity) ?? 0;
       if (isUrn) urnUnits += q;
       else casketUnits += q;
     });
@@ -140,8 +213,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       prevUnits,
       revenueGrowth: Math.round(revenueGrowth * 10) / 10,
       unitGrowth: Math.round(unitGrowth * 10) / 10,
-      casketUnits: casketUnits || 6760,
-      urnUnits: urnUnits || 1440,
+      casketUnits,
+      urnUnits,
       casketSharePercent,
       urnSharePercent,
       showroomCount,
@@ -149,7 +222,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       totalPartners: customers.length || 109,
       totalModels: products.length || 1024
     };
-  }, [currentSales, previousSales, customers, products]);
+  }, [currentSales, previousSales, previousSamePeriodSales, isPartialYear, customers, products]);
 
   // Monthly Trend Series (Batesville Fiscal Year: Oct to Sep)
   const monthlyTrendData = useMemo(() => {
@@ -197,67 +270,182 @@ export const LandingPage: React.FC<LandingPageProps> = ({
     });
   }, [currentSales, previousSales]);
 
-  // Segment Breakdown Data (Horizontal Bar Chart matching Image 1)
-  const segmentData = useMemo(() => {
-    const segments: Record<string, { units: number; revenue: number }> = {
-      '18 Gauge Steel': { units: 0, revenue: 0 },
-      'Solid American Oak': { units: 0, revenue: 0 },
-      'Stainless Steel': { units: 0, revenue: 0 },
-      'Solid Pecan': { units: 0, revenue: 0 },
-      'Solid Cherry': { units: 0, revenue: 0 },
-      'Bronze & Copper': { units: 0, revenue: 0 },
-      'Cremation Urns': { units: 0, revenue: 0 },
-      'NewPointe & Cloth': { units: 0, revenue: 0 },
-      'Keepsakes': { units: 0, revenue: 0 },
+  // Product lookup for accurate material/category classification
+  const productByCode = useMemo(() => {
+    const map = new Map<string, Product>();
+    for (const p of products) {
+      const c1 = String(p.code || '').trim().toLowerCase();
+      const c2 = String(p.productCode || '').trim().toLowerCase();
+      if (c1 && !map.has(c1)) map.set(c1, p);
+      if (c2 && !map.has(c2)) map.set(c2, p);
+    }
+    return map;
+  }, [products]);
+
+  const classifySaleSegment = (s: SaleRecord): { segment: string; matrixGroup: 'metal' | 'wood' | 'urns' | 'keepsakes' | 'cloth' } => {
+    const prod = productByCode.get(String(s.productCode || '').trim().toLowerCase());
+    const text = [
+      s.subcategory,
+      s.category,
+      s.description,
+      prod?.material,
+      prod?.subcategory,
+      prod?.category,
+      prod?.description,
+    ]
+      .filter(Boolean)
+      .join(' ')
+      .toLowerCase();
+
+    if (text.includes('keepsake') || text.includes('jewelry') || text.includes('lifestories') || text.includes('lifesymbols') || text.includes('engraving') || text.includes('engrv')) {
+      return { segment: 'Keepsakes', matrixGroup: 'keepsakes' };
+    }
+    if (text.includes('urn') || text.includes('mdf') || text.includes('cremation box') || text.includes('cremation container') || isUrnProduct({ category: s.category, description: s.description })) {
+      return { segment: 'Cremation Urns', matrixGroup: 'urns' };
+    }
+    if (text.includes('newpointe') || text.includes('cloth')) {
+      return { segment: 'NewPointe & Cloth', matrixGroup: 'cloth' };
+    }
+    if (text.includes('bronze') || text.includes('copper')) {
+      return { segment: 'Bronze & Copper', matrixGroup: 'metal' };
+    }
+    if (text.includes('stainless') || text.includes('sst')) {
+      return { segment: 'Stainless Steel', matrixGroup: 'metal' };
+    }
+    if (text.includes('20g') || text.includes('20 gauge') || text.includes('20 ga')) {
+      return { segment: '20 Gauge Steel', matrixGroup: 'metal' };
+    }
+    if (text.includes('18g') || text.includes('18 gauge') || text.includes('18 ga') || text.includes('steel')) {
+      return { segment: '18 Gauge Steel', matrixGroup: 'metal' };
+    }
+    if (text.includes('oak')) {
+      return { segment: 'Solid American Oak', matrixGroup: 'wood' };
+    }
+    if (text.includes('cherry')) {
+      return { segment: 'Solid Cherry', matrixGroup: 'wood' };
+    }
+    if (text.includes('pecan')) {
+      return { segment: 'Solid Pecan', matrixGroup: 'wood' };
+    }
+    if (text.includes('maple') || text.includes('mahogany') || text.includes('walnut') || text.includes('pine') || text.includes('poplar') || text.includes('ash') || text.includes('hardwood') || text.includes('wood') || text.includes('veneer')) {
+      return { segment: 'Other Hardwoods', matrixGroup: 'wood' };
+    }
+    if (text.includes('metal')) {
+      return { segment: '18 Gauge Steel', matrixGroup: 'metal' };
+    }
+    return { segment: 'NewPointe & Cloth', matrixGroup: 'cloth' };
+  };
+
+  // Rolling Per-Year / YTD Segment Breakdown & Category Matrix
+  const { segmentData, matrixData, sellingWell, needsFocus } = useMemo(() => {
+    const activeCurSales =
+      segmentMode === 'rolling12m'
+        ? rollingWindows.curR12
+        : currentSales;
+    const activePrevSales =
+      segmentMode === 'rolling12m'
+        ? rollingWindows.prevR12
+        : (isPartialYear ? previousSamePeriodSales : previousSales);
+
+    const segmentNames = [
+      '18 Gauge Steel',
+      '20 Gauge Steel',
+      'Solid American Oak',
+      'Solid Cherry',
+      'Solid Pecan',
+      'Other Hardwoods',
+      'Stainless Steel',
+      'Bronze & Copper',
+      'Cremation Urns',
+      'NewPointe & Cloth',
+      'Keepsakes',
+    ];
+
+    const segMap: Record<string, { curUnits: number; prevUnits: number; curRev: number; prevRev: number }> = {};
+    for (const name of segmentNames) {
+      segMap[name] = { curUnits: 0, prevUnits: 0, curRev: 0, prevRev: 0 };
+    }
+
+    const matrixTotals: Record<'metal' | 'wood' | 'urns' | 'keepsakes' | 'cloth', { curUnits: number; prevUnits: number; curRev: number }> = {
+      metal: { curUnits: 0, prevUnits: 0, curRev: 0 },
+      wood: { curUnits: 0, prevUnits: 0, curRev: 0 },
+      urns: { curUnits: 0, prevUnits: 0, curRev: 0 },
+      keepsakes: { curUnits: 0, prevUnits: 0, curRev: 0 },
+      cloth: { curUnits: 0, prevUnits: 0, curRev: 0 },
     };
 
-    currentSales.forEach(s => {
-      const desc = (s.description || '').toLowerCase();
-      const cat = (s.category || '').toLowerCase();
-      const q = Number(s.quantity) || 1;
-      const cost = Number(s.cost) || Number(s.totalAmount) || 0;
+    for (const s of activeCurSales) {
+      const q = Number(s.quantity) || 0;
+      const rev = Number(s.cost) || Number(s.totalAmount) || 0;
+      const { segment, matrixGroup } = classifySaleSegment(s);
+      segMap[segment].curUnits += q;
+      segMap[segment].curRev += rev;
+      matrixTotals[matrixGroup].curUnits += q;
+      matrixTotals[matrixGroup].curRev += rev;
+    }
 
-      if (desc.includes('18g') || desc.includes('18 gauge') || desc.includes('18 ga') || cat.includes('18 gauge')) {
-        segments['18 Gauge Steel'].units += q;
-        segments['18 Gauge Steel'].revenue += cost;
-      } else if (desc.includes('oak') || cat.includes('oak')) {
-        segments['Solid American Oak'].units += q;
-        segments['Solid American Oak'].revenue += cost;
-      } else if (desc.includes('stainless') || cat.includes('stainless')) {
-        segments['Stainless Steel'].units += q;
-        segments['Stainless Steel'].revenue += cost;
-      } else if (desc.includes('pecan') || cat.includes('pecan')) {
-        segments['Solid Pecan'].units += q;
-        segments['Solid Pecan'].revenue += cost;
-      } else if (desc.includes('cherry') || cat.includes('cherry')) {
-        segments['Solid Cherry'].units += q;
-        segments['Solid Cherry'].revenue += cost;
-      } else if (desc.includes('bronze') || desc.includes('copper')) {
-        segments['Bronze & Copper'].units += q;
-        segments['Bronze & Copper'].revenue += cost;
-      } else if (cat.includes('urn') || desc.includes('urn')) {
-        segments['Cremation Urns'].units += q;
-        segments['Cremation Urns'].revenue += cost;
-      } else if (cat.includes('cloth') || cat.includes('newpointe') || desc.includes('cloth')) {
-        segments['NewPointe & Cloth'].units += q;
-        segments['NewPointe & Cloth'].revenue += cost;
-      } else if (cat.includes('keepsake') || cat.includes('jewelry')) {
-        segments['Keepsakes'].units += q;
-        segments['Keepsakes'].revenue += cost;
-      } else {
-        segments['18 Gauge Steel'].units += q;
-        segments['18 Gauge Steel'].revenue += cost;
-      }
-    });
+    for (const s of activePrevSales) {
+      const q = Number(s.quantity) || 0;
+      const rev = Number(s.cost) || Number(s.totalAmount) || 0;
+      const { segment, matrixGroup } = classifySaleSegment(s);
+      segMap[segment].prevUnits += q;
+      segMap[segment].prevRev += rev;
+      matrixTotals[matrixGroup].prevUnits += q;
+    }
 
-    return Object.entries(segments)
-      .map(([segment, data]) => ({
-        segment,
-        units: data.units || Math.floor(Math.random() * 400 + 150),
-        revenue: data.revenue
-      }))
-      .sort((a, b) => b.units - a.units);
-  }, [currentSales]);
+    const rows = Object.entries(segMap)
+      .map(([segment, d]) => {
+        const delta = d.curUnits - d.prevUnits;
+        const yoyPercent = d.prevUnits > 0
+          ? Math.round(((d.curUnits - d.prevUnits) / d.prevUnits) * 1000) / 10
+          : (d.curUnits > 0 ? 100 : 0);
+        return {
+          segment,
+          units: Math.max(0, d.curUnits),
+          rawUnits: d.curUnits,
+          previousUnits: Math.max(0, d.prevUnits),
+          delta,
+          yoyPercent,
+          revenue: d.curRev,
+          prevRevenue: d.prevRev,
+        };
+      })
+      .sort((a, b) => (b.units - a.units) || (b.previousUnits - a.previousUnits));
+
+    const totalMatrixUnits = Object.values(matrixTotals).reduce((sum, m) => sum + Math.max(0, m.curUnits), 0);
+    const calcMatrix = (key: 'metal' | 'wood' | 'urns' | 'keepsakes' | 'cloth') => {
+      const m = matrixTotals[key];
+      const units = Math.max(0, m.curUnits);
+      const prev = Math.max(0, m.prevUnits);
+      const share = totalMatrixUnits > 0 ? Math.round((units / totalMatrixUnits) * 1000) / 10 : 0;
+      const yoy = prev > 0 ? Math.round(((units - prev) / prev) * 1000) / 10 : (units > 0 ? 100 : 0);
+      return { units, prevUnits: prev, share, yoy, revenue: m.curRev };
+    };
+
+    const well = rows
+      .filter(r => r.rawUnits > 0 && (r.yoyPercent > 0 || r.delta > 0))
+      .sort((a, b) => b.delta - a.delta)
+      .slice(0, 3);
+
+    const focus = rows
+      .filter(r => r.delta < 0 || (r.previousUnits > 0 && r.rawUnits === 0))
+      .sort((a, b) => a.delta - b.delta)
+      .slice(0, 3);
+
+    return {
+      segmentData: rows,
+      matrixData: {
+        metal: calcMatrix('metal'),
+        wood: calcMatrix('wood'),
+        urns: calcMatrix('urns'),
+        keepsakes: calcMatrix('keepsakes'),
+        cloth: calcMatrix('cloth'),
+        totalUnits: totalMatrixUnits,
+      },
+      sellingWell: well,
+      needsFocus: focus,
+    };
+  }, [segmentMode, rollingWindows, currentSales, previousSales, previousSamePeriodSales, isPartialYear, productByCode]);
 
   // Program Variance Data (Grouped Bar Chart)
   const programData = useMemo(() => {
@@ -307,9 +495,20 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           )}
         </div>
 
-        {/* Right Dateline Status */}
-        <div className="flex items-center space-x-2 text-[11px] font-mono text-slate-700">
-          <span>CATALOG CYCLE: <strong className="text-blue-950 font-bold">{currentYear}</strong></span>
+        {/* Right Dateline Status & Fiscal Year Selector */}
+        <div className="flex flex-wrap items-center gap-2 text-[11px] font-mono text-slate-700">
+          <label className="flex items-center gap-1.5">
+            <span>CATALOG CYCLE:</span>
+            <select
+              value={currentYear}
+              onChange={(e) => setSelectedYear(e.target.value)}
+              className="bg-white border border-slate-300 rounded px-2 py-0.5 text-blue-950 font-bold cursor-pointer focus:outline-none focus:border-emerald-700"
+            >
+              {[...availableYears].reverse().map(yr => (
+                <option key={yr} value={yr}>{yr}</option>
+              ))}
+            </select>
+          </label>
           <span className="text-emerald-700">|</span>
           <span>WIRE: <strong className="text-emerald-800 font-bold">LIVE INDEXEDDB + SUPABASE</strong></span>
         </div>
@@ -335,9 +534,15 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             <div className="font-serif text-4xl sm:text-5xl font-black text-slate-950 tracking-tight">
               {metrics.curRevenue > 0 ? `$${(metrics.curRevenue / 1_000_000).toFixed(1)}M` : '$5.1M'}
             </div>
-            <div className="mt-2 pt-2 border-t border-slate-200 text-[11px] text-emerald-800 font-serif font-bold flex items-center gap-1">
-              <TrendingUp className="w-3.5 h-3.5 text-emerald-700" />
-              <span>+{metrics.unitGrowth}% vs. prior fiscal edition</span>
+            <div className="mt-2 pt-2 border-t border-slate-200 text-[11px] font-serif font-bold flex items-center gap-1">
+              {metrics.unitGrowth >= 0 ? (
+                <TrendingUp className="w-3.5 h-3.5 text-emerald-700" />
+              ) : (
+                <TrendingDown className="w-3.5 h-3.5 text-amber-700" />
+              )}
+              <span className={metrics.unitGrowth >= 0 ? 'text-emerald-800' : 'text-amber-800'}>
+                {metrics.unitGrowth >= 0 ? `+${metrics.unitGrowth}%` : `${metrics.unitGrowth}%`} vs. {previousYear}{isPartialYear ? ' YTD' : ''}
+              </span>
             </div>
           </div>
 
@@ -507,48 +712,155 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
         {/* RIGHT COLUMN: Horizontal Bar Chart & Category Matrix (lg:col-span-4) */}
         <div id="segments" className="lg:col-span-4 space-y-5 scroll-mt-28">
-          <div className="border-b-2 border-emerald-900 pb-1">
+          <div className="border-b-2 border-emerald-900 pb-1 flex items-center justify-between gap-2">
             <h2 className="font-serif text-xs font-black uppercase tracking-widest text-emerald-950">
               Col. III — Merchandise Segment Index
             </h2>
+            <div className="flex items-center bg-slate-100 border border-slate-300 rounded text-[10px] font-mono overflow-hidden">
+              <button
+                type="button"
+                onClick={() => setSegmentMode('ytd')}
+                className={`px-2 py-0.5 cursor-pointer transition-colors ${
+                  segmentMode === 'ytd'
+                    ? 'bg-emerald-800 text-white font-bold'
+                    : 'text-slate-700 hover:bg-slate-200'
+                }`}
+              >
+                {currentYear}
+              </button>
+              <button
+                type="button"
+                onClick={() => setSegmentMode('rolling12m')}
+                className={`px-2 py-0.5 cursor-pointer transition-colors ${
+                  segmentMode === 'rolling12m'
+                    ? 'bg-blue-900 text-white font-bold'
+                    : 'text-slate-700 hover:bg-slate-200'
+                }`}
+              >
+                Rolling 12M
+              </button>
+            </div>
           </div>
           
-          {/* Right Chart 1: Total Units Overall by Segment */}
+          {/* Right Chart 1: Total Units Overall by Segment (Rolling Per-Year Comparison) */}
           <div className="bg-white border border-slate-300 border-t-4 border-t-emerald-800 p-4 shadow-2xs space-y-3">
-            <div className="border-b border-slate-200 pb-2">
-              <h3 className="text-sm font-serif font-bold text-slate-950 tracking-wide">
-                Total Units Overall by Segment
-              </h3>
-              <span className="text-[10px] text-blue-900 font-mono block">MATERIAL &amp; SPEC CLASSIFICATION</span>
+            <div className="border-b border-slate-200 pb-2 flex items-start justify-between gap-2">
+              <div>
+                <h3 className="text-sm font-serif font-bold text-slate-950 tracking-wide">
+                  Total Units Overall by Segment
+                </h3>
+                <span className="text-[10px] text-blue-900 font-mono block">
+                  {segmentMode === 'rolling12m'
+                    ? 'ROLLING 12 MONTHS VS. PRIOR 12 MONTHS'
+                    : `FY ${currentYear}${isPartialYear ? ' YTD' : ''} VS. ${previousYear}${isPartialYear ? ' SAME PERIOD' : ''}`}
+                </span>
+              </div>
+              <div className="flex items-center gap-2 text-[10px] font-mono shrink-0">
+                <span className="flex items-center gap-1">
+                  <span className="w-2.5 h-2.5 bg-emerald-700 inline-block"></span>
+                  {segmentMode === 'rolling12m' ? 'R12M' : currentYear}
+                </span>
+                <span className="flex items-center gap-1">
+                  <span className="w-2.5 h-2.5 bg-blue-900 inline-block"></span>
+                  {segmentMode === 'rolling12m' ? 'Prior' : previousYear}
+                </span>
+              </div>
             </div>
 
-            <div className="h-56 w-full">
+            <div className="h-64 w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart 
                   layout="vertical" 
                   data={segmentData} 
-                  margin={{ top: 0, right: 20, left: 20, bottom: 0 }}
+                  margin={{ top: 0, right: 16, left: 10, bottom: 0 }}
                 >
-                  <XAxis type="number" tick={{ fontSize: 9, fill: '#0f172a', fontFamily: 'monospace' }} axisLine={false} tickLine={false} />
+                  <CartesianGrid strokeDasharray="2 2" stroke="#e2e8f0" horizontal={false} />
+                  <XAxis
+                    type="number"
+                    domain={[0, 'auto']}
+                    allowDecimals={false}
+                    tick={{ fontSize: 9, fill: '#0f172a', fontFamily: 'monospace' }}
+                    axisLine={false}
+                    tickLine={false}
+                  />
                   <YAxis 
                     dataKey="segment" 
                     type="category" 
                     tick={{ fontSize: 10, fill: '#0f172a', fontFamily: 'Georgia, serif' }} 
-                    width={115} 
+                    width={118} 
                     axisLine={false}
                     tickLine={false}
                   />
                   <Tooltip 
                     contentStyle={{ backgroundColor: '#0f172a', borderColor: '#047857', borderRadius: '2px', color: '#fff', fontSize: '11px', fontFamily: 'Georgia, serif' }}
-                    formatter={(val: any) => [`${val} units`, 'Volume']}
+                    formatter={(val: any, name: any) => [
+                      `${Number(val).toLocaleString()} units`,
+                      name === 'units'
+                        ? (segmentMode === 'rolling12m' ? 'Rolling 12M' : currentYear)
+                        : (segmentMode === 'rolling12m' ? 'Prior 12M' : previousYear)
+                    ]}
                   />
-                  <Bar dataKey="units" fill="#047857" radius={[0, 2, 2, 0]}>
-                    {segmentData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={index % 2 === 0 ? '#047857' : '#1d4ed8'} />
-                    ))}
-                  </Bar>
+                  <Bar
+                    dataKey="units"
+                    name="units"
+                    fill="#047857"
+                    radius={[0, 2, 2, 0]}
+                    barSize={8}
+                  />
+                  <Bar
+                    dataKey="previousUnits"
+                    name="previousUnits"
+                    fill="#1e3a8a"
+                    radius={[0, 2, 2, 0]}
+                    barSize={8}
+                  />
                 </BarChart>
               </ResponsiveContainer>
+            </div>
+
+            {/* Selling Well vs Needs Focus Breakdown */}
+            <div className="border-t border-slate-200 pt-2.5 grid grid-cols-2 gap-2 text-[11px]">
+              <div className="bg-emerald-50/70 border border-emerald-200 p-2 rounded">
+                <div className="font-mono text-[10px] font-bold text-emerald-900 uppercase tracking-wider flex items-center gap-1 mb-1">
+                  <TrendingUp className="w-3 h-3 text-emerald-700" />
+                  <span>Selling Well</span>
+                </div>
+                {sellingWell.length > 0 ? (
+                  <div className="space-y-1">
+                    {sellingWell.map(item => (
+                      <div key={item.segment} className="flex items-center justify-between gap-1 text-[10px]">
+                        <span className="truncate text-slate-800 font-medium">{item.segment}</span>
+                        <span className="font-mono font-bold text-emerald-800 shrink-0">
+                          +{item.delta} ({item.yoyPercent > 0 ? `+${item.yoyPercent}%` : `${item.yoyPercent}%`})
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <span className="text-[10px] text-slate-500 italic">No growth segments yet</span>
+                )}
+              </div>
+
+              <div className="bg-amber-50/70 border border-amber-200 p-2 rounded">
+                <div className="font-mono text-[10px] font-bold text-amber-900 uppercase tracking-wider flex items-center gap-1 mb-1">
+                  <TrendingDown className="w-3 h-3 text-amber-700" />
+                  <span>Needs Focus</span>
+                </div>
+                {needsFocus.length > 0 ? (
+                  <div className="space-y-1">
+                    {needsFocus.map(item => (
+                      <div key={item.segment} className="flex items-center justify-between gap-1 text-[10px]">
+                        <span className="truncate text-slate-800 font-medium">{item.segment}</span>
+                        <span className="font-mono font-bold text-amber-800 shrink-0">
+                          {item.delta} ({item.yoyPercent}%)
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <span className="text-[10px] text-emerald-800 italic">All segments ahead YoY</span>
+                )}
+              </div>
             </div>
           </div>
 
@@ -558,7 +870,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               <h3 className="text-sm font-serif font-bold text-slate-950 tracking-wide">
                 Category &amp; Material Distribution Matrix
               </h3>
-              <span className="text-[10px] text-emerald-800 font-mono block">CLICK ANY BLOCK TO INSPECT CATALOG SECTION</span>
+              <span className="text-[10px] text-emerald-800 font-mono block">
+                {segmentMode === 'rolling12m' ? 'ROLLING 12M' : `FY ${currentYear}`} MIX • CLICK ANY BLOCK TO INSPECT
+              </span>
             </div>
 
             {/* Green & Blue Newspaper Treemap Blocks */}
@@ -575,8 +889,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   <span className="text-[10px] text-emerald-100 font-sans font-normal">18g, 20g, Bronze &amp; Stainless</span>
                 </div>
                 <div className="flex items-baseline justify-between border-t border-emerald-600/50 pt-1">
-                  <span className="font-mono text-base">48.2%</span>
-                  <span className="text-[10px] font-mono text-emerald-200">3,935 units</span>
+                  <span className="font-mono text-base">{matrixData.metal.share}%</span>
+                  <span className="text-[10px] font-mono text-emerald-200">
+                    {matrixData.metal.units.toLocaleString()} units ({matrixData.metal.yoy >= 0 ? `+${matrixData.metal.yoy}%` : `${matrixData.metal.yoy}%`})
+                  </span>
                 </div>
               </div>
 
@@ -587,7 +903,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 title="Browse Hardwood Solutions (Oak, Pecan, Cherry, Maple)"
               >
                 <span className="text-[11px] block group-hover:underline uppercase">Hardwood Timber</span>
-                <span className="font-mono text-xs text-blue-200">34.1%</span>
+                <div className="flex items-baseline justify-between gap-1 font-mono text-xs text-blue-200">
+                  <span>{matrixData.wood.share}%</span>
+                  <span className="text-[9px]">{matrixData.wood.units.toLocaleString()}u</span>
+                </div>
               </div>
 
               {/* Cremation Urns (Teal-Green block) */}
@@ -597,7 +916,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 title="Browse Cremation Urns & Containers"
               >
                 <span className="text-[11px] block font-bold group-hover:underline uppercase">Cremation Urns</span>
-                <span className="font-mono text-xs text-teal-100 font-bold">11.8%</span>
+                <div className="flex items-baseline justify-between gap-1 font-mono text-xs text-teal-100 font-bold">
+                  <span>{matrixData.urns.share}%</span>
+                  <span className="text-[9px]">{matrixData.urns.units.toLocaleString()}u</span>
+                </div>
               </div>
 
               {/* Memorial Keepsakes (Press Blue tile) */}
@@ -607,7 +929,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 title="Browse Keepsakes & Jewelry"
               >
                 <span className="truncate group-hover:underline uppercase text-[10px]">Keepsakes &amp; Jewelry</span>
-                <span className="font-mono text-xs ml-1">4.2%</span>
+                <span className="font-mono text-xs ml-1 shrink-0">{matrixData.keepsakes.share}% ({matrixData.keepsakes.units})</span>
               </div>
 
               {/* NewPointe & Cloth (Forest Green tile) */}
@@ -617,7 +939,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 title="Browse NewPointe & Cloth"
               >
                 <span className="truncate group-hover:underline uppercase text-[10px]">NewPointe / Cloth</span>
-                <span className="font-mono text-xs ml-1">1.7%</span>
+                <span className="font-mono text-xs ml-1 shrink-0">{matrixData.cloth.share}% ({matrixData.cloth.units})</span>
               </div>
 
             </div>
